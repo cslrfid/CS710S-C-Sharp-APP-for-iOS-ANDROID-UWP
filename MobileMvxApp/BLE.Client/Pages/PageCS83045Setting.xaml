@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelCS83045Setting"
+                      xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+             x:Class="BLE.Client.Pages.PageCS83045Setting"
+                Title="CS8304/5 Configuration">
+
+    <ScrollView>
+
+        <StackLayout Padding="10, 10, 10, 0">
+
+            <StackLayout Orientation="Vertical">
+				<Label Text="Temperature Range Starting from (Total Range 63.75&#186;C)"/>
+				<StackLayout Orientation="Horizontal">
+					<Entry x:Name="entryTempOffset" Text ="{Binding entryTempOffsetText, Mode=TwoWay }"/>
+					<Label Text="&#186;C" VerticalOptions="Center"/>
+				</StackLayout>
+
+				<Label Text="Logging time interval"/>
+				<StackLayout Orientation="Horizontal">
+					<Entry x:Name="entryLogInterval" Text ="{Binding entryLogIntervalText, Mode=TwoWay }"/>
+					<Label Text="s" VerticalOptions="Center"/>
+				</StackLayout>
+			</StackLayout>
+
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+
+            <Label Text="Temp 1 TH :" WidthRequest="100" VerticalOptions="Center"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Under" WidthRequest="100" VerticalOptions="Center"/>
+                <Entry x:Name="entryTemp1THUnder" Text ="{Binding entryTemp1THUnderText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Over" WidthRequest="100" VerticalOptions="Center"/>
+                <Entry x:Name="entryTemp1THOver" Text ="{Binding entryTemp1THOverText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Count" WidthRequest="100" VerticalOptions="Center"/>
+                <Entry x:Name="entryTemp1THCount" Text ="{Binding entryTemp1THCountText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+
+            <Label Text="Temp 2 TH :" WidthRequest="100" VerticalOptions="Center"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Under" WidthRequest="100" VerticalOptions="Center"/>
+                <Entry x:Name="entryTemp2THUnder" Text ="{Binding entryTemp2THUnderText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Over" WidthRequest="100" VerticalOptions="Center"/>
+                <Entry x:Name="entryTemp2THOver" Text ="{Binding entryTemp2THOverText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Count" WidthRequest="100" VerticalOptions="Center"/>
+                <Entry x:Name="entryTemp2THCount" Text ="{Binding entryTemp2THCountText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <Button x:Name="buttonOK" Text="OK" Font="Large" Command="{Binding OnOKButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black"/>
+
+        </StackLayout>
+    </ScrollView>
+</views:MvxContentPage>

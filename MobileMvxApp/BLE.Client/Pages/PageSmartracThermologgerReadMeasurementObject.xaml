@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelSmartracThermologgerReadMeasurementObject"
+					  xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                     xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                x:Class="BLE.Client.Pages.PageSmartracThermologgerReadMeasurementObject"
+                Title="Measurement Object">
+
+  
+    <ScrollView>
+    
+        <StackLayout Padding="5, 3, 5, 0">
+
+			<Label Text="Selected EPC" />
+			<Entry Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Access PWD" WidthRequest="70" />
+				<Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+
+			<Label Text="Record Index"/>
+			<Entry Text="{ Binding entrRecordIndexText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+			<Label Text="Read Index (only 8 bit)"/>
+			<Label Text="{ Binding labelReadMeasurementObjectIndexText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+			<Label Text="Temperature"/>
+			<Label Text="{ Binding labelTemperatureText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+			<Label Text="Read Status"/>
+			<Label Text="{ Binding labelReadStatusText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			
+			<StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+					<Button Text="Read Measurement Object" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnReadButtonCommand}" />
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+  
+    </ScrollView>
+</views:MvxContentPage>

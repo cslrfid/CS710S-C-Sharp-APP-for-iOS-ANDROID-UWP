@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelRegisterTag"
+                       xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                       xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                x:Class="BLE.Client.Pages.PageRegisterTag"
+                Title="Register Tag">
+
+  <ScrollView>
+  <StackLayout Padding="10, 20, 10, 0">
+  
+    <Label Text="Step 1: Read Barcode" />
+
+    <StackLayout Orientation="Horizontal">
+      <Button x:Name="buttonBarcoderead" Text="Barcode Read" Clicked="buttonBarcodereadClicked" WidthRequest="100" BorderWidth ="1" />
+		  <Entry x:Name="entryBarcode" HorizontalOptions="FillAndExpand" />
+    </StackLayout>
+
+    <Label TextColor="White" WidthRequest="100">
+      <Label.Text>
+        blah blah
+      </Label.Text>
+    </Label>
+
+    <StackLayout Orientation="Horizontal">
+      
+      <Label x:Name="labelAlgorithm" Text="{Binding algorithm}" TextColor="{Binding qValueColor, Mode=TwoWay}" >
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding OnLabelTagPopulationTapped}"/>
+        </Label.GestureRecognizers>
+      </Label>
+
+      <Label x:Name="labelQvalueText" Text=" Tag population " TextColor="{Binding qValueColor, Mode=TwoWay}" >
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding OnLabelTagPopulationTapped}"/>
+        </Label.GestureRecognizers>
+      </Label>
+
+      <Label x:Name="labelTagPopulation" Text="{Binding tagPopulation}" TextColor="{Binding qValueColor, Mode=TwoWay}" >
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding OnLabelTagPopulationTapped}"/>
+        </Label.GestureRecognizers>
+      </Label>
+
+    </StackLayout>
+
+    <StackLayout Orientation="Horizontal">
+    <Label Text="Step 2: Select tag mask" />
+      <Label Text=" Offset(bit) " TextColor="Blue" >
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding OnLabelSelectOffsetTapped}"/>
+        </Label.GestureRecognizers>
+      </Label>
+      
+      <Label x:Name="labelSelectOffset" Text="{Binding selecttagOffset}" TextColor="Blue" >
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding OnLabelSelectOffsetTapped}"/>
+        </Label.GestureRecognizers>
+      </Label>
+    </StackLayout>
+  
+    <StackLayout Orientation="Horizontal">
+      <Button x:Name="buttonSelectBank" Clicked="buttonSelectBankClicked" WidthRequest="60" BorderWidth ="1" />
+		  <Entry x:Name="entryMask" TextChanged="onentryMaskTextChanged" HorizontalOptions="FillAndExpand" />
+      <Button x:Name="buttonSelect" Text="Select" Clicked="buttonSelectClicked" WidthRequest="70" BorderWidth ="1"/>    
+    </StackLayout>
+
+    <Label TextColor="White" WidthRequest="100">
+      <Label.Text>
+        blah blah
+      </Label.Text>
+    </Label>
+
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Step 3: Write to Bank" />
+      <Label Text=" Offset(word) " TextColor="Blue" >
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding OnLabelWriteOffsetTapped}"/>
+        </Label.GestureRecognizers>
+      </Label>
+    
+      <Label x:Name="labelWriteOffset" Text="{Binding writeOffset}" TextColor="Blue" >
+        <Label.GestureRecognizers>
+          <TapGestureRecognizer Command="{Binding OnLabelWriteOffsetTapped}"/>
+        </Label.GestureRecognizers>
+      </Label>
+    </StackLayout>
+
+    <StackLayout Orientation="Horizontal">
+      <Button x:Name="buttonWriteBank" Clicked="buttonWriteBankClicked" WidthRequest="60" BorderWidth ="1" />
+      <Button x:Name="buttonWrite" Text="Write" Clicked="buttonWriteClicked" BorderWidth ="1" HorizontalOptions="FillAndExpand" />    
+    </StackLayout>
+
+    <Button x:Name="buttonAutomatic" Clicked="buttonAutomaticClicked" Text="Automatic Cycle 1, 2, 3 with Step 2 Fixed" WidthRequest="100" BorderWidth ="1" />
+    <Button x:Name="buttonAutomatic1" Clicked="buttonAutomatic1Clicked" Text="Automatic Cycle 2, 3 using same UPC from Step 1" WidthRequest="100" BorderWidth ="1" />
+
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Last Write Tag Result " />
+      <Label x:Name="labelLastWriteResult" Text ="NA" TextColor="Blue" />
+    </StackLayout>
+
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Write Tag Count" />
+      <Label x:Name="labelTagCount" Text ="0" TextColor="Blue" />
+    </StackLayout>
+
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Success Write Tag Count" />
+      <Label x:Name="labelSuccessTagCount" Text ="0" TextColor="Blue" />
+    </StackLayout>
+
+  </StackLayout>
+  </ScrollView>
+</views:MvxContentPage>

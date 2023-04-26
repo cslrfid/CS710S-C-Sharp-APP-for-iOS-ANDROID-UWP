@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelFocusandFastIDSetting"
+					  xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+             x:Class="BLE.Client.Pages.PageFocusandFastIDSetting"
+                Title="TagFocus and FastID">
+  
+    <ScrollView>
+        <StackLayout Padding="10, 10, 10, 0">
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="TagFocus" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="Off" VerticalOptions="Center" />
+				<Switch x:Name="switchFocus" IsToggled="{Binding switchFocusIsToggled}" />
+				<Label Text="On" VerticalOptions="Center" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="FastID" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="Off" VerticalOptions="Center" />
+				<Switch x:Name="switchFastID" IsToggled="{Binding switchFastIDIsToggled}" />
+				<Label Text="On" VerticalOptions="Center" />
+			</StackLayout>
+
+			<Button x:Name="buttonOK" Text="OK" Font="Large" Command="{Binding OnbuttonOKCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+
+        </StackLayout>
+    </ScrollView>
+</views:MvxContentPage>

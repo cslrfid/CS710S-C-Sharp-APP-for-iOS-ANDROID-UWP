@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelSmartracThermologgerClearLogger"
+					  xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                     xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                x:Class="BLE.Client.Pages.PageSmartracThermologgerClearLogger"
+                Title="Clear Logger">
+
+  
+    <ScrollView>
+    
+        <StackLayout Padding="5, 3, 5, 0">
+
+			<Label Text="Selected EPC" />
+			<Entry Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Access PWD" WidthRequest="70" />
+				<Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+
+			<Label Text="Clear All Configuration Data" />
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Do not Clear"/>
+				<Switch IsToggled="{ Binding switchClearAllConfigurationDataIsToggled, Mode=TwoWay }"/>
+				<Label Text="Clear"/>
+			</StackLayout>
+
+			<Label Text="Clear All Measurement Data" />
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Do not Clear"/>
+				<Switch IsToggled="{ Binding switchClearAllMeasurementDataIsToggled, Mode=TwoWay }"/>
+				<Label Text="Clear"/>
+			</StackLayout>
+
+			<Label Text="Clear All Error Memory" />
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Do not Clear"/>
+				<Switch IsToggled="{ Binding switchClearAllErrorMemoryIsToggled, Mode=TwoWay }"/>
+				<Label Text="Clear"/>
+			</StackLayout>
+
+			<Label Text="Stop Real Time Clock" />
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Do not Stop"/>
+				<Switch IsToggled="{ Binding switchStopRealTimeClockIsToggled, Mode=TwoWay }"/>
+				<Label Text="Stop"/>
+			</StackLayout>
+
+			<Label Text="Reset System" />
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Do not Reset"/>
+				<Switch IsToggled="{ Binding switchResetSystemIsToggled, Mode=TwoWay }"/>
+				<Label Text="Reset"/>
+			</StackLayout>
+
+			<Label Text="Logger Condition"/>
+			<Label Text="{ Binding labelLoggerConditionText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+			<Label Text="Read Status"/>
+			<Label Text="{ Binding labelReadStatusText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			
+			<StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+					<Button Text="Write Clear Logger" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnReadButtonCommand}" />
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+  
+    </ScrollView>
+</views:MvxContentPage>

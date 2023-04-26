@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelSpecialFunctionsMenu"
+					xmlns="http://xamarin.com/schemas/2014/forms"
+					xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+					xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                x:Class="BLE.Client.Pages.PageSpecialFunctionsMenu"
+                Title="Special Functions Menu">
+
+	<ScrollView>
+		<StackLayout Margin="0,50,0,0">
+			<StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+				<Button Text="Multi Bank Inventory" Font="Large" Command="{Binding OnMultiBankInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<!--<Button Text="Phase and Channel Inventory" Font="Large" Command="{Binding OnPhaseChannelInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Periodic Read" Font="Large" Command="{Binding OnPeriodicReadButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="UCODE DNA" Font="Large" Command="{Binding OnUCODEDNAButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Magnus S2 or S3 IC" Font="Large" Command="{Binding OnRFMicroButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Axzon Xerxes" Font="Large" Command="{Binding OnXerxesButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Block Write" Font="Large" Command="{Binding OnBlockWriteButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Read" Font="Large" Command="{Binding OnReadButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="ColdChain CS8304/5" Font="Large" Command="{Binding OnCS83045ButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="CS9010 BAP ID Card" Font="Large" Command="{Binding OnCS9010ButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="TagFocus and FastID" Font="Large" Command="{Binding OnTagFocusandFastIDButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="CTESIUS Temp" Font="Large" Command="{Binding OnCTESIUSTempButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="EM4152" Font="Large" Command="{Binding OnEM4152ButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="FM13DT160" Font="Large" Command="{Binding OnFM13DT160ButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Smartrac Thermologger" Font="Large" Command="{Binding OnSmartracThermologgerButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Write Any EPC" Font="Large" Command="{Binding OnWriteAnyEPCButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Performance Test" Font="Large" Command="{Binding OnPerformanceTestButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="EM4325 Oneshot" Font="Large" Command="{Binding OnEM4325PassiveButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="UCODE 8" Font="Large" Command="{Binding OnUCODE8ButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+				<Button Text="Monza4 QT" Font="Large" Command="{Binding OnMonza4QTButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />-->
+				<Button Text="Magnus S3 with GPS for Advantech" Font="Large" Command="{Binding OnMagnusS3withGPSforTabletButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+			</StackLayout>
+		</StackLayout>
+	</ScrollView>
+
+</views:MvxContentPage>

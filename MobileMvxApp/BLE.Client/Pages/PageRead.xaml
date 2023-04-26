@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelRead"
+                      xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                       xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                      x:Class="BLE.Client.Pages.PageRead"
+                      Title="Read">
+
+    <ScrollView>
+
+        <StackLayout Padding="5, 3, 5, 0">
+
+            <Label Text="Selected EPC"/>
+            <Editor x:Name="editorSelectedEPC" Text="{Binding editorSelectedEPCText, Mode=TwoWay}" HorizontalOptions="FillAndExpand"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Bank " WidthRequest="100" VerticalOptions="Center"/>
+                <Button x:Name="buttonBank" Text="{Binding buttonBankText, Mode=TwoWay}" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonBankClicked" />
+            </StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Offset" WidthRequest="100" VerticalOptions="Center" />
+				<Entry x:Name="entryOffset" Text="{Binding entryOffsetText, Mode=TwoWay}" WidthRequest="110" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Length (word)" WidthRequest="100" VerticalOptions="Center" />
+				<Entry x:Name="entryLength" Text="{Binding entryLengthText, Mode=TwoWay}" WidthRequest="110" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Read Chunk size (word)" WidthRequest="100" VerticalOptions="Center" />
+				<Entry x:Name="entryReadChunkSize" Text="{Binding entryReadChunkSizeText, Mode=TwoWay}" WidthRequest="110" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+
+            <Button Text="Read" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding buttonReadVerifyCommand}" />
+			<Button Text="View Read Data" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding buttonViewReadDataCommand}" />
+
+            <Label Text="Message" WidthRequest="100" VerticalOptions="Center"/>
+            <Button x:Name="buttonResult" Text="{Binding buttonResultText, Mode=OneWay}" HorizontalOptions="FillAndExpand" BorderWidth ="1" />
+
+        </StackLayout>
+    </ScrollView>
+</views:MvxContentPage>
+    

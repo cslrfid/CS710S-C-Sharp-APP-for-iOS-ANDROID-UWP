@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="PagesViewModelsSet\SecurityKill\" />
+    <Folder Include="PagesViewModelsSet\SpecialFuction\NewFolder\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MvvmCross" Version="7.1.2" />
+    <PackageReference Include="MvvmCross.Forms" Version="7.1.2" />
+    <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
+    <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
+    <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
+    <PackageReference Include="PCLStorage" Version="1.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Plugin.Share" Version="7.1.1" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="Splat" Version="2.0.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="BleMvxFormsApp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="ViewModels\ServiceListViewModel.cs" />
+    <Compile Remove="ViewModels\CharacteristicDetailViewModel.cs" />
+    <Compile Remove="ViewModels\CharacteristicListViewModel.cs" />
+    <Compile Remove="ViewModels\DescriptorDetailViewModel.cs" />
+    <Compile Remove="ViewModels\DescriptorListViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary-NETStandard.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\UCODE8\PageUCODE8Inventory.xaml.cs">
+      <DependentUpon>PageUCODE8Inventory.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

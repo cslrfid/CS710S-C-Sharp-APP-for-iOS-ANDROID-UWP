@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelMultiBankInventory"
+                      xmlns="http://xamarin.com/schemas/2014/forms"
+					  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					  xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+					  xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+             x:Class="BLE.Client.Pages.PageMultiBankInventory"
+                Title="Multi Bank Inventory">
+
+  <StackLayout>
+
+    <ListView x:Name="liewViewTagData" ItemsSource="{Binding TagInfoList}" ItemSelected="OnItemSelected" HasUnevenRows="true" >
+
+      <ListView.Header>
+        <StackLayout Padding="10,5,0,5" BackgroundColor="#cccccc">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="0.8*" />
+              <ColumnDefinition Width="0.2*" />
+            </Grid.ColumnDefinitions>
+            <Label Text="EPC" VerticalTextAlignment="Center" FontSize="Small" />
+            <Label Grid.Column="1" Text="RSSI" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
+          </Grid>
+        </StackLayout>
+      </ListView.Header>
+
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Orientation="Vertical">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="0.8*" />
+                  <ColumnDefinition Width="0.2*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="{Binding EPC}" VerticalTextAlignment="Center" FontSize="Small" />
+                <Label Grid.Column="1" Text="{Binding RSSI}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+              </Grid>
+
+              <Label Text="{Binding Bank1Data}" VerticalTextAlignment="Center" FontSize="Small" />
+              <Label Text="{Binding Bank2Data}" VerticalTextAlignment="Center" FontSize="Small" />
+
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+
+    </ListView>
+
+    <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" >
+
+      <Button Text= "{Binding startInventoryButtonText}" Font="Large" Command="{Binding OnStartInventoryButtonCommand}" />
+      <Button Text="Clear" Font="Large" Command="{Binding OnClearButtonCommand}" />
+
+      <StackLayout Orientation="Horizontal">
+
+        <Label Text="{Binding FilterIndicator}" Font="Small" TextColor="Red" HorizontalOptions="Start" VerticalTextAlignment="End"/>
+        <Label Text="{Binding InventoryTime}" Font="Small" HorizontalOptions="CenterAndExpand" VerticalOptions="End" />
+
+      </StackLayout>
+
+      <StackLayout Orientation="Horizontal">
+
+        <Label Text="{Binding numberOfTagsText}" Font="Small" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+        <Label Text="{Binding labelVoltage}" Font="Small" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+        <Label Text="{Binding tagPerSecondText}" Font="Small" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
+
+      </StackLayout>
+    </StackLayout>
+
+  </StackLayout>
+</views:MvxContentPage>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelPeriodicRead"
+					  xmlns="http://xamarin.com/schemas/2014/forms"
+					  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					  xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+					  xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+					  x:Class="BLE.Client.Pages.PagePeriodicRead"
+					  Title="Periodic Read">
+
+	<StackLayout Padding="10, 5, 10, 0">
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Read " />
+			<Entry x:Name="entryReadTime" Text="10" WidthRequest="70" />
+			<Label Text="seconds" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="No Read " />
+			<Entry x:Name="entryNoReadTime" Text="10" WidthRequest="70" />
+			<Label Text="seconds" />
+		</StackLayout>
+
+		<Button x:Name="buttonStart" Text="Start" Clicked="btnStartClicked" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+
+		<Label TextColor="White" WidthRequest="100">
+			<Label.Text>
+				blah blah
+			</Label.Text>
+		</Label>
+
+		<Label x:Name="labelRound" />
+		<Editor x:Name="editorRecordsLog" FontSize="Micro" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+
+	</StackLayout>
+</views:MvxContentPage>

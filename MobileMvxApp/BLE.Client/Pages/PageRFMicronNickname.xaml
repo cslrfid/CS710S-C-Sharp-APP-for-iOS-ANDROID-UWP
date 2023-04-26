@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelRFMicroNickname"
+                      xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                       xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                      x:Class="BLE.Client.Pages.PageRFMicroNickname"
+                      Title="Tag Namename List">
+
+  
+    <StackLayout>
+            
+    <ListView x:Name="liewViewTagData" ItemsSource="{Binding TagNicknameList}" >
+        <ListView.Header>
+          <StackLayout BackgroundColor="#cccccc">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.7*" />
+                <ColumnDefinition Width="0.3*" />
+              </Grid.ColumnDefinitions>
+              <Label Text="EPC" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small" VerticalOptions="CenterAndExpand" />
+              <Label Grid.Column="1" Text="Nickname" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" LineBreakMode="WordWrap"/>
+            </Grid>
+          </StackLayout>
+        </ListView.Header>
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Vertical">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="0.7*" />
+                              <ColumnDefinition Width="0.3*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding EPC}" VerticalTextAlignment="Start" FontSize="Small" />
+                            <Label Grid.Column="1" Text="{Binding Nickname}" VerticalTextAlignment="Start"/>
+                        </Grid>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+    
+  </StackLayout>
+</views:MvxContentPage>

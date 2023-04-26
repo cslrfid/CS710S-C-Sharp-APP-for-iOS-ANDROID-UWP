@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                       xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+             x:Class="BLE.Client.Pages.PagePreFilter"
+                Title="PreFilter">
+
+	<StackLayout Padding="10, 20, 0, 0">
+
+		<Label Text="Mask data" />
+		<Entry x:Name="entryMaskData" />
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Bank " WidthRequest="100" VerticalOptions="Center" />
+			<Button x:Name="buttonBank" HorizontalOptions="FillAndExpand" Clicked="buttonBankClicked" TextColor="Black" BackgroundColor="#C3C3C3" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Offset (bits)" WidthRequest="100" VerticalOptions="Center"/>
+			<Entry x:Name="entryMaskOffset" HorizontalOptions="FillAndExpand" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Enable Filter" WidthRequest="100" VerticalOptions="Center" />
+			<Switch x:Name="switchEnableFilter" VerticalOptions="Center"/>
+		</StackLayout>
+
+		<Button Text="SAVE" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnOKClicked" TextColor="Black" />
+
+	</StackLayout>
+</views:MvxContentPage>

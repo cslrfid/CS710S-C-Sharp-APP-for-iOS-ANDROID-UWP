@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelMultiBankInventorySetting"
+					  xmlns="http://xamarin.com/schemas/2014/forms"
+					  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					  xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+					  xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+					  x:Class="BLE.Client.Pages.PageMultiBankInventorySetting"
+					  Title="Special Functions">
+
+
+	<StackLayout Padding="10, 20, 0, 0">
+
+    <Label Text="Multi Bank Inventory" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="50" />
+
+		<StackLayout Orientation="Horizontal">
+      <Switch x:Name="switchMultiBank1Enable" IsToggled ="{Binding switchMultiBank1Enable, Mode=TwoWay }" />
+      <Label Text="First Extra Bank" VerticalOptions="Start" />
+    </StackLayout>
+
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Bank " WidthRequest="60" VerticalOptions="Center" />
+      <Button x:Name="buttonBank1" Text ="{Binding entryBank1, Mode=TwoWay }" HorizontalOptions="FillAndExpand" Clicked="buttonBank1Clicked" TextColor="Black" BackgroundColor="#C3C3C3" />
+		</StackLayout>
+		
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Offset " WidthRequest="60" VerticalOptions="Center" />
+      <Entry x:Name="entryOffset1" Text="{Binding entryOffset1, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />		
+		</StackLayout>
+			
+    <StackLayout Orientation="Horizontal">
+      <Label Text="Count " WidthRequest="60" VerticalOptions="Center" />
+      <Entry x:Name="entryCount1" Text="{Binding entryCount1, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Switch x:Name="switchMultiBank2Enable" IsToggled ="{Binding switchMultiBank2Enable, Mode=TwoWay }" />
+			<Label Text="Second Extra Bank" VerticalOptions="Start" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Bank " WidthRequest="60" VerticalOptions="Center" />
+      <Button x:Name="buttonBank2" Text ="{Binding entryBank2, Mode=TwoWay }" HorizontalOptions="FillAndExpand" Clicked="buttonBank2Clicked" TextColor="Black" BackgroundColor="#C3C3C3" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Offset " WidthRequest="60" VerticalOptions="Center" />
+			<Entry x:Name="entryOffset2" Text="{Binding entryOffset2, Mode=TwoWay }" HorizontalOptions="FillAndExpand" Focused="InputFocused_144" Unfocused="InputUnfocused" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Count " WidthRequest="60" VerticalOptions="Center" />
+			<Entry x:Name="entryCount2" Text="{Binding entryCount2, Mode=TwoWay }" HorizontalOptions="FillAndExpand" Focused="InputFocused_174" Unfocused="InputUnfocused" />
+		</StackLayout>
+
+		<Button Text="OK" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Command="{Binding OnOKButtonCommand}" TextColor="Black" />
+
+	</StackLayout>
+</views:MvxContentPage>
+    

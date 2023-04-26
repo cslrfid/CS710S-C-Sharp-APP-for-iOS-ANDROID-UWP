@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                       xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                x:Class="BLE.Client.Pages.PageSecurity"
+                Title="Security">
+
+
+	<StackLayout Padding="10, 20, 0, 0">
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Selected EPC" WidthRequest="70" />
+			<Entry Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Access PWD" WidthRequest="70" />
+			<Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="EPC" WidthRequest="90" VerticalOptions="Center" />
+			<Button x:Name="buttonEPC" Text="{ Binding buttonEPCText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonEPCClicked" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="ACC PWD" WidthRequest="90" VerticalOptions="Center" />
+			<Button x:Name="buttonACCPWD" Text="{ Binding buttonACCPWDText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonACCPWDClicked" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="KILL PWD" WidthRequest="90" VerticalOptions="Center" />
+			<Button x:Name="buttonKILLPWD" Text="{ Binding buttonKILLPWDText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonKILLPWDClicked" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="TID" WidthRequest="90" VerticalOptions="Center" />
+			<Button x:Name="buttonTID" Text="{ Binding buttonTIDText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonTIDClicked" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="USER" WidthRequest="90" VerticalOptions="Center" />
+			<Button x:Name="buttonUSER" Text="{ Binding buttonUSERText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonUSERClicked" />
+		</StackLayout>
+
+    <StackLayout Orientation="Horizontal">
+			<Label Text="FFFFF Permalock" WidthRequest="90" VerticalOptions="Center" />
+			<Button x:Name="buttonFFFFFLock" Text="{ Binding buttonFFFFFLockText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonFFFFFLockClicked" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+			<Button Text="Apply Security" Font="Large" Command="{Binding OnApplyButtonCommand}" />
+		</StackLayout>
+
+		<StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+			<Label Text="{Binding labelStatus}" />
+		</StackLayout>
+
+	</StackLayout>
+</views:MvxContentPage>
+    

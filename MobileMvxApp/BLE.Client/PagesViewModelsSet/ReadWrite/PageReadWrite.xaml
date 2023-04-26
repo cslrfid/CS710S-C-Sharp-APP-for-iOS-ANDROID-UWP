@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelReadWrite"
+                       xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                       xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                x:Class="BLE.Client.Pages.PageReadWrite"
+                Title="Read Write">
+
+  
+    <ScrollView>
+        <StackLayout Padding="5, 3, 5, 0">
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Selected Bank" WidthRequest="100" VerticalOptions="Center" />
+				<Button x:Name="buttonBank" HorizontalOptions="FillAndExpand" Clicked="buttonBankClicked" TextColor="Black" BackgroundColor="#C3C3C3" />
+			</StackLayout>
+
+			<Label Text="Selected Mask"/>
+			<Entry x:Name="entrySelectedMask" Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand"/>
+
+      <StackLayout Orientation="Horizontal">
+        <Label Text="Access PWD" WidthRequest="70" />
+        <Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+      </StackLayout>
+
+      <StackLayout Orientation="Horizontal">
+        <Switch IsToggled="{Binding switchPCIsToggled, Mode=TwoWay }" />
+        <Label Text="PC" WidthRequest="80" VerticalOptions="Center" />
+        <Entry x:Name="entryPC" Text="{ Binding entryPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" TextChanged="onentryPCTextChanged" Unfocused="onentryPCUnfocused" />
+        <Label Text="{ Binding labelPCStatus }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />		
+      </StackLayout>
+
+      <StackLayout Orientation="Horizontal">
+        <Label x:Name="labelEPCLength" Text="EPC Length" VerticalOptions="Center" />		
+      </StackLayout>
+    
+      <StackLayout Orientation="Horizontal">
+	    <Switch x:Name ="switchEPC" IsToggled="{Binding switchEPCIsToggled, Mode=TwoWay }" />
+        <Label Text="EPC" WidthRequest="80" VerticalOptions="Center" />
+        <Label Text="{ Binding labelEPCStatus }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />
+      </StackLayout>
+
+      <Entry x:Name="entryEPC" Text="{ Binding entryEPC, Mode=TwoWay }" TextChanged="onentryEPCTextChanged" Unfocused="onentryEPCUnfocused" HorizontalOptions="FillAndExpand"/>
+
+      <StackLayout Orientation="Horizontal">
+        <Switch IsToggled="{Binding switchACCPWDIsToggled, Mode=TwoWay }" />
+        <Label Text="ACC PWD" WidthRequest="80" VerticalOptions="Center" />
+	    <Entry x:Name="entryACCPWD" Text="{ Binding entryACCPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" Focused="InputACCPWDFocused" Unfocused="InputUnfocused" />
+        <Label Text="{ Binding labelACCPWDStatus }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />		
+      </StackLayout> 
+        
+      <StackLayout Orientation="Horizontal">
+        <Switch IsToggled="{Binding switchKILLPWDIsToggled, Mode=TwoWay }" />
+        <Label Text="KILL PWD" WidthRequest="80" VerticalOptions="Center" />
+	    <Entry x:Name="entryKILLPWD" Text="{ Binding entryKILLPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" Focused="InputFocused" Unfocused="InputUnfocused" />
+        <Label Text="{ Binding labelKILLPWDStatus }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />		
+      </StackLayout> 
+        
+      <StackLayout Orientation="Horizontal">
+        <Switch IsToggled="{Binding switchTIDUIDIsToggled, Mode=TwoWay }" />
+        <StackLayout Orientation="Horizontal">
+          <Label Text="TID-UID" WidthRequest="80" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        
+          <Label Text="{Binding labelTIDOffset}" TextColor="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
+            <Label.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding OnLabelTIDOffsetTapped}"/>
+            </Label.GestureRecognizers>
+          </Label>
+        
+          <Label Text="{Binding labelTIDWord}" TextColor="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
+            <Label.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding OnLabelTIDWordTapped}"/>
+            </Label.GestureRecognizers>
+          </Label>
+      
+        </StackLayout>
+
+        <Label Text="{ Binding labelTIDUIDStatus , Mode=TwoWay }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />		
+      </StackLayout> 
+
+      <Entry x:Name="entryTIDUID" Text="{ Binding entryTIDUID, Mode=TwoWay }" Focused="InputFocused" Unfocused="InputUnfocused" />
+        
+      <StackLayout Orientation="Horizontal">
+        <Switch IsToggled="{Binding switchUSERIsToggled, Mode=TwoWay }" />
+
+        <StackLayout Orientation="Horizontal">
+          <Label Text="USER" WidthRequest="80" HorizontalOptions="FillAndExpand" VerticalOptions="Center" />
+        
+          <Label Text="{Binding labelUSEROffset}" TextColor="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
+            <Label.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding OnLabelUSEROffsetTapped}"/>
+            </Label.GestureRecognizers>
+          </Label>
+        
+          <Label Text="{Binding labelUSERWord}" TextColor="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
+            <Label.GestureRecognizers>
+              <TapGestureRecognizer Command="{Binding OnLabelUSERWordTapped}"/>
+            </Label.GestureRecognizers>
+          </Label>
+       
+        </StackLayout>
+
+        <Label Text="{ Binding labelUSERStatus }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />		
+      </StackLayout> 
+
+      <!--Entry x:Name="entryUSER" Text="{ Binding entryUSER, Mode=TwoWay }" Focused="InputFocused" Unfocused="InputUnfocused" /-->
+			<Editor x:Name="entryUSER" Text="{ Binding entryUSER, Mode=TwoWay }" VerticalOptions="FillAndExpand" />
+
+			<StackLayout Orientation="Horizontal">
+			    <Switch IsToggled="{Binding switchMultiIsToggled, Mode=TwoWay }" />
+
+			    <StackLayout Orientation="Horizontal">
+					<Label Text="{Binding labelMulti}" WidthRequest="80" TextColor="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
+					    <Label.GestureRecognizers>
+						    <TapGestureRecognizer Command="{Binding OnLabelMultiTapped}"/>
+					    </Label.GestureRecognizers>
+	    		    </Label>
+
+					<Label Text="{Binding labelMultiOffset}" TextColor="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
+					    <Label.GestureRecognizers>
+						    <TapGestureRecognizer Command="{Binding OnLabelMultiOffsetTapped}"/>
+					    </Label.GestureRecognizers>
+				    </Label>
+
+				    <Label Text="{Binding labelMultiWord}" TextColor="Blue" HorizontalOptions="FillAndExpand" VerticalOptions="Center" >
+					    <Label.GestureRecognizers>
+						    <TapGestureRecognizer Command="{Binding OnLabelMultiWordTapped}"/>
+					    </Label.GestureRecognizers>
+				    </Label>
+
+			    </StackLayout>
+
+			    <Label Text="{ Binding labelMultiStatus }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />
+		    </StackLayout>
+
+			<!--<Entry x:Name="entryMulti" Text="{ Binding entryMulti, Mode=TwoWay }" Focused="InputFocused" Unfocused="InputUnfocused" /-->
+			<Entry x:Name="entryMulti" Text="{ Binding entryMulti, Mode=TwoWay }" />
+
+			<StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                    <Button Text="Read" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnReadButtonCommand}" />
+                </StackLayout>
+      
+                <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                    <Button Text="Write" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnWriteButtonCommand}" />
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</views:MvxContentPage>
+    

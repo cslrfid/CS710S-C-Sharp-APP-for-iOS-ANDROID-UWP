@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelGeiger"
+                       xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                       xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+             x:Class="BLE.Client.Pages.PageGeiger"
+                Title="Geiger">
+  
+    <StackLayout Margin="0,0,0,0">
+
+		<StackLayout Orientation="Horizontal">
+			<Label Text="Bank " WidthRequest="100" VerticalOptions="Center" />
+			<Button x:Name="buttonBank" HorizontalOptions="FillAndExpand" Clicked="buttonBankClicked" TextColor="Black" BackgroundColor="#C3C3C3" />
+		</StackLayout>
+
+		<Label Text="Selected Mask" />
+		<Entry x:Name ="entryMask" Text="{ Binding entryEPC, Mode=TwoWay }" />
+
+		<StackLayout Orientation="Horizontal">
+            <Label Text="Power (0-300)" WidthRequest="100" VerticalOptions="Center" />
+            <Entry x:Name="entryPower" Text="{ Binding power, Mode=TwoWay }" Unfocused="entryPowerCompleted" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Threshold" WidthRequest="100" VerticalOptions="Center" />
+            <Label x:Name="labelThreshold" Text="{ Binding labelThresholdText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+
+        <Slider x:Name="sliderThreshold" WidthRequest="300" Maximum="80" ValueChanged="sliderThresholdValueChanged" HorizontalOptions="Center" />
+
+        <Label Text = "" />
+        <Label Text = "" />
+        <Label Text = "" />
+        <Label Text = "" />
+        <Label Text = "" />
+        <Label Text="{Binding rssiStart}" Font="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+        <Label Text = "" />
+
+        <ProgressBar x:Name="progressbarRSSI" Progress="{Binding progressbarRSSIValue}" WidthRequest="300" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Center" />
+
+        <Button Text= "{Binding startGeigerButtonText}" Font="Large" Command="{Binding OnStartGeigerButtonCommand}" />
+
+    </StackLayout>
+</views:MvxContentPage>

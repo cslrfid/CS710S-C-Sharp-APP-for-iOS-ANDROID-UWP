@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelCTESIUSTempInventory"
+                      xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+             x:Class="BLE.Client.Pages.PageCTESIUSTempInventory"
+                Title="CTESIUS Temp Inventory">
+
+    <StackLayout>
+
+        <ListView x:Name="liewViewTagData" ItemsSource="{Binding TagInfoList}">
+            <ListView.Header>
+                <StackLayout BackgroundColor="#cccccc">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="0.7*" />
+							<ColumnDefinition Width="0.15*" />
+							<ColumnDefinition Width="0.15*" />
+						</Grid.ColumnDefinitions>
+						<Label Text="EPC" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small" VerticalOptions="CenterAndExpand" />
+						<Label Grid.Column="1" Text="RSSI" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" LineBreakMode="WordWrap"/>
+						<Label Grid.Column="2" Text="Temp" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small" VerticalOptions="CenterAndExpand" />
+					</Grid>
+                </StackLayout>
+            </ListView.Header>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+						<StackLayout Orientation="Vertical">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="0.7*" />
+									<ColumnDefinition Width="0.15*" />
+									<ColumnDefinition Width="0.15*" />
+								</Grid.ColumnDefinitions>
+								<Label Text="{Binding EPC}" VerticalTextAlignment="Start" FontSize="Small" />
+								<Label Grid.Column="1" Text="{Binding RSSI}" VerticalTextAlignment="Start" HorizontalTextAlignment="Center"  TextColor="{Binding RSSIColor}"/>
+								<Label Grid.Column="2" Text="{Binding Temp}" VerticalTextAlignment="Start" HorizontalTextAlignment="Start" TextColor="{Binding valueColor}"/>
+							</Grid>
+						</StackLayout>
+<!--
+						<StackLayout Orientation="Vertical">
+                                <Label Text="{Binding EPC}" VerticalTextAlignment="Start" FontSize="Small" />
+								<Label Text="{Binding TID}" VerticalTextAlignment="Start" FontSize="Small" />
+                        </StackLayout>-->
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    
+        <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" >
+            <Button Text= "{Binding startInventoryButtonText}" Font="Large" Command="{Binding OnStartInventoryButtonCommand}" />
+            <Button Text="Clear" Font="Large" Command="{Binding OnClearButtonCommand}" HorizontalOptions="CenterAndExpand" />
+
+            <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding currentPower}" Font="Small" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" />
+                    <Label Text="{Binding InventoryTime}" Font="Small" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="{Binding numberOfTagsText}" Font="Small" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                <Label Text="{Binding labelVoltage}" Font="Small" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                <Label Text="{Binding tagPerSecondText}" Font="Small" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+        </StackLayout>
+
+    </StackLayout>
+</views:MvxContentPage>

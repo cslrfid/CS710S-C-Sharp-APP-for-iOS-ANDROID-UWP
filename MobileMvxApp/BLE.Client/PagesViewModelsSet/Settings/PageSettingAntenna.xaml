@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                     xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                      x:Class="BLE.Client.Pages.PageSettingAntenna"
+                      Title="Antenna Setting">
+  
+    <ScrollView>
+        <StackLayout Padding="10, 10, 10, 0">
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Antenna 1"  VerticalOptions="Start" MinimumWidthRequest="150" />
+                <Switch x:Name="switchAntenna1Enable" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Power"  VerticalOptions="Start" MinimumWidthRequest="150" />
+                <Entry x:Name="entryPower1" MinimumWidthRequest="300" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Dwell"  VerticalOptions="Start" MinimumWidthRequest="150" />
+				<Entry x:Name="entryDwell1" MinimumWidthRequest="300" />
+            </StackLayout>
+            
+            <BoxView x:Name="boxview2" HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Antenna 2"  VerticalOptions="Start"  MinimumWidthRequest="150" />
+                <Switch x:Name="switchAntenna2Enable" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Power"  VerticalOptions="Start" MinimumWidthRequest="150" />
+                <Entry x:Name="entryPower2" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Dwell"  VerticalOptions="Start" MinimumWidthRequest="150" />
+                <Entry x:Name="entryDwell2" />
+            </StackLayout>
+
+            <BoxView x:Name="boxview3" HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Antenna 3"  VerticalOptions="Start" />
+                <Switch x:Name="switchAntenna3Enable" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Power"  VerticalOptions="Start" MinimumWidthRequest="150" />
+                <Entry x:Name="entryPower3" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Dwell"  VerticalOptions="Start" MinimumWidthRequest="150" />
+                <Entry x:Name="entryDwell3" />
+            </StackLayout>
+
+            <BoxView x:Name="boxview4" HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Antenna 4"  VerticalOptions="Start" />
+                <Switch x:Name="switchAntenna4Enable" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Power"  VerticalOptions="Start" MinimumWidthRequest="150" />
+                <Entry x:Name="entryPower4" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Dwell"  VerticalOptions="Start" MinimumWidthRequest="150" />
+                <Entry x:Name="entryDwell4" />
+            </StackLayout>
+
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+
+            <Button Text="SAVE" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnOKClicked" TextColor="Black" />
+
+        </StackLayout>
+    </ScrollView>
+</views:MvxContentPage>
+    

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelCS83045ViewLog"
+                      xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                      x:Class="BLE.Client.Pages.PageCS83045ViewLog"
+                      Title="CS8304/5 View Log">
+
+    <StackLayout>
+            
+        <ListView x:Name="liewViewTagData" ItemsSource="{Binding TagInfoList}" >
+            <ListView.Header>
+                <StackLayout BackgroundColor="#cccccc">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*" />
+                            <ColumnDefinition Width="0.6*" />
+                            <ColumnDefinition Width="0.2*" />
+                        </Grid.ColumnDefinitions>
+              
+                        <Label Text="Index" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small" VerticalOptions="CenterAndExpand" />
+                        <Label Grid.Column="1" Text="Time" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small" VerticalOptions="CenterAndExpand" />
+                        <Label Grid.Column="2" Text="Temp" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small" VerticalOptions="CenterAndExpand" />
+                    </Grid>
+                </StackLayout>
+            </ListView.Header>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Vertical">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.2*" />
+                                    <ColumnDefinition Width="0.6*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="{Binding Index}" VerticalTextAlignment="Start" FontSize="Small" />
+                                <Label Grid.Column="1" Text="{Binding Time}" FontSize="Small" VerticalTextAlignment="Start" HorizontalTextAlignment="Center" />
+								<Label Grid.Column="2" Text="{Binding Temp}" FontSize="Small" VerticalTextAlignment="Start" HorizontalTextAlignment="Center" />
+                            </Grid>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    
+    </StackLayout>
+</views:MvxContentPage>

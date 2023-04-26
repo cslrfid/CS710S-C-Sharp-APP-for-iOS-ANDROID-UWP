@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelWriteAnyEPC"
+					  xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                     xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                x:Class="BLE.Client.Pages.PageWriteAnyEPC"
+                Title="Write Any EPC">
+
+  
+    <ScrollView>
+        <StackLayout Padding="5, 3, 5, 0">
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Number of Tags" WidthRequest="70" />
+				<Entry Text="{ Binding entryNumberofTagsText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Init Value" WidthRequest="70" />
+				<Entry Text="{ Binding entryInitValueText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Mask" WidthRequest="70" />
+				<Entry Text="{ Binding entryMaskText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Use Dec" WidthRequest="70" />
+				<Switch IsToggled="{ Binding switchuseHexIsToggled, Mode=TwoWay }"/>
+				<Label Text="Hex" WidthRequest="70" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+    			<Label Text="Success Write" Font="Large" BackgroundColor="#C3C3C3" />
+				<Label Text="{ Binding labelSuccessCount }" Font="Large" BackgroundColor="#C3C3C3" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+				<Label Text="Fail Write" Font="Large" BackgroundColor="#C3C3C3" />
+				<Label Text="{ Binding labelFailCount }" Font="Large" BackgroundColor="#C3C3C3" />
+			</StackLayout>
+			
+			<StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+				<Button Text="{ Binding buttonStartText }" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnWriteButtonCommand}" />
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</views:MvxContentPage>
+    

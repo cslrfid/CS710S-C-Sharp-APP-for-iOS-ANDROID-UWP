@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelSmartracThermologgerReadSystemInformation"
+					  xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                     xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                x:Class="BLE.Client.Pages.PageSmartracThermologgerReadSystemInformation"
+                Title="System Information">
+
+  
+    <ScrollView>
+    
+        <StackLayout Padding="5, 3, 5, 0">
+
+			<Label Text="Selected EPC" />
+			<Entry Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Access PWD" WidthRequest="70" />
+				<Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+			</StackLayout>
+
+				<Label Text="Number Of Logger Object"/>
+				<Label Text="{ Binding labelNumberOfLoggerObjectText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+				<Label Text="Logger Object Configuration Text"/>
+				<Label Text="{ Binding labelLoggerObjectConfigurationText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+				<Label Text="Hardware Version"/>
+				<Label Text="{ Binding labelHardwareVersionText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+				<Label Text="Hardware Version Date"/>
+				<Label Text="{ Binding labelHardwareVersionDateText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+				<Label Text="Software Version"/>
+				<Label Text="{ Binding labelSoftwareVersionText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+				<Label Text="Software Version Date"/>
+				<Label Text="{ Binding labelSoftwareVersionDateText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+
+				<Label Text="Read Status"/>
+				<Label Text="{ Binding labelReadStatusText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			
+<!--
+            <Label Text="Selected EPC" />
+		    <Entry Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Access PWD" WidthRequest="70" />
+                <Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Number Of Logger Object" WidthRequest="150" />
+				<Label Text="{ Binding labelNumberOfLoggerObjectText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Logger Object Configuration Text" WidthRequest="150" />
+				<Label Text="{ Binding labelLoggerObjectConfigurationText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Hardware Version" WidthRequest="150" />
+				<Label Text="{ Binding labelHardwareVersionText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Hardware Version Date" WidthRequest="150" />
+				<Label Text="{ Binding labelHardwareVersionDateText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Software Version" WidthRequest="150" />
+				<Label Text="{ Binding labelSoftwareVersionText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Software Version Date" WidthRequest="150" />
+				<Label Text="{ Binding labelSoftwareVersionDateText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			</StackLayout>
+			
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Read Status" WidthRequest="150" />
+				<Label Text="{ Binding labelReadStatusText }" HorizontalOptions="FillAndExpand" TextColor="Blue"/>
+			</StackLayout>
+-->
+
+			<StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+                <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+					    <Button Text="Read System Information" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnReadButtonCommand}" />
+                </StackLayout>
+            </StackLayout>
+
+        </StackLayout>
+  
+    </ScrollView>
+</views:MvxContentPage>

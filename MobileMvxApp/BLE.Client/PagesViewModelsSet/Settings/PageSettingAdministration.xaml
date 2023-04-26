@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                     xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+             x:Class="BLE.Client.Pages.PageSettingAdministration"
+                Title="Administration">
+
+  <ScrollView>
+    <StackLayout Padding="10, 10, 10, 0">
+
+      <Label x:Name="labelReaderModel"/>
+
+      <StackLayout Orientation="Horizontal">
+        <Label Text="Reader Name" WidthRequest="100" />
+		    <Entry x:Name="entryReaderName" HorizontalOptions="FillAndExpand" />
+      </StackLayout>
+
+      <!--Label x:Name="labelSerialNumber" /-->
+
+      <StackLayout Orientation="Horizontal">
+        <Label Text="Battery Level Format" WidthRequest="100" />
+        <Button x:Name="buttonBatteryLevelFormat" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonBatteryLevelFormatClicked" />
+      </StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="Share Data Format" WidthRequest="100" VerticalOptions="Center" />
+				<Button x:Name="buttonShareDataFormat" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonShareDataFormatClicked" />
+			</StackLayout>
+
+			<StackLayout Orientation="Horizontal">
+				<Label Text="New Tag Location" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="Last" VerticalOptions="Center" />
+				<Switch x:Name="switchNewTagLocation"/>
+				<Label Text="Head" VerticalOptions="Center" />
+			</StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+				<Label Text="Inventory Alert Sound" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="Off" VerticalOptions="Center" />
+				<Switch x:Name="switchInventoryAlertSound"  />
+				<Label Text="On" VerticalOptions="Center" />
+			</StackLayout>
+
+      <StackLayout Orientation="Horizontal">
+				<Label Text="Vibration" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="Off" VerticalOptions="Center" />
+				<Switch x:Name="switchVibration"  />
+				<Label Text="On" VerticalOptions="Center" />
+			</StackLayout>
+
+      <!--<StackLayout Orientation="Horizontal">
+				<Label Text="Vibration Tag" WidthRequest="100" VerticalOptions="Center" />
+				<Label Text="New" VerticalOptions="Center" />
+				<Switch x:Name="switchVibrationTag"  />
+        <Label Text="All"  VerticalOptions="Center" />
+      </StackLayout>-->
+
+      <StackLayout Orientation="Horizontal">
+        <Label Text="Vibration Window "  VerticalOptions="Center" />
+        <Entry x:Name="entryVibrationWindow" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
+      </StackLayout>
+
+      <StackLayout Orientation="Horizontal">
+        <Label Text="Vibration Time "  VerticalOptions="Center" />
+        <Entry x:Name="entryVibrationTime" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
+      </StackLayout>
+
+      <Button Text="Set New Barcode Format 2.0" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnBarcodeResetClicked" TextColor="Black" />
+      
+      <Button Text="Reset Software/Reader to Default Setting" Clicked="btnConfigResetClicked" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+
+      <Button Text="Get Serial Number" Clicked="btnGetSerialNumber" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+
+      <Label Text="Shortcut" FontSize="Large" />
+        
+      <StackLayout Orientation="Horizontal">
+        <Label Text="Function" HorizontalOptions="FillAndExpand" WidthRequest="130" />
+        <Label Text="min Time" HorizontalOptions="FillAndExpand" WidthRequest="90" />
+        <Label Text="max Time" HorizontalOptions="FillAndExpand" WidthRequest="90" />
+      </StackLayout>
+
+      <StackLayout Orientation="Horizontal">
+        <Button x:Name="F1" Font="Large" HorizontalOptions="FillAndExpand" Clicked="btnFunctionSelectedClicked" WidthRequest="130" />
+        <Entry x:Name="F1MinTime" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
+        <Entry x:Name="F1MaxTime" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
+      </StackLayout>
+
+      <StackLayout Orientation="Horizontal">
+        <Button x:Name="F2" Font="Large" HorizontalOptions="FillAndExpand" Clicked="btnFunctionSelectedClicked" WidthRequest="130" />
+        <Entry x:Name="F2MinTime" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
+        <Entry x:Name="F2MaxTime" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
+      </StackLayout>
+
+      <StackLayout Orientation="Horizontal">
+        <Label Text="RSSI format dBuV" VerticalOptions="Center" />
+        <Switch x:Name="switchRSSIDBm" />
+        <Label Text="dBm" VerticalOptions="Center" />
+      </StackLayout>
+      
+      <!--
+      <StackLayout Orientation="Horizontal">
+        <Label Text="Save to file : off" VerticalOptions="Center" />
+        <Switch x:Name="switchSavetoFile" />
+        <Label Text="on" VerticalOptions="Center" />
+      </StackLayout> -->
+      
+      <StackLayout Orientation="Horizontal">
+        <Label Text="Save to cloud : off" VerticalOptions="Center" />
+        <Switch x:Name="switchSavetoCloud" />
+        <Label Text="on" VerticalOptions="Center" />
+      </StackLayout>
+
+      <StackLayout Orientation="Horizontal">
+        <Label Text="http protocol : Body" VerticalOptions="Center" />
+        <Switch x:Name="switchhttpProtocol" />
+        <Label Text="Params" VerticalOptions="Center" />
+      </StackLayout>
+      
+      <!--StackLayout Orientation="Horizontal"-->
+        <Label Text="Cloud address"/>
+        <Entry x:Name="entryServerIP"/>
+      <!--/StackLayout-->
+      
+      <Button Text="CSL Cloud" BackgroundColor="#C3C3C3" Clicked="btnCSLCloudClicked" TextColor="Black" />
+      
+      <Button Text="SAVE" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnOKClicked" TextColor="Black" />
+    
+    </StackLayout>
+  </ScrollView>
+</views:MvxContentPage>
