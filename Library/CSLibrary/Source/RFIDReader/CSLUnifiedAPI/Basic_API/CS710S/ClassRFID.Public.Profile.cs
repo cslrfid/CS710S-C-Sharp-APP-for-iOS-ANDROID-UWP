@@ -33,12 +33,38 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
+        internal uint[] _profileList_CS710S = { 103, 302, 120, 323, 344, 345, 223, 222, 241, 244, 285 };
+
+        internal string[] _profileNameList_CS710S = {
+            "103: Miller 1 640kHz Tari 6.25us",
+            "302: Miller 1 640kHz Tari 7.25us",
+            "120: Miller 2 640kHz Tari 6.25us",
+            "323: Miller 2 640kHz Tari 7.5us",
+            "344: Miller 4 640kHz Tari 7.5us",
+            "345: Miller 4 640kHz Tari 7.5us",
+            "223: Miller 2 320kHz Tari 15us",
+            "222: Miller 2 320kHz Tari 20us",
+            "241: Miller 4 320kHz Tari 20us",
+            "244: Miller 4 250kHz Tari 20us",
+            "285: Miller 8 160kHz Tari 20us"
+        };
+
+
         public uint[] GetActiveLinkProfile_CS710S(RegionCode region)
         {
             switch (region)
             {
                 default:
-                    return new uint[] { 103, 120, 345, 302, 323, 344, 223, 222, 241, 244, 285 };
+                    return _profileList_CS710S;
+            }
+        }
+
+        public string[] GetActiveLinkProfileName_CS710S(RegionCode region)
+        {
+            switch (region)
+            {
+                default:
+                    return _profileNameList_CS710S;
             }
         }
 

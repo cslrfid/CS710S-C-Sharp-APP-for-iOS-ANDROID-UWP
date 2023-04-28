@@ -40,14 +40,21 @@ namespace CSLibrary
         /// </summary>
         public uint GetActiveMaxPowerLevel()
         {
+           return 320;
+/*
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return GetActiveMaxPowerLevel_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     return GetActiveMaxPowerLevel_CS710S();
                     break;
             }
 
             return 0;
+*/
         }
 
         /// <summary>
@@ -57,14 +64,18 @@ namespace CSLibrary
         {
             get
             {
+                uint pwrlvl = 0;
                 switch (_deviceType)
                 {
+                    case MODEL.CS108:
+                        GetPowerLevel_CS108(ref pwrlvl);
+                        break;
+
                     case MODEL.CS710S:
-                        return SelectedPowerLevel_CS710S;
+                        GetPowerLevel_CS710S(ref pwrlvl);
                         break;
                 }
-
-                return 0;
+                return pwrlvl;
             }
         }
 
@@ -75,6 +86,9 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return GetPowerLevel_CS108(ref pwrlvl);
+
                 case MODEL.CS710S:
                     return GetPowerLevel_CS710S(ref pwrlvl);
             }
@@ -86,6 +100,9 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetPowerLevel_CS108(pwrlevel, port = 0);
+
                 case MODEL.CS710S:
                     return SetPowerLevel_CS710S(pwrlevel, port = 0);
             }
@@ -97,6 +114,9 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetPowerLevel_CS108((uint)pwrlevel, port);
+
                 case MODEL.CS710S:
                     return SetPowerLevel_CS710S((uint)pwrlevel, port);
             }
@@ -108,6 +128,9 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetPowerLevel_CS108(pwrlevel);
+
                 case MODEL.CS710S:
                     return SetPowerLevel_CS710S(pwrlevel);
             }
@@ -122,6 +145,9 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return GetSoftwareMaxPowerLevel_CS108(region);
+
                 case MODEL.CS710S:
                     return GetSoftwareMaxPowerLevel_CS710S(region);
             }
@@ -140,6 +166,9 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetPowerSequencing_CS108(numberofPower, power, dwell);
+
                 case MODEL.CS710S:
                     return SetPowerSequencing_CS710S(numberofPower, power, dwell);
             }

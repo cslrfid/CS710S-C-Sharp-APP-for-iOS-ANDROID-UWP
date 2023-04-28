@@ -33,10 +33,13 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
-        public uint[] GetActiveLinkProfile_CS108()
-        {
-            return GetActiveLinkProfile(m_save_region_code);
-        }
+        internal string[] _profileNameList_CS108 = {
+            "  0. Multipath Interference Resistance",
+            "  1. Range/Dense Reader",
+            "  2. Range/Throughput/Dense Reader",
+            "  3. Max Throughput"
+        };
+
 
         public uint[] GetActiveLinkProfile_CS108(RegionCode region)
         {
@@ -50,6 +53,21 @@ namespace CSLibrary
 
                 default:
                     return new uint[] { 0, 1, 2, 3 };
+            }
+        }
+
+        public string[] GetActiveLinkProfileName_CS108(RegionCode region)
+        {
+            switch (region)
+            {
+                case RegionCode.KR:
+                    return new string[] { _profileNameList_CS108[0], _profileNameList_CS108[1], _profileNameList_CS108[2] };
+
+                case RegionCode.JP:
+                    return new string[] { _profileNameList_CS108[1], _profileNameList_CS108[2] };
+
+                default:
+                    return _profileNameList_CS108;
             }
         }
 

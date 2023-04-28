@@ -211,15 +211,16 @@ namespace CSLibrary
 
         public Result CancelAllSelectCriteria()
         {
-            if (RFIDRegister == null)
-                return Result.FAILURE;
-
-            for (uint cnt = 0; cnt < 7; cnt++)
+            switch (_deviceType)
             {
-                RFIDRegister.SelectConfiguration.Set(cnt, false);
+                case MODEL.CS108:
+                    return CancelAllSelectCriteria_CS108();
+
+                case MODEL.CS710S:
+                    return CancelAllSelectCriteria_CS710S();
             }
 
-            return Result.OK;
+            return Result.FAILURE;
         }
 
 

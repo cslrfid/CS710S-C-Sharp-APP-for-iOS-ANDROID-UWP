@@ -44,18 +44,6 @@ namespace CSLibrary
             return Result.OK;
         }
 
-        /*
-        public Result SetPowerLevel(UInt32 pwrlevel)
-        {
-            if (pwrlevel > 330)
-                pwrlevel = 330;
-
-            MacWriteRegister(MACREGISTER.HST_ANT_DESC_SEL, 0);         // select antenna
-            MacWriteRegister(MACREGISTER.HST_ANT_DESC_RFPOWER, pwrlevel);
-
-            return Result.OK;
-        }
-        */
         public Result SetPowerLevel_CS108(uint pwrlevel, uint port = 0)
         {
             if (pwrlevel > 330)
@@ -72,7 +60,7 @@ namespace CSLibrary
             if (pwrlevel < 0)
                 return Result.INVALID_PARAMETER;
 
-            return SetPowerLevel((uint)pwrlevel, port);
+            return SetPowerLevel_CS108((uint)pwrlevel, port);
         }
 
         public Result SetPowerLevel_CS108(UInt32 [] pwrlevel)
@@ -80,7 +68,7 @@ namespace CSLibrary
             Result r;
 
             for (uint cnt = 0; cnt < pwrlevel.Length; cnt++)
-                if ((r = SetPowerLevel(pwrlevel[cnt], cnt)) != Result.OK)
+                if ((r = SetPowerLevel_CS108(pwrlevel[cnt], cnt)) != Result.OK)
                     return r;
 
             return Result.OK;
@@ -158,8 +146,8 @@ namespace CSLibrary
                 for (i = 0; i < numberofPower; i++)
                 {
                     AntennaPortSetState((uint)i, AntennaPortState.ENABLED);
-                    SetPowerLevel(power[i], i);
-                    SetInventoryDuration(dwell[i], i);
+                    SetPowerLevel_CS108(power[i], i);
+                    SetInventoryDuration_CS108(dwell[i], i);
                 }
 
                 for (; i < 16; i++)

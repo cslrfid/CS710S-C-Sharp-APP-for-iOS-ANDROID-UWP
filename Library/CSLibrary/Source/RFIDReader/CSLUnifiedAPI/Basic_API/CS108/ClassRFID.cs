@@ -1111,6 +1111,16 @@ namespace CSLibrary
             return m_Result;
         }
 
+        public Result CancelAllSelectCriteria_CS108()
+        {
+            for (uint cnt = 0; cnt < 7; cnt++)
+            {
+                SetSelectCriteria(cnt, null);
+            }
+
+            return Result.OK;
+        }
+
         public Result SetSelectCriteria_CS108(uint index, SelectCriterion crit)
         {
             uint registerValue;

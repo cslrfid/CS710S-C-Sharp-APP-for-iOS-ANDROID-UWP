@@ -39,6 +39,11 @@ namespace CSLibrary
             return GetActiveLinkProfile(m_save_region_code);
         }
 
+        public string[] GetActiveLinkProfileName()
+        {
+            return GetActiveLinkProfileName(m_save_region_code);
+        }
+
         public uint[] GetActiveLinkProfile(RegionCode region)
         {
             switch (_deviceType)
@@ -48,6 +53,20 @@ namespace CSLibrary
 
                 case MODEL.CS710S:
                     return GetActiveLinkProfile_CS710S(region);
+            }
+
+            return null;
+        }
+
+        public string[] GetActiveLinkProfileName(RegionCode region)
+        {
+            switch (_deviceType)
+            {
+                case MODEL.CS108:
+                    return GetActiveLinkProfileName_CS108(region);
+
+                case MODEL.CS710S:
+                    return GetActiveLinkProfileName_CS710S(region);
             }
 
             return null;

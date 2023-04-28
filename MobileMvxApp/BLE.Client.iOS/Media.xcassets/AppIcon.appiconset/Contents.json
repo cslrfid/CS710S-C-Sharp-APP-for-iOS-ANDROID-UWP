@@ -1,127 +1,123 @@
 {
   "images": [
     {
+      "scale": "3x",
+      "size": "60x60",
+      "idiom": "car"
+    },
+    {
       "scale": "2x",
       "size": "20x20",
       "idiom": "iphone",
-      "filename": "Icon-Small-40.png"
+      "filename": "CSL logo for RFID C# 40x40.png"
     },
     {
       "scale": "3x",
       "size": "20x20",
-      "idiom": "iphone",
-      "filename": "Icon-Small-20@3x.png"
+      "idiom": "iphone"
     },
     {
       "scale": "2x",
       "size": "29x29",
       "idiom": "iphone",
-      "filename": "Icon-Small@2x.png"
+      "filename": "CSL logo for RFID C# 58x58.png"
     },
     {
       "scale": "3x",
       "size": "29x29",
-      "idiom": "iphone",
-      "filename": "Icon-Small@3x.png"
+      "idiom": "iphone"
     },
     {
       "scale": "2x",
       "size": "40x40",
       "idiom": "iphone",
-      "filename": "Icon-Small-40@2x.png"
+      "filename": "CSL logo for RFID C# 80x80.png"
     },
     {
       "scale": "3x",
       "size": "40x40",
       "idiom": "iphone",
-      "filename": "Icon-60@2x.png"
+      "filename": "CSL logo for RFID C# 120x1201.png"
     },
     {
       "scale": "2x",
       "size": "60x60",
       "idiom": "iphone",
-      "filename": "Icon-60@2x-1.png"
+      "filename": "CSL logo for RFID C# 120x120.png"
     },
     {
       "scale": "3x",
       "size": "60x60",
-      "idiom": "iphone",
-      "filename": "Icon-60@3x.png"
+      "idiom": "iphone"
     },
     {
       "scale": "1x",
       "size": "20x20",
-      "idiom": "ipad",
-      "filename": "Icon-Small-20.png"
+      "idiom": "ipad"
     },
     {
       "scale": "2x",
       "size": "20x20",
       "idiom": "ipad",
-      "filename": "Icon-Small-40-1.png"
+      "filename": "CSL logo for RFID C# 40x401.png"
     },
     {
       "scale": "1x",
       "size": "29x29",
-      "idiom": "ipad",
-      "filename": "Icon-Small.png"
+      "idiom": "ipad"
     },
     {
       "scale": "2x",
       "size": "29x29",
       "idiom": "ipad",
-      "filename": "Icon-Small@2x-1.png"
+      "filename": "CSL logo for RFID C# 58x581.png"
     },
     {
       "scale": "1x",
       "size": "40x40",
       "idiom": "ipad",
-      "filename": "Icon-Small-40-2.png"
+      "filename": "CSL logo for RFID C# 40x402.png"
     },
     {
       "scale": "2x",
       "size": "40x40",
       "idiom": "ipad",
-      "filename": "Icon-Small-40@2x-1.png"
+      "filename": "CSL logo for RFID C# 80x801.png"
     },
     {
       "scale": "2x",
       "size": "83.5x83.5",
-      "idiom": "ipad",
-      "filename": "Icon-83.5@2x.png"
+      "idiom": "ipad"
     },
     {
       "scale": "1x",
       "size": "76x76",
       "idiom": "ipad",
-      "filename": "Icon-76.png"
-    },
-    {
-      "scale": "2x",
-      "size": "76x76",
-      "idiom": "ipad",
-      "filename": "Icon-76@2x.png"
+      "filename": "CSL logo for RFID C# 76x76.png"
     },
     {
       "scale": "2x",
       "size": "60x60",
-      "idiom": "car"
-    },
-    {
-      "scale": "3x",
-      "size": "60x60",
-      "idiom": "car"
+      "idiom": "car",
+      "filename": "CSL logo for RFID C# 120x1202.png"
     },
     {
       "scale": "1x",
       "size": "1024x1024",
-      "idiom": "watch-marketing"
+      "idiom": "watch-marketing",
+      "filename": "CSL logo for RFID C# 1024x1024.png"
     },
     {
       "scale": "1x",
       "size": "1024x1024",
       "idiom": "ios-marketing",
-      "filename": "iTunesArtwork@2x.png"
+      "filename": "CSL logo for RFID C# 1024x10241.png"
+    },
+    {
+      "scale": "2x",
+      "size": "76x76",
+      "idiom": "ipad",
+      "filename": "CSL logo for RFID C# 152x152.png"
     }
   ],
   "properties": {},

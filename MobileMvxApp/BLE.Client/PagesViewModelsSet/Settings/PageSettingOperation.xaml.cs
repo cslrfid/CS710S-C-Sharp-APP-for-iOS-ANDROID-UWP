@@ -101,19 +101,21 @@ namespace BLE.Client.Pages
             "Vietnam"
         };
 
-        string[] _profileList = {
-            "103: Miller 1 640kHz Tari 6.25us",
-            "302: Miller 1 640kHz Tari 7.25us",
-            "120: Miller 2 640kHz Tari 6.25us",
-            "323: Miller 2 640kHz Tari 7.5us",
-            "344: Miller 4 640kHz Tari 7.5us",
-            "345: Miller 4 640kHz Tari 7.5us",
-            "223: Miller 2 320kHz Tari 15us",
-            "222: Miller 2 320kHz Tari 20us",
-            "241: Miller 4 320kHz Tari 20us",
-            "244: Miller 4 250kHz Tari 20us",
-            "285: Miller 8 160kHz Tari 20us"
-        };
+        string[] _profileList;
+        /*        string[] _profileList = {
+                    "103: Miller 1 640kHz Tari 6.25us",
+                    "302: Miller 1 640kHz Tari 7.25us",
+                    "120: Miller 2 640kHz Tari 6.25us",
+                    "323: Miller 2 640kHz Tari 7.5us",
+                    "344: Miller 4 640kHz Tari 7.5us",
+                    "345: Miller 4 640kHz Tari 7.5us",
+                    "223: Miller 2 320kHz Tari 15us",
+                    "222: Miller 2 320kHz Tari 20us",
+                    "241: Miller 4 320kHz Tari 20us",
+                    "244: Miller 4 250kHz Tari 20us",
+                    "285: Miller 8 160kHz Tari 20us"
+                };
+        */
 
         string[] _freqOrderOptions;
 
@@ -121,9 +123,7 @@ namespace BLE.Client.Pages
         {
             InitializeComponent();
 
-            // for testing
-            BleMvxApplication._config.RFID_Region = RegionCode.FCC;
-
+            _profileList = BleMvxApplication._reader.rfid.GetActiveLinkProfileName();
 
             if (Device.RuntimePlatform == Device.iOS)
             {
@@ -595,14 +595,11 @@ namespace BLE.Client.Pages
                 }
             }
 
-            var currentProfileList = BleMvxApplication._reader.rfid.GetActiveLinkProfile(region);
+            //string[] profileList = new string[currentProfileList.Length];
+            //for (cnt = 0; cnt < currentProfileList.Length; cnt++)
+            //    profileList[cnt] = _profileList[cnt];
 
-            string[] profileList = new string[currentProfileList.Length];
-
-            for (cnt = 0; cnt < currentProfileList.Length; cnt++)
-                profileList[cnt] = _profileList[cnt];
-
-            var answer = await DisplayActionSheet(null, "Cancel", null, profileList);
+            var answer = await DisplayActionSheet(null, "Cancel", null, _profileList);
 
             if (answer != null && answer !="Cancel")
                 buttonProfile.Text = answer;

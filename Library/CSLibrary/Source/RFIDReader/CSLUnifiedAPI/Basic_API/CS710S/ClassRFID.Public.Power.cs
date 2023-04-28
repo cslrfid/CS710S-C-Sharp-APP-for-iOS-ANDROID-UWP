@@ -77,10 +77,12 @@ namespace CSLibrary
             return Result.OK;
         }
 
+/*
         public Result SetPowerLevel_CS710S(int pwrlevel, uint port = 0)
         {
             return SetPowerLevel_CS710S((uint)pwrlevel, port);
         }
+*/
 
         public Result SetPowerLevel_CS710S(UInt32 [] pwrlevel)
         {
@@ -139,8 +141,8 @@ namespace CSLibrary
             for (i = 0; i < numberofPower; i++)
             {
                 AntennaPortSetState((uint)i, AntennaPortState.ENABLED);
-                SetPowerLevel(power[i], (uint)i);
-                SetInventoryDuration(dwell[i], (uint)i);
+                SetPowerLevel_CS710S(power[i], (uint)i);
+                SetInventoryDuration_CS710S(dwell[i], (uint)i);
             }
 
             for (; i < 16; i++)

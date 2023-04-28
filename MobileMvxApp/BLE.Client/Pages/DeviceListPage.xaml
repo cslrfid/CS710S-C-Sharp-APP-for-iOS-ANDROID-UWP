@@ -75,6 +75,11 @@
                  ItemTemplate="{StaticResource DeviceItemTemplate}">
                 </ListView>
 
+                <StackLayout Grid.Row="2">
+                    <Label Text="For CS108, Bluetooth 4.0 or 5.0 Phone" HorizontalOptions="Center"/>
+                    <Label Text="For CS710S, Only Bluetooth 5.0 Phone" HorizontalOptions="Center"/>
+                </StackLayout>
+
                 <StackLayout Grid.Row="3" Orientation="Horizontal">
                     <Button Text="Clear and Rescan" Command="{Binding StopScanCommand}" HorizontalOptions="EndAndExpand"/>
                     <ActivityIndicator IsRunning="{Binding IsRefreshing}"
@@ -83,6 +88,7 @@
                              VerticalOptions="Center"
                              HorizontalOptions="End"/>
                 </StackLayout>
+
 
             </Grid>
         </views:MvxContentPage>

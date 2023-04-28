@@ -36,21 +36,6 @@ namespace CSLibrary
         {
             CurrentOperation = opertion;
 
-            /*
-                        // Clear inventory compatmode
-                        if (opertion != Operation.TAG_EXERANGING)
-                        {
-                            UInt32 Value = 0;
-
-                            // Clear inventory compatmode
-                            MacReadRegister(MACREGISTER.HST_INV_CFG, ref Value);
-                            Value &= ~(1U << 26); // bit 26
-                            Value &= ~(3U << 16); // bit 16,17
-                            MacWriteRegister(MACREGISTER.INV_CYCLE_DELAY, 0);
-                            MacWriteRegister(MACREGISTER.HST_INV_CFG, Value);
-                        }
-            */
-
             InventoryDebug.Clear();
             switch (opertion)
             {

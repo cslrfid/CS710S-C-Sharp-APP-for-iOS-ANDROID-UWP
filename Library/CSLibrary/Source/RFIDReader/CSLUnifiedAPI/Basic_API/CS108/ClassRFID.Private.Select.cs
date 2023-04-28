@@ -219,7 +219,7 @@ namespace CSLibrary
                         m_rdr_opt_parms.TagSelected.MaskLength,
                         m_rdr_opt_parms.TagSelected.Mask);
                 }
-                if ((m_Result = SetSelectCriteria(sel)) != CSLibrary.Constants.Result.OK)
+                if ((m_Result = SetSelectCriteria_CS108(sel)) != CSLibrary.Constants.Result.OK)
                 {
                     //goto EXIT;
                 }
