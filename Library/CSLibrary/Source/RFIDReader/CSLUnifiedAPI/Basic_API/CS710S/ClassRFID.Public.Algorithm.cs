@@ -137,7 +137,7 @@ namespace CSLibrary
             FixedQParm.qValue = QValue;      //if only 1 tag read and write, otherwise use 7
             FixedQParm.toggleTarget = ToggleTarget;
 
-            return (m_Result = SetSingulationAlgorithmParms(SingulationAlgorithm.FIXEDQ, FixedQParm));
+            return (m_Result = SetSingulationAlgorithmParms_CS710S(SingulationAlgorithm.FIXEDQ, FixedQParm));
         }
         /// <summary>
         /// The  parameters  for  the  fixed-Q  algorithm,  MAC  singulation  algorithm  0
@@ -146,7 +146,7 @@ namespace CSLibrary
         /// <returns></returns>
         public Result SetFixedQParms_CS710S(FixedQParms fixedQParm)
         {
-            return (m_Result = SetSingulationAlgorithmParms(SingulationAlgorithm.FIXEDQ, fixedQParm));
+            return (m_Result = SetSingulationAlgorithmParms_CS710S(SingulationAlgorithm.FIXEDQ, fixedQParm));
         }
         /// <summary>
         /// The  parameters  for  the  fixed-Q  algorithm,  MAC  singulation  algorithm  0
@@ -159,7 +159,7 @@ namespace CSLibrary
             FixedQParm.qValue = 7;      //if only 1 tag read and write, otherwise use 7
             FixedQParm.toggleTarget = 1;
 
-            return (m_Result = SetSingulationAlgorithmParms(SingulationAlgorithm.FIXEDQ, FixedQParm));
+            return (m_Result = SetSingulationAlgorithmParms_CS710S(SingulationAlgorithm.FIXEDQ, FixedQParm));
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace CSLibrary
             dynParm.minQValue = MinQValue;
             dynParm.toggleTarget = ToggleTarget;
 
-            return (m_Result = SetSingulationAlgorithmParms(SingulationAlgorithm.DYNAMICQ, dynParm));
+            return (m_Result = SetSingulationAlgorithmParms_CS710S(SingulationAlgorithm.DYNAMICQ, dynParm));
         }
         /// <summary>
         /// The parameters for the dynamic-Q algorithm with application-controlled Q-adjustment-threshold
@@ -197,7 +197,7 @@ namespace CSLibrary
         /// <returns></returns>
         public Result SetDynamicQParms_CS710S(DynamicQParms dynParm)
         {
-            return (m_Result = SetSingulationAlgorithmParms(SingulationAlgorithm.DYNAMICQ, dynParm));
+            return (m_Result = SetSingulationAlgorithmParms_CS710S(SingulationAlgorithm.DYNAMICQ, dynParm));
         }
         /// <summary>
         /// The parameters for the dynamic-Q algorithm with application-controlled Q-adjustment-threshold
@@ -211,7 +211,7 @@ namespace CSLibrary
             dynParm.minQValue = 0;
             dynParm.toggleTarget = 1;
 
-            return (m_Result = SetSingulationAlgorithmParms(SingulationAlgorithm.DYNAMICQ, dynParm));
+            return (m_Result = SetSingulationAlgorithmParms_CS710S(SingulationAlgorithm.DYNAMICQ, dynParm));
         }
     }
 }

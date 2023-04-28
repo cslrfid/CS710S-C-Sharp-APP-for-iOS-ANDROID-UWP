@@ -78,7 +78,7 @@ namespace CSLibrary
                         m_rdr_opt_parms.TagSelected.MaskLength,
                         m_rdr_opt_parms.TagSelected.Mask);
                 }
-                if ((m_Result = SetSelectCriteria(sel)) != CSLibrary.Constants.Result.OK)
+                if ((m_Result = SetSelectCriteria_CS108(sel)) != CSLibrary.Constants.Result.OK)
                 {
                     //goto EXIT;
                 }
@@ -108,8 +108,8 @@ namespace CSLibrary
                 value &= ~0x0200U; // Enable Ucode Parallel encoding
                 MacWriteRegister(MACREGISTER.HST_QUERY_CFG, value);
 
-                SetOperationMode(CSLibrary.Constants.RadioOperationMode.NONCONTINUOUS);
-                SetTagGroup(CSLibrary.Constants.Selected.ASSERTED, CSLibrary.Constants.Session.S0, CSLibrary.Constants.SessionTarget.A);
+                SetOperationMode_CS108(CSLibrary.Constants.RadioOperationMode.NONCONTINUOUS);
+                SetTagGroup_CS108(CSLibrary.Constants.Selected.ASSERTED, CSLibrary.Constants.Session.S0, CSLibrary.Constants.SessionTarget.A);
                 {
                     CSLibrary.Structures.DynamicQParms param = new CSLibrary.Structures.DynamicQParms();
 
@@ -117,7 +117,7 @@ namespace CSLibrary
                     param.toggleTarget = (uint)((m_rdr_opt_parms.TagSelected.flags & CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE) == CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE ? 1 : 0);
                     param.retryCount = 0x05;
 
-                    SetSingulationAlgorithmParms(CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ, param);
+                    SetSingulationAlgorithmParms_CS108(CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ, param);
                 }
 
                 CSLibrary.Structures.SelectCriterion[] sel = new CSLibrary.Structures.SelectCriterion[1];
@@ -142,7 +142,7 @@ namespace CSLibrary
                         m_rdr_opt_parms.TagSelected.MaskLength,
                         m_rdr_opt_parms.TagSelected.Mask);
                 }
-                if ((m_Result = SetSelectCriteria(sel)) != CSLibrary.Constants.Result.OK)
+                if ((m_Result = SetSelectCriteria_CS108(sel)) != CSLibrary.Constants.Result.OK)
                 {
                     //goto EXIT;
                 }
@@ -201,7 +201,7 @@ namespace CSLibrary
                     CSLibrary.Constants.Action.DSLINVB_ASLINVA : CSLibrary.Constants.Action.ASLINVA_DSLINVB, 0);
 
                 //SetTagGroup(CSLibrary.Constants.Selected.ASSERTED, CSLibrary.Constants.Session.S0, CSLibrary.Constants.SessionTarget.A);
-                SetTagGroup(CSLibrary.Constants.Selected.ASSERTED);
+                SetTagGroup_CS108(CSLibrary.Constants.Selected.ASSERTED);
 
                 if (m_rdr_opt_parms.TagSelected.bank == CSLibrary.Constants.MemoryBank.EPC)
                 {
@@ -287,7 +287,7 @@ namespace CSLibrary
                         m_rdr_opt_parms.TagGeneralSelected.MaskLength,
                         m_rdr_opt_parms.TagGeneralSelected.Mask);
                 }
-                if ((m_Result = SetSelectCriteria(sel)) != CSLibrary.Constants.Result.OK)
+                if ((m_Result = SetSelectCriteria_CS108(sel)) != CSLibrary.Constants.Result.OK)
                 {
                     goto EXIT;
                 }

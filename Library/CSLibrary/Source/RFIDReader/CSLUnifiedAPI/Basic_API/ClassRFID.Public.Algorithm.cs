@@ -51,6 +51,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetCurrentSingulationAlgorithm_CS108(SingulationAlgorithm);
+                    break;
+
                 case MODEL.CS710S:
                     return SetCurrentSingulationAlgorithm_CS710S(SingulationAlgorithm);
                     break;
@@ -68,6 +72,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return GetCurrentSingulationAlgorithm_CS108(ref SingulationAlgorithm);
+                    break;
+
                 case MODEL.CS710S:
                     return GetCurrentSingulationAlgorithm_CS710S(ref SingulationAlgorithm);
                     break;
@@ -86,6 +94,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetSingulationAlgorithmParms_CS108(alg, parms);
+                    break;
+
                 case MODEL.CS710S:
                     return SetSingulationAlgorithmParms_CS710S(alg, parms);
                     break;
@@ -113,6 +125,11 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetFixedQParms_CS108(QValue, 0, ToggleTarget, 0);
+                    //return SetFixedQParms_CS108(QValue, ToggleTarget);
+                    break;
+
                 case MODEL.CS710S:
                     return SetFixedQParms_CS710S(QValue, ToggleTarget);
                     break;
@@ -129,6 +146,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetFixedQParms_CS108(fixedQParm);
+                    break;
+
                 case MODEL.CS710S:
                     return SetFixedQParms_CS710S(fixedQParm);
                     break;
@@ -145,6 +166,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetFixedQParms_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     return SetFixedQParms_CS710S();
                     break;
@@ -176,6 +201,11 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetDynamicQParms_CS108(StartQValue, MinQValue, MaxQValue, 0, 0, ToggleTarget);
+                    //return SetDynamicQParms_CS108(StartQValue, MinQValue, MaxQValue, ToggleTarget);
+                    break;
+
                 case MODEL.CS710S:
                     return SetDynamicQParms_CS710S(StartQValue, MinQValue, MaxQValue, ToggleTarget);
                     break;
@@ -191,6 +221,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetDynamicQParms_CS108(dynParm);
+                    break;
+
                 case MODEL.CS710S:
                     return SetDynamicQParms_CS710S(dynParm);
                     break;
@@ -206,6 +240,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetDynamicQParms_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     return SetDynamicQParms_CS710S();
                     break;
