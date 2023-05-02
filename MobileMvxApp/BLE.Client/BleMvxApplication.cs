@@ -305,6 +305,10 @@ namespace BLE.Client
                 var contentJSON = await sourceFile.ReadAllTextAsync();
                 var setting = JsonConvert.DeserializeObject<CONFIG>(contentJSON);
 
+                _RSSIFILTER_Type = CSLibrary.Constants.RSSIFILTERTYPE.DISABLE;
+                _PREFILTER_Enable = false;
+                _POSTFILTER_MASK_Enable = false;
+
                 if (setting != null)
                 {
                     _config = setting;

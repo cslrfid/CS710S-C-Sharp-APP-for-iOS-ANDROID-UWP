@@ -154,7 +154,7 @@
       <Version>6.5.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Core">
       <Version>1.6.0.1</Version>
@@ -205,7 +205,7 @@
       <Version>1.2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>5.0.0.2083</Version>
+      <Version>5.0.0.2578</Version>
     </PackageReference>
     <PackageReference Include="Acr.Support">
       <Version>2.1.0</Version>
@@ -227,7 +227,7 @@
       <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
-      <Version>1.7.0</Version>
+      <Version>1.7.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +235,36 @@
       <Project>{47E1BEC1-4717-46F5-9E71-6F4CCB7B0EAF}</Project>
       <Name>BLE.Client</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\csl.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\function.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\inventory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\main_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\register.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\security.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\write.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

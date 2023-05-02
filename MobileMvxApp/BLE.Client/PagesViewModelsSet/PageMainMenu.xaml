@@ -7,126 +7,195 @@
                        x:Class="BLE.Client.Pages.PageMainMenu"
                        Title="CSL Handhelp RFID Reader">
 
-			<RelativeLayout>
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="FillAndExpand" Spacing="10">
+            <Image Source="main_logo.png" HeightRequest="38"  />
+            <Label Text="C#"
+                   FontSize="Title" 
+                   TextColor="White" 
+                   HorizontalOptions="Center" 
+                   VerticalTextAlignment="Center" />
+            
+            <Label Text="{Binding labelAppVersion}"
+                   FontSize="Small" 
+                   TextColor="White" 
+                   HorizontalOptions="EndAndExpand" 
+                   VerticalTextAlignment="Center" 
+                   HorizontalTextAlignment="End"
+                   Padding="5"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
 
-            <Button Text="Read/Write" Font="Large"
-                HorizontalOptions="FillAndExpand"
-                BackgroundColor="#C3C3C3"
-                TextColor="Black"
-                Command="{Binding OnReadWriteButtonCommand}"
-                CommandParameter="1"
-				        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
-				        RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0, Constant=2}"
-				        RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-				        RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" 	
-			      />
+    <RelativeLayout>
+        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
+               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0, Constant=2}"
+               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnReadWriteButtonCommand}" CommandParameter="1"/>
+            </Frame.GestureRecognizers>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7.5*" />
+                    <RowDefinition Height="2.5*" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="write.png"></Image>
+                <Label Grid.Row="1" Text="Read/Write" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+            </Grid>
+        </Frame>
 
-            <Button Text="Inventory" Font="Large"
-                HorizontalOptions="FillAndExpand"
-                BackgroundColor="#C3C3C3"
-                TextColor="Black"
-                Command="{Binding OnInventoryButtonCommand}"
-                CommandParameter="1"
-				        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
-				        RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0, Constant=2}"
-				        RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-				        RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" 	
-            />
+        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
+               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0, Constant=2}"
+               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" >
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnInventoryButtonCommand}" CommandParameter="1"/>
+            </Frame.GestureRecognizers>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7.5*" />
+                    <RowDefinition Height="2.5*" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="inventory.png"></Image>
+                <Label Grid.Row="1" Text="Inventory" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+            </Grid>
+        </Frame>
 
-            <Button Text="Register Tag" Font="Large"
-				        HorizontalOptions="FillAndExpand"
-                BackgroundColor="#C3C3C3"
-                TextColor="Black"
-				        Command="{Binding OnRegisterTagButtonCommand}"
-				        CommandParameter="1"
-				        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
-				        RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.21, Constant=2}"
-				        RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-				        RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" 	
-            />
+        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
+               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.21, Constant=2}"
+               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" >
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnRegisterTagButtonCommand}" CommandParameter="1"/>
+            </Frame.GestureRecognizers>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7.5*" />
+                    <RowDefinition Height="2.5*" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="register.png"></Image>
+                <Label Grid.Row="1" Text="Register Tag" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+            </Grid>
+        </Frame>
 
-            <Button Text="Special Func" Font="Large"
-                HorizontalOptions="FillAndExpand"
-                BackgroundColor="#C3C3C3"
-                TextColor="Black"
-                Command="{Binding OnSpecialFuncButtonCommand}"
-                IsEnabled="False"
-                CommandParameter="1"
-                    RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
-                    RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.21, Constant=2}"
-                    RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}"
-                    RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" 	
-            />
+        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
+               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.21, Constant=2}"
+               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}"
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" >
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnSpecialFuncButtonCommand}" CommandParameter="1"/>
+            </Frame.GestureRecognizers>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7.5*" />
+                    <RowDefinition Height="2.5*" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="function.png"></Image>
+                <Label Grid.Row="1" Text="Special Func" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+            </Grid>
+        </Frame>
 
-            <Button Text="Geiger Search" Font="Large"
-				        HorizontalOptions="FillAndExpand"
-                BackgroundColor="#C3C3C3"
-                TextColor="Black"
-                Command="{Binding OnGeigerButtonCommand}"
-                CommandParameter="1"
-				        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
-				        RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.42, Constant=2}"
-				        RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-				        RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" 	
-            />
+        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
+               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.42, Constant=2}"
+               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnGeigerButtonCommand}" CommandParameter="1"/>
+            </Frame.GestureRecognizers>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7.5*" />
+                    <RowDefinition Height="2.5*" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="search.png"></Image>
+                <Label Grid.Row="1" Text="Geiger Search" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+            </Grid>
+        </Frame>
 
-            <Button Text="Settings" Font="Large"
-        				HorizontalOptions="FillAndExpand"
-                BackgroundColor="#C3C3C3"
-                TextColor="Black"
-                Command="{Binding OnSettingButtonCommand}"
-                CommandParameter="1"
-				        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
-				        RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.42, Constant=2}"
-				        RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-				        RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" 	
-            />
+        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
+			RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
+			RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.42, Constant=2}"
+			RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
+			RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnSettingButtonCommand}" CommandParameter="1"/>
+            </Frame.GestureRecognizers>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7.5*" />
+                    <RowDefinition Height="2.5*" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="settings.png"></Image>
+                <Label Grid.Row="1" Text="Settings" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+            </Grid>
+        </Frame>
 
-            <Button Text="Security" Font="Large"
-				        HorizontalOptions="FillAndExpand"
-                BackgroundColor="#C3C3C3"
-                TextColor="Black"
-                Command="{Binding OnSecurityButtonCommand}"
-                CommandParameter="1"
-				        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
-				        RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.63, Constant=2}"
-				        RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-				        RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" 	
-            />
+        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
+			RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
+			RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.63, Constant=2}"
+			RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
+			RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnSecurityButtonCommand}" CommandParameter="1"/>
+            </Frame.GestureRecognizers>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7.5*" />
+                    <RowDefinition Height="2.5*" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="security.png"></Image>
+                <Label Grid.Row="1" Text="Security" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+            </Grid>
+        </Frame>
 
-            <Button Text="RFID Filter" Font="Large"
-				        HorizontalOptions="FillAndExpand"
-                BackgroundColor="#C3C3C3"
-                TextColor="Black"
-                Command="{Binding OnFilterButtonCommand}"
-                CommandParameter="1"
-				        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
-				        RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.63, Constant=2}"
-				        RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-				        RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" 	
-            />
+        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
+               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.63, Constant=2}"
+               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" >
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnFilterButtonCommand}" CommandParameter="1"/>
+            </Frame.GestureRecognizers>
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="7.5*" />
+                    <RowDefinition Height="2.5*" />
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="filter.png"></Image>
+                <Label Grid.Row="1" Text="RFID Filter" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+            </Grid>
+        </Frame>
 
-            <Button Text="{Binding connectedButton}"
-                HorizontalOptions="FillAndExpand"
-                BackgroundColor="#C3C3C3"
-                TextColor="{Binding connectedButtonTextColor}"
-                Command="{Binding OnConnectButtonCommand}"
-                CommandParameter="1"
+        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
                 RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.0, Constant=2}"
                 RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.84, Constant=2}"
                 RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.12, Constant=-4}"
-                RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=1.0, Constant=-4}"
-            />
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=1.0, Constant=-4}">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OnConnectButtonCommand}" CommandParameter="1"/>
+            </Frame.GestureRecognizers>
 
-            <Label
-				        Text ="{Binding labelVoltage}"
-                TextColor="{Binding labelVoltageTextColor}"
-				        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.0, Constant=2}"
-				        RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.96, Constant=2}"
-				        RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.04, Constant=-4}" 
-				        RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=1.0, Constant=-4}" 	
-			      />
+            <Label Text="{Binding connectedButton}" 
+                   TextColor="{Binding connectedButtonTextColor}" 
+                   FontSize="Medium" 
+                   HorizontalOptions="CenterAndExpand" 
+                   VerticalOptions="CenterAndExpand" 
+                   FontAttributes="Bold" />
 
-		    </RelativeLayout>
+        </Frame>
+
+        <Label Text ="{Binding labelVoltage}"
+               TextColor="{Binding labelVoltageTextColor}"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.0, Constant=2}"
+               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.96, Constant=2}"
+               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.04, Constant=-4}" 
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=1.0, Constant=-4}" />
+
+    </RelativeLayout>
 
 </views:MvxContentPage>

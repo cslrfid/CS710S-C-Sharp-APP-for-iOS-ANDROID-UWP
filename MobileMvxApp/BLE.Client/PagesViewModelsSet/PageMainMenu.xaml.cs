@@ -10,7 +10,7 @@ namespace BLE.Client.Pages
         public PageMainMenu()
         {
             InitializeComponent();
-            this.Title = "CSL RFID Reader (C# " + DependencyService.Get<IAppVersion>().GetVersion() + ")";
+            //this.Title = "CSL RFID Reader (C# " + DependencyService.Get<IAppVersion>().GetVersion() + ")";
         }
     }
 }

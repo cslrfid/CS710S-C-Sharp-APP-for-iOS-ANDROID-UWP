@@ -222,19 +222,19 @@
       <Version>4.1.0-beta</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms">
-      <Version>5.0.0.2083</Version>
+      <Version>5.0.0.2578</Version>
     </PackageReference>
     <PackageReference Include="Acr.UserDialogs">
       <Version>6.5.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="PCLStorage">
       <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
-      <Version>1.7.0</Version>
+      <Version>1.7.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

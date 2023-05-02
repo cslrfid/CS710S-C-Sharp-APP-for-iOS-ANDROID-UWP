@@ -15,14 +15,14 @@
     <PackageReference Include="MvvmCross.Forms" Version="7.1.2" />
     <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
     <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
     <PackageReference Include="PCLStorage" Version="1.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Plugin.Share" Version="7.1.1" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="Splat" Version="2.0.0" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
   </ItemGroup>
 
   <ItemGroup>

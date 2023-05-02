@@ -33,12 +33,16 @@ namespace BLE.Client.ViewModels
         public string labelVoltage { get; set; }
         public string labelVoltageTextColor { get { return BleMvxApplication._batteryLow ? "Red" : "Black"; } }
         public string connectedButtonTextColor { get; set; } = "Black";
+        public string labelAppVersion { get; set; }
 
 
         public ViewModelMainMenu(IBluetoothLE bluetoothLe, IAdapter adapter, IUserDialogs userDialogs, ISettings settings, IPermissions permissions) : base(adapter)
         {
             _userDialogs = userDialogs;
             _permissions = permissions;
+
+            this.labelAppVersion = "Version\n" + DependencyService.Get<IAppVersion>().GetVersion();
+            RaisePropertyChanged(() => labelAppVersion);
 
             Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
 

@@ -4,9 +4,19 @@
     xmlns:mvx="clr-namespace:MvvmCross.Forms.Core;assembly=MvvmCross.Forms"
     xmlns:converters="clr-namespace:BLE.Client.Converters;assembly=BLE.Client"
     x:Class="BLE.Client.BleMvxFormsApp">
-  <Application.Resources>
-    <ResourceDictionary>
-      <converters:InverseBooleanValueConverter x:Key="InverseBoolean"></converters:InverseBooleanValueConverter>
-    </ResourceDictionary>
-  </Application.Resources>
+    <Application.Resources>
+        <ResourceDictionary>
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="#4B77BE"/>
+                <Setter Property="BarTextColor" Value="White"/>
+            </Style>
+            <Color x:Key="PrimaryColor">#4B77BE</Color>
+            <Color x:Key="AccentColor">#1F1F1F</Color>
+            <Color x:Key="CorporateGray">#808080</Color>
+            <Color x:Key="GrayTextColor">#414141</Color>
+            <Color x:Key="GrayBarColor">#CCCCCC</Color>
+            <Color x:Key="ButtonBackgroundDark">#3c4446</Color>
+            <converters:InverseBooleanValueConverter x:Key="InverseBoolean"></converters:InverseBooleanValueConverter>
+        </ResourceDictionary>
+    </Application.Resources>
 </mvx:MvxFormsApplication>
