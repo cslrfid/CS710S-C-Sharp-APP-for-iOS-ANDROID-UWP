@@ -36,6 +36,7 @@
     <Compile Remove="CSLibrary.cs" />
     <Compile Remove="Properties\AssemblyInfo.cs" />
     <Compile Remove="Properties\Resources.Designer.cs" />
+    <Compile Remove="Source\SystemInformation\ClassdBm2dBV.cs" />
   </ItemGroup>
 
   <ItemGroup>

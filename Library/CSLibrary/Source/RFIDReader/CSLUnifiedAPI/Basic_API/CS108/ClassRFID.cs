@@ -80,12 +80,13 @@ namespace CSLibrary
 
         Single R2000_RssiTranslation(byte rawValue)
         {
-            CSLibrary.Debug.WriteLine("Routine : R2000_RssiTranslation");
-
             int iMantissa = rawValue & 0x07;
             int iExponent = (rawValue >> 3) & 0x1F;
 
             double dRSSI = 20.0 * Math.Log10(Math.Pow(2.0, (double)iExponent) * (1.0 + ((double)iMantissa / 8.0)));
+
+//            CSLibrary.Debug.WriteLine("Routine : R2000_RssiTranslation, 0x" + rawValue.ToString("x2") + "=" + dRSSI.ToString());
+
             return (Single) dRSSI;
         }
 
@@ -111,6 +112,7 @@ namespace CSLibrary
                         return false;
 
                     info.rssi = R2000_RssiTranslation(recvData[newInventoryPacketOffset + epcbytelen + 2]);
+                    info.rssidBm = Tools.dBConverion.dBuV2dBm(info.rssi);
 
                     int xpcoffset = 0;
 

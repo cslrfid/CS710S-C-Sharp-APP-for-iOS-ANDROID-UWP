@@ -73,9 +73,6 @@ namespace BLE.Client.ViewModels
 
             OnOKButtonCommand = new Command(OnOKButtonClicked);
 
-
-
-
             RaisePropertyChanged(() => switchMultiBank1Enable);
             RaisePropertyChanged(() => entryBank1);
             RaisePropertyChanged(() => entryOffset1);

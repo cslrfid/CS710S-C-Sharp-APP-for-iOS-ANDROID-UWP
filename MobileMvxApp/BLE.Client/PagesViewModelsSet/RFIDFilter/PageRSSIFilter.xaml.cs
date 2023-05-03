@@ -28,7 +28,7 @@ namespace BLE.Client.Pages
 			else
 			{
 				labelThreshold.Text = "Threshold(dBV)";
-				entryThreshold.Text = (BleMvxApplication._RSSIFILTER_Threshold_dBm + 106.98).ToString("F2");
+				entryThreshold.Text = CSLibrary.Tools.dBConverion.dBm2dBuV(BleMvxApplication._RSSIFILTER_Threshold_dBm).ToString("F2");
 			}
 		}
 	
@@ -55,9 +55,11 @@ namespace BLE.Client.Pages
 			BleMvxApplication._RSSIFILTER_Type =  (CSLibrary.Constants.RSSIFILTERTYPE)Array.IndexOf (_filterTypeItems, buttonFilterType.Text);
 			BleMvxApplication._RSSIFILTER_Option = (CSLibrary.Constants.RSSIFILTEROPTION)Array.IndexOf(_filterOptionItems, buttonOptions.Text);
 
-			BleMvxApplication._RSSIFILTER_Threshold_dBm = double.Parse(entryThreshold.Text);
-			if (!BleMvxApplication._config.RFID_DBm)
-				BleMvxApplication._RSSIFILTER_Threshold_dBm -= 106.98;
+			var dB = double.Parse(entryThreshold.Text);
+			if (BleMvxApplication._config.RFID_DBm)
+				BleMvxApplication._RSSIFILTER_Threshold_dBm = dB;
+			else
+                BleMvxApplication._RSSIFILTER_Threshold_dBm = CSLibrary.Tools.dBConverion.dBuV2dBm(dB);
 
             BleMvxApplication.SaveConfig();
 		}

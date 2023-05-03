@@ -93,11 +93,11 @@ namespace BLE.Client.ViewModels
 				case CSLibrary.Constants.TagAccess.LOCK:
 					if (e.success)
 					{
-						labelStatus = "Lock Tag SUCCESS";
+						labelStatus = "Update Lock Status SUCCESS";
 					}
 					else
 					{
-						labelStatus = "Lock Tag FAIL";
+						labelStatus = "Update Lock Status FAIL";
 					}
 					RaisePropertyChanged(() => labelStatus);
 					break;

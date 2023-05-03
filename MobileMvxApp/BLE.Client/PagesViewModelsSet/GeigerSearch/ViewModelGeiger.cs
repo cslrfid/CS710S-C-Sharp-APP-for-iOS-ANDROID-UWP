@@ -15,7 +15,7 @@ namespace BLE.Client.ViewModels
 
         public ICommand OnStartGeigerButtonCommand { protected set; get; }
 
-        private int _rssi = 0;
+        private int _rssidBuV = 0;
         private string _rssiString = "RSSI";
         public string rssiStart { get { return _rssiString; } }
 
@@ -35,7 +35,7 @@ namespace BLE.Client.ViewModels
         public uint power { get { return _power; } set { _power = value; } }
 
         private int _Threshold = 0;
-        public string labelThresholdText { get { return _Threshold.ToString(); } set { try { _Threshold = int.Parse(value); } catch (Exception ex) { } } }
+        public string labelThresholdValueText { get { return _Threshold.ToString(); } set { try { _Threshold = int.Parse(value); } catch (Exception ex) { } } }
 
 
         // end for test
@@ -108,7 +108,8 @@ namespace BLE.Client.ViewModels
 
             // Set Geiger parameters
             BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell);
-            BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_TagDelayTime);
+            BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_CompactInventoryDelayTime); // for CS108 only
+            BleMvxApplication._reader.rfid.SetIntraPacketDelayTime((uint)BleMvxApplication._config.RFID_IntraPacketDelayTime); // for CS710S only
             BleMvxApplication._reader.rfid.SetDuplicateEliminationRollingWindow(0);
             BleMvxApplication._config.RFID_FixedQParms.qValue = 1;
             BleMvxApplication._config.RFID_FixedQParms.toggleTarget = 1;
@@ -161,9 +162,7 @@ namespace BLE.Client.ViewModels
             _beepSoundCount = 0;
             Device.StartTimer(TimeSpan.FromMilliseconds(50), () =>
             {
-                CSLibrary.Debug.WriteLine("Threshold {0}", _Threshold);
-
-                if (_rssi == 0)
+                if (_rssidBuV == 0)
                 {
                     _noTagCount++;
 
@@ -171,50 +170,50 @@ namespace BLE.Client.ViewModels
                         DependencyService.Get<ISystemSound>().SystemSound(-1);
                 }
                 else
-                //                if (_rssi != 0)
                 {
-                    if (_beepSoundCount == 0 && _rssi >= 20 && _rssi < 60)
+                    if (_beepSoundCount == 0 && _rssidBuV >= 20 && _rssidBuV < 60)
                         //if (_beepSoundCount == 0)
                         DependencyService.Get<ISystemSound>().SystemSound(3);
 
                     _beepSoundCount++;
 
-                    if (!BleMvxApplication._config.RFID_DBm && _rssi >= _Threshold || BleMvxApplication._config.RFID_DBm && _rssi >= dBm2dBuV(_Threshold))
+                    if ((BleMvxApplication._config.RFID_DBm && CSLibrary.Tools.dBConverion.dBuV2dBm(_rssidBuV) >= _Threshold) ||
+                        (!BleMvxApplication._config.RFID_DBm && _rssidBuV >= _Threshold))
                     {
                         DependencyService.Get<ISystemSound>().SystemSound(4);
                         _beepSoundCount = 1;
-                        _rssi = 0;
+                        _rssidBuV = 0;
                     }
-                    else if (_rssi >= 50)
+                    else if (_rssidBuV >= 50)
                     {
                         if (_beepSoundCount >= 5)
                         {
                             _beepSoundCount = 0;
-                            _rssi = 0;
+                            _rssidBuV = 0;
                         }
                     }
-                    else if (_rssi >= 40)
+                    else if (_rssidBuV >= 40)
                     {
                         if (_beepSoundCount >= 10)
                         {
                             _beepSoundCount = 0;
-                            _rssi = 0;
+                            _rssidBuV = 0;
                         }
                     }
-                    else if (_rssi >= 30)
+                    else if (_rssidBuV >= 30)
                     {
                         if (_beepSoundCount >= 20)
                         {
                             _beepSoundCount = 0;
-                            _rssi = 0;
+                            _rssidBuV = 0;
                         }
                     }
-                    else if (_rssi >= 20)
+                    else if (_rssidBuV >= 20)
                     {
                         if (_beepSoundCount >= 40)
                         {
                             _beepSoundCount = 0;
-                            _rssi = 0;
+                            _rssidBuV = 0;
                         }
                     }
                 }
@@ -255,64 +254,23 @@ namespace BLE.Client.ViewModels
                 //case CSLibrary.Constants.CallbackType.TAG_SEARCHING:
                 case CSLibrary.Constants.CallbackType.TAG_RANGING:
 
-                    //Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(3);
-
-                    //if (BleMvxApplication._config.RFID_DBm)
-                    //    _rssi = (int)Math.Round(e.info.rssi);
-                    //else
-                        _rssi = (int)dBm2dBuV(e.info.rssi);
-
+                    _rssidBuV = (int)Math.Round(e.info.rssi);
                     _noTagCount = 0;
 
                     if (BleMvxApplication._config.RFID_DBm)
                     {
-                        _progressbarRSSIValue = e.info.rssi;
-                        _rssiString = ((int)Math.Round(e.info.rssi)).ToString();
+                        _progressbarRSSIValue = e.info.rssidBm;
                     }
                     else
                     {
-                        _progressbarRSSIValue = _rssi;
-                        _rssiString = _rssi.ToString();
+                        _progressbarRSSIValue = e.info.rssi;
                     }
-
-
-                    /*
-                                        //_progressbarRSSIValue = ((CSLibrary.Structures.TagCallbackInfo)e.info).rssi / 100;
-                                        if (BleMvxApplication._config.RFID_DBm)
-                                        {
-                                            // Range -90 ~ -10 (16.98 ~ 96.98)
-                                            double displayRSSI = dBuV2dBm(e.info.rssi);
-                                            if (displayRSSI < -90)
-                                                _progressbarRSSIValue = 0;
-                                            else if (displayRSSI > -10)
-                                                _progressbarRSSIValue = 1;
-                                            else
-                                                _progressbarRSSIValue = (displayRSSI + 90) / 80;
-                                            _rssiString = displayRSSI.ToString();
-                                        }
-                                        else
-                                        {
-                                            _progressbarRSSIValue = e.info.rssi / 100;
-                                            _rssiString = _rssi.ToString();
-                                        }
-                    */
+                    _rssiString = ((int)Math.Round(_progressbarRSSIValue)).ToString();
 
                     RaisePropertyChanged(() => rssiStart);
                     RaisePropertyChanged(() => progressbarRSSIValue);
                     break;
             }
-        }
-
-        double dBuV2dBm(double dBuV)
-        {
-            // Range -90 ~ -10 (16.98 ~ 96.98)
-            return Math.Round(dBuV - 106.98);
-        }
-
-        double dBm2dBuV(double dBm)
-        {
-            // Range -90 ~ -10 (16.98 ~ 96.98)
-            return dBm + 106.98;
         }
 
         void StateChangedEvent(object sender, CSLibrary.Events.OnStateChangedEventArgs e)

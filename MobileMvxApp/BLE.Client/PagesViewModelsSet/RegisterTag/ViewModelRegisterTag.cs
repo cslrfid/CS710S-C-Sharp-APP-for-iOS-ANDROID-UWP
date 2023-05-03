@@ -52,7 +52,7 @@ namespace BLE.Client.ViewModels
         string _Algorithm = "D";
         public string selecttagOffset { get { return _selecttagOffset.ToString(); } }
         public string writeOffset { get { return _writeOffset.ToString(); } }
-        public string tagPopulation { get { return _tagPopulation.ToString(); } }
+        public string tagPopulationValue { get { return _tagPopulation.ToString(); } }
         public string qValueColor { get { return _qValueColor; } }
         public string algorithm { get { return ((_Algorithm == "F") ? "Fixed Q" : "Dynamic Q"); } }
 
@@ -90,7 +90,7 @@ namespace BLE.Client.ViewModels
             _tagPopulation = int.Parse(r.Text);
             _qValueColor = "Red";
             RaisePropertyChanged(() => algorithm);
-            RaisePropertyChanged(() => tagPopulation);
+            RaisePropertyChanged(() => tagPopulationValue);
             RaisePropertyChanged(() => qValueColor);
         }
 
@@ -107,7 +107,7 @@ namespace BLE.Client.ViewModels
 
             _qValueColor = "Red";
             RaisePropertyChanged(() => algorithm);
-            RaisePropertyChanged(() => tagPopulation);
+            RaisePropertyChanged(() => tagPopulationValue);
             RaisePropertyChanged(() => qValueColor);
         }
     }

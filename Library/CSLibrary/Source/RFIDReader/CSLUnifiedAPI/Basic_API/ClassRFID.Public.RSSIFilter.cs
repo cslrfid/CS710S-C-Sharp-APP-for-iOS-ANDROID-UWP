@@ -48,6 +48,11 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
+        /// <summary>
+        /// Set RSSI Filter Enable / Disable
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public Result SetRSSIFilter(RSSIFILTERTYPE type)
         {
             switch (_deviceType)
@@ -62,22 +67,8 @@ namespace CSLibrary
             return Result.FAILURE;
         }
 
-        public Result SetRSSIFilter(RSSIFILTERTYPE type, RSSIFILTEROPTION option, UInt16 threshold)
-        {
-            switch (_deviceType)
-            {
-                case MODEL.CS108:
-                    return SetRSSIFilter_CS108(type, option, threshold);
-
-                //case MODEL.CS710S:
-                //    return SetRSSIFilter_CS710S(type, option, threshold);
-            }
-
-            return Result.FAILURE;
-        }
-
         /// <summary>
-        /// RSSI dBm Filter
+        /// Set RSSI dBuV Filter
         /// </summary>
         /// <param name="type"></param>
         /// <param name="option"></param>
@@ -91,7 +82,7 @@ namespace CSLibrary
                     return SetRSSIFilter_CS108(type, option, threshold);
 
                 case MODEL.CS710S:
-                    return SetRSSIFilter_CS710S(type, option, threshold);
+                    return SetRSSIFilter_CS710S(type, option, Tools.dBConverion.dBuV2dBm(threshold));
             }
 
             return Result.FAILURE;
@@ -104,19 +95,18 @@ namespace CSLibrary
         /// <param name="option"></param>
         /// <param name="threshold"></param>
         /// <returns></returns>
-        public Result SetRSSIFilter(RSSIFILTEROPTION option, Int16 threshold)
+        public Result SetRSSIdBmFilter(RSSIFILTERTYPE type, RSSIFILTEROPTION option, double threshold)
         {
             switch (_deviceType)
             {
-                //case MODEL.CS108:
-                //    return SetRSSIFilter_CS108(option, threshold);
+                case MODEL.CS108:
+                    return SetRSSIFilter_CS108(type, option, Tools.dBConverion.dBm2dBuV(threshold));
 
                 case MODEL.CS710S:
-                    return SetRSSIFilter_CS710S(option, threshold);
+                    return SetRSSIFilter_CS710S(type, option, threshold);
             }
 
             return Result.FAILURE;
         }
-
     }
 }

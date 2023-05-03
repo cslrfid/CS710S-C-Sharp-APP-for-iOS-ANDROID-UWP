@@ -25,10 +25,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CSLibrary.Constants;
-
 namespace CSLibrary
 {
+    using Constants;
+
     public partial class RFIDReader
     {
         private RSSIFILTEROPTION _saveOption;
@@ -64,30 +64,6 @@ namespace CSLibrary
             {
                 Int16 Intvalue = (Int16)(threshold * 100f);
                 UInt16 UIntvalue = (UInt16)(Intvalue);
-
-                _saveOption = option;
-                RFIDRegister.RssiFilteringConfig.Set((byte)option);
-                RFIDRegister.RssiThreshold.Set(UIntvalue);
-            }
-            return Result.OK;
-        }
-
-        /// <summary>
-        /// RSSI dBm Filter
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="option"></param>
-        /// <param name="threshold"></param>
-        /// <returns></returns>
-        public Result SetRSSIFilter_CS710S(RSSIFILTEROPTION option, Int16 threshold)
-        {
-            if (option == RSSIFILTEROPTION.DISABLE)
-            {
-                RFIDRegister.RssiFilteringConfig.Set(0x00);
-            }
-            else
-            {
-                UInt16 UIntvalue = (UInt16)(threshold * 100);
 
                 _saveOption = option;
                 RFIDRegister.RssiFilteringConfig.Set((byte)option);

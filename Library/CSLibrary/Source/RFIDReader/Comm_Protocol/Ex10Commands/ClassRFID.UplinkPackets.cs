@@ -323,7 +323,8 @@ namespace CSLibrary
                     if (hiByte > 0x7f)
                         rssidBm100 -= 0x10000;
                 }
-                info.rssi = rssidBm100 / 100;
+                info.rssidBm = rssidBm100 / 100;
+                info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm);
 
                 index += 2;
 

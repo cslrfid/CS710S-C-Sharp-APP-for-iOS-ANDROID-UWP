@@ -329,13 +329,32 @@ namespace CSLibrary
         internal UInt32 _InventoryCycleDelay = 0x00;
 
 
+        /// <summary>
+        /// Set Compact Inventory Delay Time (for CS108 only) 
+        /// </summary>
+        /// <param name="ms"></param>
+        /// <returns></returns>
         public bool SetTagDelayTime(UInt32 ms)
         {
             switch(_deviceType)
             {
                 case MODEL.CS108:
                     return SetTagDelayTime_CS108(ms);
+            }
 
+            return false;
+        }
+
+
+        /// <summary>
+        /// Set Intra Packet Delay Time (for CS710S only)
+        /// </summary>
+        /// <param name="ms"></param>
+        /// <returns></returns>        
+        public bool SetIntraPacketDelayTime(UInt32 ms)
+        {
+            switch (_deviceType)
+            {
                 case MODEL.CS710S:
                     return SetTagDelayTime_CS710S(ms);
             }
@@ -343,7 +362,9 @@ namespace CSLibrary
             return false;
         }
 
-#region Public Functions
+
+
+        #region Public Functions
 
         public ClassEM4325 EM4325 = null;
         public ClassFM13DT160 FM13DT160 = null;

@@ -44,19 +44,6 @@ namespace CSLibrary
             return Result.OK;
         }
 
-        public Result SetRSSIFilter_CS108(RSSIFILTERTYPE type, RSSIFILTEROPTION option, UInt16 threshold)
-        {
-            UInt32 value;
-
-            value = (uint)(type) | ((uint)(option) << 4);
-            MacWriteRegister(MACREGISTER.HST_INV_RSSI_FILTERING_CONFIG, value);
-
-            value = (uint)(threshold);
-            MacWriteRegister(MACREGISTER.HST_INV_RSSI_FILTERING_THRESHOLD, value);
-
-            return Result.OK;
-        }
-
         public Result SetRSSIFilter_CS108(RSSIFILTERTYPE type, RSSIFILTEROPTION option, double threshold_dbV)
         {
             UInt32 value;

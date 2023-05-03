@@ -94,25 +94,41 @@ namespace BLE.Client.Pages
         public async void buttonSelectClicked(object sender, EventArgs e)
         {
             try
-            { 
+            {
+                labelAlgorithm.TextColor = Color.Blue;
+                labelTagPopulation.TextColor = Color.Blue;
+                labelTagPopulationValue.TextColor = Color.Blue;
                 BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
                 BleMvxApplication._reader.rfid.Options.TagSelected.bank = (buttonSelectBank.Text == stringSlectMaskBankSelectionList[0]) ? CSLibrary.Constants.MemoryBank.EPC : CSLibrary.Constants.MemoryBank.TID;//CSLibrary.Constants.MemoryBank.EPC;
-                labelAlgorithm.TextColor = Color.Blue;
-                labelQvalueText.TextColor = Color.Blue;
-                labelTagPopulation.TextColor = Color.Blue;
-                BleMvxApplication._reader.rfid.Options.TagSelected.Qvalue = (uint)(Math.Log((uint.Parse(labelTagPopulation.Text) * 2), 2)) + 1  ;
-                BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(entryMask.Text);
-                BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = UInt32.Parse(labelSelectOffset.Text);
-                BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)(entryMask.Text.Length) * 4;
-
-                if (labelAlgorithm.Text.Substring(0, 1) == "D")
+                if (BleMvxApplication._reader.rfid.Options.TagSelected.bank == CSLibrary.Constants.MemoryBank.EPC)
                 {
-                    BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTEDDYNQ);
+                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(entryMask.Text);
+                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = UInt32.Parse(labelSelectOffset.Text);
+                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)(entryMask.Text.Length) * 4;
                 }
                 else
                 {
-                    BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
+                    BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes(entryMask.Text);
+                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = UInt32.Parse(labelSelectOffset.Text);
+                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = (uint)(entryMask.Text.Length) * 4;
                 }
+
+                if (labelAlgorithm.Text.Substring(0, 1) == "D")
+                {
+                    CSLibrary.Structures.DynamicQParms parms = new CSLibrary.Structures.DynamicQParms();
+                    parms.startQValue = (uint)(Math.Log((uint.Parse(labelTagPopulationValue.Text) * 2), 2)) + 1  ;
+                    BleMvxApplication._reader.rfid.SetDynamicQParms(parms);
+                    BleMvxApplication._reader.rfid.SetCurrentSingulationAlgorithm (CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ);
+                }
+                else
+                {
+                    CSLibrary.Structures.FixedQParms parms = new CSLibrary.Structures.FixedQParms();
+                    parms.qValue = (uint)(Math.Log((uint.Parse(labelTagPopulationValue.Text) * 2), 2)) + 1;
+                    BleMvxApplication._reader.rfid.SetFixedQParms(parms);
+                    BleMvxApplication._reader.rfid.SetCurrentSingulationAlgorithm(CSLibrary.Constants.SingulationAlgorithm.FIXEDQ);
+                }
+
+                BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
 
                 entryMask.TextColor = Color.Black;
                 _alreadySelect = true;

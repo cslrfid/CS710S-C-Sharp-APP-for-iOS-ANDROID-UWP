@@ -37,12 +37,17 @@
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">
-                <Label Text="Intra Packet Delay (0-255ms)" WidthRequest="190"  VerticalOptions="Center" />
-                <Entry x:Name="entryTagDelay" Unfocused="entryTagDelayCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
+                <Label Text="Compact Inventory Delay (0-15ms) (for CS108 only)" WidthRequest="190"  VerticalOptions="Center" />
+                <Entry x:Name="entryCompactInventoryDelay" Unfocused="entryCompactInventoryDelayCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">
-                <Label Text="Duplicate Elimination Rolling Window (0-255s) (only for E710S)" WidthRequest="190"  VerticalOptions="Center" />
+                <Label Text="Intra Packet Delay (0-255ms) (for CS710S only)" WidthRequest="190"  VerticalOptions="Center" />
+                <Entry x:Name="entryIntraPacketDelay" Unfocused="entryIntraPacketDelayCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Duplicate Elimination Rolling Window (0-255s) (for E710S only)" WidthRequest="190"  VerticalOptions="Center" />
                 <Entry x:Name="entryDuplicateEliminationRollingWindow" Unfocused="entryDuplicateEliminationRollingWindowCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
             </StackLayout>
 

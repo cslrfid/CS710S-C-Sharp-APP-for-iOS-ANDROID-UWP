@@ -65,126 +65,85 @@ namespace CSLibrary
         /// <param name="size"></param>
         internal bool DeviceRecvData(byte[] recvData)
         {
-            if (recvData[2] <= 3) // if not barcode
+            try
             {
-                if (recvData[2] == 3 && recvData[10] == 0x06) // if return success
-                    return true;
-
-                return false;
-            }
-
-            if (recvData[10] == 0x02 && recvData[11] == 0x00 && recvData[14] == 0x34)
-            {
-                // Query
-                if (recvData.Length < 24 || recvData[15] != 0x01 || recvData[16] != 0x06 || recvData[23] != 0x01 || recvData[24] != 0x06)
-                    FactoryReset();
-                else
-                    _state = STATE.READY;
-
-                return true;
-            }
-
-            _barcodeStr += System.Text.Encoding.UTF8.GetString(recvData, 10, recvData[2] - 2);
-
-            if (_barcodeStr.Length >= 12)
-            {
-                int prefixat;
-                int suffixat;
-
-                do
+                if (recvData[2] <= 3) // if not barcode
                 {
-                    prefixat = _barcodeStr.IndexOf("\u0002\u0000\u0007\u0010\u0017\u0013");
-                    suffixat = _barcodeStr.IndexOf("\u0005\u0001\u0011\u0016\u0003\u0004");
+                    if (recvData[2] == 3 && recvData[10] == 0x06) // if return success
+                        return true;
 
-                    if (prefixat == -1 && suffixat == -1)
+                    return false;
+                }
+
+                if (recvData[10] == 0x02 && recvData[11] == 0x00 && recvData[14] == 0x34)
+                {
+                    // Query
+                    if (recvData.Length < 24 || recvData[15] != 0x01 || recvData[16] != 0x06 || recvData[23] != 0x01 || recvData[24] != 0x06)
+                        FactoryReset();
+                    else
+                        _state = STATE.READY;
+
+                    return true;
+                }
+
+                _barcodeStr += System.Text.Encoding.UTF8.GetString(recvData, 10, recvData[2] - 2);
+
+                if (_barcodeStr.Length >= 12)
+                {
+                    int prefixat;
+                    int suffixat;
+
+                    do
                     {
-                        // no prefix and no suffix
-                        if (_barcodeStr.Length > 5)
-                            _barcodeStr = _barcodeStr.Substring(_barcodeStr.Length - 5, 5);
-                    }
-                    else if (prefixat != -1 && suffixat == -1)
-                    {
-                        // have prefix and no suffix
-                    }
-                    else if (prefixat == -1 && suffixat != -1)
-                    {
-                        // have prefix and no suffix
-                        _barcodeStr = _barcodeStr.Substring(suffixat + 6, _barcodeStr.Length - (suffixat + 6));
-                    }
-                    else if (prefixat != -1 && suffixat != -1)
-                    {
-                        if (prefixat < suffixat)
+                        prefixat = _barcodeStr.IndexOf("\u0002\u0000\u0007\u0010\u0017\u0013");
+                        suffixat = _barcodeStr.IndexOf("\u0005\u0001\u0011\u0016\u0003\u0004");
+
+                        if (prefixat == -1 && suffixat == -1)
+                        {
+                            // no prefix and no suffix
+                            if (_barcodeStr.Length > 5)
+                                _barcodeStr = _barcodeStr.Substring(_barcodeStr.Length - 5, 5);
+                        }
+                        else if (prefixat != -1 && suffixat == -1)
                         {
                             // have prefix and no suffix
-                            if (OnCapturedNotify != null)
-                            {
-                                Barcode.Structures.DecodeMessage decodeInfo = new Barcode.Structures.DecodeMessage();       // Decode message structure.
-
-                                decodeInfo.pchMessage = _barcodeStr.Substring(prefixat + 10, suffixat - prefixat - 10);
-
-                                FireCaptureCompletedEvent(new BarcodeEventArgs(MessageType.DEC_MSG, decodeInfo));
-                            }
                         }
-
-                        _barcodeStr = _barcodeStr.Substring(suffixat + 6, _barcodeStr.Length - (suffixat + 6));
-                    }
-                } while (prefixat != -1 && suffixat != -1);
-            }
-
-            /* old barcode scanner
-                        if (recvData[10] == 0x02 && recvData[11] == 0x00)
+                        else if (prefixat == -1 && suffixat != -1)
                         {
-                            // barcode perfix
-                            if (recvData.Length > 15 && recvData[12] == 0x07 && recvData[13] == 0x10 && recvData[14] == 0x17 && recvData[15] == 0x13)
-                            {
-                                _barcodeStr = System.Text.Encoding.UTF8.GetString(recvData, 16, recvData[2] - 8);
-                            }
-                            else
-                            {
-                                switch (recvData[14])
-                                {
-                                    case 0x34: // Query
-                                        if (recvData.Length < 24 || recvData[15] != 0x01 || recvData[16] != 0x06 || recvData[23] != 0x01 || recvData[24] != 0x06)
-                                            FactoryReset();
-                                        //_state = STATE.OLDVERSION;
-                                        else
-                                            _state = STATE.READY;
-
-                                        break;
-
-                                    default:
-                                        return false;
-                                }
-
-                                return true;
-                            }
+                            // have prefix and no suffix
+                            _barcodeStr = _barcodeStr.Substring(suffixat + 6, _barcodeStr.Length - (suffixat + 6));
                         }
-                        else
+                        else if (prefixat != -1 && suffixat != -1)
                         {
-                            if (_barcodeStr != "")
+                            if (prefixat < suffixat)
                             {
-                                _barcodeStr += System.Text.Encoding.UTF8.GetString(recvData, 10, recvData[2] - 2);
-                            }
-                        }
-
-                        if (_barcodeStr.Length > 11)
-                        {
-                            if (_barcodeStr.Substring(_barcodeStr.Length - 7) == "\u0005\u0001\u0011\u0016\u0003\u0004\u000d")
-                            {
+                                // have prefix and no suffix
                                 if (OnCapturedNotify != null)
                                 {
                                     Barcode.Structures.DecodeMessage decodeInfo = new Barcode.Structures.DecodeMessage();       // Decode message structure.
 
-                                    decodeInfo.pchMessage = _barcodeStr.Substring(4, _barcodeStr.Length - 11);
+                                    decodeInfo.pchMessage = _barcodeStr.Substring(prefixat + 10, suffixat - prefixat - 10);
 
-                                    FireCaptureCompletedEvent(new BarcodeEventArgs(MessageType.DEC_MSG, decodeInfo));
+                                    try
+                                    {
+                                        FireCaptureCompletedEvent(new BarcodeEventArgs(MessageType.DEC_MSG, decodeInfo));
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine("Barcode event (UI) error : " + ex.Message);
+                                    }
                                 }
-
-                                _goodRead = false;
-                                _barcodeStr = "";
                             }
+
+                            _barcodeStr = _barcodeStr.Substring(suffixat + 6, _barcodeStr.Length - (suffixat + 6));
                         }
-            */
+                    } while (prefixat != -1 && suffixat != -1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Barcode decode error : " + ex.Message);
+            }
 
             return true;
         }

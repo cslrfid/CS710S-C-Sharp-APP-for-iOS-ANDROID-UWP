@@ -39,6 +39,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    Setup18K6CWriteRegisters_CS108(WriteBank, WriteOffset, WriteSize, WriteBuf, BufOffset);
+                    break;
+
                 case MODEL.CS710S:
                     Setup18K6CWriteRegisters_CS710S(WriteBank, WriteOffset, WriteSize, WriteBuf, BufOffset);
                     break;
@@ -67,6 +71,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return CUST_18K6CTagWrite_CS108(bank, offset, count, data, password, flags);
+                    break;
+
                 case MODEL.CS710S:
                     return CUST_18K6CTagWrite_CS710S(bank, offset, count, data, password, flags);
                     break;
@@ -79,6 +87,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    WriteThreadProc_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     WriteThreadProc_CS710S();
                     break;
@@ -89,6 +101,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    TagWritePCThreadProc_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     TagWritePCThreadProc_CS710S();
                     break;
@@ -99,6 +115,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    TagWriteEPCThreadProc_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     TagWriteEPCThreadProc_CS710S();
                     break;
@@ -109,6 +129,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    TagWriteAccPwdThreadProc_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     TagWriteAccPwdThreadProc_CS710S();
                     break;
@@ -119,6 +143,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    TagWriteKillPwdThreadProc_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     TagWriteKillPwdThreadProc_CS710S();
                     break;
@@ -129,6 +157,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    TagWriteUsrMemThreadProc_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     TagWriteUsrMemThreadProc_CS710S();
                     break;
@@ -139,6 +171,10 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    BlockWriteThreadProc_CS108();
+                    break;
+
                 case MODEL.CS710S:
                     BlockWriteThreadProc_CS710S();
                     break;

@@ -176,7 +176,8 @@ namespace BLE.Client.Pages
 
             entryPower.Text = BleMvxApplication._config.RFID_Antenna_Power[0].ToString();
             entryInventoryDuration.Text = BleMvxApplication._config.RFID_Antenna_Dwell[0].ToString();
-            entryTagDelay.Text = BleMvxApplication._config.RFID_TagDelayTime.ToString();
+            entryCompactInventoryDelay.Text = BleMvxApplication._config.RFID_CompactInventoryDelayTime.ToString();
+            entryIntraPacketDelay.Text = BleMvxApplication._config.RFID_IntraPacketDelayTime.ToString();
             entryDuplicateEliminationRollingWindow.Text = BleMvxApplication._config.RFID_DuplicateEliminationRollingWindow.ToString();
 
             buttonSession.Text = BleMvxApplication._config.RFID_TagGroup.session.ToString();
@@ -369,24 +370,41 @@ namespace BLE.Client.Pages
             }
         }
 
-        public async void entryTagDelayCompleted(object sender, EventArgs e)
+        public async void entryCompactInventoryDelayCompleted(object sender, EventArgs e)
         {
-            uint value;
+            int value;
 
             try
             {
-                value = uint.Parse(entryTagDelay.Text);
+                value = int.Parse(entryCompactInventoryDelay.Text);
                 if (value < 0 || value > 15)
                     throw new System.ArgumentException("Value not valid", "tagPopulation");
-                entryTagDelay.Text = value.ToString();
+                entryCompactInventoryDelay.Text = value.ToString();
             }
             catch (Exception ex)
             {
                 await DisplayAlert("", "Value not valid!!!", "OK");
-                entryTagDelay.Text = "0";
+                entryCompactInventoryDelay.Text = "0";
             }
         }
 
+        public async void entryIntraPacketDelayCompleted(object sender, EventArgs e)
+        {
+            int value;
+
+            try
+            {
+                value = int.Parse(entryIntraPacketDelay.Text);
+                if (value < 0 || value > 255)
+                    throw new System.ArgumentException("Value not valid", "tagPopulation");
+                entryIntraPacketDelay.Text = value.ToString();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("", "Value not valid!!!", "OK");
+                entryIntraPacketDelay.Text = "0";
+            }
+        }
 
 
 
@@ -441,7 +459,8 @@ namespace BLE.Client.Pages
 
             BleMvxApplication._config.RFID_Antenna_Power[0] = UInt16.Parse(entryPower.Text);
             BleMvxApplication._config.RFID_Antenna_Dwell[0] = UInt16.Parse(entryInventoryDuration.Text);
-            BleMvxApplication._config.RFID_TagDelayTime = int.Parse(entryTagDelay.Text);
+            BleMvxApplication._config.RFID_CompactInventoryDelayTime = int.Parse(entryCompactInventoryDelay.Text);
+            BleMvxApplication._config.RFID_IntraPacketDelayTime = int.Parse(entryIntraPacketDelay.Text);
             BleMvxApplication._config.RFID_DuplicateEliminationRollingWindow = byte.Parse(entryDuplicateEliminationRollingWindow.Text);
 
             switch (buttonSession.Text)
@@ -614,18 +633,18 @@ namespace BLE.Client.Pages
             {
                 buttonSession.Text = "S1";
                 buttonTarget.Text = "A";
-                entryTagDelay.Text = "0";
+                entryCompactInventoryDelay.Text = "0";
                 entryInventoryDuration.Text = "2000";
                 buttonSession.IsEnabled = false;
                 buttonTarget.IsEnabled = false;
-                entryTagDelay.IsEnabled = false;
+                entryCompactInventoryDelay.IsEnabled = false;
                 entryInventoryDuration.IsEnabled = false;
             }
             else
             {
                 buttonSession.IsEnabled = true;
                 buttonTarget.IsEnabled = true;
-                entryTagDelay.IsEnabled = true;
+                entryCompactInventoryDelay.IsEnabled = true;
                 entryInventoryDuration.IsEnabled = true;
             }
 

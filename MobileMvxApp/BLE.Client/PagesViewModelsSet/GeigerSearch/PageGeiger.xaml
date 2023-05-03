@@ -23,8 +23,8 @@
         </StackLayout>
 
         <StackLayout Orientation="Horizontal">
-            <Label Text="Threshold" WidthRequest="100" VerticalOptions="Center" />
-            <Label x:Name="labelThreshold" Text="{ Binding labelThresholdText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            <Label x:Name="labelThreshold" Text="Threshold" WidthRequest="100" VerticalOptions="Center" />
+            <Label x:Name="labelThresholdValue" Text="{ Binding labelThresholdValueText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
         </StackLayout>
 
         <Slider x:Name="sliderThreshold" WidthRequest="300" Maximum="80" ValueChanged="sliderThresholdValueChanged" HorizontalOptions="Center" />

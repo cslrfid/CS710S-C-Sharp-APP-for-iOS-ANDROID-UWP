@@ -5,8 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PagesViewModelsSet\NewFolder1\**" />
+    <Compile Remove="PagesViewModelsSet\NewFolder\**" />
+    <Compile Remove="PagesViewModelsSet\SpecialFuction\NewFolder\**" />
+    <EmbeddedResource Remove="PagesViewModelsSet\NewFolder1\**" />
+    <EmbeddedResource Remove="PagesViewModelsSet\NewFolder\**" />
+    <EmbeddedResource Remove="PagesViewModelsSet\SpecialFuction\NewFolder\**" />
+    <None Remove="PagesViewModelsSet\NewFolder1\**" />
+    <None Remove="PagesViewModelsSet\NewFolder\**" />
+    <None Remove="PagesViewModelsSet\SpecialFuction\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="PagesViewModelsSet\SecurityKill\" />
-    <Folder Include="PagesViewModelsSet\SpecialFuction\NewFolder\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

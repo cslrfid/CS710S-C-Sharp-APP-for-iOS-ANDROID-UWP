@@ -39,8 +39,8 @@ namespace CSLibrary
             InventoryDebug.Clear();
             switch (opertion)
             {
-                case Operation.TAG_EXESEARCHING: // for backward compatible
-                case Operation.TAG_EXERANGING: // for backward compatible
+                case Operation.TAG_EXESEARCHING: // phase out for backward compatible
+                case Operation.TAG_EXERANGING: // phase out for backward compatible
                 case Operation.TAG_RANGING: // Enable get battery level by interrupt
 
                     //WriteRegister(0x3036, new byte[] { 0x66 });

@@ -15,12 +15,14 @@ namespace BLE.Client.Pages
 
             if (BleMvxApplication._config.RFID_DBm)
             {
+                labelThreshold.Text = "Threshold dBm";
                 sliderThreshold.Minimum = -90;
                 sliderThreshold.Maximum = -10;
                 sliderThreshold.Value = -47;
             }
             else
             {
+                labelThreshold.Text = "Threshold dBuV";
                 sliderThreshold.Minimum = 17;
                 sliderThreshold.Maximum = 97;
                 sliderThreshold.Value = 60;
@@ -75,7 +77,7 @@ namespace BLE.Client.Pages
 
         void sliderThresholdValueChanged(object sender, EventArgs e)
         {
-            labelThreshold.Text = ((int)(sliderThreshold.Value)).ToString();
+            labelThresholdValue.Text = ((int)(sliderThreshold.Value)).ToString();
         }
 
     }

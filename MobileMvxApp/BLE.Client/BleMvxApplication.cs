@@ -40,8 +40,8 @@ namespace BLE.Client
 
         //public int RFID_Power;
         public uint RFID_Profile;
-        public int RFID_TagDelayTime;
-        //public UInt32 RFID_InventoryDuration;
+        public int RFID_CompactInventoryDelayTime; // for CS108 only
+        public int RFID_IntraPacketDelayTime;   // for CS710S only
         public CSLibrary.Constants.RadioOperationMode RFID_OperationMode;
         public bool RFID_ToggleTarget = true;
         public CSLibrary.Structures.TagGroup RFID_TagGroup;
@@ -113,7 +113,8 @@ namespace BLE.Client
 
             RFID_TagPopulation = 60;
 
-            RFID_TagDelayTime = 0;
+            RFID_CompactInventoryDelayTime = 0; // for CS108 only
+            RFID_IntraPacketDelayTime = 4; // for CS710S only
 
             RFID_AntennaEnable = new bool[port];
             RFID_Antenna_Power = new uint[port];
@@ -140,7 +141,10 @@ namespace BLE.Client
             RFID_OperationMode = CSLibrary.Constants.RadioOperationMode.CONTINUOUS;
             RFID_TagGroup = new CSLibrary.Structures.TagGroup(CSLibrary.Constants.Selected.ALL, CSLibrary.Constants.Session.S0, CSLibrary.Constants.SessionTarget.A);
             RFID_Algorithm = CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ;
-            RFID_Profile = 345;
+            if (BleMvxApplication._reader.rfid.GetModel() == MODEL.CS710S)
+                RFID_Profile = 345;
+            else
+                RFID_Profile = 1;
 
             RFID_DynamicQParms = new CSLibrary.Structures.DynamicQParms();
             RFID_DynamicQParms.minQValue = 0;

@@ -31,13 +31,13 @@
         </Label.GestureRecognizers>
       </Label>
 
-      <Label x:Name="labelQvalueText" Text=" Tag population " TextColor="{Binding qValueColor, Mode=TwoWay}" >
+      <Label x:Name="labelTagPopulation" Text=" Tag population " TextColor="{Binding qValueColor, Mode=TwoWay}" >
         <Label.GestureRecognizers>
           <TapGestureRecognizer Command="{Binding OnLabelTagPopulationTapped}"/>
         </Label.GestureRecognizers>
       </Label>
 
-      <Label x:Name="labelTagPopulation" Text="{Binding tagPopulation}" TextColor="{Binding qValueColor, Mode=TwoWay}" >
+      <Label x:Name="labelTagPopulationValue" Text="{Binding tagPopulationValue}" TextColor="{Binding qValueColor, Mode=TwoWay}" >
         <Label.GestureRecognizers>
           <TapGestureRecognizer Command="{Binding OnLabelTagPopulationTapped}"/>
         </Label.GestureRecognizers>

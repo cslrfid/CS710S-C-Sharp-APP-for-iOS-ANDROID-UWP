@@ -116,8 +116,6 @@ namespace BLE.Client.Pages
             BleMvxApplication._config.RFID_VibrationWindow = UInt32.Parse(entryVibrationWindow.Text);
             BleMvxApplication._config.RFID_VibrationTime = UInt32.Parse(entryVibrationTime.Text);
 
-            //BleMvxApplication._config.RFID_BatteryPollingTime = uint.Parse(entryBatteryIntervalTime.Text);
-
             BleMvxApplication.SaveConfig();
 
             if (entryReaderName.Text != BleMvxApplication._reader.ReaderName)
