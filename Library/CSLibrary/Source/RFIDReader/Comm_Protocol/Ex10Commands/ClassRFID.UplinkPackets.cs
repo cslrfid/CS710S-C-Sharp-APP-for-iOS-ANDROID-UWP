@@ -184,7 +184,8 @@ namespace CSLibrary
                 index += epcbytelen;
 
                 info.antennaPort = PortNumber;
-                info.rssi = rssidBm100 / 100;
+                info.rssidBm = rssidBm100 / 100;
+                info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm) ;
 
                 info.Bank1Data = new ushort[0];
                 info.Bank2Data = new ushort[0];
@@ -250,7 +251,8 @@ namespace CSLibrary
                 index += epcbytelen;
 
                 info.antennaPort = PortNumber;
-                info.rssi = rssidBm100 / 100;
+                info.rssidBm = rssidBm100 / 100;
+                info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm);
 
                 info.Bank1Data = new ushort[0];
                 info.Bank2Data = new ushort[0];

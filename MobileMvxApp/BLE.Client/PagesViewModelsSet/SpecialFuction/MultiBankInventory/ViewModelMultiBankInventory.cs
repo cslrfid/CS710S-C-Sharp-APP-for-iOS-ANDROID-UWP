@@ -40,7 +40,6 @@ namespace BLE.Client.ViewModels
         public bool _startInventory = true;
         private bool _KeyDown = false;
 
-        //public string FilterIndicator { get { return (BleMvxApplication._PREFILTER_Enable | BleMvxApplication._POSTFILTER_MASK_Enable | BleMvxApplication._RSSIFILTER_Type != CSLibrary.Constants.RSSIFILTERTYPE.DISABLE) ? "Filter On" : ""; } }
         public string FilterIndicator { get { return (BleMvxApplication._PREFILTER_Enable | BleMvxApplication._POSTFILTER_MASK_Enable | BleMvxApplication._RSSIFILTER_Type != CSLibrary.Constants.RSSIFILTERTYPE.DISABLE) ? "Filter On" : ""; } }
 
         private string _startInventoryButtonText = "Start Inventory";
@@ -104,36 +103,12 @@ namespace BLE.Client.ViewModels
         public override void ViewAppearing()
         {
             base.ViewAppearing();
-
-			// RFID event handler
-			BleMvxApplication._reader.rfid.OnAsyncCallback += new EventHandler<CSLibrary.Events.OnAsyncCallbackEventArgs>(TagInventoryEvent);
-
-            // Barcode event handler
-            BleMvxApplication._reader.barcode.OnCapturedNotify += new EventHandler<CSLibrary.Barcode.BarcodeEventArgs>(Linkage_CaptureCompleted);
-
-            // Key Button event handler
-            BleMvxApplication._reader.notification.OnKeyEvent += new EventHandler<CSLibrary.Notification.HotKeyEventArgs>(HotKeys_OnKeyEvent);
-			BleMvxApplication._reader.notification.OnVoltageEvent += new EventHandler<CSLibrary.Notification.VoltageEventArgs>(VoltageEvent);
+            SetEvent(true);
         }
 
         public override void ViewDisappearing()
         {
-            BleMvxApplication._reader.rfid.StopOperation();
-            ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.IDLE);
-            BleMvxApplication._reader.barcode.Stop();
-
-            // Cancel RFID event handler
-            BleMvxApplication._reader.rfid.OnAsyncCallback -= new EventHandler<CSLibrary.Events.OnAsyncCallbackEventArgs>(TagInventoryEvent);
-            BleMvxApplication._reader.rfid.OnStateChanged += new EventHandler<CSLibrary.Events.OnStateChangedEventArgs>(StateChangedEvent);
-
-            // Cancel Barcode event handler
-            BleMvxApplication._reader.barcode.OnCapturedNotify -= new EventHandler<CSLibrary.Barcode.BarcodeEventArgs>(Linkage_CaptureCompleted);
-
-            // Key Button event handler
-            BleMvxApplication._reader.notification.OnKeyEvent -= new EventHandler<CSLibrary.Notification.HotKeyEventArgs>(HotKeys_OnKeyEvent);
-			BleMvxApplication._reader.notification.OnVoltageEvent -= new EventHandler<CSLibrary.Notification.VoltageEventArgs>(VoltageEvent);
-
-			base.ViewDisappearing();
+            base.ViewDisappearing();
         }
 
         protected override void InitFromBundle(IMvxBundle parameters)
@@ -158,6 +133,31 @@ namespace BLE.Client.ViewModels
             });
         }
 
+        private void SetEvent(bool enable)
+        {
+            // Cancel RFID event handler
+            BleMvxApplication._reader.rfid.ClearEventHandler();
+
+            // Cancel Barcode event handler
+            BleMvxApplication._reader.barcode.ClearEventHandler();
+
+            // Key Button event handler
+            BleMvxApplication._reader.notification.ClearEventHandler();
+
+            if (enable)
+            {
+                // RFID event handler
+                BleMvxApplication._reader.rfid.OnAsyncCallback += new EventHandler<CSLibrary.Events.OnAsyncCallbackEventArgs>(TagInventoryEvent);
+                BleMvxApplication._reader.rfid.OnStateChanged += new EventHandler<CSLibrary.Events.OnStateChangedEventArgs>(StateChangedEvent);
+
+                // Barcode event handler
+                BleMvxApplication._reader.barcode.OnCapturedNotify += new EventHandler<CSLibrary.Barcode.BarcodeEventArgs>(Linkage_CaptureCompleted);
+
+                // Key Button event handler
+                BleMvxApplication._reader.notification.OnKeyEvent += new EventHandler<CSLibrary.Notification.HotKeyEventArgs>(HotKeys_OnKeyEvent);
+                BleMvxApplication._reader.notification.OnVoltageEvent += new EventHandler<CSLibrary.Notification.VoltageEventArgs>(VoltageEvent);
+            }
+        }
 
         void SetConfigPower()
         {
@@ -431,8 +431,7 @@ namespace BLE.Client.ViewModels
 
                             TagInfoList[cnt].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
                             TagInfoList[cnt].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
-                            TagInfoList[cnt].RSSI = info.rssi;
-
+                            TagInfoList[cnt].RSSI = info.rssidBm;
                             found = true;
                             break;
                         }
@@ -445,7 +444,7 @@ namespace BLE.Client.ViewModels
                         item.EPC = info.epc.ToString();
                         item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
                         item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
-                        item.RSSI = info.rssi;
+                        item.RSSI = info.rssidBm;
                         item.PC = info.pc.ToUshorts()[0];
 
                         TagInfoList.Insert(0, item);

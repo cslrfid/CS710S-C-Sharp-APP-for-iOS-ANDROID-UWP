@@ -67,14 +67,10 @@ namespace CSLibrary
         {
             try
             {
-                if (recvData[2] <= 3) // if not barcode
-                {
-                    if (recvData[2] == 3 && recvData[10] == 0x06) // if return success
-                        return true;
+                if (recvData[2] == 3 && recvData[10] == 0x06) // if return success
+                    return true;
 
-                    return false;
-                }
-
+                if (recvData[2] > 7)
                 if (recvData[10] == 0x02 && recvData[11] == 0x00 && recvData[14] == 0x34)
                 {
                     // Query
@@ -106,6 +102,7 @@ namespace CSLibrary
                         }
                         else if (prefixat != -1 && suffixat == -1)
                         {
+                            CSLibrary.Debug.WriteLine("barcode not complete, wait again!!!");
                             // have prefix and no suffix
                         }
                         else if (prefixat == -1 && suffixat != -1)

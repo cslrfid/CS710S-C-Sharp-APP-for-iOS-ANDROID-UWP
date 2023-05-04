@@ -47,7 +47,7 @@
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">
-                <Label Text="Duplicate Elimination Rolling Window (0-255s) (for E710S only)" WidthRequest="190"  VerticalOptions="Center" />
+                <Label Text="Duplicate Elimination Rolling Window (0-255s) (for CS710S only)" WidthRequest="190"  VerticalOptions="Center" />
                 <Entry x:Name="entryDuplicateEliminationRollingWindow" Unfocused="entryDuplicateEliminationRollingWindowCompleted" HorizontalOptions="FillAndExpand" Keyboard="Text" WidthRequest="90" />
             </StackLayout>
 

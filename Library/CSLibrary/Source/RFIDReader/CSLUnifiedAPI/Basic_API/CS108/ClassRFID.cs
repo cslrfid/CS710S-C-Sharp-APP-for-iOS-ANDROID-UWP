@@ -85,7 +85,7 @@ namespace CSLibrary
 
             double dRSSI = 20.0 * Math.Log10(Math.Pow(2.0, (double)iExponent) * (1.0 + ((double)iMantissa / 8.0)));
 
-//            CSLibrary.Debug.WriteLine("Routine : R2000_RssiTranslation, 0x" + rawValue.ToString("x2") + "=" + dRSSI.ToString());
+            CSLibrary.Debug.WriteLine("Routine : R2000_RssiTranslation, 0x" + rawValue.ToString("x2") + "=" + dRSSI.ToString());
 
             return (Single) dRSSI;
         }
@@ -197,6 +197,7 @@ namespace CSLibrary
                         info.rssi = R2000_RssiTranslation(nb_rssi);
                         break;
                 }
+                info.rssidBm = Tools.dBConverion.dBuV2dBm(info.rssi);
 
                 if (currentInventoryFreqRevIndex != null)
                 {
@@ -1117,7 +1118,7 @@ namespace CSLibrary
         {
             for (uint cnt = 0; cnt < 7; cnt++)
             {
-                SetSelectCriteria(cnt, null);
+                SetSelectCriteria_CS108(cnt, null);
             }
 
             return Result.OK;

@@ -34,11 +34,26 @@ namespace CSLibrary
         public Result SetRSSIFilter_CS108(RSSIFILTERTYPE type)
         {
             UInt32 value = 0;
+            UInt32 setting = 0;
+
+            switch (type)
+            {
+                case RSSIFILTERTYPE.DISABLE:
+                    setting = 0;
+                    break;
+
+                case RSSIFILTERTYPE.RSSI:
+                    setting = 1;
+                    break;
+
+                /*case RSSIFILTERTYPE.NB_RSSI:
+                    setting = 1;
+                    break;*/
+            }
 
             MacReadRegister(MACREGISTER.HST_INV_RSSI_FILTERING_CONFIG, ref value);
-
             value &= 0xfffffff0;
-            value |= (uint)(type);
+            value |= (uint)(setting);
             MacWriteRegister(MACREGISTER.HST_INV_RSSI_FILTERING_CONFIG, value);
 
             return Result.OK;
@@ -47,8 +62,46 @@ namespace CSLibrary
         public Result SetRSSIFilter_CS108(RSSIFILTERTYPE type, RSSIFILTEROPTION option, double threshold_dbV)
         {
             UInt32 value;
+            UInt32 typeSettingValue = 0;
+            UInt32 optionSettingValue = 0;
 
-            value = (uint)(type) | ((uint)(option) << 4);
+            switch (type)
+            {
+                case RSSIFILTERTYPE.DISABLE:
+                    typeSettingValue = 0;
+                    break;
+
+                case RSSIFILTERTYPE.RSSI:
+                    typeSettingValue = 1;
+                    break;
+
+                    /*                case RSSIFILTERTYPE.RSSI:
+                                        typeSettingValue = 2;
+                                        break;
+
+                                    case RSSIFILTERTYPE.NB_RSSI:
+                                        typeSettingValue = 1;
+                                        break;
+                    */
+            }
+
+            switch (option)
+            {
+                case RSSIFILTEROPTION.DISABLE:
+                    typeSettingValue = 0;
+                    optionSettingValue = 0;
+                    break;
+
+                case RSSIFILTEROPTION.LESSOREQUAL:
+                    optionSettingValue = 0;
+                    break;
+
+                case RSSIFILTEROPTION.GREATEROREQUAL:
+                    optionSettingValue = 1;
+                    break;
+            }
+
+            value = (uint)(typeSettingValue) | ((uint)(optionSettingValue) << 4);
             MacWriteRegister(MACREGISTER.HST_INV_RSSI_FILTERING_CONFIG, value);
 
             value = (uint)encodeNarrowBandRSSI (threshold_dbV);

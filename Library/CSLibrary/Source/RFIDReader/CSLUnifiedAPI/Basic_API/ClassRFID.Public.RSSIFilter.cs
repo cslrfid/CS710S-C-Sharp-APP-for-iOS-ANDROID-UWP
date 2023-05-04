@@ -35,7 +35,8 @@ namespace CSLibrary
         public enum RSSIFILTERTYPE
         {
             DISABLE,
-            RSSI        // for CS108 = NB_RSSI, for CS710S = DBM_RSSI
+            RSSI,
+            //NB_RSSI    // for CS108 only
         }
 
         public enum RSSIFILTEROPTION

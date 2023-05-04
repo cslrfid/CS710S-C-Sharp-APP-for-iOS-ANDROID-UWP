@@ -33,7 +33,7 @@ namespace BLE.Client
             public uint DurationMax = 0;
         }
 
-        public string readerID = "";
+        public string readerID = ""; // device GUID
         public MODEL readerModel = MODEL.UNKNOWN;
 
         public int BatteryLevelIndicatorFormat = 1; // 0 = voltage, other = percentage 
@@ -107,7 +107,7 @@ namespace BLE.Client
 
         public byte RFID_DuplicateEliminationRollingWindow = 0;
 
-        public CONFIG()
+        public CONFIG(MODEL model)
         {
             int port = 16;
 
@@ -141,7 +141,7 @@ namespace BLE.Client
             RFID_OperationMode = CSLibrary.Constants.RadioOperationMode.CONTINUOUS;
             RFID_TagGroup = new CSLibrary.Structures.TagGroup(CSLibrary.Constants.Selected.ALL, CSLibrary.Constants.Session.S0, CSLibrary.Constants.SessionTarget.A);
             RFID_Algorithm = CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ;
-            if (BleMvxApplication._reader.rfid.GetModel() == MODEL.CS710S)
+            if (model == MODEL.CS710S)
                 RFID_Profile = 345;
             else
                 RFID_Profile = 1;
@@ -298,7 +298,7 @@ namespace BLE.Client
         }
 
         //static async public void LoadConfig(string readerID)
-        static public async Task<bool> LoadConfig(string readerID)
+        static public async Task<bool> LoadConfig(string readerID, MODEL model)
         {
             try
             {
@@ -320,7 +320,7 @@ namespace BLE.Client
                 }
                 else
                 {
-                    _config = new CONFIG();
+                    _config = new CONFIG(model);
                 }
             }
             catch (Exception ex)
@@ -343,7 +343,7 @@ namespace BLE.Client
         {
             var readerID = _config.readerID;
             var readerModel = _config.readerModel;
-            _config = new CONFIG();
+            _config = new CONFIG(_config.readerModel);
             _config.readerID = readerID;
             _config.readerModel = readerModel;
         }

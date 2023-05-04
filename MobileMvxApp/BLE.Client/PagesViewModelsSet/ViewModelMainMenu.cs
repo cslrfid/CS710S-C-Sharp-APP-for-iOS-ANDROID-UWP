@@ -100,6 +100,9 @@ namespace BLE.Client.ViewModels
 
         public override void ViewAppearing()
         {
+            BleMvxApplication._reader.rfid.StopOperation();
+            BleMvxApplication._reader.barcode.Stop();
+
             base.ViewAppearing();
 
             BleMvxApplication._inventoryEntryPoint = 0;
@@ -153,6 +156,7 @@ namespace BLE.Client.ViewModels
         {
             if (e.state == CSLibrary.Constants.RFState.INITIALIZATION_COMPLETE)
             {
+                // System Setting
                 BleMvxApplication._batteryLow = false;
                 RaisePropertyChanged(() => labelVoltageTextColor);
 
