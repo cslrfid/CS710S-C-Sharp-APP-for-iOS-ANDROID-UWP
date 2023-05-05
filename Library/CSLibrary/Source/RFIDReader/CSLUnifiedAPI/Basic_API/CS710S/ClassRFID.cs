@@ -92,9 +92,9 @@ namespace CSLibrary
             */
 
             // Init setting after read registers
-            InitDefaultChannel();
-            GenCountryList();
-            SetDefaultAntennaList();
+            InitDefaultChannel_CS710S();
+            GenCountryList_CS710S();
+            SetDefaultAntennaList_CS710S();
             FireStateChangedEvent(RFState.INITIALIZATION_COMPLETE);
             FireStateChangedEvent(RFState.IDLE);
         }
@@ -278,7 +278,7 @@ namespace CSLibrary
 
         internal void Connect_CS710S()
 		{
-            MacRegisterInitialize_CS710S();
+            RegisterInitialize_CS710S();
 
             //RFIDRegister.EventPacketUplinkEnable.Set(0x0D);
             RFIDRegister.EventPacketUplinkEnable.Set(0x09);

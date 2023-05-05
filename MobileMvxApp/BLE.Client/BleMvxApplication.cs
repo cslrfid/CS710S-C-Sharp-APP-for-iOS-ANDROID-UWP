@@ -49,9 +49,9 @@ namespace BLE.Client
         public CSLibrary.Structures.DynamicQParms RFID_DynamicQParms;
         public CSLibrary.Structures.FixedQParms RFID_FixedQParms;
 
-        public RegionCode RFID_Region = RegionCode.UNKNOWN;
+        public string RFID_Region = "";
         public int RFID_FrequenceSwitch = 0; // 0 = hopping, 1 = fixed, 2 = agile
-        public uint RFID_FixedChannel = 0;
+        public int RFID_FixedChannel = 0;
 
         // Multi Bank Inventory Setting
         public bool RFID_MBI_MultiBank1Enable;

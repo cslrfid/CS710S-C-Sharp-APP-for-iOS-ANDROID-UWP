@@ -37,6 +37,7 @@ namespace CSLibrary
         int m_oem_freq_modification_flag;
         private uint m_save_country_code = 0;
         private List<RegionCode> m_save_country_list = new List<RegionCode>();
+        private List<string> m_save_country_list_name = new List<string>();
 
         private uint GetOEMCountryCode
         {
@@ -55,6 +56,7 @@ namespace CSLibrary
         private void GenCountryList()
         {
             m_save_country_list.Clear();
+            m_save_country_list_name.Clear();
 
             switch (m_save_country_code)
             {
@@ -97,31 +99,6 @@ namespace CSLibrary
                         m_save_country_list.Add(RegionCode.LH2);  // 
                         m_save_country_list.Add(RegionCode.UH1); // 915-920 MHz
                         m_save_country_list.Add(RegionCode.UH2); // 920-928 MHz
-                        /*
-                                                m_save_country_list.Add(RegionCode.AU);
-                                                m_save_country_list.Add(RegionCode.BR1);
-                                                m_save_country_list.Add(RegionCode.BR2);
-                                                m_save_country_list.Add(RegionCode.BR3);
-                                                m_save_country_list.Add(RegionCode.BR4);
-                                                m_save_country_list.Add(RegionCode.BR5);
-                                                m_save_country_list.Add(RegionCode.FCC);
-                                                m_save_country_list.Add(RegionCode.HK);
-                                                m_save_country_list.Add(RegionCode.TW);
-                                                m_save_country_list.Add(RegionCode.SG);
-                                                m_save_country_list.Add(RegionCode.MY);
-                                                m_save_country_list.Add(RegionCode.ZA);
-                                                m_save_country_list.Add(RegionCode.TH);
-                                                m_save_country_list.Add(RegionCode.ID);
-                                                m_save_country_list.Add(RegionCode.JE);  // 915-917 MHz
-                                                m_save_country_list.Add(RegionCode.PH);  // 918-920 MHz
-                                                m_save_country_list.Add(RegionCode.NZ);  // 918-920 MHz
-                                                m_save_country_list.Add(RegionCode.VE);  // 922-928 MHz
-                                                m_save_country_list.Add(RegionCode.UH1); // 915-920 MHz
-                                                m_save_country_list.Add(RegionCode.UH2); // 920-928 MHz
-                        //                        m_save_country_list.Add(RegionCode.LH);  // 
-                                                m_save_country_list.Add(RegionCode.LH1);  // 
-                                                m_save_country_list.Add(RegionCode.LH2);  // 
-                        */
                     }
                     else
                     { // HK USA AU ZA
@@ -180,7 +157,10 @@ namespace CSLibrary
                     //throw new ReaderException(Result.INVALID_PARAMETER);
             }
 
-            //CSLibrary.FrequencyBand.SetActiveRegionCode(m_save_country_list);
+            foreach (RegionCode code in m_save_country_list)
+            {
+                m_save_country_list_name.Add(CSLibrary.FrequencyBand.GetRegionName(code));
+            }
         }
 
     }

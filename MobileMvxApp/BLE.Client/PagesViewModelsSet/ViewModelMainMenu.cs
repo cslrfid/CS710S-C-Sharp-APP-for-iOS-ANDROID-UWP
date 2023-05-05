@@ -102,6 +102,7 @@ namespace BLE.Client.ViewModels
         {
             BleMvxApplication._reader.rfid.StopOperation();
             BleMvxApplication._reader.barcode.Stop();
+            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
 
             base.ViewAppearing();
 
@@ -161,34 +162,20 @@ namespace BLE.Client.ViewModels
                 RaisePropertyChanged(() => labelVoltageTextColor);
 
                 // Set Country and Region information
-                if (BleMvxApplication._config.RFID_Region == RegionCode.UNKNOWN || BleMvxApplication._config.readerModel != BleMvxApplication._reader.rfid.GetModel())
+                if (BleMvxApplication._config.RFID_Region == "" || BleMvxApplication._config.readerModel != BleMvxApplication._reader.rfid.GetModel())
                 {
                     BleMvxApplication._config.readerModel = BleMvxApplication._reader.rfid.GetModel();
-                    BleMvxApplication._config.RFID_Region = BleMvxApplication._reader.rfid.SelectedRegionCode;
+                    BleMvxApplication._config.RFID_Region = BleMvxApplication._reader.rfid.GetCurrentCountry();
 
-                    if (BleMvxApplication._reader.rfid.IsFixedChannel)
+                    if (BleMvxApplication._reader.rfid.IsFixedChannel())
                     {
                         BleMvxApplication._config.RFID_FrequenceSwitch = 1;
-                        BleMvxApplication._config.RFID_FixedChannel = BleMvxApplication._reader.rfid.SelectedChannel;
+                        BleMvxApplication._config.RFID_FixedChannel = BleMvxApplication._reader.rfid.GetCurrentFrequencyChannel();
                     }
                     else
                     {
                         BleMvxApplication._config.RFID_FrequenceSwitch = 0; // Hopping
                     }
-                }
-
-                // the library auto cancel the task if the setting no change
-                switch (BleMvxApplication._config.RFID_FrequenceSwitch)
-                {
-                    case 0:
-                        BleMvxApplication._reader.rfid.SetHoppingChannels(BleMvxApplication._config.RFID_Region);
-                        break;
-                    case 1:
-                        BleMvxApplication._reader.rfid.SetFixedChannel(BleMvxApplication._config.RFID_Region, BleMvxApplication._config.RFID_FixedChannel);
-                        break;
-                    case 2:
-                        BleMvxApplication._reader.rfid.SetAgileChannels(BleMvxApplication._config.RFID_Region);
-                        break;
                 }
 
                 uint portNum = BleMvxApplication._reader.rfid.GetAntennaPort();

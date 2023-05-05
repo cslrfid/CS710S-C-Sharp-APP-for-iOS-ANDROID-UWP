@@ -104,7 +104,7 @@ namespace CSLibrary
                     m_PCBAssemblyCode = uint32ArrayToString(data).Replace("\0", "");
                 }
 
-                InitDefaultChannel();
+                InitDefaultChannel_CS108();
                 GenCountryList();
                 SetDefaultAntennaList();
                 FireStateChangedEvent(RFState.INITIALIZATION_COMPLETE);

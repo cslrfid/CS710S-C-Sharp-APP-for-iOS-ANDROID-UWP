@@ -1156,6 +1156,9 @@ namespace CSLibrary
             internal Regstring ModelName;
             internal Regstring SerialNumber_1;
             internal RegUInt16 CountryEnum_1;
+            internal RegUInt32 EF98;
+            internal RegUInt32 EFAC;
+            internal RegUInt32 EFB0;
 
             public CSLRFIDREGISTER(RFIDReader _deviceHandler)
             {
@@ -1245,25 +1248,28 @@ namespace CSLibrary
                 RssiThreshold = new RegUInt16(_deviceHandler, 0x390c, REGPRIVATE.READWRITE);
                 ModelName = new Regstring(_deviceHandler, 0x5000, 32, REGPRIVATE.READONLY);
                 SerialNumber_1 = new Regstring(_deviceHandler, 0x5020, 32, REGPRIVATE.READONLY);
-                CountryEnum_1 = new RegUInt16(_deviceHandler, 0x5040, REGPRIVATE.READWRITE);
+                CountryEnum_1 = new RegUInt16(_deviceHandler, 0x5040, REGPRIVATE.READONLY);
+                EF98 = new RegUInt32(_deviceHandler, 0xef98, REGPRIVATE.READONLY);
+                EFAC = new RegUInt32(_deviceHandler, 0xefac, REGPRIVATE.READONLY);
+                EFB0 = new RegUInt32(_deviceHandler, 0xefb0, REGPRIVATE.READONLY);
             }
         }
 
         CSLRFIDREGISTER RFIDRegister;
-/*
-        VersionString 8, 32
-        BuildNumber 28, 4
-        Githash 2c, 4
-        FrefFreq 34, 4
-        ProductSku 68, 8
-        SerialNumber 70, 32
-        DeviceInfo 90, 4
-        DeviceBuild 94, 4
-        RtlRevision 98, 4
-        Model Name 5000, 32
-        Serial Number 5020, 32
-        Country Enum 5040, 2
-*/
+        /*
+                VersionString 8, 32
+                BuildNumber 28, 4
+                Githash 2c, 4
+                FrefFreq 34, 4
+                ProductSku 68, 8
+                SerialNumber 70, 32
+                DeviceInfo 90, 4
+                DeviceBuild 94, 4
+                RtlRevision 98, 4
+                Model Name 5000, 32
+                Serial Number 5020, 32
+                Country Enum 5040, 2
+        */
         int[,] ReaderOEMDDataAddress = new int[,] { { 0x0008, 32 },
                                                     { 0x0028, 4 },
                                                     { 0x002c, 4 },
@@ -1275,31 +1281,17 @@ namespace CSLibrary
                                                     { 0x0098, 4 },
                                                     { 0x5000, 32 },
                                                     { 0x5020, 32 },
-                                                    { 0x5040, 2 }};
+                                                    { 0x5040, 2 },
+                                                    { 0xef98, 4 },
+                                                    { 0xefac, 4 },
+                                                    { 0xefb0, 4 },
+                                                    { 0x3014, 2 },
+                                                    { 0x3018, 1 }
+        };
 
-
-
-        /*
-                int[,] ReaderOEMDDataAddress = new int[,] { { 0x0008, 40 }, 
-                                                            { 0x5000, 66 }};
-
-                int[,] ReaderOEMDDataAddress1 = new int[,] { { 0x0008, 0x24 }, 
-                                                             { 0x0070, 0x20 },
-                                                             { 0x3014, 0x05 },
-                                                             { 0x3030, 0x10 },
-                                                             { 0x3140, 0x2a },
-                                                             { 0x3270, 14 },
-                                                             { 0x3900, 0x01 },
-                                                             { 0x3906, 0x02 },
-                                                             { 0x3908, 0x01 },
-                                                             { 0x5000, 50 }};
-        */
-
-        public bool MacRegisterInitialize_CS710S()
+        public bool RegisterInitialize_CS710S()
         {
             RFIDRegister = new CSLRFIDREGISTER(this);
-
-            // Read Register
 
             READREGISTERSET[] OEMDataAddress = new READREGISTERSET[ReaderOEMDDataAddress.GetLength(0)]; 
 
@@ -1307,53 +1299,6 @@ namespace CSLibrary
                 OEMDataAddress[cnt] = new READREGISTERSET(ReaderOEMDDataAddress[cnt, 0], ReaderOEMDDataAddress[cnt, 1]);
 
             ReadRegister(OEMDataAddress);
-
-
-
-
-            /*
-
-                        // Startup
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x33, 0x02, 0x0b, 0xb8});
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x35, 0x09, 0x00, 0x06, 0x30, 0xf7, 0x00, 0x00, 0x00, 0x08, 0x01 });
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x38, 0x01, 0xf6 });
-                        WriteRegister(0, new byte[] { 0x01, 0x39, 0x06, 0x02, 0x00, 0x09 });
-
-                        // Inventory
-                        WriteRegister(0, new byte[] { 0x01, 0x31, 0x40, 0x2a, 0x00, 0x00,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                            });
-
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x36, 0x01, 0x06 });
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x36, 0x01, 0x06 });
-
-                        WriteRegister(0, new byte[] { 0x01, 0x31, 0x6a, 0x2a, 0x00, 0x00,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                            });
-
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x36, 0x01, 0x06 });
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x33, 0x02, 0x0b, 0xb8 });
-                        WriteRegister(0, new byte[] { 0x01, 0x39, 0x00, 0x01, 0x00 });
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x38, 0x01, 0xf6 });
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x35, 0x09, 0x00, 0x06, 0x30, 0xf6, 0x00, 0x00, 0x00, 0x08, 0x01 });
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x35, 0x01, 0x00 });
-
-                        WriteRegister(0, new byte[] { 0x01, 0x31, 0x40, 0x2a, 0x00, 0x00,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                            });
-
-                        WriteRegister(0, new byte[] { 0x01, 0x30, 0x36, 0x01, 0x06 });
-
-            */
             return true;
 		}
 
@@ -1431,12 +1376,28 @@ namespace CSLibrary
             RFIDRegister.ModelName.Set(System.Text.Encoding.Default.GetString(data, index + 96, RFIDRegister.ModelName.maxlen));
             RFIDRegister.SerialNumber_1.Set(System.Text.Encoding.Default.GetString(data, index + 128, RFIDRegister.SerialNumber_1.maxlen));
             RFIDRegister.CountryEnum_1.Set(Tools.Hex.MSBToUInt16(data, index + 160));
+            RFIDRegister.EF98.Set(Tools.Hex.MSBToUInt32(data, index + 162));
+            RFIDRegister.EFAC.Set(Tools.Hex.MSBToUInt32(data, index + 166));
+            RFIDRegister.EFB0.Set(Tools.Hex.MSBToUInt32(data, index + 170));
+            RFIDRegister.CountryEnum.Set(Tools.Hex.MSBToUInt16(data, index + 174));
+            RFIDRegister.FrequencyChannelIndex.Set(data[index + 176]);
 
             m_oem_machine = MODEL.CS710S;
-            m_save_region_code = RegionCode.FCC;
-            m_save_country_code = 2;
-            m_oem_special_country_version = 0x00;
-            m_oem_freq_modification_flag = 0xaa;
+            //m_save_region_code = RegionCode.FCC;
+            m_save_country_code = RFIDRegister.EF98.Get();
+            m_oem_special_country_version = RFIDRegister.EFAC.Get();
+            m_oem_freq_modification_flag = (int)RFIDRegister.EFB0.Get();
+            
+            switch (m_save_country_code)
+            {
+                case 0x01:
+                    m_save_region_code = RegionCode.FCC;
+                    break;
+
+                case 0x02:
+                    m_save_region_code = RegionCode.ETSI;
+                    break;
+            }
         }
 
 

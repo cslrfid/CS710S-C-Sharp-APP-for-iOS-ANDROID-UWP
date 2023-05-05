@@ -146,31 +146,30 @@ void GetOperationMode(ref RadioOperationMode mode)										// Get current opera
 
 Result SetOperationMode(ushort cycles)													// Set inventory antenna cycle
 Result SetInventoryDuration(uint duration)												// Set inventory duration (dwell time)
-Result SetInventoryCycle(uint cycle)														// Set inventory cycles count
+Result SetInventoryCycle(uint cycle)													// Set inventory cycles count
 
-Result SetFixedChannel(RegionCode prof = RegionCode.CURRENT, uint channel = 0)			// Set to fixed channel with region
-Result SetHoppingChannels(RegionCode prof)												// Set to hopping with region
-Result SetHoppingChannels()																// Set to hopping with current selected region
-Result SetAgileChannels(RegionCode prof)													// Set to agile channel with region
-
-Result GetCountryCode(ref uint code)														// Get reader country code
-List<RegionCode> GetActiveRegionCode()													// Get vaild region code list
-
-double[] GetAvailableFrequencyTable(RegionCode region)									// Get Available frequency table with region code
-double[] GetCurrentFrequencyTable()														// Get frequency table on current selected region
+New Set commands of Country Frequency (old Region set commands phase out)
+------------------------------------
+List<string> GetActiveCountryNameList()													// Get Active Country Name List
+double[] GetAvailableFrequencyTable()													// Get frequency table on current selected country
+double[] GetAvailableFrequencyTable(string CountryName)									// Get Available frequency table with country code
+bool IsHopping()																		// Is current country hoppping enabled
+bool IsHopping(string CountryName)
+bool IsFixed()																			// Is current country fixed enabled
+bool IsFixed(string CountryName)
+Result SetCountry(string CountryName)													// Select Country Frequency and default channel 0 if fixed channel
+Result SetCountry(string CountryName, int Channel)										// Select Country Frequency with channel if fixed
+string GetCurrentCountry()
+int GetCurrentCountryIndex()
+int GetCurrentFrequencyChannel()
 
 Result StartOperation(Operation opertion)												// Start special function (see below table)
 void StopOperation()																		// Stop CONTINUOUS inventory 
 
-
 Operation value
 ---------------
 Operation.TAG_RANGING																			// Start Inventory
-Operation.TAG_PRERANGING																		// Inventory pre-setting
-Operation.TAG_EXERANGING																		// Execute inventory command
-Operation.TAG_SEARCHING																			// Start search Tag
 Operation.TAG_SELECTED																			// Set Selected Tag parameter
-Operation.TAG_GENERALSELECTED																	// Set Selected Tag parameter
 Operation.TAG_PREFILTER																			// Set Pre-Filter
 Operation.TAG_READ																				// Start to read
 Operation.TAG_READ_PC																			// Start to read PC

@@ -78,18 +78,7 @@ namespace BLE.Client.ViewModels
 
             OnClearBarcodeDataButtonCommand = new Command(ClearBarcodeDataButtonClick);
 
-            switch (BleMvxApplication._config.RFID_FrequenceSwitch)
-            {
-                case 0:
-                    BleMvxApplication._reader.rfid.SetHoppingChannels(BleMvxApplication._config.RFID_Region);
-                    break;
-                case 1:
-                    BleMvxApplication._reader.rfid.SetFixedChannel(BleMvxApplication._config.RFID_Region, BleMvxApplication._config.RFID_FixedChannel);
-                    break;
-                case 2:
-                    BleMvxApplication._reader.rfid.SetAgileChannels(BleMvxApplication._config.RFID_Region);
-                    break;
-            }
+            BleMvxApplication._reader.rfid.SetCountry(BleMvxApplication._config.RFID_Region, (int)BleMvxApplication._config.RFID_FixedChannel);
         }
 
         public override void ViewAppearing()

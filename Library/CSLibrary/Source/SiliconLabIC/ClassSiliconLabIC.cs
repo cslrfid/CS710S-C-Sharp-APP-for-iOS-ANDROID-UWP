@@ -20,7 +20,7 @@ SOFTWARE.
 */
 
 using System;
-
+using System.Xml.Schema;
 using CSLibrary.Barcode;
 using CSLibrary.Barcode.Constants;
 using CSLibrary.Barcode.Structures;
@@ -35,12 +35,18 @@ namespace CSLibrary
         public bool _firmwareOlderT108 = false;
         string _serailNumber = null;
         string _PcbVersion;
+        string _Model;
+
 
         // RFID event code
         private class DOWNLINKCMD
 		{
 			public static readonly byte[] GETVERSION = { 0xB0, 0x00 };
             public static readonly byte[] GETSERIALNUMBER = { 0xB0, 0x04 };
+
+            // for CS710S only
+            public static readonly byte[] GETMODEL = { 0xB0, 0x06 };
+            public static readonly byte[] RESETATMEL = { 0xB0, 0x0C };
         }
 
         private HighLevelInterface _deviceHandler;
@@ -50,7 +56,7 @@ namespace CSLibrary
 			_deviceHandler = handler;
         }
 
-        internal void Connect ()
+        internal void Connect (CSLibrary.RFIDDEVICE.MODEL model)
         {
             //internal void GetVersion()
             //{
@@ -61,6 +67,9 @@ namespace CSLibrary
             //{
             _deviceHandler.SendAsync(0, 3, DOWNLINKCMD.GETSERIALNUMBER, new byte[1], HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE);
             //}
+
+            if (model == RFIDDEVICE.MODEL.CS710S)
+                _deviceHandler.SendAsync(0, 3, DOWNLINKCMD.GETMODEL, new byte[1], HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE);
         }
 
         internal HighLevelInterface.BTWAITCOMMANDRESPONSETYPE ProcessDataPacket (byte [] data)
@@ -113,22 +122,17 @@ namespace CSLibrary
                     {
                         _PcbVersion = "";
                     }
+                    return HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE;
 
-                    /*
-                    if (OnAccessCompleted != null)
+                case 0xb006:    // get CS710S model
+                    try
                     {
-                        try
-                        {
-                            Events.OnAccessCompletedEventArgs args = new Events.OnAccessCompletedEventArgs(_serailNumber, Constants.AccessCompletedCallbackType.SERIALNUMBER);
-
-                            OnAccessCompleted(this, args);
-                        }
-                        catch (Exception ex)
-                        {
-                        }
+                        _Model = System.Text.Encoding.UTF8.GetString(data, 10, 32);
                     }
-                    */
-
+                    catch (Exception ex)
+                    {
+                        _Model = "";
+                    }
                     return HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE;
             }
 

@@ -197,7 +197,7 @@ namespace CSLibrary
             RFIDPowerOn();
 
             _handleBluetoothIC.Connect();
-            _handleSiliconLabIC.Connect();
+            _handleSiliconLabIC.Connect(_deviceType);
             _handleBarCodeReader.CheckHWValid();
 
             //rfid.StopOperation();

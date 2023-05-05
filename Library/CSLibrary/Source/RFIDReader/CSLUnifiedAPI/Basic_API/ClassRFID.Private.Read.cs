@@ -35,8 +35,6 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
-        internal MODEL _deviceType = MODEL.UNKNOWN;
-
         void Setup18K6CReadRegisters(UInt32 bank, UInt32 offset, UInt32 count)
         {
             switch (_deviceType)

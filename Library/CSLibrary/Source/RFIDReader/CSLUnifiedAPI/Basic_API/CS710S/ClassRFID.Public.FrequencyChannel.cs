@@ -34,26 +34,27 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
-        private RegionCode m_save_region_code = RegionCode.UNKNOWN;
-        private string m_save_countryname = "";
-        private bool m_save_fixed_channel = false;
-        private bool m_save_agile_channel = false;
-        private uint m_save_freq_channel = 0;
-        private double m_save_selected_freq = 0;
-
-        public Result SetDefaultChannel()
+        internal Result InitDefaultChannel_CS710S()
         {
-            switch (_deviceType)
-            {
-                case RFIDDEVICE.MODEL.CS108:
-                    return SetDefaultChannel_CS108();
+            m_save_countryname = FrequencyBand_CS710S.frequencySet[RFIDRegister.CountryEnum.Get()].name;
+            m_save_freq_channel = RFIDRegister.FrequencyChannelIndex.Get();
 
-                case RFIDDEVICE.MODEL.CS710S:
-                    return SetDefaultChannel_CS710S();
-            }
+            return Result.OK;
+        }
 
+        public Result SetDefaultChannel_CS710S()
+        {
             return Result.FAILURE;
         }
 
+        internal Result GenCountryList_CS710S()
+        {
+            return Result.FAILURE;
+        }
+
+        internal Result SetDefaultAntennaList_CS710S()
+        {
+            return Result.FAILURE;
+        }
     }
 }

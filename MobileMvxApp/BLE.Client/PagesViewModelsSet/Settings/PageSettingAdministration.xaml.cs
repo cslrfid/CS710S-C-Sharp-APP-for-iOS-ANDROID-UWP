@@ -44,7 +44,7 @@ namespace BLE.Client.Pages
 
             entryReaderName.Text = BleMvxApplication._reader.ReaderName;
 
-            labelReaderModel.Text = "Reader Model : " + BleMvxApplication._reader.rfid.GetModelName() + BleMvxApplication._reader.rfid.GetCountryCode();
+            labelReaderModel.Text = "Reader Model : " + BleMvxApplication._reader.rfid.GetFullModelName();
 
             switchNewTagLocation.IsToggled = BleMvxApplication._config.RFID_NewTagLocation;
             buttonShareDataFormat.Text = _ShareDataFormatOptions[BleMvxApplication._config.RFID_ShareFormat];
@@ -160,12 +160,10 @@ namespace BLE.Client.Pages
             BleMvxApplication.ResetConfig();
             BleMvxApplication._reader.rfid.SetDefaultChannel();
 
-            BleMvxApplication._config.RFID_Region = BleMvxApplication._reader.rfid.SelectedRegionCode;
-
-            if (BleMvxApplication._reader.rfid.IsFixedChannel)
+            if (BleMvxApplication._reader.rfid.IsFixedChannel())
             {
                 BleMvxApplication._config.RFID_FrequenceSwitch = 1;
-                BleMvxApplication._config.RFID_FixedChannel = BleMvxApplication._reader.rfid.SelectedChannel;
+                BleMvxApplication._config.RFID_FixedChannel = BleMvxApplication._reader.rfid.GetCurrentFrequencyChannel();
             }
             else
             {
@@ -194,44 +192,5 @@ namespace BLE.Client.Pages
             //entryServerIP.Text = "https://www.convergence.com.hk:29090/WebServiceRESTs/1.0/req";
             entryServerIP.Text = "https://democloud.convergence.com.hk:29090/WebServiceRESTs/1.0/req";
         }
-
-        /*
-        public async void entryTagDelayCompleted(object sender, EventArgs e)
-        {
-            uint value;
-
-            try
-            {
-                value = uint.Parse(entryTagDelay.Text);
-                if (value < 0 || value > 15)
-                    throw new System.ArgumentException("Value not valid", "tagPopulation");
-                entryTagDelay.Text = value.ToString();
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("", "Value not valid!!!", "OK");
-                entryTagDelay.Text = "0";
-            }
-        }
-
-        public async void entryInventoryDurationCompleted(object sender, EventArgs e)
-        {
-            uint value;
-
-            try
-            {
-                value = uint.Parse(entryInventoryDuration.Text);
-                if (value < 0 || value > 3000)
-                    throw new System.ArgumentException("Value not valid", "tagPopulation");
-                entryInventoryDuration.Text = value.ToString();
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("", "Value not valid!!!", "OK");
-                entryInventoryDuration.Text = "0";
-            }
-        }
-        */
-
     }
 }

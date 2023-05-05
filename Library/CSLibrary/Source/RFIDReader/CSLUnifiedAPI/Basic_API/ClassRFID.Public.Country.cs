@@ -30,65 +30,150 @@ using CSLibrary.Constants;
 namespace CSLibrary
 {
     using static FrequencyBand;
+    using static FrequencyBand_CS710S;
 
     public partial class RFIDReader
     {
-
-        /// <summary>
-        /// If true, it can only set to hopping channel.
-        /// </summary>
-        public bool IsHoppingChannelOnly
+        // Get Active Country Name List
+        public List<string> GetActiveCountryNameList()
         {
-            get { return m_oem_freq_modification_flag != 0x00; }
+            switch (_deviceType)
+            {
+                case RFIDDEVICE.MODEL.CS108:
+                    return GetActiveRegionNameList_CS108();
+
+                case RFIDDEVICE.MODEL.CS710S:
+                    return GetActiveRegionNameList_CS710S();
+            }
+
+            return null;
         }
 
-        /// <summary>
-        /// If true, it can only set to fixed channel.
-        /// Otherwise, both fixed and hopping can be set.
-        /// </summary>
-        public bool IsFixedChannelOnly
+        public bool IsHoppingChannel()
         {
-            get { return (m_save_country_code == 1 | m_save_country_code == 3 | m_save_country_code == 8 | m_save_country_code == 9); }
+            return IsHoppingChannel(m_save_countryname);
+        }
+        public bool IsFixedChannel()
+        {
+            return IsFixedChannel(m_save_countryname);
         }
 
-        /// <summary>
-        /// Get Fixed frequency channel
-        /// </summary>
-        public bool IsFixedChannel
+        public bool IsHoppingChannel(string CountryName)
         {
-            get { { return m_save_fixed_channel; } }
+            switch (_deviceType)
+            {
+                case RFIDDEVICE.MODEL.CS108:
+                    return IsHopping_CS108(CountryName);
+
+                case RFIDDEVICE.MODEL.CS710S:
+                    return IsHopping_CS710S(CountryName);
+            }
+
+            return false;
         }
 
-        /// <summary>
-        /// GetCountryCode
-        /// </summary>
-        /// <returns>Result</returns>
-        public Result GetCountryCode(ref uint code)
+
+        public bool IsFixedChannel(string CountryName)
         {
-            code = m_save_country_code;
+            switch (_deviceType)
+            {
+                case RFIDDEVICE.MODEL.CS108:
+                    return IsFixed_CS108(CountryName);
 
-            if (code < 0 || code > 8)
-                return Result.INVALID_OEM_COUNTRY_CODE;
+                case RFIDDEVICE.MODEL.CS710S:
+                    return IsFixed_CS710S(CountryName);
+            }
 
-            return Result.OK;
+            return false;
         }
 
-        /// <summary>
-        /// Available region you can use
-        /// </summary>
-        public List<RegionCode> GetActiveRegionCode()
+        public Result SetCountry(string CountryName, int Channel = 1)                                        // Select Country Frequency with channel if fixed
         {
-            //DEBUG_WriteLine(DEBUGLEVEL.API, "HighLevelInterface.GetActiveRegionCode()");
+            switch (_deviceType)
+            {
+                case RFIDDEVICE.MODEL.CS108:
+                    return SetRegion_CS108(CountryName, Channel);
 
-            return m_save_country_list;
+                case RFIDDEVICE.MODEL.CS710S:
+                    return SetRegion_CS710S(CountryName, Channel);
+            }
+
+            return Result.FAILURE;
         }
 
-        /// <summary>
-        /// Get Region Profile
-        /// </summary>
-        public RegionCode SelectedRegionCode
+        public List<double> GetAvailableFrequencyTable()
         {
-            get { return m_save_region_code; }
+            return GetAvailableFrequencyTable(m_save_countryname);
         }
+
+        public List<double> GetAvailableFrequencyTable(string CountryName)									// Get Available frequency table with country code
+        {
+            switch (_deviceType)
+            {
+                case RFIDDEVICE.MODEL.CS108:
+                    return GetAvailableFrequencyTable_CS108(CountryName);
+
+                case RFIDDEVICE.MODEL.CS710S:
+                    return GetAvailableFrequencyTable_CS710S(CountryName);
+            }
+
+            return null;
+        }
+
+        public List<double> GetCurrentFrequencyTable()														// Get frequency table on current selected region
+        {
+            switch (_deviceType)
+            {
+                case RFIDDEVICE.MODEL.CS108:
+                    return GetCurrentFrequencyTable_CS108();
+
+                case RFIDDEVICE.MODEL.CS710S:
+                    return GetCurrentFrequencyTable_CS710S();
+            }
+
+            return null;
+        }
+        public string GetCurrentCountry()
+        {
+            switch (_deviceType)
+            {
+                case RFIDDEVICE.MODEL.CS108:
+                    return GetCurrentCountry_CS108();
+
+                case RFIDDEVICE.MODEL.CS710S:
+                    return GetCurrentCountry_CS710S();
+            }
+
+            return null;
+        }
+
+        public int GetCurrentCountryIndex()
+        {
+            switch (_deviceType)
+            {
+                //case RFIDDEVICE.MODEL.CS108:
+                //    return GetCurrentCountryIndex_CS108();
+
+                case RFIDDEVICE.MODEL.CS710S:
+                    return GetCurrentCountryIndex_CS710S();
+            }
+
+            return -1;
+        }
+
+        public int GetCurrentFrequencyChannel()
+        {
+            switch (_deviceType)
+            {
+                //case RFIDDEVICE.MODEL.CS108:
+                //    return GetCurrentFrequencyChannel_CS108();
+
+                case RFIDDEVICE.MODEL.CS710S:
+                    return GetCurrentFrequencyChannel_CS710S();
+            }
+
+            return -1;
+        }
+
     }
 }

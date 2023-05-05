@@ -40,6 +40,7 @@ namespace CSLibrary
         #region public variable
 
         internal int _readerMode = 0;
+        internal MODEL _deviceType = MODEL.UNKNOWN;
 
         #region ====================== Callback Event Handler ======================
         /// <summary>
@@ -106,11 +107,18 @@ namespace CSLibrary
             return m_oem_machine.ToString();
         }
 
+        public string GetFullModelName()
+        {
+            return m_oem_machine.ToString() + GetCurrentSubModulName();
+        }
+
+
         public MODEL GetModel()
         {
             return m_oem_machine;
         }
 
+/*
         public string GetCountryCode()
         {
             m_save_country_code = 2;
@@ -158,9 +166,10 @@ namespace CSLibrary
             }
             return country;
         }
+*/
 
         public string GetPCBAssemblyCode()
-        {
+        { 
             return m_PCBAssemblyCode;
         }
 

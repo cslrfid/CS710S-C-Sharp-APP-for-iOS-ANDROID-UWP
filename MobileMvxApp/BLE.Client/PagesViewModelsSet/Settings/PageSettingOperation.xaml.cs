@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MvvmCross.Forms.Views;
@@ -11,112 +12,10 @@ namespace BLE.Client.Pages
 
 	public partial class PageSettingOperation : MvxContentPage
 	{
-        List<RegionCode> Regions;
         string[] ActiveRegionsTextList;
         double[] ActiveFrequencyList;
         string[] ActiveFrequencyTextList;
-
-        RegionCode [] _regionsCode = new RegionCode[] {
-            RegionCode.FCC,
-            RegionCode.ETSI,
-            RegionCode.CN,
-            RegionCode.TW,
-            RegionCode.KR,
-            RegionCode.HK,
-            RegionCode.JP,
-            RegionCode.AU,
-            RegionCode.MY,
-            RegionCode.SG,
-            RegionCode.IN,
-            RegionCode.G800,
-            RegionCode.ZA,
-            RegionCode.BR1,
-            RegionCode.BR2,
-            RegionCode.BR3,
-            RegionCode.BR4,
-            RegionCode.BR5,
-            RegionCode.ID,
-            RegionCode.TH,
-            RegionCode.JE,
-            RegionCode.PH,
-            RegionCode.ETSIUPPERBAND,
-            RegionCode.NZ,
-            RegionCode.UH1,
-            RegionCode.UH2,
-            RegionCode.LH,
-            RegionCode.LH1,
-            RegionCode.LH2,
-            RegionCode.VE,
-            RegionCode.AR,
-            RegionCode.CL,
-            RegionCode.CO,
-            RegionCode.CR,
-            RegionCode.DO,
-            RegionCode.PA,
-            RegionCode.PE,
-            RegionCode.UY,
-            RegionCode.BA,
-            RegionCode.VI
-        };
-        string[] _regionsName = new string[] {
-            "USACanada",
-            "Europe",
-            "China",
-            "Taiwan",
-            "Korea",
-            "Hong Kong",
-            "Japan",
-            "Australia",
-            "Malaysia",
-            "Singapore",
-            "India",
-            "G800",
-            "South Africa",
-            "Brazil 915-927",
-            "Brazil 902-906, 915-927",
-            "Brazil 902-906",
-            "Brazil 902-904",
-            "Brazil 917-924",
-            "Indonesia",
-            "Thailand",
-            "Israel",
-            "Philippine",
-            "ETSI Upper Band",
-            "New Zealand",
-            "UH1",
-            "UH2",
-            "LH",
-            "LH1",
-            "LH2",
-            "Venezuela",
-            "Argentina",
-            "Chile",
-            "Colombia",
-            "Costa Rica",
-            "Dominican Republic",
-            "Panama",
-            "Peru",
-            "Uruguay",
-            "Bangladesh",
-            "Vietnam"
-        };
-
         string[] _profileList;
-        /*        string[] _profileList = {
-                    "103: Miller 1 640kHz Tari 6.25us",
-                    "302: Miller 1 640kHz Tari 7.25us",
-                    "120: Miller 2 640kHz Tari 6.25us",
-                    "323: Miller 2 640kHz Tari 7.5us",
-                    "344: Miller 4 640kHz Tari 7.5us",
-                    "345: Miller 4 640kHz Tari 7.5us",
-                    "223: Miller 2 320kHz Tari 15us",
-                    "222: Miller 2 320kHz Tari 20us",
-                    "241: Miller 4 320kHz Tari 20us",
-                    "244: Miller 4 250kHz Tari 20us",
-                    "285: Miller 8 160kHz Tari 20us"
-                };
-        */
-
         string[] _freqOrderOptions;
 
         public PageSettingOperation()
@@ -133,33 +32,11 @@ namespace BLE.Client.Pages
 
             stackLayoutInventoryDuration.IsVisible = stackLayoutPower.IsVisible = (BleMvxApplication._reader.rfid.GetAntennaPort() == 1);
 
-            var countryCode = BleMvxApplication._reader.rfid.GetCountryCode();
-
-            if (countryCode == "-2")
-                _regionsName[0] = "FCC";
-
-            switch (countryCode)
-            {
-                case "-1":
-                case "-8":
-                    _freqOrderOptions = new string[] { "Fixed" };
-                    break;
-
-                default:
-                    _freqOrderOptions = new string[] { "Hopping" };
-                    break;
-            }
-
-            Regions = BleMvxApplication._reader.rfid.GetActiveRegionCode();
-            ActiveRegionsTextList = Regions.OfType<object>().Select(o => _regionsName[(int)o - 1]).ToArray();
-
-            ActiveFrequencyList = BleMvxApplication._reader.rfid.GetAvailableFrequencyTable(BleMvxApplication._config.RFID_Region);
+            ActiveRegionsTextList = BleMvxApplication._reader.rfid.GetActiveCountryNameList().ToArray();
+            ActiveFrequencyList = BleMvxApplication._reader.rfid.GetAvailableFrequencyTable().ToArray();
             ActiveFrequencyTextList = ActiveFrequencyList.OfType<object>().Select(o => o.ToString()).ToArray();
+            buttonRegion.Text = BleMvxApplication._config.RFID_Region;
 
-            //buttonRegion.Text = _regionsName[(int)BleMvxApplication._config.RFID_Region - 1];
-            buttonRegion.Text = _regionsName[0];
-            if (Regions.Count == 1)
-                buttonRegion.IsEnabled = false;
             switch (BleMvxApplication._config.RFID_FrequenceSwitch)
             {
                 case 0:
@@ -169,9 +46,18 @@ namespace BLE.Client.Pages
                     buttonFrequencyOrder.Text = "Fixed";
                     break;
             }
-            if (_freqOrderOptions.Length == 1)
+
+            if (ActiveRegionsTextList.Count() == 1)
+                buttonRegion.IsEnabled = false;
+
+//            if (_freqOrderOptions.Length == 1)
                 buttonFrequencyOrder.IsEnabled = false;
-            buttonFixedChannel.Text = ActiveFrequencyTextList[BleMvxApplication._config.RFID_FixedChannel];
+
+            if (BleMvxApplication._config.RFID_FixedChannel == 0)
+                buttonFixedChannel.Text = ActiveFrequencyTextList[0];
+            else
+                buttonFixedChannel.Text = ActiveFrequencyTextList[BleMvxApplication._config.RFID_FixedChannel - 1];
+
             checkbuttonFixedChannel();
 
             entryPower.Text = BleMvxApplication._config.RFID_Antenna_Power[0].ToString();
@@ -233,15 +119,15 @@ namespace BLE.Client.Pages
 
                 buttonRegion.Text = answer;
 
-                for (cnt = 0; cnt < _regionsName.Length; cnt++)
+                for (cnt = 0; cnt < ActiveRegionsTextList.Length; cnt++)
                 {
-                    if (_regionsName[cnt] == answer)
+                    if (ActiveRegionsTextList[cnt] == answer)
                     {
-                        ActiveFrequencyList = BleMvxApplication._reader.rfid.GetAvailableFrequencyTable(_regionsCode[cnt]);
+                        ActiveFrequencyList = BleMvxApplication._reader.rfid.GetAvailableFrequencyTable(ActiveRegionsTextList[cnt]).ToArray();
                         break;
                     }
                 }
-                if (cnt == _regionsName.Length)
+                if (cnt == ActiveRegionsTextList.Length)
                     ActiveFrequencyList = new double[1] { 0.0 };
 
                 ActiveFrequencyTextList = ActiveFrequencyList.OfType<object>().Select(o => o.ToString()).ToArray();
@@ -425,16 +311,16 @@ namespace BLE.Client.Pages
 
             Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(1);
 
-            for (cnt = 0; cnt < _regionsName.Length; cnt++)
+            for (cnt = 0; cnt < ActiveRegionsTextList.Length; cnt++)
             {
-                if (_regionsName[cnt] == buttonRegion.Text)
+                if (ActiveRegionsTextList[cnt] == buttonRegion.Text)
                 {
-                    BleMvxApplication._config.RFID_Region = _regionsCode[cnt];
+                    BleMvxApplication._config.RFID_Region = ActiveRegionsTextList[cnt];
                     break;
                 }
             }
-            if (cnt == _regionsName.Length)
-                BleMvxApplication._config.RFID_Region = RegionCode.UNKNOWN;
+            if (cnt == ActiveRegionsTextList.Length)
+                BleMvxApplication._config.RFID_Region = "UNKNOWN";
 
             switch (buttonFrequencyOrder.Text)
             {
@@ -450,7 +336,7 @@ namespace BLE.Client.Pages
             {
                 if (buttonFixedChannel.Text == ActiveFrequencyTextList[cnt])
                 {
-                    BleMvxApplication._config.RFID_FixedChannel = (uint)cnt;
+                    BleMvxApplication._config.RFID_FixedChannel = cnt + 1;
                     break;
                 }
             }
@@ -528,18 +414,7 @@ namespace BLE.Client.Pages
 
             BleMvxApplication.SaveConfig();
 
-            switch (BleMvxApplication._config.RFID_FrequenceSwitch)
-            {
-                case 0:
-                    BleMvxApplication._reader.rfid.SetHoppingChannels(BleMvxApplication._config.RFID_Region);
-                    break;
-                case 1:
-                    BleMvxApplication._reader.rfid.SetFixedChannel(BleMvxApplication._config.RFID_Region, BleMvxApplication._config.RFID_FixedChannel);
-                    break;
-                case 2:
-                    BleMvxApplication._reader.rfid.SetAgileChannels(BleMvxApplication._config.RFID_Region);
-                    break;
-            }
+            BleMvxApplication._reader.rfid.SetCountry(BleMvxApplication._config.RFID_Region, (int)BleMvxApplication._config.RFID_FixedChannel);
         }
 
         public async void entryInventoryDurationCompleted(object sender, EventArgs e)
@@ -602,22 +477,6 @@ namespace BLE.Client.Pages
 
         public async void buttonProfileClicked(object sender, EventArgs e)
         {
-            int cnt;
-            RegionCode region = RegionCode.FCC;
-
-            for (cnt = 0; cnt < _regionsName.Length; cnt++)
-            {
-                if (_regionsName[cnt] == buttonRegion.Text)
-                {
-                    region = _regionsCode[cnt];
-                    break;
-                }
-            }
-
-            //string[] profileList = new string[currentProfileList.Length];
-            //for (cnt = 0; cnt < currentProfileList.Length; cnt++)
-            //    profileList[cnt] = _profileList[cnt];
-
             var answer = await DisplayActionSheet(null, "Cancel", null, _profileList);
 
             if (answer != null && answer !="Cancel")
