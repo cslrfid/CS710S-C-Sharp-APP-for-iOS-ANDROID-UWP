@@ -314,7 +314,7 @@ namespace CSLibrary
         /// <returns></returns>
         public Result SetInventoryDuration_CS710S(uint duration, uint antennaPort = 0)
 		{
-            RFIDRegister.AntennaPortConfig.SetDwell((UInt16)duration);
+            RFIDRegister.AntennaPortConfig.SetDwell((UInt16)duration, (byte)antennaPort);
 
 			return Result.OK;
 		}

@@ -305,11 +305,11 @@ namespace BLE.Client.ViewModels
                 switch (BleMvxApplication._config.BatteryLevelIndicatorFormat)
                 {
                     case 0:
-                        labelVoltage = "CS108 Bat. " + voltage.ToString("0.000") + "v"; //			v
+                        labelVoltage = "Battery " + voltage.ToString("0.000") + "v"; //			v
                         break;
 
                     default:
-                        labelVoltage = "CS108 Bat. " + ClassBattery.Voltage2Percent(voltage).ToString("0") + "%" + " " + voltage.ToString("0.000") + "v"; //			%
+                        labelVoltage = "Battery " + ClassBattery.Voltage2Percent(voltage).ToString("0") + "%" + " " + voltage.ToString("0.000") + "v"; //			%
                         break;
                 }
             }

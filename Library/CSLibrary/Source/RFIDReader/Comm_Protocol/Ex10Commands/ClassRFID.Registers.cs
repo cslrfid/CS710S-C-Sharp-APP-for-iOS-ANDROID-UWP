@@ -258,7 +258,7 @@ namespace CSLibrary
 
             internal RFIDReader _handler;
             internal UInt16 regAdd;
-            internal AntennaPortConfig [] data = new AntennaPortConfig[7];
+            internal AntennaPortConfig [] data = new AntennaPortConfig[16];
             internal REGPRIVATE Private;
 
             internal RegAntennaPortConfig(RFIDReader handler)
@@ -267,7 +267,7 @@ namespace CSLibrary
                 regAdd = 0x3030;
                 //data = new AntennaPortConfig[7];
                 this.Private = REGPRIVATE.READWRITE;
-                for (int cnt = 0; cnt < 7; cnt++)
+                for (int cnt = 0; cnt < 16; cnt++)
                     data[cnt] = new AntennaPortConfig();
                 data[0].enable = true;
             }
@@ -300,8 +300,8 @@ namespace CSLibrary
                 int dataAdd = 1 + (port * 16);
 
                 data[port].dwell = ms;
-                sendData[dataAdd] = (byte)(ms >> 8);
-                sendData[dataAdd + 1] = (byte)(ms);
+                sendData[0] = (byte)(ms >> 8);
+                sendData[1] = (byte)(ms);
 
                 _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
             }

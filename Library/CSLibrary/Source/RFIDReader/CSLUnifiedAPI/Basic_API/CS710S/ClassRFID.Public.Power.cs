@@ -140,14 +140,14 @@ namespace CSLibrary
 
             for (i = 0; i < numberofPower; i++)
             {
-                AntennaPortSetState((uint)i, AntennaPortState.ENABLED);
+                AntennaPortSetState_CS710S((uint)i, AntennaPortState.ENABLED);
                 SetPowerLevel_CS710S(power[i], (uint)i);
                 SetInventoryDuration_CS710S(dwell[i], (uint)i);
             }
 
             for (; i < 16; i++)
             {
-                AntennaPortSetState((uint)i, AntennaPortState.DISABLED);
+                AntennaPortSetState_CS710S((uint)i, AntennaPortState.DISABLED);
             }
 
             return Result.OK;

@@ -822,7 +822,7 @@ namespace BLE.Client.ViewModels
             {
                 if (e.Voltage == 0xffff)
                 {
-                    _labelVoltage = "CS108 Bat. ERROR"; //			3.98v
+                    _labelVoltage = "Battery ERROR"; //			3.98v
                 }
                 else
                 {
@@ -836,11 +836,11 @@ namespace BLE.Client.ViewModels
                     switch (BleMvxApplication._config.BatteryLevelIndicatorFormat)
                     {
                         case 0:
-                            _labelVoltage = "CS108 Bat. " + ((double)e.Voltage / 1000).ToString("0.000") + "v"; //			v
+                            _labelVoltage = "Battery " + ((double)e.Voltage / 1000).ToString("0.000") + "v"; //			v
                             break;
 
                         default:
-                            _labelVoltage = "CS108 Bat. " + ClassBattery.Voltage2Percent((double)e.Voltage / 1000).ToString("0") + "%"; //			%
+                            _labelVoltage = "Battery " + ClassBattery.Voltage2Percent((double)e.Voltage / 1000).ToString("0") + "%"; //			%
                             break;
                     }
                 }

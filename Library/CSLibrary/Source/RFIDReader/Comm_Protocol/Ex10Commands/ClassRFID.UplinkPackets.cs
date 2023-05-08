@@ -205,6 +205,15 @@ namespace CSLibrary
             }
         }
 
+        bool checkmultibankzero(UInt16[] multibankdata)
+        {
+            foreach (var data in multibankdata)
+                if (data != 0)
+                    return false;
+
+            return true;
+        }
+
         // 0x3003 packet
         void csl_tag_read_multibank_new_packet_proc(byte[] data, int index)
         {
@@ -266,6 +275,27 @@ namespace CSLibrary
                         info.Bank2Data = Tools.Hex.MSBToUInt16Array(data, index + (m_rdr_opt_parms.TagRanging.count1 * 2), m_rdr_opt_parms.TagRanging.count2);
                     if (m_rdr_opt_parms.TagRanging.multibanks > 2)
                         info.Bank3Data = Tools.Hex.MSBToUInt16Array(data, index + ((m_rdr_opt_parms.TagRanging.count1 + m_rdr_opt_parms.TagRanging.count2) * 2), m_rdr_opt_parms.TagRanging.count3);
+                }
+
+                if (_currentTagRanging.multibanks >= 3)
+                {
+                    if (_currentTagRanging.bank3 == MemoryBank.TID)
+                        if (checkmultibankzero(info.Bank3Data))
+                            return;
+                }
+
+                if (_currentTagRanging.multibanks >= 2)
+                {
+                    if (_currentTagRanging.bank2 == MemoryBank.TID)
+                        if (checkmultibankzero(info.Bank2Data))
+                            return;
+                }
+
+                if (_currentTagRanging.multibanks >= 1)
+                {
+                    if (_currentTagRanging.bank1 == MemoryBank.TID)
+                        if (checkmultibankzero(info.Bank1Data))
+                            return;
                 }
 
                 CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);

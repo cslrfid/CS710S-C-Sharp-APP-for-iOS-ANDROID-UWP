@@ -479,8 +479,18 @@ namespace BLE.Client.Pages
         {
             var answer = await DisplayActionSheet(null, "Cancel", null, _profileList);
 
-            if (answer != null && answer !="Cancel")
+            if (answer != null && answer != "Cancel")
+            {
                 buttonProfile.Text = answer;
+
+                if (BleMvxApplication._reader.rfid.GetModel() == CSLibrary.RFIDDEVICE.MODEL.CS108)
+                {
+                    if (uint.Parse(answer.Substring(0, 3)) == 3)
+                        entryCompactInventoryDelay.Text = "2";
+                    else
+                        entryCompactInventoryDelay.Text = "0";
+                }
+            }
         }
 
         public async void switchFocusPropertyChanged(object sender, EventArgs e)

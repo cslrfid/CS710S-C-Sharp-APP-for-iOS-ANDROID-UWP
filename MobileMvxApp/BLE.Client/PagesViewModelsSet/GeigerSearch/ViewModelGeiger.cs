@@ -114,6 +114,7 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._config.RFID_FixedQParms.qValue = 1;
             BleMvxApplication._config.RFID_FixedQParms.toggleTarget = 1;
             BleMvxApplication._reader.rfid.SetFixedQParms(BleMvxApplication._config.RFID_FixedQParms);
+            BleMvxApplication._reader.rfid.SetCurrentSingulationAlgorithm(CSLibrary.Constants.SingulationAlgorithm.FIXEDQ);
             BleMvxApplication._reader.rfid.SetRSSIFilter(CSLibrary.Constants.RSSIFILTERTYPE.DISABLE);
 
             // Multi bank inventory

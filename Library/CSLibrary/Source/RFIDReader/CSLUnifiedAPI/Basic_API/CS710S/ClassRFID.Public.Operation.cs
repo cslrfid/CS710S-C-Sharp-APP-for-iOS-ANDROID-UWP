@@ -32,6 +32,7 @@ namespace CSLibrary
 {
     public partial class RFIDReader
     {
+        TagRangingParms _currentTagRanging;
         public Result StartOperation_CS710S(Operation opertion)
         {
             CurrentOperation = opertion;
@@ -46,6 +47,8 @@ namespace CSLibrary
                     //WriteRegister(0x3036, new byte[] { 0x66 });
 
                     _deviceHandler.battery.EnableAutoBatteryLevel();
+
+                    _currentTagRanging = Options.TagRanging.Clone();
 
                     RFIDRegister.AntennaPortConfig.FastIdEnable(Options.TagRanging.fastid);
                     RFIDRegister.AntennaPortConfig.TagFocusEnable(Options.TagRanging.focus);

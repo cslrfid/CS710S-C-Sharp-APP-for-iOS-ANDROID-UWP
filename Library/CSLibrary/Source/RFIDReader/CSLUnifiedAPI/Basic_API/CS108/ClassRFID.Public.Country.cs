@@ -124,11 +124,14 @@ namespace CSLibrary
 
         public Result SetRegion_CS108(string CountryName, int Channel = -1)                                        // Select Country Frequency with channel if fixed
         {
-            var item = FrequencyBand_CS710S.frequencySet.Find(i => i.name.Equals(CountryName));
+            var item = FrequencyBand.frequencySet.Find(i => i.name.Equals(CountryName));
 
-            if (item == null)
+            if (item != null)
             {
-                return Result.FAILURE;
+                if (item.hopping)
+                    return SetHoppingChannels(item.code);
+
+                return SetFixedChannel(item.code, (uint)Channel);
             }
 
             return Result.FAILURE;

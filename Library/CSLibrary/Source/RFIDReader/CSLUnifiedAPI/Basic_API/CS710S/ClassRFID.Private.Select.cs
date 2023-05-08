@@ -45,7 +45,7 @@ namespace CSLibrary
                 {
                     byte[] a = m_rdr_opt_parms.TagSelected.Mask.ToArray();
 
-                    RFIDRegister.SelectConfiguration.Set(0, true, (byte)m_rdr_opt_parms.TagSelected.bank, m_rdr_opt_parms.TagSelected.epcMaskOffset, (byte)m_rdr_opt_parms.TagSelected.epcMaskLength, m_rdr_opt_parms.TagSelected.Mask.ToArray(), (byte)CSLibrary.Constants.Target.SELECTED, 0, 0);
+                    RFIDRegister.SelectConfiguration.Set(0, true, (byte)m_rdr_opt_parms.TagSelected.bank, m_rdr_opt_parms.TagSelected.MaskOffset, (byte)m_rdr_opt_parms.TagSelected.MaskLength, m_rdr_opt_parms.TagSelected.Mask.ToArray(), (byte)CSLibrary.Constants.Target.SELECTED, 0, 0);
                 }
             }
             catch (System.Exception ex)

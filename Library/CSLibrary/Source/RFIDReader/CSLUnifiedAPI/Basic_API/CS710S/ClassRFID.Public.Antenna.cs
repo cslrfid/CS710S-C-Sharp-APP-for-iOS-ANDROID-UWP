@@ -23,12 +23,43 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+
+
 namespace CSLibrary
 {
-    using static RFIDDEVICE;
     using Constants;
     using Structures;
 
+    public partial class RFIDReader
+    {
+        public Result AntennaPortSetState_CS710S(UInt32 antennaPort, AntennaPortState state)
+        {
+
+            switch (state)
+            {
+                case AntennaPortState.DISABLED:
+                    {
+                        RFIDRegister.AntennaPortConfig.Enable(false, (byte)antennaPort);
+                        break;
+                    } // case RFID_ANTENNA_PORT_STATE_DISABLED
+                case AntennaPortState.ENABLED:
+                    {
+                        RFIDRegister.AntennaPortConfig.Enable(true, (byte)antennaPort);
+                        break;
+                    } // case RFID_ANTENNA_PORT_STATE_ENABLED
+                default:
+                    return Result.INVALID_PARAMETER;
+            }
+
+            return Result.OK;
+        }
+
+    }
+}
+
+#if oldcode
+namespace CSLibrary
+{
     public partial class RFIDReader
     {
         //AntennaList m_AntennaList = null乙new AntennaList(AntennaList.DEFAULT_ANTENNA_LIST, true);
@@ -48,9 +79,41 @@ namespace CSLibrary
 
             switch (m_oem_machine)
             {
-                case MODEL.CS710S:
+                case Machine.CS108:
                 default:
                     m_AntennaList.Add(new Antenna(0, AntennaPortState.ENABLED, 300, 0, 0x2000, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    break;
+
+                case Machine.CS203X:
+                    m_AntennaList.Add(new Antenna(0, AntennaPortState.ENABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(1, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    break;
+
+                case Machine.CS463:
+                    m_AntennaList.Add(new Antenna(0, AntennaPortState.ENABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(1, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(2, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(3, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    break;
+
+                case Machine.CS468X:
+                case Machine.CS468XJ:
+                    m_AntennaList.Add(new Antenna(0, AntennaPortState.ENABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(1, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(2, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(3, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(4, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(5, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(6, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(7, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(8, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(9, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(10, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(11, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(12, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(13, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(14, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
+                    m_AntennaList.Add(new Antenna(15, AntennaPortState.DISABLED, 300, 2000, 0, false, false, SingulationAlgorithm.DYNAMICQ, 0, false, 0, false, 0, 1048575));
                     break;
             }
 
@@ -70,6 +133,7 @@ namespace CSLibrary
                 for (; i < 16; i++)
                 {
                     AntennaPortSetState((uint)i, AntennaPortState.DISABLED);
+                    //SetAntennaPortState((uint)i, AntennaPortState.DISABLED);  
                 }
             }
             catch (Exception ex)
@@ -111,6 +175,38 @@ namespace CSLibrary
 
         public Result AntennaPortGetStatus(uint port, AntennaPortStatus portStatus)
         {
+            UInt32 registerValue = 0;
+
+            // First, tell the MAC which antenna descriptors we'll be reading and
+            // verify that it was a valid selector
+            MacWriteRegister(MACREGISTER.HST_ANT_DESC_SEL, port);
+
+            /*
+            MacReadRegister(MACREGISTER.MAC_ERROR, ref registerValue);
+
+            if (registerValue == HOSTIF_ERR_SELECTORBNDS)
+            {
+                MacClearError();
+                return Result.INVALID_PARAMETER;
+            }
+            */
+
+            // Get the state of the antenna
+            MacReadRegister(MACREGISTER.HST_ANT_DESC_CFG, ref registerValue);
+
+            portStatus.state = ((registerValue & 0x01) != 0x00 ? AntennaPortState.ENABLED : AntennaPortState.DISABLED);
+            portStatus.enableLocalInv = (registerValue & (1 << 1)) != 00;
+            portStatus.inv_algo = (SingulationAlgorithm)(registerValue >> 2 & 0x03);
+            portStatus.startQ = registerValue >> 4 & 0x0f;
+            portStatus.enableLocalProfile = (registerValue & (1 << 8)) != 00;
+            portStatus.profile = registerValue >> 9 & 0x0f;
+            portStatus.enableLocalFreq = (registerValue & (1 << 13)) != 00;
+            portStatus.freqChn = registerValue >> 14 & 0x3f;
+
+            // Now read the anteanna sense value
+            MacReadRegister(MACREGISTER.MAC_ANT_DESC_STAT, ref registerValue);
+            portStatus.antennaSenseValue = registerValue;
+
             return Result.OK;
         }
 
@@ -145,6 +241,101 @@ namespace CSLibrary
 
         public Result AntennaPortSetStatus(uint port, AntennaPortStatus portStatus)
         {
+            UInt32 registerValue = 0;
+
+            // First, tell the MAC which antenna descriptors we'll be reading and
+            // verify that it was a valid selector
+            MacWriteRegister(MACREGISTER.HST_ANT_DESC_SEL, port);
+
+            /*MacReadRegister(MACREGISTER.MAC_ERROR, ref registerValue);
+
+            if (registerValue == HOSTIF_ERR_SELECTORBNDS)
+            {
+                MacClearError();
+                return Result.INVALID_PARAMETER;
+            }
+            */
+
+            // Read the current value of the anteann port configuration
+            MacReadRegister(MACREGISTER.HST_ANT_DESC_CFG, ref registerValue);
+
+            registerValue &= 0xfff00000;
+
+            // Now set the enabled bit appropriately
+            switch (portStatus.state)
+            {
+                case AntennaPortState.DISABLED:
+                    {
+                        //HST_ANT_DESC_CFG_SET_DISABLED//(registerValue);
+                        registerValue &= ~((uint)1);
+                        break;
+                    } // case RFID_ANTENNA_PORT_STATE_DISABLED
+                case AntennaPortState.ENABLED:
+                    {
+                        //HST_ANT_DESC_CFG_SET_ENABLED(registerValue);
+                        registerValue |= 1;
+                        break;
+                    } // case RFID_ANTENNA_PORT_STATE_ENABLED
+                default:
+                    {
+                        return Result.INVALID_PARAMETER;
+                        break;
+                    } // default
+            } // switch (state)
+
+            if (portStatus.easAlarm)
+            {
+                registerValue |= 1U << 20;
+            }
+            else
+            {
+                registerValue &= ~(1U << 20);
+            }
+
+            if (portStatus.enableLocalInv)
+            {
+                //HST_ANT_DESC_CFG_SET_LOCAL_INV(registerValue);
+                //HST_ANT_DESC_CFG_SET_INV_ALGO(registerValue, pStatus->inv_algo);
+                //HST_ANT_DESC_CFG_SET_STARTQ(registerValue, pStatus->startQ);
+                registerValue |= 1 << 1;
+                registerValue |= (uint)portStatus.inv_algo << 2;
+                registerValue |= (uint)portStatus.startQ << 4;
+            }
+            else
+            {
+                //HST_ANT_DESC_CFG_SET_GLOBAL_INV(registerValue);
+                registerValue &= ~((uint)1 << 1);
+            }
+
+            if (portStatus.enableLocalProfile)
+            {
+                //HST_ANT_DESC_CFG_SET_LOCAL_PROFILE(registerValue);
+                //HST_ANT_DESC_CFG_SET_PROFILE(registerValue, pStatus->profile);
+                registerValue |= (uint)1 << 8;
+                registerValue |= (uint)portStatus.profile << 9;
+            }
+            else
+            {
+                //HST_ANT_DESC_CFG_SET_GLOBAL_PROFILE(registerValue);
+                registerValue &= ~((uint)1 << 8);
+            }
+
+            if (portStatus.enableLocalFreq)
+            {
+                //HST_ANT_DESC_CFG_SET_LOCAL_FREQ(registerValue);
+                //HST_ANT_DESC_CFG_SET_FREQ_CHN(registerValue, pStatus->freqChn);
+                registerValue |= (uint)1 << 13;
+                registerValue |= (uint)portStatus.freqChn << 14;
+            }
+            else
+            {
+                //HST_ANT_DESC_CFG_SET_GLOBAL_FREQ(registerValue);
+                registerValue &= ~((uint)1 << 13);
+            }
+
+            // Write back the configuration register
+            MacWriteRegister(MACREGISTER.HST_ANT_DESC_CFG, registerValue);
+
             return Result.OK;
         }
 
@@ -183,20 +374,50 @@ namespace CSLibrary
             return (m_Result = AntennaPortSetState(port, portState));
         }
 
+        const uint HOSTIF_ERR_SELECTORBNDS = 0x010E;
         public Result AntennaPortSetState(UInt32 antennaPort, AntennaPortState state)
         {
-            switch (_deviceType)
+            uint registerValue = 0;
+
+            // First, tell the MAC which antenna descriptors we'll be reading and
+            // verify that it was a valid selector
+            MacWriteRegister(MACREGISTER.HST_ANT_DESC_SEL, antennaPort);
+
+            /*
+            MacReadRegister(MACREGISTER.MAC_ERROR, ref registerValue);
+
+            if (registerValue == HOSTIF_ERR_SELECTORBNDS)
             {
-                case MODEL.CS108:
-                    AntennaPortSetState_CS108(antennaPort, state);
-                    break;
-
-                case MODEL.CS710S:
-                    AntennaPortSetState_CS710S(antennaPort, state);
-                    break;
+                MacClearError();
+                return Result.INVALID_PARAMETER;
             }
+            */
 
-            return Result.FAILURE;
+            // Read the current value of the anteann port configuration
+            MacReadRegister(MACREGISTER.HST_ANT_DESC_CFG, ref registerValue);
+
+            // Now set the enabled bit appropriately
+            switch (state)
+            {
+                case AntennaPortState.DISABLED:
+                    {
+                        registerValue &= ~((uint)1);
+                        break;
+                    } // case RFID_ANTENNA_PORT_STATE_DISABLED
+                case AntennaPortState.ENABLED:
+                    {
+                        registerValue |= 1;
+                        break;
+                    } // case RFID_ANTENNA_PORT_STATE_ENABLED
+                default:
+                    return Result.INVALID_PARAMETER;
+            } // switch (state)
+
+            // Write back the configuration register
+            MacWriteRegister(MACREGISTER.HST_ANT_DESC_CFG, registerValue);
+
+            return Result.OK;
+
         } // Radio::SetAntennaPortState
 
 
@@ -251,6 +472,29 @@ namespace CSLibrary
 
         Result AntennaPortGetConfiguration(uint port, AntennaPortConfig antenna)
         {
+            UInt32 registerValue = 0;
+
+            // First, tell the MAC which antenna descriptors we'll be reading and
+            // verify that it was a valid selector
+            MacWriteRegister(MACREGISTER.HST_ANT_DESC_SEL, port);
+
+            /*
+            MacReadRegister(MACREGISTER.MAC_ERROR, ref registerValue);
+
+            if (registerValue == HOSTIF_ERR_SELECTORBNDS)
+            {
+                MacClearError();
+                return Result.INVALID_PARAMETER;
+            }
+            */
+
+            // Read the antenna dwell time, RF power, inventory cycle count, and 
+            // sense resistor registers
+            MacReadRegister(MACREGISTER.HST_ANT_DESC_DWELL, ref antenna.dwellTime);
+            MacReadRegister(MACREGISTER.HST_ANT_DESC_RFPOWER, ref antenna.powerLevel);
+            MacReadRegister(MACREGISTER.HST_ANT_DESC_INV_CNT, ref antenna.numberInventoryCycles);
+            //MacReadRegister(MacRegister.HST_RFTC_ANTSENSRESTHRSH, ref antenna.antennaSenseThreshold);
+
             return Result.OK;
         }
 
@@ -336,17 +580,6 @@ namespace CSLibrary
 
         Result AntennaPortSetConfiguration(uint port, AntennaPortConfig antenna)
         {
-            RFIDRegister.AntennaPortConfig.SetPower((UInt16)(antenna.powerLevel * 10), (byte)port);
-            RFIDRegister.AntennaPortConfig.SetDwell((UInt16)antenna.dwellTime, (byte)port);
-
-            //MacWriteRegister(MACREGISTER.HST_ANT_DESC_INV_CNT, antenna.numberInventoryCycles);
-
-
-
-
-
-#if forreference            
-
             UInt32 registerValue = 0;
 
             // First, tell the MAC which antenna descriptors we'll be reading and
@@ -370,18 +603,15 @@ namespace CSLibrary
             MacWriteRegister(MACREGISTER.HST_ANT_DESC_RFPOWER, antenna.powerLevel);
 
             MacWriteRegister(MACREGISTER.HST_ANT_DESC_INV_CNT, antenna.numberInventoryCycles);
-#endif
 
             return Result.OK;
         }
 
         public uint GetAntennaPort()
         {
-            if (m_AntennaList == null)
-                return 1;
-
             return (uint)m_AntennaList.Count;
 		}
 
     }
 }
+#endif

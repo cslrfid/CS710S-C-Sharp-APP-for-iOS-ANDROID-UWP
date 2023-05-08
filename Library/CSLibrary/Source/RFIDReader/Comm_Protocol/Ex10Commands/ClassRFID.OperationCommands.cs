@@ -95,6 +95,11 @@ namespace CSLibrary
 
         internal void RFIDStartCompactInventory()
         {
+
+            for (int index = 0; index < 3; index++)
+                RFIDRegister.MultibankReadConfig.Enable((byte)index, false);
+
+
             //            RFIDRegister.TagCacheStatus.Set(0x01);
 
 
@@ -178,26 +183,41 @@ namespace CSLibrary
 
         internal void RFIDReadMB()
         {
+            for (int index = 1; index < 3; index++)
+                RFIDRegister.MultibankReadConfig.Enable((byte)index, false);
+
             RunShortOperation(SCSLRFIDCMD.SCSLRFIDReadMB, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.CSL_OPERATION_COMPLETE);
         }
 
         internal void RFIDWriteMB()
         {
+            for (int index = 1; index < 3; index++)
+                RFIDRegister.MultibankReadConfig.Enable((byte)index, false);
+
             RunShortOperation(SCSLRFIDCMD.SCSLRFIDWriteMB, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.CSL_OPERATION_COMPLETE);
         }
 
         internal void RFIDWriteMBAny()
         {
+            for (int index = 1; index < 3; index++)
+                RFIDRegister.MultibankReadConfig.Enable((byte)index, false);
+
             RunShortOperation(SCSLRFIDCMD.SCSLRFIDWriteMBAny);
         }
 
         internal void RFIDBlockWriteMB()
         {
+            for (int index = 1; index < 3; index++)
+                RFIDRegister.MultibankReadConfig.Enable((byte)index, false);
+
             RunShortOperation(SCSLRFIDCMD.SCSLRFIDBlockWriteMB);
         }
 
         internal void RFIDBlockWriteMBAny()
         {
+            for (int index = 1; index < 3; index++)
+                RFIDRegister.MultibankReadConfig.Enable((byte)index, false);
+
             RunShortOperation(SCSLRFIDCMD.SCSLRFIDBlockWriteMBAny);
         }
 
