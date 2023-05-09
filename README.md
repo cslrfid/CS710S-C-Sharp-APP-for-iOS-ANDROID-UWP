@@ -1,4 +1,4 @@
-# CS710S-Mobile-CSharp-DotNetStd-App
+# C# CS710S CS108 Combo DotNetStd App
 
 CS710S Xamarin C# Bluetooth Demo App and SDK 
 
