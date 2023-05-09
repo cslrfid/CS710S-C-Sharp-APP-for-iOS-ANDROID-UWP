@@ -37,15 +37,6 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
-        private enum RFIDREADERCMDSTATUS
-        {
-            IDLE,           // Can send (SetRegister, GetRegister, ExecCmd, Abort), Can not receive data
-            GETREGISTER,    // Can not send data, Can receive (GetRegister) 
-            EXECCMD,        // Can send (Abort), Can receive (CMDBegin, CMDEnd, Inventory data, Abort)
-            INVENTORY,      // Can send (Abort)
-            ABORT,          // Can not send
-        }
-
         void Start18K6CRequest_CS710S(uint tagStopCount, SelectFlags flags)
         {
             if ((flags & SelectFlags.SELECT) != 0)
