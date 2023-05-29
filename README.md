@@ -1,18 +1,18 @@
 # C# CS710S CS108 Combo DotNetStd App
 
-CS710S CS108 Xamarin C# Bluetooth Demo App and SDK 
+CS710S and CS108 Xamarin C# Bluetooth Demo App and SDK 
 
 - .NET Standard 2.0 and MvvmCross 7
 - Support implementations on iOS and Android platform
 
-This application provides demonstrations to the programming interface made available on the CS710S handheld reader for configuring, controlling, and accessing the RFID reader.  The development was based on the unified CS710S C# Callback-based API that made available on different CSL readers.  This API is applicable to both iPhone iOS and Android environment.  
+This application provides demonstrations to the programming interface made available on the CS710S and CS108 handheld reader for configuring, controlling, and accessing the RFID reader.  The development was based on the unified CS710S C# Callback-based API that made available on different CSL readers.  This API is applicable to both iPhone iOS and Android environment.  
 
 [Product Information](https://www.convergence.com.hk/CS710S/)
 <br>
 
 ## Pre-requisite
 
-The build environment consists of tools and the corresponding configurations of the Visual Studio 2019(Windows) or Xamarin (Mac).  It is expected that the system integrator or the software system programming house will be developing the applications on Visual Studio 2019 (Windows) or Xamarin (Mac).  With this tool, typically he has to write programs on the PC/Mac.  The following are needed to set up the build environment.
+The build environment consists of tools and the corresponding configurations of the Visual Studio 2022(Windows) or Visual Studio 2019(Mac).  It is expected that the system integrator or the software system programming house will be developing the applications on Visual Studio 2019(Windows) or Visual Studio 2019(Mac).  With this tool, typically he has to write programs on the PC/Mac.  The following are needed to set up the build environment.
 
 ## Basic configuration on PC
 
@@ -33,11 +33,11 @@ In Visual Studio, you need to use the Visual Studio Installer to add the Xamarin
 ## Basic Configuration on Mac
 
 Operating System requirement:
--	Mac OS 10 (English)
+-	Mac OS 12 (English)
 
 Software package required:
 -	Microsoft Visual Studio 2019 for MAC
--	Xcode 9
+-	Xcode 14
 
 To build demo application successfully, you need to install Visual Studio 2019 or above. For more detailed information, please go to [Xamarin webpage](https://www.xamarin.com/).
 <br><br>
@@ -55,13 +55,13 @@ The CS710S CS108 Callback-based API Library consists of the following files.
 
 ## CS710S CS108 C# API: Theory of Operation
 
-The CS710S C# Application Programming Interface (API) provides a programming interface for controlling CS710S integrated reader. The interface is loaded by a mobile application; the application in turn explicitly initializes the interface. The interface supports enumeration of attached RFID radio modules, returning unique identification information for each currently-attached RFID radio modules. An mobile application uses the CS710S C# API to establish a connection and grant the application exclusive control of the corresponding RFID radio module. After an application is granted exclusive control of an RFID radio module, the application can configure the RFID radio module for operation and tag protocol operations can be issued. The CS710S C# API allows an application control of low level functions of the Firmware, including but not limited to: 
+The CS710S and CS108 C# Application Programming Interface (API) provides a programming interface for controlling CS710S and CS108 integrated reader. The interface is loaded by a mobile application; the application in turn explicitly initializes the interface. The interface supports enumeration of attached RFID radio modules, returning unique identification information for each currently-attached RFID radio modules. An mobile application uses the CS710S C# API to establish a connection and grant the application exclusive control of the corresponding RFID radio module. After an application is granted exclusive control of an RFID radio module, the application can configure the RFID radio module for operation and tag protocol operations can be issued. The CS710S C# API allows an application control of low level functions of the Firmware, including but not limited to: 
 
 - regulatory configuration of frequencies 
 - antenna output power 
 - air protocol parameters, such as Q value 
 
-Some of these configuration parameters are abstracted by the CS710S C# API. The application initiates transactions with ISO 18000-6C tags or tag populations by executing ISO 18000-6C tag-protocol operations. The interface exposes direct access to the following ISO 18000-6C tag-protocol operations: 
+Some of these configuration parameters are abstracted by the CS710S and CS108 C# API. The application initiates transactions with ISO 18000-6C tags or tag populations by executing ISO 18000-6C tag-protocol operations. The interface exposes direct access to the following ISO 18000-6C tag-protocol operations: 
 
 - Inventory 
 - Read 
@@ -82,6 +82,4 @@ The interface provides the application with access to (i.e., read and write) the
 
 ## Callback-based API Classes, Methods and Events
 
-Please refer to the documentation under the folder CSLibrary/docs
-
-
+Please refer to the documentation under the folder Library/CSLibrary/Readme.txt and CSLibrary/docs
