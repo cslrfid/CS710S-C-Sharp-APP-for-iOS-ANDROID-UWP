@@ -150,21 +150,35 @@ Result SetInventoryCycle(uint cycle)													// Set inventory cycles count
 
 New Set commands of Country Frequency (old Region set commands phase out)
 ------------------------------------
-List<string> GetActiveCountryNameList()													// Get Active Country Name List
+bool IsCountryChangeable()																	// Get Frequency Modification Flag
+string[] GetActiveCountryNameList()														// Get Active Country Name List
+string GetCurrentCountry()																//
+int GetCurrentCountryIndex()
+int GetCurrentFrequencyChannel()														// -1 = hopping, 
+int GetCountryIndex(string CountryName)													// Get Available frequency table with country code
 double[] GetAvailableFrequencyTable()													// Get frequency table on current selected country
-double[] GetAvailableFrequencyTable(string CountryName)									// Get Available frequency table with country code
+double[] GetAvailableFrequencyTable(string CountryName)									// Get Available frequency table with country name
+double[] GetAvailableFrequencyTable(int CountryIndex)									// Get Available frequency table with country index
 bool IsHopping()																		// Is current country hoppping enabled
 bool IsHopping(string CountryName)
+bool IsHopping(int CountryIndex)
 bool IsFixed()																			// Is current country fixed enabled
 bool IsFixed(string CountryName)
+bool IsFixed(int CountryIndex)
 Result SetCountry(string CountryName)													// Select Country Frequency and default channel 0 if fixed channel
-Result SetCountry(string CountryName, int Channel)										// Select Country Frequency with channel if fixed
-string GetCurrentCountry()
-int GetCurrentCountryIndex()
-int GetCurrentFrequencyChannel()
+Result SetCountry(string CountryName, int Channel)										// Select Country Channel with channel if fixed (first channel = 0)
+Result SetCountry(int CountryIndex)														// Select Country Frequency and default channel 0 if fixed channel
+Result SetCountry(int CountryIndex, int Channel)										// Select Country Channel with channel if fixed (first channel = 0)
 
+CS108 commands of Country Frequency (only for CS108, just for compatible with old API)
+------------------------------------
+SetHoppingChannels(RegionCode)
+SetFixedChannel(RegionCode, channel)
+
+Operation commands
+---------------
 Result StartOperation(Operation opertion)												// Start special function (see below table)
-void StopOperation()																		// Stop CONTINUOUS inventory 
+void StopOperation()																	// Stop CONTINUOUS inventory 
 
 Operation value
 ---------------

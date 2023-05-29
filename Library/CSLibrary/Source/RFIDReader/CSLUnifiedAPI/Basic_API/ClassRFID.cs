@@ -102,17 +102,6 @@ namespace CSLibrary
         }
 
 
-        public string GetModelName()
-        {
-            return m_oem_machine.ToString();
-        }
-
-        public string GetFullModelName()
-        {
-            return m_oem_machine.ToString() + GetCurrentSubModulName();
-        }
-
-
         public MODEL GetModel()
         {
             return m_oem_machine;

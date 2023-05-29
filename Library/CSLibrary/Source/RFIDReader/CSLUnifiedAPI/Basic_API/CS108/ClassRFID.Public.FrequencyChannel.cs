@@ -34,21 +34,23 @@ namespace CSLibrary
     public partial class RFIDReader
     {
 
+        /*
         /// <summary>
         /// Get Current Selected Frequency Channel
         /// </summary>
         public uint SelectedChannel
         {
-            get { return m_save_freq_channel; }
+            get { return m_save_selected_freq m_save_freq_channel; }
         }
 
         /// <summary>
-        /// Get current frequency 
+        /// Get current seelcted Country
         /// </summary>
         public double SelectedFrequencyBand
         {
-            get { return m_save_selected_freq; }
+            get { return   m_save_selected_freq; }
         }
+        */
 
         /// <summary>
         /// Set Fixed Frequency Channel
@@ -59,6 +61,10 @@ namespace CSLibrary
         /// from CSLibrary.HighLevelInterface.AvailableFrequencyTable(CSLibrary.Constants.RegionCode)</param>
         public Result SetFixedChannel(RegionCode prof = RegionCode.CURRENT, uint channel = 0)
         {
+            bool m_save_fixed_channel = !FrequencyBand.frequencySet.Find(i => i.code == prof).hopping;
+
+            if (m_save_fixed_channel)
+                return Result.INVALID_PARAMETER;
 
             if (m_save_fixed_channel == true && m_save_region_code == prof && m_save_freq_channel == channel)
             {
@@ -70,9 +76,6 @@ namespace CSLibrary
             uint Reg0x700 = 0;
 
             //DEBUG_WriteLine(DEBUGLEVEL.API, "HighLevelInterface.SetFixedChannel(RegionCode prof, uint channel, LBT LBTcfg)");
-
-            if (IsHoppingChannelOnly)
-                return Result.INVALID_PARAMETER;
 
             if (!GetActiveRegionCode().Contains(prof))
                 return Result.INVALID_PARAMETER;
@@ -112,11 +115,15 @@ namespace CSLibrary
 
                 SetRadioLBT(LBT.OFF);
 
+                m_save_countryname = FrequencyBand.GetRegionName(prof);
                 m_save_region_code = prof;
-                m_save_freq_channel = channel;
-                m_save_fixed_channel = true;
-                m_save_agile_channel = false;
-                m_save_selected_freq = GetAvailableFrequencyTable(prof)[channel];
+                m_save_freq_channel = (int)channel;
+
+                //m_save_region_code = prof;
+                //m_save_freq_channel = (int)channel;
+                //m_save_fixed_channel = true;
+                //m_save_agile_channel = false;
+                //m_save_selected_freq = GetAvailableFrequencyTable(prof)[channel];
 
             }
 #if nouse
@@ -146,15 +153,17 @@ namespace CSLibrary
         /// <returns>Result</returns>
         public Result SetHoppingChannels(RegionCode prof)
         {
-            if (!(m_save_fixed_channel == true || m_save_agile_channel == true) && m_save_region_code == prof)
+            bool m_save_fixed_channel = !FrequencyBand.frequencySet.Find(i => i.code == prof).hopping;
+
+            if (m_save_fixed_channel || !GetActiveRegionCode().Contains(prof))
+                return Result.INVALID_PARAMETER;
+
+            if (!m_save_fixed_channel && m_save_region_code == prof)
             {
                 if (currentInventoryFreqRevIndex == null)
                     currentInventoryFreqRevIndex = FreqIndex(m_save_region_code);
                 return Result.OK;
             }
-
-            if (IsFixedChannelOnly_CS108 || !GetActiveRegionCode().Contains(prof))
-                return Result.INVALID_PARAMETER;
 
             uint TotalCnt = FreqChnCnt(prof);
             uint[] freqTable = FreqTable(prof);
@@ -173,9 +182,13 @@ namespace CSLibrary
 
             SetRadioLBT(LBT.OFF);
 
+            m_save_countryname = FrequencyBand.GetRegionName(prof);
             m_save_region_code = prof;
-            m_save_fixed_channel = false;
-            m_save_agile_channel = false;
+            m_save_freq_channel = -1;
+
+            //m_save_region_code = prof;
+            //m_save_freq_channel = -1;
+            //m_save_agile_channel = false;
             m_Result = Result.OK;
 
             currentInventoryFreqRevIndex = FreqIndex(m_save_region_code);
@@ -197,14 +210,17 @@ namespace CSLibrary
         /// </summary>
         /// <param name="prof">Country Profile</param>
         /// <returns>Result</returns>
-        public Result SetAgileChannels(RegionCode prof)
+        private Result SetAgileChannels(RegionCode prof)
         {
-            if (!(m_save_fixed_channel == true || m_save_agile_channel == false) && m_save_region_code == prof)
+            bool m_save_fixed_channel = !FrequencyBand.frequencySet.Find(i => i.code == prof).hopping;
+
+            if (!m_save_fixed_channel && m_save_region_code == prof)
             {
                 if (currentInventoryFreqRevIndex == null)
                     currentInventoryFreqRevIndex = FreqIndex(m_save_region_code);
                 return Result.OK;
             }
+
             uint Reg0x700 = 0;
 
             if (!GetActiveRegionCode().Contains(prof) || (prof != RegionCode.ETSI && prof != RegionCode.JP))
@@ -228,7 +244,7 @@ namespace CSLibrary
 
             m_save_region_code = prof;
             m_save_fixed_channel = false;
-            m_save_agile_channel = true;
+            //m_save_agile_channel = true;
 
             MacReadRegister(MACREGISTER.HST_ANT_CYCLES /*0x700*/, ref Reg0x700);
             Reg0x700 |= 0x01000000U;
@@ -240,149 +256,33 @@ namespace CSLibrary
 
         internal Result InitDefaultChannel_CS108()
         {
-            switch (m_save_country_code)
-            {
-                case 1:     // ETSI
-                    m_save_region_code = RegionCode.ETSI;
-                    m_save_fixed_channel = true;
-                    m_save_agile_channel = false;
-                    m_save_freq_channel = 0;
-                    break;
+            var defaulRegion = CSLibrary.DEVICE.GetDefauleRegion((int)m_oem_country_code, (int)m_oem_special_country_version);
+            var hopping = CSLibrary.FrequencyBand.HoppingAvalibable(defaulRegion);
 
-                case 2:     // FCC
-                    if (m_oem_freq_modification_flag == 0x00)
-                        m_save_region_code = RegionCode.FCC;
-                    else
-                    {
-                        switch (m_oem_special_country_version)
-                        {
-                            default: // and case 0x2a555341
-                                m_save_region_code = RegionCode.FCC;
-                                break;
-                            case 0x4f464341:
-                                m_save_region_code = RegionCode.HK;
-                                break;
-                            case 0x2a2a4153:
-                                m_save_region_code = RegionCode.AU;
-                                break;
-                            case 0x2a2a4e5a:
-                                m_save_region_code = RegionCode.NZ;
-                                break;
-                            case 0x20937846:
-                                m_save_region_code = RegionCode.ZA;
-                                break;
-                            case 0x2A2A5347:
-                                m_save_region_code = RegionCode.SG;
-                                break;
-                            case 0x2A2A5448:
-                                m_save_region_code = RegionCode.TH;
-                                break;
-                        }
-                    }
-                    m_save_fixed_channel = false;
-                    m_save_agile_channel = false;
-                    break;
+            if (hopping)
+                m_save_freq_channel = -1;
+            else
+                m_save_freq_channel = 0;
 
-                case 4:     // 
-                    m_save_region_code = RegionCode.TW;
-                    m_save_fixed_channel = false;
-                    m_save_agile_channel = false;
-                    break;
-
-                case 6:     // 
-                    m_save_region_code = RegionCode.KR;
-                    m_save_fixed_channel = false;
-                    m_save_agile_channel = false;
-                    break;
-
-                case 7:     // 
-                    m_save_region_code = RegionCode.CN;
-                    m_save_fixed_channel = false;
-                    m_save_agile_channel = false;
-                    break;
-
-                case 8:     // 
-                    m_save_region_code = RegionCode.JP;
-                    m_save_fixed_channel = true;
-                    m_save_agile_channel = false;
-                    m_save_freq_channel = 0;
-                    break;
-
-                case 9:     // 
-                    m_save_region_code = RegionCode.ETSIUPPERBAND;
-                    m_save_fixed_channel = true;
-                    m_save_agile_channel = false;
-                    m_save_freq_channel = 0;
-                    break;
-
-                default:
-                    break;
-            }
-
-            m_save_countryname = FrequencyBand.frequencySet.Find(item => item.code == m_save_region_code).name;
+            m_save_countryname = FrequencyBand.GetRegionName(defaulRegion);
+            m_save_region_code = defaulRegion;
 
             return Result.OK;
         }
 
         internal Result SetDefaultChannel_CS108()
         {
-            switch (m_save_country_code)
+            //m_save_freq_channel = 0;
+            var defaulRegion = CSLibrary.DEVICE.GetDefauleRegion((int)m_oem_country_code, (int)m_oem_special_country_version);
+            var hopping = CSLibrary.FrequencyBand.HoppingAvalibable(defaulRegion);
+
+            if (hopping)
             {
-                case 1:     // ETSI
-                    SetFixedChannel(RegionCode.ETSI, 0);
-                    break;
-
-                case 2:     // FCC
-                    if (m_oem_freq_modification_flag == 0x00)
-                        SetHoppingChannels(RegionCode.FCC);
-                    else
-                    {
-                        switch (m_oem_special_country_version)
-                        {
-                            default: // and case 0x2a555341
-                                SetHoppingChannels(RegionCode.FCC);
-                                break;
-                            case 0x4f464341:
-                                SetHoppingChannels(RegionCode.HK);
-                                break;
-                            case 0x2a2a4153:
-                                SetHoppingChannels(RegionCode.AU);
-                                break;
-                            case 0x2a2a4e5a:
-                                SetHoppingChannels(RegionCode.NZ);
-                                break;
-                            case 0x20937846:
-                                SetHoppingChannels(RegionCode.ZA);
-                                break;
-                            case 0x2A2A5347:
-                                SetHoppingChannels(RegionCode.SG);
-                                break;
-                        }
-                    }
-                    break;
-
-                case 4:     // 
-                    SetHoppingChannels(RegionCode.TW);
-                    break;
-
-                case 6:     // 
-                    SetHoppingChannels(RegionCode.KR);
-                    break;
-
-                case 7:     // 
-                    SetHoppingChannels(RegionCode.CN);
-                    break;
-
-                case 8:     // 
-                    SetFixedChannel(RegionCode.JP, 0);
-                    break;
-
-                case 9:     // 
-                    SetFixedChannel(RegionCode.ETSIUPPERBAND, 0);
-                    break;
-
-                default:
-                    break;
+                SetHoppingChannels(defaulRegion);
+            }
+            else
+            {
+                SetFixedChannel(defaulRegion, 0);
             }
 
             return Result.OK;

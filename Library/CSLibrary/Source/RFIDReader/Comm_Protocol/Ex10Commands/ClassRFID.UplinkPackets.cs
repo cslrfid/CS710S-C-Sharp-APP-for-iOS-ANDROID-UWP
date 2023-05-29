@@ -525,12 +525,24 @@ namespace CSLibrary
                     switch (RealCurrentOperation)
                     {
                         case CSLibrary.Constants.Operation.TAG_WRITE:
-                            FireAccessCompletedEvent(
-                            new CSLibrary.Events.OnAccessCompletedEventArgs(
-                                (tagErrorCode == 0x10 && macErrorCode == 0x00),
-                                CSLibrary.Constants.Bank.SPECIFIC,
-                                TagAccess.WRITE,
-                                m_rdr_opt_parms.TagRead.pData));
+                            if (m_rdr_opt_parms.TagWrite.bank == MemoryBank.USER)
+                            {
+                                FireAccessCompletedEvent(
+                                new CSLibrary.Events.OnAccessCompletedEventArgs(
+                                    (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount == m_rdr_opt_parms.TagWriteUser.count),
+                                    CSLibrary.Constants.Bank.SPECIFIC,
+                                    TagAccess.WRITE,
+                                    m_rdr_opt_parms.TagRead.pData));
+                            }
+                            else
+                            {
+                                FireAccessCompletedEvent(
+                                new CSLibrary.Events.OnAccessCompletedEventArgs(
+                                    (tagErrorCode == 0x10 && macErrorCode == 0x00),
+                                    CSLibrary.Constants.Bank.SPECIFIC,
+                                    TagAccess.WRITE,
+                                    m_rdr_opt_parms.TagRead.pData));
+                            }
                             break;
 
                         case CSLibrary.Constants.Operation.TAG_WRITE_PC:
@@ -572,7 +584,7 @@ namespace CSLibrary
                         case CSLibrary.Constants.Operation.TAG_WRITE_USER:
                             FireAccessCompletedEvent(
                                 new CSLibrary.Events.OnAccessCompletedEventArgs(
-                                (tagErrorCode == 0x10 && macErrorCode == 0x00),
+                                (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount == m_rdr_opt_parms.TagWriteUser.count),
                                 Bank.USER,
                                 TagAccess.WRITE,
                                 m_rdr_opt_parms.TagReadUser.pData));

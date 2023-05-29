@@ -20,6 +20,7 @@ using BLE.Client.ViewModels;
 
 using static CSLibrary.RFIDDEVICE;
 using static CSLibrary.FrequencyBand;
+using Xamarin.Essentials;
 
 namespace BLE.Client.ViewModels
 {
@@ -71,7 +72,7 @@ namespace BLE.Client.ViewModels
         {
             if (Device.RuntimePlatform == Device.Android)
             {
-                while (await _permissions.CheckPermissionStatusAsync<Plugin.Permissions.LocationPermission>() != PermissionStatus.Granted)
+                while (await _permissions.CheckPermissionStatusAsync<Plugin.Permissions.LocationPermission>() != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
                 {
                     await _userDialogs.AlertAsync("This app collects location data in the background.  In terms of the features using this location data in the background, this App collects location data when it is reading temperature RFID tag in the “Magnus S3 with GPS for Advantech” page.  The purpose of this is to correlate the RFID tag with the actual GNSS location of the tag.  In other words, this is to track the physical location of the logistics item tagged with the RFID tag.");
                     //                await _userDialogs.AlertAsync("This app collects location data to enable temperature RFID tag inventory with GNSS location mapped to each tag data when the app is open and in the foreground.  This location data collection is not carried out when the app is closed or not in use.   Specifically, this App collects location data when it is reading temperature RFID tag in the “Magnus S3 with GPS for Advantech” page.");
@@ -158,6 +159,7 @@ namespace BLE.Client.ViewModels
             if (e.state == CSLibrary.Constants.RFState.INITIALIZATION_COMPLETE)
             {
                 // System Setting
+//                Xamarin.Essentials.DeviceDisplay.KeepScreenOn = BleMvxApplication._config._keepScreenOn;
                 BleMvxApplication._batteryLow = false;
                 RaisePropertyChanged(() => labelVoltageTextColor);
 

@@ -95,30 +95,8 @@ namespace CSLibrary
 
         internal void RFIDStartCompactInventory()
         {
-
             for (int index = 0; index < 3; index++)
                 RFIDRegister.MultibankReadConfig.Enable((byte)index, false);
-
-
-            //            RFIDRegister.TagCacheStatus.Set(0x01);
-
-
-            // for test only
-            {
-                //                WriteRegister(0x3140, new byte[0x2a]);
-                //                WriteRegister(0x316a, new byte[0x2a]);
-                //                WriteRegister(0x3908, 0x04);
-                //                WriteRegister(0x3900, 0x0a);
-                //                WriteRegister(0x0508, (UInt16)0xcc44);
-                //                WriteRegister(0x3906, (UInt16)0x0d);
-                //WriteRegister(0x3033, (UInt16)0x0bb8);
-                //WriteRegister(0x3031, (UInt16)0x07d0);
-                //WriteRegister(0x303e, (UInt16)0x67);
-                //WriteRegister(0x3035, new byte[9] { 0x00, 0x06, 0x30, 0xf7, 0x00, 00, 00, 08, 0x01 });
-                //WriteRegister(0x3035, 0x00);
-                //WriteRegister(0x3037, 0x80);
-                //WriteRegister(0x3039, (UInt32)0x03);
-            }
 
             RunShortOperation(SCSLRFIDCMD.SCSLRFIDStartCompactInventory);
         }

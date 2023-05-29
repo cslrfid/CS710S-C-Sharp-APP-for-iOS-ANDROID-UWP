@@ -31,7 +31,7 @@ namespace CSLibrary
     {
         const int MAX_RD_CNT = 253; // max 253, old version 0x20
 
-        void Setup18K6CReadRegisters_CS108(UInt32 bank, UInt32 offset, UInt32 count)
+        private void Setup18K6CReadRegisters_CS108(UInt32 bank, UInt32 offset, UInt32 count)
         {
             // Set up the access bank register
             MacWriteRegister(MACREGISTER.HST_TAGACC_BANK, bank);
@@ -43,7 +43,7 @@ namespace CSLibrary
             MacWriteRegister(MACREGISTER.HST_TAGACC_CNT, count);
         }
 
-        public int Start18K6CRead_CS108(uint bank, uint offset, uint count, UInt16[] data, uint accessPassword, uint retry, CSLibrary.Constants.SelectFlags flags)
+        private int Start18K6CRead_CS108(uint bank, uint offset, uint count, UInt16[] data, uint accessPassword, uint retry, CSLibrary.Constants.SelectFlags flags)
         {
             // Perform the common 18K6C tag operation setup
             Start18K6CRequest(retry, flags);
@@ -59,7 +59,7 @@ namespace CSLibrary
             return 0;
         } //  Start18K6CRead
 
-        bool CUST_18K6CTagRead_CS108(CSLibrary.Constants.MemoryBank bank, int offset, int count, UInt16[] data, UInt32 password, /*UInt32 retry, */CSLibrary.Constants.SelectFlags flags)
+        private bool CUST_18K6CTagRead_CS108(CSLibrary.Constants.MemoryBank bank, int offset, int count, UInt16[] data, UInt32 password, /*UInt32 retry, */CSLibrary.Constants.SelectFlags flags)
         {
             if (count > MAX_RD_CNT)
                 return false;       // too many data

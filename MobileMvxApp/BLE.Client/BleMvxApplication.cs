@@ -98,6 +98,8 @@ namespace BLE.Client
 
         public uint RFID_BatteryPollingTime = 300;
 
+        public  bool _keepScreenOn = false;
+
         // LNA setting
         //public int RFID_RxAttenuation = 0;
         //public float RFID_MixerGain = 17.2F;
@@ -186,6 +188,8 @@ namespace BLE.Client
             RFID_BatteryPollingTime = 300;  // 300s
 
             RFID_DuplicateEliminationRollingWindow = 0;
+
+            _keepScreenOn = false;
 
             for (int cnt = 0; cnt < RFID_Shortcut.Length; cnt++)
             {

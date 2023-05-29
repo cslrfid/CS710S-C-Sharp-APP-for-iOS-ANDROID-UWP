@@ -68,6 +68,11 @@ namespace CSLibrary
                 _handler.WriteRegister(this.regAdd, value);
             }
 
+            public void Default(byte value)
+            {
+                this.value = value;
+            }
+
             public byte Get()
             {
                 return value;
@@ -99,6 +104,11 @@ namespace CSLibrary
                     return;
 
                 _handler.WriteRegister(this.regAdd, value);
+            }
+
+            public void Default(UInt16 value)
+            {
+                this.value = value;
             }
 
             public UInt16 Get()
@@ -134,6 +144,11 @@ namespace CSLibrary
                 _handler.WriteRegister(this.regAdd, value);
             }
 
+            public void Default(UInt32 value)
+            {
+                this.value = value;
+            }
+
             public UInt32 Get()
             {
                 return value;
@@ -165,6 +180,11 @@ namespace CSLibrary
                     return;
 
                 _handler.WriteRegister(this.regAdd, value);
+            }
+
+            public void Default(UInt64 value)
+            {
+                this.value = value;
             }
 
             public UInt64 Get()
@@ -204,6 +224,11 @@ namespace CSLibrary
 
                 byte[] bytes = Encoding.ASCII.GetBytes(this.value);
                 _handler.WriteRegister(this.regAdd, bytes);
+            }
+
+            public void Default(string value)
+            {
+                this.value = value;
             }
 
             public string Get()
@@ -282,9 +307,13 @@ namespace CSLibrary
 
                 byte[] sendData = new byte[1];
                 int dataAdd = (port * 16);
+
+                if (data[port].enable == enable)
+                    return;
+
+                sendData[0] = (byte)(enable ? 1 : 0);
                 data[port].enable = enable;
 
-                sendData[0] = (byte)(data[port].enable ? 1 : 0);
                 _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
             }
 
@@ -296,14 +325,11 @@ namespace CSLibrary
                 if (data[port].dwell == ms)
                     return;
 
-                byte[] sendData = new byte[2];
                 int dataAdd = 1 + (port * 16);
 
                 data[port].dwell = ms;
-                sendData[0] = (byte)(ms >> 8);
-                sendData[1] = (byte)(ms);
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), ms);
             }
 
             internal void SetPower(UInt16 power, byte port = 0)
@@ -314,14 +340,11 @@ namespace CSLibrary
                 if (data[port].power == power)
                     return;
 
-                byte[] sendData = new byte[2];
                 int dataAdd = 3 + (port * 16);
 
                 data[port].power = power;
-                sendData[0] = (byte)(power >> 8);
-                sendData[1] = (byte)(power);
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), power);
             }
 
             internal UInt16 GetPower(byte port = 0)
@@ -337,8 +360,8 @@ namespace CSLibrary
                 if (Private == REGPRIVATE.READONLY)
                     return;
 
-//                if (data[port].toggle == enable)
-//                    return;
+                if (data[port].toggle == enable)
+                    return;
 
                 byte[] sendData = new byte[1];
                 int dataAdd = 13 + (port * 16);
@@ -365,11 +388,14 @@ namespace CSLibrary
                 if (Private == REGPRIVATE.READONLY)
                     return;
 
+                uint sendData = data[port].inventoryRoundControl | (1U << 16);
+                if (data[port].inventoryRoundControl == sendData)
+                    return;
+
                 int dataAdd = 5 + (port * 16);
+                data[port].inventoryRoundControl = sendData;
 
-                data[port].inventoryRoundControl |= (1U << 16);
-
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
             }
 
             internal void EnableFixedQ(uint InitialQ, uint QueryTarget, int port = 0)
@@ -377,24 +403,33 @@ namespace CSLibrary
                 if (InitialQ > 15 || QueryTarget > 1)
                     return;
 
+                uint sendData = data[port].inventoryRoundControl & 0xff7ffff0;
+                sendData |= InitialQ;
+                sendData |= (1U << 16);
+                sendData |= QueryTarget;
+
+                if (data[port].inventoryRoundControl == sendData)
+                    return;
+
                 int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl &= 0xff7ffff0;
-
-                data[port].inventoryRoundControl |= InitialQ;
-                data[port].inventoryRoundControl |= (1U << 16);
-                data[port].inventoryRoundControl |= QueryTarget;
+                data[port].inventoryRoundControl = sendData;
 
                 _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
             }
 
             internal void EnableDynamicQ(int port = 0)
             {
+                uint sendData = data[port].inventoryRoundControl & ~(1U << 16);
+
+                if (data[port].inventoryRoundControl == sendData)
+                    return;
+
                 int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl &= ~(1U << 16);
+                data[port].inventoryRoundControl = sendData;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
             }
 
             /// <summary>
@@ -416,55 +451,60 @@ namespace CSLibrary
                 if (MinQ > 15 || MaxQ > 15 || InitialQ > 15 || NumMinQCycles > 153 || QueryTarget > 1)
                     return -1;
 
+                uint sendData = data[port].inventoryRoundControl & 0xff780000;
+                sendData |= InitialQ << 0;
+                sendData |= MaxQ << 4;
+                sendData |= MinQ << 8;
+                sendData |= NumMinQCycles << 12;
+                sendData |= QIncreaseUseQuery ? (1U << 17) : 0;
+                sendData |= QDecreaseUseQuery ? (1U << 18) : 0;
+                sendData |= QueryTarget;
+
+                if (data[port].inventoryRoundControl == sendData)
+                    return 0;
+
                 int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl &= 0xff780000;
+                data[port].inventoryRoundControl = sendData;
 
-                data[port].inventoryRoundControl |= InitialQ << 0;
-                data[port].inventoryRoundControl |= MaxQ << 4;
-                data[port].inventoryRoundControl |= MinQ << 8;
-                data[port].inventoryRoundControl |= NumMinQCycles << 12;
-                data[port].inventoryRoundControl |= QIncreaseUseQuery ? (1U << 17) : 0;
-                data[port].inventoryRoundControl |= QDecreaseUseQuery ? (1U << 18) : 0;
-                data[port].inventoryRoundControl |= QueryTarget;
-
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
                 return 0;
             }
 
             internal void TagGroup(uint session, uint select, uint target, int port = 0)
             {
-                CSLibrary.Debug.WriteLine("TagGroup");
+                uint sendData = data[port].inventoryRoundControl & 0xff07ffff;
+                sendData |= (session & 0x03) << 19;
+                sendData |= (select & 0x03) << 21;
+                sendData |= (target & 0x01) << 23;
+
+                if (data[port].inventoryRoundControl == sendData)
+                    return;
 
                 int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl &= 0xff07ffff ;
-
-                data[port].inventoryRoundControl |= (session & 0x03) << 19;
-                data[port].inventoryRoundControl |= (select & 0x03) << 21;
-                data[port].inventoryRoundControl |= (target & 0x01) << 23;
+                data[port].inventoryRoundControl = sendData;
                 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
-                return;
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
             }
 
             internal void Select(uint select, int port = 0)
             {
-                CSLibrary.Debug.WriteLine("Select");
+                uint sendData = data[port].inventoryRoundControl & 0xff9fffff;
+                sendData |= (select & 0x03) << 21;
+
+                if (data[port].inventoryRoundControl == sendData)
+                    return;
 
                 int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl &= 0xff9fffff;
+                data[port].inventoryRoundControl = sendData;
 
-                data[port].inventoryRoundControl |= (select & 0x03) << 21;
-
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
-                return;
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
             }
 
             internal void FastIdEnable(bool enable, int port = 0)
             {
-                int dataAdd = 5 + (port * 16);
                 UInt32 newValue = data[port].inventoryRoundControl & 0xfdffffff;
 
                 if (enable)
@@ -473,14 +513,16 @@ namespace CSLibrary
                 if (data[port].inventoryRoundControl == newValue)
                     return;
 
+                int dataAdd = 5 + (port * 16);
+
                 data[port].inventoryRoundControl = newValue;
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
+
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), newValue);
                 return;
             }
 
             internal void TagFocusEnable(bool enable, int port = 0)
             {
-                int dataAdd = 5 + (port * 16);
                 UInt32 newValue = data[port].inventoryRoundControl & 0xfbffffff;
 
                 if (enable)
@@ -489,15 +531,18 @@ namespace CSLibrary
                 if (data[port].inventoryRoundControl == newValue)
                     return;
 
+                int dataAdd = 5 + (port * 16);
+
                 data[port].inventoryRoundControl = newValue;
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
+
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), newValue);
                 return;
             }
 
             internal void MaxQSinceValidEpc(UInt32 Q, int port = 0)
             {
-                //if (data[port].inventoryRoundControl2 == Q)
-                //    return;
+                if (data[port].inventoryRoundControl2 == Q)
+                    return;
 
                 int dataAdd = 9 + (port * 16);
 
@@ -505,32 +550,6 @@ namespace CSLibrary
 
                 _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl2);
             }
-
-            /*
-            internal void SetFastID(bool enable, int port = 0)
-            {
-                int dataAdd = 5 + (port * 16);
-
-                if (enable)
-                    data[port].inventoryRoundControl |= (1U << 25);
-                else
-                    data[port].inventoryRoundControl &= ~(1U << 25);
-
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
-            }
-
-            internal void SetTagFocus(bool enable, int port = 0)
-            {
-                int dataAdd = 5 + (port * 16);
-
-                if (enable)
-                    data[port].inventoryRoundControl |= (1U << 26);
-                else
-                    data[port].inventoryRoundControl &= ~(1U << 26);
-
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
-            }
-            */
 
             internal void RfMode(UInt16 mode, int port = 0)
             {
@@ -758,24 +777,7 @@ namespace CSLibrary
                 this.Private = REGPRIVATE.READWRITE;
             }
 
-            internal void Enable(int index, bool enable)
-            {
-                if (Private == REGPRIVATE.READONLY)
-                    return;
-
-                byte[] sendData = new byte[1];
-                int dataAdd = (index * 7);
-
-                if (enable)
-                    data[dataAdd] = 1;
-                else
-                    data[dataAdd] = 0;
-
-                sendData[0] = data[dataAdd];
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
-            }
-
-            internal void Set(uint index, bool enable)
+            internal void Enable(uint index, bool enable)
             {
                 if (Private == REGPRIVATE.READONLY)
                     return;
@@ -784,14 +786,37 @@ namespace CSLibrary
                     return;
 
                 byte[] sendData = new byte[1];
-                uint add = (index * 42);
+                uint dataAdd = (index * 42);
 
                 if (enable)
-                    data[add] = 1;
+                    sendData[0] = 1;
                 else
-                    data[add] = 0;
+                    sendData[0] = 0;
 
-                Array.Copy(data, index, sendData, 0, sendData.Length);
+                if (data[dataAdd] == sendData[0])
+                    return;
+
+                data[dataAdd] = sendData[0];
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+            }
+
+            internal void SetPostConfigurationDelay(uint index, int ms)
+            {
+                if (Private == REGPRIVATE.READONLY)
+                    return;
+
+                if (index >= 7 || ms > 255)
+                    return;
+
+                byte[] sendData = new byte[1];
+                uint add = 41 + (index * 42);
+
+                sendData[0] = (byte)ms;
+
+                if (data[add] == sendData[0])
+                    return;
+
+                data[add] = sendData[0];
                 _handler.WriteRegister((UInt16)(regAdd + add), sendData);
             }
 
@@ -814,23 +839,29 @@ namespace CSLibrary
                 }
 
                 if (enable)
-                    data[add] = 1;
+                    sendData[0] = 1;
                 else
-                    data[add] = 0;
+                    sendData[0] = 0;
 
-                data[add + 1] = bank;
-                data[add + 2] = (byte)(offset >> 24);
-                data[add + 3] = (byte)(offset >> 16);
-                data[add + 4] = (byte)(offset >> 8);
-                data[add + 5] = (byte)(offset);
-                data[add + 6] = len;
-                Array.Copy(mask, 0, data, add + 7, maskbytelen);
-                data[add + 39] = target;
-                data[add + 40] = action;
-                data[add + 41] = delay;
+                sendData[1] = bank;
+                sendData[2] = (byte)(offset >> 24);
+                sendData[3] = (byte)(offset >> 16);
+                sendData[4] = (byte)(offset >> 8);
+                sendData[5] = (byte)(offset);
+                sendData[6] = len;
+                Array.Copy(mask, 0, sendData, 7, maskbytelen);
+                sendData[39] = target;
+                sendData[40] = action;
+                sendData[41] = delay;
 
-                Array.Copy(data, index, sendData, 0, sendData.Length);
-                _handler.WriteRegister((UInt16)(regAdd + add), sendData);
+                for (int i = 0; i < sendData.Length; i++)
+                {
+                    if (data[add + i] != sendData[i])
+                    {
+                        Array.Copy(sendData, 0, sendData, index, sendData.Length);
+                        _handler.WriteRegister((UInt16)(regAdd + add), sendData);
+                    }
+                }
             }
         }
 
@@ -866,7 +897,6 @@ namespace CSLibrary
 
                 sendData[0] = data[add];
                 _handler.WriteRegister((UInt16)(regAdd + add), sendData);
-
             }
 
             internal void Set(int index, bool enable, int bank, int address, int len)
@@ -1383,12 +1413,11 @@ namespace CSLibrary
             RFIDRegister.FrequencyChannelIndex.Set(data[index + 176]);
 
             m_oem_machine = MODEL.CS710S;
-            //m_save_region_code = RegionCode.FCC;
-            m_save_country_code = RFIDRegister.EF98.Get();
+            m_oem_country_code = RFIDRegister.EF98.Get();
             m_oem_special_country_version = RFIDRegister.EFAC.Get();
-            m_oem_freq_modification_flag = (int)RFIDRegister.EFB0.Get();
+            m_oem_freq_modification_flag = (uint)RFIDRegister.EFB0.Get();
             
-            switch (m_save_country_code)
+            switch (m_oem_country_code)
             {
                 case 0x01:
                     m_save_region_code = RegionCode.FCC;

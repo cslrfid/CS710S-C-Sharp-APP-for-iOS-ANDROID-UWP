@@ -35,61 +35,37 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
-        internal string GetCurrentSubModulName()
+        public string GetModelName()
         {
-            /*
-                        byte[] b = new byte[] { (byte)(m_oem_special_country_version >> 24),
-                                              (byte)(m_oem_special_country_version >> 16),
-                                              (byte)(m_oem_special_country_version >> 8),
-                                              (byte)(m_oem_special_country_version) };
-
-                        string subsubModel = System.Text.Encoding.UTF8.GetString(b);
-            */
-            string subsubModel = "";
-
-            switch (m_oem_special_country_version)
-            {
-                case 0x2A2A5257:
-                    subsubModel = " RW";
-                    break;
-                case 0x4f464341:
-                    subsubModel = " OFCA";
-                    break;
-                case 0x2a2a4153:
-                    subsubModel = " AS";
-                    break;
-                case 0x2a2a4e5a:
-                    subsubModel = " NZ";
-                    break;
-                case 0x20937846:
-                    subsubModel = " ZA";
-                    break;
-                case 0x2A2A5347:
-                    subsubModel = " SG";
-                    break;
-                case 0x2A4A5036:
-                    subsubModel = " JP6";
-                    break;
-            }
-
-            string SubModel = string.Format("-{0}", m_save_country_code, subsubModel);
-
-            return SubModel;
+            return m_oem_machine.ToString();
         }
 
+        public string GetModelCountry()
+        {
+            return DEVICE.GetModelName((int)m_oem_country_code, (int)m_oem_special_country_version);
+        }
 
+        public string GetFullModelName()
+        {
+            return m_oem_machine.ToString() + DEVICE.GetModelName((int)m_oem_country_code, (int)m_oem_special_country_version);
+        }
 
         // Get Active Country Name List
-        public List<string> GetActiveRegionNameList_CS710S()
+        private string[] GetActiveRegionNameList_CS710S()
         {
-            string SubModel = GetCurrentSubModulName();
+            string SubModel = GetModelCountry();
 
             List<string> ActiveCountryNameList = new List<string>();
 
-            foreach (var i in FrequencyBand_CS710S.frequencySet.FindAll(item => item.modelCode.Equals(SubModel)))
-                ActiveCountryNameList.Add(i.name);
+            foreach (var i in FrequencyBand_CS710S.frequencySet)
+                //if (i.modelCode.Equals(SubModel))
+                if (i.modelCode == SubModel)
+                    ActiveCountryNameList.Add(i.name);
 
-            return ActiveCountryNameList;
+            if (ActiveCountryNameList.Count == 0)
+                return null;
+
+            return ActiveCountryNameList.ToArray();
         }
 
         public bool IsHopping_CS710S(string CountryName)
@@ -126,28 +102,29 @@ namespace CSLibrary
             return (FrequencyBand_CS710S.frequencySet[index].hopping == "Fixed");
         }
 
-        internal Result SetRegion_CS710S(string CountryName, int Channel = 1)                                        // Select Country Frequency with channel if fixed
+        internal Result SetRegion_CS710S(string CountryName, int Channel = 0)                                        // Select Country Frequency with channel if fixed
         {
             var item = FrequencyBand_CS710S.frequencySet.Find(i => i.name.Equals(CountryName));
 
             if (item == null)
                 return Result.FAILURE;
 
-            RFIDRegister.CountryEnum.Set((UInt16)item.index);
-
-            if (IsFixed_CS710S(item.index))
-            {
-                RFIDRegister.FrequencyChannelIndex.Set((byte)Channel);
-                return Result.OK;
-            }
-
-            if (IsHopping_CS710S(item.index))
-                return Result.OK;
-
-            return Result.FAILURE;
+            return SetCountry(item.index, Channel);
         }
 
-        public List<double> GetAvailableFrequencyTable_CS710S(string CountryName)									// Get Available frequency table with country code
+        public Result SetCountry_CS710S(int CountryIndex, int Channel = 0)                                        // Select Country Frequency with channel if fixed
+        {
+            RFIDRegister.CountryEnum.Set((UInt16)CountryIndex);
+
+            if (IsFixed_CS710S(CountryIndex))
+                RFIDRegister.FrequencyChannelIndex.Set((byte)(Channel + 1));
+            else
+                RFIDRegister.FrequencyChannelIndex.Set(0);
+
+            return Result.OK;
+        }
+
+        public double[] GetAvailableFrequencyTable_CS710S(string CountryName)									// Get Available frequency table with country code
         {
             var item = FrequencyBand_CS710S.frequencySet.Find(i => i.name.Equals(CountryName));
 
@@ -157,19 +134,31 @@ namespace CSLibrary
             return GetAvailableFrequencyTable_CS710S(item.index);
         }
 
-        internal List<double> GetAvailableFrequencyTable_CS710S(int index)									// Get Available frequency table with country code
+        internal double[] GetAvailableFrequencyTable_CS710S(int index)									// Get Available frequency table with country code
         {
-            List<double> FreqTable = new List<double>();
             double firstChannel = FrequencyBand_CS710S.frequencySet[index].firstChannel;
             double lastChannel = FrequencyBand_CS710S.frequencySet[index].lastChannel + 0.1; // Fix double value compare error (C# bug)
-            double totalFrequencyChannel = FrequencyBand_CS710S.frequencySet[index].totalFrequencyChannel;
+            int totalFrequencyChannel = FrequencyBand_CS710S.frequencySet[index].totalFrequencyChannel;
             double channelSepatration = (double)(FrequencyBand_CS710S.frequencySet[index].channelSepatration) / 1000;
-            double freq;
+            double[] FreqTable = new double[totalFrequencyChannel];
 
-            for (freq = firstChannel; 
-                freq <= lastChannel && FreqTable.Count <= totalFrequencyChannel; 
-                freq += channelSepatration)
-                FreqTable.Add(freq);
+            if (index == 74)
+            {
+                FreqTable[0] = 916.8;
+                FreqTable[1] = 918;
+                FreqTable[2] = 919.2;
+                FreqTable[3] = 920.4;
+                FreqTable[4] = 920.6;
+                FreqTable[5] = 920.8;
+            }
+            else
+            {
+                double freq = firstChannel;
+                for (int i = 0;
+                    freq <= lastChannel && i < totalFrequencyChannel;
+                    freq += channelSepatration)
+                    FreqTable[i++] = freq;
+            }
 
             return FreqTable;
         }

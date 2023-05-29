@@ -80,17 +80,10 @@ namespace CSLibrary
             // All OEM data finish, then do frequence initialize
             if (cnt == oemAddress.Length - 1)
             {
-                /*
-                m_save_country_code = oemValue[0];                  // 0x02
-                m_oem_table_version = oemValue[5];                  // 0x0B
-                m_oem_special_country_version = (uint)oemValue[6];  // 0x8e
-                m_oem_freq_modification_flag = (int)oemValue[7];    // 0x8f
-                m_oem_machine = (Machine)oemValue[10];              // 0xA4
-                */
-                m_save_country_code = oemValue[0];                  // 0x02
+                m_oem_country_code = oemValue[0];                  // 0x02
                 m_oem_table_version = oemValue[1];                  // 0x0B
                 m_oem_special_country_version = (uint)oemValue[2];  // 0x8e
-                m_oem_freq_modification_flag = (int)oemValue[3];    // 0x8f
+                m_oem_freq_modification_flag = (uint)oemValue[3];    // 0x8f
                 m_oem_machine = (oemValue[6] == 0) ? MODEL.CS108 : (MODEL)oemValue[6];               // 0xA4
 
                 {

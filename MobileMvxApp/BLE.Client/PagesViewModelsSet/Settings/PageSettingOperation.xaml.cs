@@ -32,8 +32,8 @@ namespace BLE.Client.Pages
 
             stackLayoutInventoryDuration.IsVisible = stackLayoutPower.IsVisible = (BleMvxApplication._reader.rfid.GetAntennaPort() == 1);
 
-            ActiveRegionsTextList = BleMvxApplication._reader.rfid.GetActiveCountryNameList().ToArray();
-            ActiveFrequencyList = BleMvxApplication._reader.rfid.GetAvailableFrequencyTable().ToArray();
+            ActiveRegionsTextList = BleMvxApplication._reader.rfid.GetActiveCountryNameList();
+            ActiveFrequencyList = BleMvxApplication._reader.rfid.GetAvailableFrequencyTable();
             ActiveFrequencyTextList = ActiveFrequencyList.OfType<object>().Select(o => o.ToString()).ToArray();
             buttonRegion.Text = BleMvxApplication._config.RFID_Region;
 

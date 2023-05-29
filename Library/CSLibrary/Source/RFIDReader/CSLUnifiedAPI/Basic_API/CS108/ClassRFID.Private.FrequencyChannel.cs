@@ -2598,6 +2598,63 @@ namespace CSLibrary
         }
 
 
+        private static uint[] BasicDIVRAT = new uint[] { 0x0010, 0x0018, 0x0030, 0x003c, 0x0048 };
+
+
+        static public UInt32 FrequenceToPll(double freq)
+        {
+            UInt32 pll;
+
+            foreach (uint divrat in BasicDIVRAT)
+            {
+                pll = FrequenceToPll(freq, divrat);
+
+                if (pll != 0)
+                    return pll;
+            }
+
+            throw new InvalidOperationException("can not cal pll value, please check BasicDIVRAT");
+        }
+
+        static public UInt32 FrequenceToPll(double freq, uint divrat)
+        {
+            if (divrat == 0)
+                return FrequenceToPll(freq);
+
+            double fd = freq * divrat;
+
+            if ((fd % 6) == 0)
+            {
+                UInt32 pllHight = divrat << 16;
+                UInt32 pllLow = (UInt32)(fd / 6);
+                return (pllHight | pllLow);
+            }
+
+            return 0;
+        }
+
+        static public UInt32[] GetPllValues(double[] FrequencyTable)
+        {
+            UInt32[] pllTable = new UInt32[FrequencyTable.Length];
+            UInt32 divrat = 0;
+
+            try
+            {
+                pllTable[0] = FrequenceToPll(FrequencyTable[0]);
+                divrat = pllTable[0] >> 16;
+
+                for (int i = 1; i < FrequencyTable.Length; i++)
+                    pllTable[i] = FrequenceToPll(FrequencyTable[i], divrat);
+
+                return pllTable;
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("ERROR : can not get pll table");
+            }
+            return null;
+        }
+
     }
 }
 

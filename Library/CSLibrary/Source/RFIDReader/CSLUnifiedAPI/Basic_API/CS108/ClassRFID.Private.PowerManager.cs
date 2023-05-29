@@ -34,16 +34,3 @@ namespace CSLibrary
 		internal bool _SetRFIDToStandbyMode = true;
 	}
 }
-
-/*
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CSLibrary.RFIDReader
-{
-	class ClassRFID
-	{
-	}
-}
-*/

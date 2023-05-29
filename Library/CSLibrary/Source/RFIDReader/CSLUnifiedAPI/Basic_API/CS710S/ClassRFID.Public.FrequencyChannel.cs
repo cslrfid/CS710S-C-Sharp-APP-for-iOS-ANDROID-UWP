@@ -36,8 +36,10 @@ namespace CSLibrary
     {
         internal Result InitDefaultChannel_CS710S()
         {
-            m_save_countryname = FrequencyBand_CS710S.frequencySet[RFIDRegister.CountryEnum.Get()].name;
+            m_save_countryindex = RFIDRegister.CountryEnum.Get();
+            m_save_countryname = FrequencyBand_CS710S.frequencySet[m_save_countryindex].name;
             m_save_freq_channel = RFIDRegister.FrequencyChannelIndex.Get();
+            m_save_region_code = RegionCode.UNKNOWN;
 
             return Result.OK;
         }

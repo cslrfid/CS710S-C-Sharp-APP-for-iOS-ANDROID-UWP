@@ -34,22 +34,21 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
-        private RegionCode m_save_region_code = RegionCode.UNKNOWN;
-        private string m_save_countryname = "";
-        private bool m_save_fixed_channel = false;
-        private bool m_save_agile_channel = false;
-        private uint m_save_freq_channel = 0;
-        private double m_save_selected_freq = 0;
+        private string m_save_countryname = "";                     // current selected country by name
+        private int m_save_countryindex = -1;                       // current selected country by index
+        private RegionCode m_save_region_code = RegionCode.UNKNOWN; // current selected country by RegionCode (just for old frequency set)
+        private int m_save_freq_channel = -2;                       // current selected channel, start from 0 and -1 = hopping
+        private int[] m_save_hoppingorder = null;                   // current hopping channel order (only for selected hopping channel)
 
         public Result SetDefaultChannel()
         {
             switch (_deviceType)
             {
                 case RFIDDEVICE.MODEL.CS108:
-                    return SetDefaultChannel_CS108();
+                    return SetDefaultChannel_CS108();       // Set Default setting from hard code table
 
                 case RFIDDEVICE.MODEL.CS710S:
-                    return SetDefaultChannel_CS710S();
+                    return SetDefaultChannel_CS710S();      // Get Default setting from reader
             }
 
             return Result.FAILURE;

@@ -254,17 +254,32 @@ namespace CSLibrary
 
         public static RegionCode GetRegionCode(string name)
         {
-            return ((frequencySet.Find(item => item.name == name)).code);
+            foreach (var i in frequencySet)
+                if (i.name == name)
+                    return i.code;
+
+            return RegionCode.UNKNOWN;
+            //return ((frequencySet.Find(item => item.name == name)).code);
         }
 
         public static string GetRegionName(RegionCode code)
         {
-            return ((frequencySet.Find(item => item.code == code)).name);
+            foreach (var i in frequencySet)
+                if (i.code == code)
+                    return i.name;
+
+            return null;
+            //return ((frequencySet.Find(item => item.code == code)).name);
         }
 
         public static bool HoppingAvalibable(RegionCode code)
         {
-            return ((frequencySet.Find(item => item.code == code)).hopping);
+            foreach (var i in frequencySet)
+                if (i.code == code)
+                    return i.hopping;
+
+            return false;
+            //return ((frequencySet.Find(item => item.code == code)).hopping);
         }
 
         public static RegionCode[] GetRegionCodeList()
@@ -307,6 +322,7 @@ namespace CSLibrary
             return list;
         }
     }
+    
     public static class FrequencyBand_CS710S
     {
         public class FREQUENCYSET
@@ -476,7 +492,7 @@ namespace CSLibrary
             frequencySet.Add(new FREQUENCYSET(127, "Slovenia1", "-1"          , 4, "Fixed", 3900, 100, 600, 865.7, 867.5, ""));
             frequencySet.Add(new FREQUENCYSET(128, "Solvenia2", "-9"          , 3, "Fixed", 3900, 100, 1200, 916.3, 918.7, ""));
             frequencySet.Add(new FREQUENCYSET(129, "SAfrica1", "-1"          , 4, "Fixed", 3900, 100, 600, 865.7, 867.5, ""));
-            frequencySet.Add(new FREQUENCYSET(130, "SAfrica2", "-9"          , 7, "Hop", 400, -1, 500, 915.7, 918.7, "915.4-919"));
+            frequencySet.Add(new FREQUENCYSET(130, "SAfrica2", "-9"          , 7, "Fixed", 400, -1, 500, 915.7, 918.7, "915.4-919"));
             frequencySet.Add(new FREQUENCYSET(131, "Spain", "-1"          , 4, "Fixed", 3900, 100, 600, 865.7, 867.5, ""));
             frequencySet.Add(new FREQUENCYSET(132, "SriLanka", "-1"          , 4, "Fixed", 3900, 100, 600, 865.7, 867.5, ""));
             frequencySet.Add(new FREQUENCYSET(133, "Sudan", "-1"          , 4, "Fixed", 3900, 100, 600, 865.7, 867.5, ""));

@@ -60,6 +60,8 @@ namespace BLE.Client.Pages
             entryVibrationWindow.Text = BleMvxApplication._config.RFID_VibrationWindow.ToString();
             entryVibrationTime.Text = BleMvxApplication._config.RFID_VibrationTime.ToString();
 
+            switchKeepScreenOn.IsToggled = BleMvxApplication._config._keepScreenOn;
+
             //entryBatteryIntervalTime.Text = BleMvxApplication._config.RFID_BatteryPollingTime.ToString();
 
             if (Device.RuntimePlatform != Device.Android)
@@ -115,6 +117,8 @@ namespace BLE.Client.Pages
             //BleMvxApplication._config.RFID_VibrationTag = switchVibrationTag.IsToggled;
             BleMvxApplication._config.RFID_VibrationWindow = UInt32.Parse(entryVibrationWindow.Text);
             BleMvxApplication._config.RFID_VibrationTime = UInt32.Parse(entryVibrationTime.Text);
+
+            BleMvxApplication._config._keepScreenOn = Xamarin.Essentials.DeviceDisplay.KeepScreenOn = switchKeepScreenOn.IsToggled;
 
             BleMvxApplication.SaveConfig();
 

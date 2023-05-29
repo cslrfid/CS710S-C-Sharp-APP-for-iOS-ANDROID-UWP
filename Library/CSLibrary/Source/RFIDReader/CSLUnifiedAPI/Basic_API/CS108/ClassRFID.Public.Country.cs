@@ -34,6 +34,7 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
+        /*
         /// <summary>
         /// If true, it can only set to hopping channel.
         /// </summary>
@@ -48,7 +49,7 @@ namespace CSLibrary
         /// </summary>
         internal bool IsFixedChannelOnly_CS108
         {
-            get { return (m_save_country_code == 1 | m_save_country_code == 3 | m_save_country_code == 8 | m_save_country_code == 9); }
+            get { return (m_oem_country_code == 1 | m_save_country_code == 3 | m_save_country_code == 8 | m_save_country_code == 9); }
         }
 
         /// <summary>
@@ -58,6 +59,7 @@ namespace CSLibrary
         {
             get { { return m_save_fixed_channel; } }
         }
+        */
 
         /// <summary>
         /// GetCountryCode
@@ -65,7 +67,7 @@ namespace CSLibrary
         /// <returns>Result</returns>
         public Result GetCountryCode(ref uint code)
         {
-            code = m_save_country_code;
+            code = m_oem_country_code;
 
             if (code < 0 || code > 8)
                 return Result.INVALID_OEM_COUNTRY_CODE;
@@ -92,23 +94,34 @@ namespace CSLibrary
         }
 
         // Get Active Country Name List
-        public List<string> GetActiveRegionNameList_CS108()
+        private string[] GetActiveRegionNameList_CS108()
         {
-            return m_save_country_list_name;
+            return m_save_country_list_name.ToArray();
         }
 
-        public bool IsHopping_CS108(string CountryName)
+        private bool IsHopping_CS108(string CountryName)
         {
-            var item = FrequencyBand_CS710S.frequencySet.Find(i => i.name.Equals(CountryName));
+            var item = FrequencyBand.frequencySet.Find(i => i.name.Equals(CountryName));
 
             if (item == null)
             {
                 return false;
             }
 
-            return (item.hopping == "Hop");
+            return (item.hopping);
         }
 
+        private bool IsHopping_CS108(RegionCode region)
+        {
+            var item = FrequencyBand.frequencySet.Find(i => i.code == region);
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            return (item.hopping);
+        }
 
         public bool IsFixed_CS108(string CountryName)
         {
@@ -122,11 +135,18 @@ namespace CSLibrary
             return (item.hopping == "Fixed");
         }
 
-        public Result SetRegion_CS108(string CountryName, int Channel = -1)                                        // Select Country Frequency with channel if fixed
+        private Result SetRegion_CS108(string CountryName, int Channel = -1)                                        // Select Country Frequency with channel if fixed
         {
-            var item = FrequencyBand.frequencySet.Find(i => i.name.Equals(CountryName));
+            FrequencyBand.FREQUENCYSET item = null;
 
-            if (item != null)
+            foreach (var i in FrequencyBand.frequencySet)
+                if (i.name == CountryName)
+                {
+                    item = i;
+                    break;
+                }
+
+            if (item.name == CountryName)
             {
                 if (item.hopping)
                     return SetHoppingChannels(item.code);
@@ -137,24 +157,95 @@ namespace CSLibrary
             return Result.FAILURE;
         }
 
-        public List<double> GetAvailableFrequencyTable_CS108(string CountryName)									// Get Available frequency table with country code
+        private double[] GetAvailableFrequencyTable_CS108(string CountryName)									// Get Available frequency table with country code
         {
             var item = FrequencyBand.frequencySet.Find(i => i.name.Equals(CountryName));
 
             if (item == null)
                 return null;
 
-            return (new List<double>(GetAvailableFrequencyTable_CS108(item.code)));
+            return (GetAvailableFrequencyTable_CS108(item.code));
         }
 
-        public List<double> GetCurrentFrequencyTable_CS108()														// Get frequency table on current selected region
+        private List<double> GetCurrentFrequencyTable_CS108()														// Get frequency table on current selected region
         {
             return (new List<double>(GetAvailableFrequencyTable_CS108(m_save_region_code)));
         }
 
-        public string GetCurrentCountry_CS108()
+        private string GetCurrentCountry_CS108()
         {
             return FrequencyBand.frequencySet.Find(item => item.code == m_save_region_code).name;
         }
+
+        private Result SetCountry_CS108(int CountryIndex, int Channel = 0)
+        {
+            try
+            {
+                double[] freqTable = GetAvailableFrequencyTable(CountryIndex).ToArray();
+                UInt32[] pllTable = GetPllValues(freqTable);
+
+                if (IsHoppingChannel(CountryIndex))
+                {
+                    int[] channelOrder = new int[pllTable.Length];
+
+                    // set random channel order
+                    {
+                        Random rnd = new Random();
+                        int rndChannnel;
+                        int val;
+
+                        for (int i = 0; i < pllTable.Length; i++)
+                            channelOrder[i] = i;
+
+                        for (int i = 0; i < pllTable.Length; i++)
+                        {
+                            rndChannnel = rnd.Next(pllTable.Length);
+
+                            if (i != rndChannnel)
+                            {
+                                val = channelOrder[i];
+                                channelOrder[i] = channelOrder[rndChannnel];
+                                channelOrder[rndChannnel] = val;
+                            }
+                        }
+                    }
+
+                    //Enable channels
+                    for (uint i = 0; i < pllTable.Length; i++)
+                        SetFrequencyBand(i, BandState.ENABLE, pllTable[channelOrder[i]], GetPllcc(RegionCode.FCC));
+
+                    //Disable channels
+                    for (uint i = (uint)pllTable.Length; i < 50; i++)
+                        SetFrequencyBand(i, BandState.DISABLE, 0, 0);
+
+                    SetRadioLBT(LBT.OFF);
+
+                    currentInventoryFreqRevIndex = (uint [])(object)channelOrder;
+
+                    return Result.OK;
+                }
+                else
+                {
+                    //Enable channels
+                    SetFrequencyBand(0, BandState.ENABLE, pllTable[Channel], GetPllcc(RegionCode.FCC));
+
+                    //Disable channels
+                    for (uint i = 1; i < 50; i++)
+                        SetFrequencyBand(i, BandState.DISABLE, 0, 0);
+
+                    SetRadioLBT(LBT.OFF);
+
+                    return Result.OK;
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result.FAILURE;
+            }
+
+            return Result.OK;
+        }
+
+
     }
 }
