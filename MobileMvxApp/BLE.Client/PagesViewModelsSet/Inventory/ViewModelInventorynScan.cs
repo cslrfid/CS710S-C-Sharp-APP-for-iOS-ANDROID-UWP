@@ -359,7 +359,6 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
             BleMvxApplication._reader.rfid.Options.TagRanging.flags = CSLibrary.Constants.SelectFlags.ZERO;
 
-            SetConfigPower();
             BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell);
             BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_CompactInventoryDelayTime); // for CS108 only
             BleMvxApplication._reader.rfid.SetIntraPacketDelayTime((uint)BleMvxApplication._config.RFID_IntraPacketDelayTime); // for CS710S only
@@ -398,6 +397,7 @@ namespace BLE.Client.ViewModels
                     BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
                 }
                 BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
+                BleMvxApplication._reader.rfid.Options.TagRanging.flags |= CSLibrary.Constants.SelectFlags.SELECT;
             }
 
             BleMvxApplication._reader.rfid.SetRSSIdBmFilter(BleMvxApplication._RSSIFILTER_Type, BleMvxApplication._RSSIFILTER_Option, BleMvxApplication._RSSIFILTER_Threshold_dBm);
@@ -407,6 +407,10 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagRanging.focus = BleMvxApplication._config.RFID_Focus;
             BleMvxApplication._reader.rfid.Options.TagRanging.fastid = BleMvxApplication._config.RFID_FastId;
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRERANGING);
+
+            // Set Power setting and clone antenna 0 setting to other antennas
+            // the command MUST in last inventory setting if use power sequencing
+            SetConfigPower();
         }
 
         void StartInventory()
@@ -664,8 +668,16 @@ namespace BLE.Client.ViewModels
 
                         item.timeOfRead = DateTime.Now;
                         item.EPC = info.epc.ToString();
-                        item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                        item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
+                        if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+
+                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
+                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+
+                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
+                            item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
                         item.RSSI = info.rssidBm;
                         //item.Phase = info.phase;
                         //item.Channel = (byte)info.freqChannel;
@@ -697,8 +709,15 @@ namespace BLE.Client.ViewModels
                                 index--;
                             }
 
-                            TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                            TagInfoList[index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
+                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
+                                TagInfoList[index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
                             TagInfoList[index].RSSI = info.rssidBm;
                         }
                         else

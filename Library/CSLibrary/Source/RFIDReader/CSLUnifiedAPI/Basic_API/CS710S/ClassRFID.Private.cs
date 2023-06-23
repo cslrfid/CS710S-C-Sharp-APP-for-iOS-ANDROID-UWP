@@ -41,7 +41,10 @@ namespace CSLibrary
         {
             if ((flags & SelectFlags.SELECT) != 0)
             {
-                RFIDRegister.AntennaPortConfig.Select(3);
+                if (_deviceType == RFIDDEVICE.MODEL.CS710S)
+                    RFIDRegister.AntennaPortConfig.Select(3, 0xffff);
+                else
+                    RFIDRegister.AntennaPortConfig.Select(3);
             }
         }
 

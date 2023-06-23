@@ -34,7 +34,7 @@ namespace BLE.Client.Pages
 
             ActiveRegionsTextList = BleMvxApplication._reader.rfid.GetActiveCountryNameList();
             ActiveFrequencyList = BleMvxApplication._reader.rfid.GetAvailableFrequencyTable();
-            ActiveFrequencyTextList = ActiveFrequencyList.OfType<object>().Select(o => o.ToString()).ToArray();
+            ActiveFrequencyTextList = ActiveFrequencyList.OfType<object>().Select(o => o.ToString() + " MHz").ToArray();
             buttonRegion.Text = BleMvxApplication._config.RFID_Region;
 
             switch (BleMvxApplication._config.RFID_FrequenceSwitch)
@@ -53,10 +53,10 @@ namespace BLE.Client.Pages
 //            if (_freqOrderOptions.Length == 1)
                 buttonFrequencyOrder.IsEnabled = false;
 
-            if (BleMvxApplication._config.RFID_FixedChannel == 0)
+            if (BleMvxApplication._config.RFID_FixedChannel == -1)
                 buttonFixedChannel.Text = ActiveFrequencyTextList[0];
             else
-                buttonFixedChannel.Text = ActiveFrequencyTextList[BleMvxApplication._config.RFID_FixedChannel - 1];
+                buttonFixedChannel.Text = ActiveFrequencyTextList[BleMvxApplication._config.RFID_FixedChannel];
 
             checkbuttonFixedChannel();
 
@@ -157,7 +157,7 @@ namespace BLE.Client.Pages
 
         public async void buttonFixedChannelClicked(object sender, EventArgs e)
         {
-            var answer = await DisplayActionSheet("Frequence Channel Order", "Cancel", null, ActiveFrequencyTextList);
+            var answer = await DisplayActionSheet("Frequency Channel Order", "Cancel", null, ActiveFrequencyTextList);
 
             if (answer != null && answer != "Cancel")
                 buttonFixedChannel.Text = answer;
@@ -336,7 +336,7 @@ namespace BLE.Client.Pages
             {
                 if (buttonFixedChannel.Text == ActiveFrequencyTextList[cnt])
                 {
-                    BleMvxApplication._config.RFID_FixedChannel = cnt + 1;
+                    BleMvxApplication._config.RFID_FixedChannel = cnt;
                     break;
                 }
             }

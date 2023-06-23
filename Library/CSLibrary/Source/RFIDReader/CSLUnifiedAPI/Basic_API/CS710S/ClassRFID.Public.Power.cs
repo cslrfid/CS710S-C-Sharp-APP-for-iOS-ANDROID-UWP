@@ -111,7 +111,7 @@ namespace CSLibrary
         /// <param name="power"></param>
         /// <param name="dwell"></param>
         /// <returns></returns>
-        public Result SetPowerSequencing_CS710S(int numberofPower, uint[] power = null, uint[] dwell = null)
+        public Result SetPowerSequencing_CS710S(int numberofPower, uint[] power = null, uint[] dwell = null, bool CloneAntenna0Setting = true)
         {
             int i;
 
@@ -122,9 +122,7 @@ namespace CSLibrary
                     AntennaPortSetState(0, AntennaPortState.ENABLED);
 
                     for (i = 1; i < 16; i++)
-                    {
                         AntennaPortSetState((uint)i, AntennaPortState.DISABLED);
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -134,9 +132,7 @@ namespace CSLibrary
             }
 
             if (power == null || dwell == null || power.Length < numberofPower || dwell.Length < numberofPower)
-            {
                 return Result.INVALID_PARAMETER;
-            }
 
             for (i = 0; i < numberofPower; i++)
             {
@@ -145,10 +141,12 @@ namespace CSLibrary
                 SetInventoryDuration_CS710S(dwell[i], (uint)i);
             }
 
-            for (; i < 16; i++)
-            {
-                AntennaPortSetState_CS710S((uint)i, AntennaPortState.DISABLED);
-            }
+            if (CloneAntenna0Setting && numberofPower >= 2)
+                RFIDRegister.AntennaPortConfig.CloneAntenna0Setting();
+
+            //            for (; i < 16; i++)
+            //                AntennaPortSetState_CS710S((uint)i, AntennaPortState.DISABLED);
+            AntennaPortSetState_CS710S(i, 15, AntennaPortState.DISABLED);
 
             return Result.OK;
         }

@@ -137,34 +137,25 @@ namespace CSLibrary
 
         private Result SetRegion_CS108(string CountryName, int Channel = -1)                                        // Select Country Frequency with channel if fixed
         {
-            FrequencyBand.FREQUENCYSET item = null;
-
             foreach (var i in FrequencyBand.frequencySet)
                 if (i.name == CountryName)
                 {
-                    item = i;
-                    break;
+                    if (i.hopping)
+                        return SetHoppingChannels(i.code);
+
+                    return SetFixedChannel(i.code, (uint)Channel);
                 }
-
-            if (item.name == CountryName)
-            {
-                if (item.hopping)
-                    return SetHoppingChannels(item.code);
-
-                return SetFixedChannel(item.code, (uint)Channel);
-            }
 
             return Result.FAILURE;
         }
 
         private double[] GetAvailableFrequencyTable_CS108(string CountryName)									// Get Available frequency table with country code
         {
-            var item = FrequencyBand.frequencySet.Find(i => i.name.Equals(CountryName));
+            foreach (var i in FrequencyBand.frequencySet)
+                if (i.name.Equals(CountryName))
+                    return GetAvailableFrequencyTable_CS108(i.code);
 
-            if (item == null)
-                return null;
-
-            return (GetAvailableFrequencyTable_CS108(item.code));
+            return null;
         }
 
         private List<double> GetCurrentFrequencyTable_CS108()														// Get frequency table on current selected region
@@ -174,7 +165,11 @@ namespace CSLibrary
 
         private string GetCurrentCountry_CS108()
         {
-            return FrequencyBand.frequencySet.Find(item => item.code == m_save_region_code).name;
+            foreach (var i in FrequencyBand.frequencySet)
+                if (i.code == m_save_region_code)
+                    return i.name;
+
+            return null;
         }
 
         private Result SetCountry_CS108(int CountryIndex, int Channel = 0)
@@ -245,7 +240,5 @@ namespace CSLibrary
 
             return Result.OK;
         }
-
-
     }
 }

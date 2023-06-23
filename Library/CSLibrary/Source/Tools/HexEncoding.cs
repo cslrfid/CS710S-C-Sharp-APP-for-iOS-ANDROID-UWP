@@ -692,6 +692,38 @@ namespace CSLibrary.Tools
             return values;
         }
 
+        public static bool MSBArrayCopy(UInt32 src, byte [] dst, int dstIndex)
+        {
+            try
+            {
+                dst[dstIndex++] = (byte)(src >> 24);
+                dst[dstIndex++] = (byte)(src >> 16);
+                dst[dstIndex++] = (byte)(src >> 8);
+                dst[dstIndex] = (byte)(src);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool MSBArrayCopy(UInt16 src, byte[] dst, int dstIndex)
+        {
+            try
+            {
+                dst[dstIndex++] = (byte)(src >> 8);
+                dst[dstIndex] = (byte)(src);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
         /*
         /// <summary>

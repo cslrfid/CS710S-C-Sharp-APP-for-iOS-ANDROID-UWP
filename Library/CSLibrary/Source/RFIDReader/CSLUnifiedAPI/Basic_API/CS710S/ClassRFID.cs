@@ -196,8 +196,7 @@ namespace CSLibrary
             if (RFIDRegister == null)
                 return Result.FAILURE;
 
-            for (uint cnt = 0; cnt < 7; cnt++)
-                RFIDRegister.SelectConfiguration.Enable(cnt, false);
+            RFIDRegister.SelectConfiguration.Enable(0, 6, false);
 
             return Result.OK;
         }

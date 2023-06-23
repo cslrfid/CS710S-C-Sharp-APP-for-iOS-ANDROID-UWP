@@ -35,7 +35,10 @@
                 <Label Text="{Binding EPC}" VerticalTextAlignment="Center" FontSize="Small" />
                 <Label Grid.Column="1" Text="{Binding RSSI}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
               </Grid>
-            </StackLayout>
+              
+                <Label Text="{Binding Bank1Data}" VerticalTextAlignment="Center" FontSize="Small" />
+
+              </StackLayout>
           </ViewCell>
         </DataTemplate>
       </ListView.ItemTemplate>

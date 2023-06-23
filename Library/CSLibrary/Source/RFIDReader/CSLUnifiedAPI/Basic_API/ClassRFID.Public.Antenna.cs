@@ -336,8 +336,12 @@ namespace CSLibrary
 
         Result AntennaPortSetConfiguration(uint port, AntennaPortConfig antenna)
         {
-            RFIDRegister.AntennaPortConfig.SetPower((UInt16)(antenna.powerLevel * 10), (byte)port);
-            RFIDRegister.AntennaPortConfig.SetDwell((UInt16)antenna.dwellTime, (byte)port);
+            SetPowerLevel((UInt16)(antenna.powerLevel * 10), (byte)port);
+            SetInventoryDuration  ((UInt16)antenna.dwellTime, (byte)port);
+
+
+            //RFIDRegister.AntennaPortConfig.SetPower((UInt16)(antenna.powerLevel * 10), (byte)port);
+            //RFIDRegister.AntennaPortConfig.SetDwell((UInt16)antenna.dwellTime, (byte)port);
 
             //MacWriteRegister(MACREGISTER.HST_ANT_DESC_INV_CNT, antenna.numberInventoryCycles);
 
@@ -345,7 +349,7 @@ namespace CSLibrary
 
 
 
-#if forreference            
+#if forreference
 
             UInt32 registerValue = 0;
 

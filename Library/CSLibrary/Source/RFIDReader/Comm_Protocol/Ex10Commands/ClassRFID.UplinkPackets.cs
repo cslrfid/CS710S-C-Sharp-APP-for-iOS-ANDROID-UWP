@@ -529,7 +529,7 @@ namespace CSLibrary
                             {
                                 FireAccessCompletedEvent(
                                 new CSLibrary.Events.OnAccessCompletedEventArgs(
-                                    (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount == m_rdr_opt_parms.TagWriteUser.count),
+                                    (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount != 0),
                                     CSLibrary.Constants.Bank.SPECIFIC,
                                     TagAccess.WRITE,
                                     m_rdr_opt_parms.TagRead.pData));
@@ -538,7 +538,7 @@ namespace CSLibrary
                             {
                                 FireAccessCompletedEvent(
                                 new CSLibrary.Events.OnAccessCompletedEventArgs(
-                                    (tagErrorCode == 0x10 && macErrorCode == 0x00),
+                                    (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount != 0),
                                     CSLibrary.Constants.Bank.SPECIFIC,
                                     TagAccess.WRITE,
                                     m_rdr_opt_parms.TagRead.pData));
@@ -548,7 +548,7 @@ namespace CSLibrary
                         case CSLibrary.Constants.Operation.TAG_WRITE_PC:
                             FireAccessCompletedEvent(
                                 new CSLibrary.Events.OnAccessCompletedEventArgs(
-                                (tagErrorCode == 0x10 && macErrorCode == 0x00),
+                                (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount != 0),
                                 CSLibrary.Constants.Bank.PC,
                                 CSLibrary.Constants.TagAccess.WRITE,
                                 m_rdr_opt_parms.TagReadPC.pc));
@@ -557,7 +557,7 @@ namespace CSLibrary
                         case CSLibrary.Constants.Operation.TAG_WRITE_EPC:
                             FireAccessCompletedEvent(
                                 new CSLibrary.Events.OnAccessCompletedEventArgs(
-                                (tagErrorCode == 0x10 && macErrorCode == 0x00),
+                                (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount != 0),
                                 Bank.EPC,
                                 TagAccess.WRITE,
                                 m_rdr_opt_parms.TagReadEPC.epc));
@@ -566,7 +566,7 @@ namespace CSLibrary
                         case CSLibrary.Constants.Operation.TAG_WRITE_ACC_PWD:
                             FireAccessCompletedEvent(
                                 new CSLibrary.Events.OnAccessCompletedEventArgs(
-                                (tagErrorCode == 0x10 && macErrorCode == 0x00),
+                                (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount != 0),
                                 CSLibrary.Constants.Bank.ACC_PWD,
                                 CSLibrary.Constants.TagAccess.WRITE,
                                 m_rdr_opt_parms.TagReadAccPwd.password));
@@ -575,7 +575,7 @@ namespace CSLibrary
                         case CSLibrary.Constants.Operation.TAG_WRITE_KILL_PWD:
                             FireAccessCompletedEvent(
                                 new CSLibrary.Events.OnAccessCompletedEventArgs(
-                                (tagErrorCode == 0x10 && macErrorCode == 0x00),
+                                (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount != 0),
                                 CSLibrary.Constants.Bank.KILL_PWD,
                                 CSLibrary.Constants.TagAccess.WRITE,
                                 m_rdr_opt_parms.TagReadKillPwd.password));
@@ -584,7 +584,7 @@ namespace CSLibrary
                         case CSLibrary.Constants.Operation.TAG_WRITE_USER:
                             FireAccessCompletedEvent(
                                 new CSLibrary.Events.OnAccessCompletedEventArgs(
-                                (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount == m_rdr_opt_parms.TagWriteUser.count),
+                                (tagErrorCode == 0x10 && macErrorCode == 0x00 && writeWordCount != 0),
                                 Bank.USER,
                                 TagAccess.WRITE,
                                 m_rdr_opt_parms.TagReadUser.pData));

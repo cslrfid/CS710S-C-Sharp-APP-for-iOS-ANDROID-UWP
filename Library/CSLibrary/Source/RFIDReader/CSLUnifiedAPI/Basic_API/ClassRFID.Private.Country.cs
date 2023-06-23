@@ -181,7 +181,12 @@ namespace CSLibrary
             // add E710 frequency set
             foreach (var i in FrequencyBand_CS710S.frequencySet)
                 if (i.modelCode.Equals(Model))
-                    m_save_country_list_name.Add(i.name);
+                {
+                    var find = m_save_country_list_name.Find(item => item.Equals(i.name));
+
+                    if (find == null)
+                        m_save_country_list_name.Add(i.name);
+                }
         }
     }
 }

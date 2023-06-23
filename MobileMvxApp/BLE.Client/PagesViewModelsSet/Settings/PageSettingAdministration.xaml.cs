@@ -118,7 +118,7 @@ namespace BLE.Client.Pages
             BleMvxApplication._config.RFID_VibrationWindow = UInt32.Parse(entryVibrationWindow.Text);
             BleMvxApplication._config.RFID_VibrationTime = UInt32.Parse(entryVibrationTime.Text);
 
-            BleMvxApplication._config._keepScreenOn = Xamarin.Essentials.DeviceDisplay.KeepScreenOn = switchKeepScreenOn.IsToggled;
+            //BleMvxApplication._config._keepScreenOn = Xamarin.Essentials.DeviceDisplay.KeepScreenOn = switchKeepScreenOn.IsToggled;
 
             BleMvxApplication.SaveConfig();
 

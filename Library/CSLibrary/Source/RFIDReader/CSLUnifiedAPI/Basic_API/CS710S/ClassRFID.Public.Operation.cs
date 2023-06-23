@@ -54,27 +54,27 @@ namespace CSLibrary
                     RFIDRegister.AntennaPortConfig.TagFocusEnable(Options.TagRanging.focus);
                     if (m_rdr_opt_parms.TagRanging.multibanks == 0)
                     {
-                        if ((Options.TagRanging.flags & SelectFlags.FILTER) == 0X00)
+                        if ((Options.TagRanging.flags & SelectFlags.FILTER) == 0X00 && (Options.TagRanging.flags & SelectFlags.SELECT) == 0x00)
                         {
                             //RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0);
                             RFIDStartCompactInventory();
                         }
                         else
                         {
-                            RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0);
+                            RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0, 0xffff);
                             RFIDStartSelectCompactInventory();
                         }
                     }
                     else
                     {
-                        if ((Options.TagRanging.flags & SelectFlags.FILTER) == 0X00)
+                        if ((Options.TagRanging.flags & SelectFlags.FILTER) == 0X00 && (Options.TagRanging.flags & SelectFlags.SELECT) == 0x00)
                         {
                             //RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0);
                             RFIDStartMBInventory();
                         }
                         else
                         {
-                            RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0);
+                            RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0, 0xffff);
                             RFIDStartSelectMBInventory();
                         }
                     }

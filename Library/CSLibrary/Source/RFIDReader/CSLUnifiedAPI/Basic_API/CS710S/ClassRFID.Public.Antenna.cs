@@ -32,7 +32,7 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
-        public Result AntennaPortSetState_CS710S(UInt32 antennaPort, AntennaPortState state)
+        private Result AntennaPortSetState_CS710S(UInt32 antennaPort, AntennaPortState state)
         {
 
             switch (state)
@@ -54,6 +54,27 @@ namespace CSLibrary
             return Result.OK;
         }
 
+        private Result AntennaPortSetState_CS710S(int startPort, int endPort, AntennaPortState state)
+        {
+
+            switch (state)
+            {
+                case AntennaPortState.DISABLED:
+                    {
+                        RFIDRegister.AntennaPortConfig.Enable(false, startPort, endPort);
+                        break;
+                    } // case RFID_ANTENNA_PORT_STATE_DISABLED
+                case AntennaPortState.ENABLED:
+                    {
+                        RFIDRegister.AntennaPortConfig.Enable(true, startPort, endPort);
+                        break;
+                    } // case RFID_ANTENNA_PORT_STATE_ENABLED
+                default:
+                    return Result.INVALID_PARAMETER;
+            }
+
+            return Result.OK;
+        }
     }
 }
 

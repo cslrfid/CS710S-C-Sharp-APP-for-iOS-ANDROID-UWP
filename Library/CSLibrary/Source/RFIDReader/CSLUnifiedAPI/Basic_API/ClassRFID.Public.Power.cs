@@ -162,7 +162,7 @@ namespace CSLibrary
         /// <param name="power"></param>
         /// <param name="dwell"></param>
         /// <returns></returns>
-        public Result SetPowerSequencing(int numberofPower, uint[] power = null, uint[] dwell = null)
+        public Result SetPowerSequencing(int numberofPower, uint[] power = null, uint[] dwell = null, bool CloneAntenna0Setting = true)
         {
             switch (_deviceType)
             {
@@ -170,7 +170,7 @@ namespace CSLibrary
                     return SetPowerSequencing_CS108(numberofPower, power, dwell);
 
                 case MODEL.CS710S:
-                    return SetPowerSequencing_CS710S(numberofPower, power, dwell);
+                    return SetPowerSequencing_CS710S(numberofPower, power, dwell, CloneAntenna0Setting);
             }
 
             return Result.FAILURE;

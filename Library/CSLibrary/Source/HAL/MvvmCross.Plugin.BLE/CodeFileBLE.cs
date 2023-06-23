@@ -64,7 +64,6 @@ namespace CSLibrary
                 switch (_deviceType)
                 {
                     case MODEL.CS108:
-                        await device.RequestMtuAsync (30); // for BLE 4.0
                         _service = await device.GetServiceAsync(Guid.Parse("00009800-0000-1000-8000-00805f9b34fb"));
                         break;
 

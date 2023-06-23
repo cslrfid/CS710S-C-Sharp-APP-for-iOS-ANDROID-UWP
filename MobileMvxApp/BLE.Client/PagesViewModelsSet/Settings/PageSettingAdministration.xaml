@@ -28,7 +28,7 @@
 				<Button x:Name="buttonShareDataFormat" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonShareDataFormatClicked" />
 			</StackLayout>
 
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal" IsVisible="false">
                 <Label Text="Keep Screen ON" WidthRequest="100" VerticalOptions="Center" />
                 <Label Text="Off" VerticalOptions="Center" />
                 <Switch x:Name="switchKeepScreenOn"/>

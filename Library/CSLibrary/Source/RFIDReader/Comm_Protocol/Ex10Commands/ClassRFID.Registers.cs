@@ -30,6 +30,7 @@ namespace CSLibrary
 {
     using static RFIDDEVICE;
     using static FrequencyBand;
+    using static CSLibrary.RFIDReader;
 
     public partial class RFIDReader
     {
@@ -317,6 +318,29 @@ namespace CSLibrary
                 _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
             }
 
+            internal void Enable(bool enable, int startport, int endport)
+            {
+                if (Private == REGPRIVATE.READONLY)
+                    return;
+
+                List<UInt16> address = new List<UInt16>();
+                List<byte> sendBuffer = new List<byte>();
+                byte newValue = (byte)(enable ? 1 : 0);
+
+                for (int i = startport; i < endport; i++)
+                {
+                    if (data[i].enable == enable)
+                        continue;
+
+                    data[i].enable = enable;
+                    address.Add((UInt16)(regAdd + (i * 16)));
+                    sendBuffer.Add(newValue);
+                }
+
+                if (address.Count > 0)
+                    _handler.WriteRegister(address.ToArray(), sendBuffer.ToArray());
+            }
+
             internal void SetDwell(UInt16 ms, byte port = 0)
             {
                 if (Private == REGPRIVATE.READONLY)
@@ -473,34 +497,88 @@ namespace CSLibrary
 
             internal void TagGroup(uint session, uint select, uint target, int port = 0)
             {
-                uint sendData = data[port].inventoryRoundControl & 0xff07ffff;
-                sendData |= (session & 0x03) << 19;
-                sendData |= (select & 0x03) << 21;
-                sendData |= (target & 0x01) << 23;
+                if (port == 0xffff)
+                {
+                    List<UInt16> address = new List<UInt16>();
+                    List<uint> sendData = new List<uint>();
 
-                if (data[port].inventoryRoundControl == sendData)
-                    return;
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
 
-                int dataAdd = 5 + (port * 16);
+                        uint newvalue = (data[i].inventoryRoundControl & 0xff07ffff);
+                        newvalue |= (session & 0x03) << 19;
+                        newvalue |= (select & 0x03) << 21;
+                        newvalue |= (target & 0x01) << 23;
 
-                data[port].inventoryRoundControl = sendData;
-                
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                        if (data[i].inventoryRoundControl == newvalue)
+                            continue;
+
+                        data[i].inventoryRoundControl = newvalue;
+                        address.Add((UInt16)(regAdd + 5 + (i * 16)));
+                        sendData.Add(newvalue);
+                    }
+
+                    _handler.WriteRegister(address.ToArray(), sendData.ToArray());
+                }
+                else
+                {
+                    uint sendData = data[port].inventoryRoundControl & 0xff07ffff;
+                    sendData |= (session & 0x03) << 19;
+                    sendData |= (select & 0x03) << 21;
+                    sendData |= (target & 0x01) << 23;
+
+                    if (data[port].inventoryRoundControl == sendData)
+                        return;
+
+                    int dataAdd = 5 + (port * 16);
+
+                    data[port].inventoryRoundControl = sendData;
+
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                }
             }
 
             internal void Select(uint select, int port = 0)
             {
-                uint sendData = data[port].inventoryRoundControl & 0xff9fffff;
-                sendData |= (select & 0x03) << 21;
+                if (port == 0xffff)
+                {
+                    List<UInt16> address = new List<UInt16>();
+                    List<uint> sendData = new List<uint>();
 
-                if (data[port].inventoryRoundControl == sendData)
-                    return;
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
 
-                int dataAdd = 5 + (port * 16);
+                        uint newvalue = data[i].inventoryRoundControl & 0xff9fffff;
+                        newvalue |= (select & 0x03) << 21;
 
-                data[port].inventoryRoundControl = sendData;
+                        if (data[i].inventoryRoundControl == newvalue)
+                            continue;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                        data[i].inventoryRoundControl = newvalue;
+                        address.Add((UInt16)(regAdd + 5 + (i * 16)));
+                        sendData.Add(newvalue);
+                    }
+
+                    _handler.WriteRegister(address.ToArray(), sendData.ToArray());
+                }
+                else
+                {
+                    uint sendData = data[port].inventoryRoundControl & 0xff9fffff;
+                    sendData |= (select & 0x03) << 21;
+
+                    if (data[port].inventoryRoundControl == sendData)
+                        return;
+
+                    int dataAdd = 5 + (port * 16);
+
+                    data[port].inventoryRoundControl = sendData;
+
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                }
             }
 
             internal void FastIdEnable(bool enable, int port = 0)
@@ -561,8 +639,55 @@ namespace CSLibrary
 
                 _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].rfMode);
             }
-        }
 
+            internal void SetInventoryRoundControl(int port, UInt32 value)
+            {
+                if (Private == REGPRIVATE.READONLY)
+                    return;
+
+                if (data[port].inventoryRoundControl == value)
+                    return;
+
+                int dataAdd = 5 + (port * 16);
+                data[port].inventoryRoundControl = value;
+
+                _handler.WriteRegister((UInt16)(regAdd + dataAdd), value);
+            }
+
+            internal bool CloneAntenna0Setting()
+            {
+                List<UInt16> address = new List<UInt16>();
+                List<byte[]> sendData = new List<byte[]>();
+                byte[] newValue = new byte[11];
+
+                Tools.Hex.MSBArrayCopy(data[0].inventoryRoundControl, newValue, 0);
+                Tools.Hex.MSBArrayCopy(data[0].inventoryRoundControl2, newValue, 4);
+                newValue[8] = (byte)(data[0].toggle ? 1 : 0);
+                Tools.Hex.MSBArrayCopy(data[0].rfMode, newValue, 9);
+
+                for (int i = 1; i < 16; i++)
+                {
+                    if (!data[i].enable)
+                        continue;
+
+                    if (data[i].inventoryRoundControl == data[0].inventoryRoundControl &&
+                        data[i].inventoryRoundControl2 == data[0].inventoryRoundControl2 &&
+                        data[i].toggle == data[0].toggle &&
+                        data[i].rfMode == data[0].rfMode)
+                        continue;
+
+                    data[i].inventoryRoundControl = data[0].inventoryRoundControl;
+                    data[i].inventoryRoundControl2 = data[0].inventoryRoundControl2;
+                    data[i].toggle = data[0].toggle;
+                    data[i].rfMode = data[0].rfMode;
+                    address.Add((UInt16)(regAdd + 5 + (i * 16)));
+                    sendData.Add(newValue);
+                }
+
+                _handler.WriteRegister(address.ToArray(), sendData.ToArray());
+                return true;
+            }
+        }
 
         /*
                 internal class RegAntennaPortConfig
@@ -785,19 +910,54 @@ namespace CSLibrary
                 if (index >= 7)
                     return;
 
-                byte[] sendData = new byte[1];
+                byte sendData;
                 uint dataAdd = (index * 42);
 
-                if (enable)
-                    sendData[0] = 1;
-                else
-                    sendData[0] = 0;
+                sendData = (byte)(enable ? 1 : 0);
 
-                if (data[dataAdd] == sendData[0])
+                if (data[dataAdd] == sendData)
                     return;
 
-                data[dataAdd] = sendData[0];
+                data[dataAdd] = sendData;
                 _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+            }
+
+            internal void Enable(int startIndex, int endIndex, bool enable)
+            {
+                if (Private == REGPRIVATE.READONLY)
+                    return;
+
+                if (startIndex < 0 || startIndex > endIndex || endIndex >= 7)
+                    return;
+
+                List<UInt16> address = new List<UInt16>();
+                List<byte> sendbuffer = new List<byte>();
+                byte newvalue = (byte)(enable ? 1 : 0);
+
+                for (int i = startIndex; i <= endIndex; i++)
+                {
+                    uint dataAdd = (uint)(i * 42);
+
+                    if (data[dataAdd] == newvalue)
+                        continue;
+
+                    data[dataAdd] = newvalue;
+                    address.Add((UInt16)(regAdd + dataAdd));
+                    sendbuffer.Add(newvalue);
+                }
+
+                if (address.Count > 0)
+                    _handler.WriteRegister(address.ToArray(), sendbuffer.ToArray());
+            }
+
+            internal bool IsEnable(uint index)
+            {
+                if (index >= 7)
+                    return false;
+
+                uint dataAdd = (index * 42);
+
+                return (data[dataAdd] != 0);
             }
 
             internal void SetPostConfigurationDelay(uint index, int ms)

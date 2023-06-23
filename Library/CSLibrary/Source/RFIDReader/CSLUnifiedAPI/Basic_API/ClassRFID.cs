@@ -101,6 +101,11 @@ namespace CSLibrary
             //OnFM13DTAccessCompleted = null;
         }
 
+        public void ClearOnAsyncCallback()
+        {
+            OnAsyncCallback = null;
+        }
+
 
         public MODEL GetModel()
         {
@@ -501,6 +506,9 @@ namespace CSLibrary
 		{
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetInventoryDuration_CS108(duration, antennaPort);
+
                 case MODEL.CS710S:
                     return SetInventoryDuration_CS710S(duration, antennaPort);
             }
@@ -512,6 +520,9 @@ namespace CSLibrary
         {
             switch (_deviceType)
             {
+                case MODEL.CS108:
+                    return SetInventoryDuration_CS108(duration);
+
                 case MODEL.CS710S:
                     return SetInventoryDuration_CS710S(duration);
             }
