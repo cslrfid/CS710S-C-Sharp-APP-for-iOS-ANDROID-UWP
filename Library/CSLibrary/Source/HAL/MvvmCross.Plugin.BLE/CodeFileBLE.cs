@@ -31,7 +31,8 @@ namespace CSLibrary
 {
     using static RFIDDEVICE;
     using Constants;
-    
+    using System.Linq;
+
     public partial class HighLevelInterface
     {
         // for bluetooth Connection
@@ -39,8 +40,10 @@ namespace CSLibrary
         IAdapter _adapter;
         IDevice _device;
         IService _service;
+        IService _serviceDeviceInfo;
         ICharacteristic _characteristicWrite;
         ICharacteristic _characteristicUpdate;
+        ICharacteristic _characteristicDeviceInfoRead;
         MODEL _deviceType = MODEL.UNKNOWN;
 
         /// <summary>
@@ -75,6 +78,8 @@ namespace CSLibrary
 
                 if (_service == null)
                     return false;
+
+                _serviceDeviceInfo = await device.GetServiceAsync(Guid.Parse("0000180a-0000-1000-8000-00805f9b34fb"));
             }
             catch (Exception ex)
             {
@@ -93,6 +98,27 @@ namespace CSLibrary
             {
                 _characteristicWrite = await _service.GetCharacteristicAsync(Guid.Parse("00009900-0000-1000-8000-00805f9b34fb"));
                 _characteristicUpdate = await _service.GetCharacteristicAsync(Guid.Parse("00009901-0000-1000-8000-00805f9b34fb"));
+                _characteristicWrite = await _service.GetCharacteristicAsync(Guid.Parse("00009900-0000-1000-8000-00805f9b34fb"));
+
+                if (_serviceDeviceInfo != null)
+                {
+                    _characteristicDeviceInfoRead = await _serviceDeviceInfo.GetCharacteristicAsync(Guid.Parse("00002a23-0000-1000-8000-00805f9b34fb"));
+
+                    await _characteristicDeviceInfoRead.ReadAsync();
+                    
+                    if (_characteristicDeviceInfoRead?.Value.Count() == 8)
+                    {
+                        _MacAdd = _characteristicDeviceInfoRead?.Value[7].ToString("X2") +
+                            _characteristicDeviceInfoRead?.Value[6].ToString("X2") +
+                            _characteristicDeviceInfoRead?.Value[5].ToString("X2") +
+                            _characteristicDeviceInfoRead?.Value[2].ToString("X2") +
+                            _characteristicDeviceInfoRead?.Value[1].ToString("X2") +
+                            _characteristicDeviceInfoRead?.Value[0].ToString("X2");
+                            ;
+
+                        //CSLibrary.Debug.WriteLine("BLE Mac Addres : " + _MacAdd);
+                    }
+                }
             }
             catch (Exception ex)
             {

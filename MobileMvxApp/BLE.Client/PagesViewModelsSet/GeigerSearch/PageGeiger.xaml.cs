@@ -80,5 +80,14 @@ namespace BLE.Client.Pages
             labelThresholdValue.Text = ((int)(sliderThreshold.Value)).ToString();
         }
 
+        void RssiPropertyChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                progressbarRSSI.Progress = (double.Parse(Rssi.Text) - sliderThreshold.Minimum) / (sliderThreshold.Maximum - sliderThreshold.Minimum);
+                //progressbarRSSI.Progress = 0.5;
+            }
+            catch (Exception ex) { }
+        }
     }
 }

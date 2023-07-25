@@ -75,6 +75,7 @@ namespace BLE.Client.Pages
             {
                 buttonTarget.Text = BleMvxApplication._config.RFID_TagGroup.target.ToString();
             }
+
             switchFocus.IsToggled = BleMvxApplication._config.RFID_Focus;
             switchFastId.IsToggled = BleMvxApplication._config.RFID_FastId;
 

@@ -40,6 +40,7 @@
                         <StackLayout Orientation="Vertical" VerticalOptions="Center">
                             <Label Text="{Binding Name}" FontSize="Large" TextColor="Gray" />
                             <!--<Label Text="{Binding Id, StringFormat='{0}'}" TextColor="Gray" FontSize="Small"/>-->
+                            <Label Text="{Binding IdString}" TextColor="Gray" FontSize="Small"/>
                             <Label Text="{Binding Model}" TextColor="Gray" FontSize="Small"/>
                         </StackLayout>
 

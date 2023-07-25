@@ -260,10 +260,12 @@ namespace BLE.Client.ViewModels
 
                     if (BleMvxApplication._config.RFID_DBm)
                     {
+                        // 0~1
                         _progressbarRSSIValue = e.info.rssidBm;
                     }
                     else
                     {
+                        // 0~1
                         _progressbarRSSIValue = e.info.rssi;
                     }
                     _rssiString = ((int)Math.Round(_progressbarRSSIValue)).ToString();

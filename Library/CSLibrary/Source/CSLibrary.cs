@@ -163,6 +163,13 @@ namespace CSLibrary
             }
         }
 
+        internal string _MacAdd = null;
+        public string GetMacAddress()
+        {
+            return _MacAdd;
+        }
+
+
         #endregion
 
         public HighLevelInterface()
@@ -209,7 +216,7 @@ namespace CSLibrary
             //rfid.SetToStandbyMode();
 
             notification.SetAutoReport(true);
-            notification.SetAutoTriggerReport(0); // off auto trigger report
+            //notification.SetAutoTriggerReport(0); // off auto trigger report // cancel SetAutoTriggerReport commnad to compatible with old BT firmware
 
             FireReaderStateChangedEvent(new Events.OnReaderStateChangedEventArgs(_sendBuffer[0], Constants.ReaderCallbackType.CONNECT_SUCESS));
         }

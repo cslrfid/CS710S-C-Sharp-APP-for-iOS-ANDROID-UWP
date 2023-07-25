@@ -94,7 +94,7 @@ namespace CSLibrary
             // Init setting after read registers
             InitDefaultChannel_CS710S();
             GenCountryList_CS710S();
-            SetDefaultAntennaList_CS710S();
+            SetDefaultAntennaList();
             FireStateChangedEvent(RFState.INITIALIZATION_COMPLETE);
             FireStateChangedEvent(RFState.IDLE);
         }
@@ -251,7 +251,7 @@ namespace CSLibrary
         /// </summary>
         /// <param name="tagGroup"></param>
         /// <returns></returns>
-        public Result GetTagGroup_CS710S(ref TagGroup tagGroup)
+        internal Result GetTagGroup_CS710S(ref TagGroup tagGroup)
 		{
             //RFIDRegister.AntennaPortConfig.TagGroup((uint)tagGroup.session, (uint)tagGroup.selected, (uint)tagGroup.target);
         

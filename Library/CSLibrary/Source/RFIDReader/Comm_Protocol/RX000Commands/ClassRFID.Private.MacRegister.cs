@@ -278,7 +278,7 @@ namespace CSLibrary
             return _deviceHandler.SendAsync(0, 0, DOWNLINKCMD.RFIDCMD, PacketData(address, data), HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.BTAPIRESPONSE);
         }
 
-        public UInt32 ReadMacRegister(UInt16 address)
+        internal UInt32 ReadMacRegister(UInt16 address)
         {
             UInt16 addressBench = (UInt16)(address & 0x0f00U);
             UInt16 addressoffset = (UInt16)(address & 0x00ffU);

@@ -175,6 +175,24 @@ namespace BLE.Client.Pages
             }
 
             BleMvxApplication.SaveConfig();
+
+
+            string macadd = BleMvxApplication._reader.GetMacAddress();
+
+            if (macadd.Length >= 6)
+            {
+                if (BleMvxApplication._reader.rfid.GetModel() == CSLibrary.RFIDDEVICE.MODEL.CS108)
+                {
+
+                    BleMvxApplication._reader.bluetoothIC.SetDeviceName("CS108Reader" + macadd.Substring(macadd.Length - 6));
+                    await DisplayAlert("New Reader Name effective after reset CS108", "", null, "OK");
+                }
+                else if (BleMvxApplication._reader.rfid.GetModel() == CSLibrary.RFIDDEVICE.MODEL.CS710S)
+                {
+                    BleMvxApplication._reader.bluetoothIC.SetDeviceName("CS710SReader" + macadd.Substring(macadd.Length - 6));
+                    await DisplayAlert("New Reader Name effective after reset CS710S", "", null, "OK");
+                }
+            }
         }
 
         public async void btnGetSerialNumber(object sender, EventArgs e)

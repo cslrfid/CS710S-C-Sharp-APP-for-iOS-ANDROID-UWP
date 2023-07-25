@@ -296,9 +296,9 @@ namespace BLE.Client.ViewModels
                         BleMvxApplication._batteryLow = true;
 
                         if (batlow == ClassBattery.BATTERYLEVELSTATUS.LOW)
-                            _userDialogs.AlertAsync("20% Battery Life Left, Please Recharge CS108 or Replace Freshly Charged CS108B");
+                            _userDialogs.AlertAsync("20% Battery Life Left, Please Recharge RFID Reader or Replace Freshly Charged Battery");
                         //else if (batlow == ClassBattery.BATTERYLEVELSTATUS.LOW_17)
-                        //    _userDialogs.AlertAsync("8% Battery Life Left, Please Recharge CS108 or Replace with Freshly Charged CS108B");
+                        //    _userDialogs.AlertAsync("8% Battery Life Left, Please Recharge RFID Reader or Replace with Freshly Charged Battery");
 
                         RaisePropertyChanged(() => labelVoltageTextColor);
                     }

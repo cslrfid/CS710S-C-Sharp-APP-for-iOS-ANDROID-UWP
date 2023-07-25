@@ -27,7 +27,10 @@ namespace BLE.Client.Pages
             labelLibVer.Text = "Library Version " + BleMvxApplication._reader.GetVersion().ToString();
             labelBtFwVer.Text = "Bluetooth Firmware Version " + Version2String(BleMvxApplication._reader.bluetoothIC.GetFirmwareVersion());
             labelRFIDFwVer.Text = "RFID Firmware Version " + (BleMvxApplication._reader.rfid.GetFirmwareVersionString());
-            labelSiliconlabFwVer.Text = "SiliconLab IC Firmware Version " + Version2String(BleMvxApplication._reader.siliconlabIC.GetFirmwareVersion());
+            if (BleMvxApplication._reader.rfid.GetModelName() == "CS710S")
+                labelSiliconlabFwVer.Text = "ATMEL IC Firmware Version " + Version2String(BleMvxApplication._reader.siliconlabIC.GetFirmwareVersion());
+            else
+                labelSiliconlabFwVer.Text = "SiliconLab IC Firmware Version " + Version2String(BleMvxApplication._reader.siliconlabIC.GetFirmwareVersion());
             labelSerialNumber.Text = "Reader Serial Number " + BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync();
         }
 

@@ -174,7 +174,8 @@ namespace BLE.Client
             RFID_InventoryAlertSound = true;
             RFID_QOverride = false;
             RFID_DBm = true;
-
+            RFID_Focus = false;
+            RFID_FastId = false;
             RFID_SavetoFile = false;
             RFID_SavetoCloud = true;
             RFID_CloudProtocol = 0;

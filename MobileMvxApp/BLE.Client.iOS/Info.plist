@@ -20,13 +20,13 @@
 	<key>MinimumOSVersion</key>
 	<string>11.0</string>
 	<key>CFBundleDisplayName</key>
-	<string>CS710S CS108</string>
+	<string>CS710S C# Reader</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>BLE.Client</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.1</string>
+	<string>0.1.3</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -50,6 +50,6 @@
 	<key>XSAppIconAssets</key>
 	<string>Media.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>25</string>
 </dict>
 </plist>

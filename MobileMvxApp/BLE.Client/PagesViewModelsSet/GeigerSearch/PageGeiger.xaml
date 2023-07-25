@@ -34,7 +34,7 @@
         <Label Text = "" />
         <Label Text = "" />
         <Label Text = "" />
-        <Label Text="{Binding rssiStart}" Font="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+        <Label x:Name="Rssi" Text="{Binding rssiStart}" PropertyChanged="RssiPropertyChanged" Font="Large" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
         <Label Text = "" />
 
         <ProgressBar x:Name="progressbarRSSI" Progress="{Binding progressbarRSSIValue}" WidthRequest="300" HeightRequest="30" HorizontalOptions="Center" VerticalOptions="Center" />

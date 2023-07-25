@@ -1334,7 +1334,7 @@ namespace CSLibrary
 		/// </summary>
 		/// <param name="tagGroup"></param>
 		/// <returns></returns>
-		public Result GetTagGroup_CS108(ref TagGroup tagGroup)
+		internal Result GetTagGroup_CS108(ref TagGroup tagGroup)
 		{
 			//UInt16 HST_QUERY_CFG = 0x0900;
 

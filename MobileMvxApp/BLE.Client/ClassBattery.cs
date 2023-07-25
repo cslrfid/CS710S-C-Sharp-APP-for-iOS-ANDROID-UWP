@@ -135,7 +135,7 @@ namespace BLE.Client
     /* for old formula    
 
     #if oldMode
-        14% Battery Life Left, Please Recharge CS108 or Replace with Freshly Charged CS108B
+        14% Battery Life Left, Please Recharge RFID Reader or Replace with Freshly Charged Battery
     #else
 
 

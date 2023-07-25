@@ -12,6 +12,21 @@ namespace BLE.Client.ViewModels
         public MODEL BTServiceType { get; private set; }
         
         public Guid Id => Device.Id;
+        public string IdString {
+            get {
+                if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
+                    return Id.ToString();
+
+                string idString = Id.ToString().ToUpper();
+                string macString = idString.Substring(idString.Length - 12, 2) + ":";
+                macString += idString.Substring(idString.Length - 10, 2) + ":";
+                macString += idString.Substring(idString.Length - 8, 2) + ":";
+                macString += idString.Substring(idString.Length - 6, 2) + ":";
+                macString += idString.Substring(idString.Length - 4, 2) + ":";
+                macString += idString.Substring(idString.Length - 2, 2);
+                return macString;
+            } 
+        }
         public string Model => BTServiceType.ToString();
         public bool IsConnected => Device.State == DeviceState.Connected;
         public int Rssi => Device.Rssi;
