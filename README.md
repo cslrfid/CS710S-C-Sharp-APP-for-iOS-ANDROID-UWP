@@ -1,11 +1,11 @@
-# C# CS710S CS108 Combo DotNetStd App
+# C# CS710S DotNetStd App
 
-CS710S and CS108 Xamarin C# Bluetooth Demo App and SDK 
+CS710S Xamarin C# Bluetooth Demo App and SDK 
 
 - .NET Standard 2.0 and MvvmCross 7
 - Support implementations on iOS and Android platform
 
-This application provides demonstrations to the programming interface made available on the CS710S and CS108 handheld reader for configuring, controlling, and accessing the RFID reader.  The development was based on the unified CS710S C# Callback-based API that made available on different CSL readers.  This API is applicable to both iPhone iOS and Android environment.  
+This application provides demonstrations to the programming interface made available on the CS710S handheld reader for configuring, controlling, and accessing the RFID reader.  The development was based on the unified CS710S C# Callback-based API that made available on different CSL readers.  This API is applicable to both iPhone iOS and Android environment.  
 
 [Product Information](https://www.convergence.com.hk/CS710S/)
 <br>
