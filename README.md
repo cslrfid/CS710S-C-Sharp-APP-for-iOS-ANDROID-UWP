@@ -46,14 +46,14 @@ To build demo application successfully, you need to install Visual Studio 2019 o
 
 ## Callback-based API Library
 
-The CS710S CS108 Callback-based API Library consists of the following files. 
+The CS710S Callback-based API Library consists of the following files. 
 
 |File   | Location of source code |Remarks  |
 |-------|-------------------------|---------|
 |CSLibrary.dll|Inside folder “/CSLibrary/bin/Debug” of the CS710S Demo Code|CSL C# Callback-based API Class Library. Different library files.|
 <br>
 
-## CS710S CS108 C# API: Theory of Operation
+## CS710S C# API: Theory of Operation
 
 The CS710S and CS108 C# Application Programming Interface (API) provides a programming interface for controlling CS710S and CS108 integrated reader. The interface is loaded by a mobile application; the application in turn explicitly initializes the interface. The interface supports enumeration of attached RFID radio modules, returning unique identification information for each currently-attached RFID radio modules. An mobile application uses the CS710S C# API to establish a connection and grant the application exclusive control of the corresponding RFID radio module. After an application is granted exclusive control of an RFID radio module, the application can configure the RFID radio module for operation and tag protocol operations can be issued. The CS710S C# API allows an application control of low level functions of the Firmware, including but not limited to: 
 
