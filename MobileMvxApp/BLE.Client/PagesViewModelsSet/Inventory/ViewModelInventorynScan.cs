@@ -278,7 +278,7 @@ namespace BLE.Client.ViewModels
             if (BleMvxApplication._config.RFID_Vibration)
                 BleMvxApplication._reader.barcode.VibratorOff();
 
-            SetEvent(false);
+            //SetEvent(false);
 
             try
             {

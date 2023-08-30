@@ -33,7 +33,7 @@ namespace CSLibrary
     public partial class RFIDReader
     {
         TagRangingParms _currentTagRanging;
-        public Result StartOperation_CS710S(Operation opertion)
+        internal Result StartOperation_CS710S(Operation opertion)
         {
             CurrentOperation = opertion;
 
@@ -144,11 +144,15 @@ namespace CSLibrary
                 case Operation.TAG_KILL:
                     TagKillThreadProc_CS710S();
                     break;
-                
-                    
-//                case Operation.TAG_PREFILTER:
-//                    PreFilter();
-//                    break;
+
+                case Operation.TAG_AUTHENTICATE:
+                    TagAuthenticateThreadProc_CS710S();
+                    break;
+
+
+                //                case Operation.TAG_PREFILTER:
+                //                    PreFilter();
+                //                    break;
 
 
 

@@ -53,8 +53,29 @@
     <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary-NETStandard.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesProtectedMode.xaml.cs">
+      <DependentUpon>PageImpinjSpecialFeaturesProtectedMode.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesInventory.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>PageImpinjSpecialFeaturesInventory.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesConfig.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>PageImpinjSpecialFeaturesConfig.xaml</DependentUpon>
+    </Compile>
     <Compile Update="PagesViewModelsSet\SpecialFuction\UCODE8\PageUCODE8Inventory.xaml.cs">
       <DependentUpon>PageUCODE8Inventory.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesInventory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
