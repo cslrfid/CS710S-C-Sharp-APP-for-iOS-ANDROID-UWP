@@ -136,16 +136,16 @@ namespace BLE.Client.ViewModels
 
 
     public class ViewModelInventorynScan : BaseViewModel
-	{
-		private readonly IUserDialogs _userDialogs;
+    {
+        private readonly IUserDialogs _userDialogs;
 
-		#region -------------- RFID inventory -----------------
+        #region -------------- RFID inventory -----------------
 
-		public ICommand OnStartInventoryButtonCommand { protected set; get; }
+        public ICommand OnStartInventoryButtonCommand { protected set; get; }
         public ICommand OnClearButtonCommand { protected set; get; }
 
-		private ObservableCollection<TagInfoViewModel> _TagInfoList = new ObservableCollection<TagInfoViewModel>();
-		public ObservableCollection<TagInfoViewModel> TagInfoList { get { return _TagInfoList; } set { SetProperty(ref _TagInfoList, value); } }
+        private ObservableCollection<TagInfoViewModel> _TagInfoList = new ObservableCollection<TagInfoViewModel>();
+        public ObservableCollection<TagInfoViewModel> TagInfoList { get { return _TagInfoList; } set { SetProperty(ref _TagInfoList, value); } }
 
         private System.Collections.Generic.SortedDictionary<string, int> TagInfoListSpeedup = new SortedDictionary<string, int>();
 
@@ -163,12 +163,12 @@ namespace BLE.Client.ViewModels
         public string tagPerSecondText { get { return _tagPerSecondText; } }
         private string _numberOfTagsText = "     0 tags";
         public string numberOfTagsText { get { return _numberOfTagsText; } }
-		private string _labelVoltage = "";
-		public string labelVoltage { get { return _labelVoltage; } }
+        private string _labelVoltage = "";
+        public string labelVoltage { get { return _labelVoltage; } }
         public string labelVoltageTextColor { get { return BleMvxApplication._batteryLow ? "Red" : "Black"; } }
 
         private int _ListViewRowHeight = -1;
-		public int ListViewRowHeight { get { return _ListViewRowHeight; } }
+        public int ListViewRowHeight { get { return _ListViewRowHeight; } }
 
         DateTime InventoryStartTime;
         private double _InventoryTime = 0;
@@ -216,7 +216,7 @@ namespace BLE.Client.ViewModels
             //SetEvent(false);
         }
 
-        private void SetEvent (bool enable)
+        private void SetEvent(bool enable)
         {
             // Cancel RFID event handler
             BleMvxApplication._reader.rfid.ClearEventHandler();
@@ -331,7 +331,7 @@ namespace BLE.Client.ViewModels
             });
         }
 
-        void SetConfigPower ()
+        void SetConfigPower()
         {
             if (BleMvxApplication._reader.rfid.GetAntennaPort() == 1)
             {
@@ -439,6 +439,20 @@ namespace BLE.Client.ViewModels
             ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.INVENTORY);
             _cancelVoltageValue = true;
 
+            RaisePropertyChanged(() => startInventoryButtonText);
+        }
+
+        async void InventoryStopped()
+        {
+            if (!_InventoryScanning)
+                return;
+
+            if (BleMvxApplication._config.RFID_Vibration)
+                BleMvxApplication._reader.barcode.VibratorOff();
+            //_waitingRFIDIdle = true;
+            _InventoryScanning = false;
+            _tagCount = false;
+            _startInventoryButtonText = "Start Inventory";
             RaisePropertyChanged(() => startInventoryButtonText);
         }
 
@@ -579,24 +593,40 @@ namespace BLE.Client.ViewModels
                 switch (e.state)
                 {
                     case CSLibrary.Constants.RFState.IDLE:
-                    ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.IDLE);
-                    _cancelVoltageValue = true;
-                    //_waitingRFIDIdle = false;
-                    switch (BleMvxApplication._reader.rfid.LastMacErrorCode)
+                        ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.IDLE);
+                        _cancelVoltageValue = true;
+                        //_waitingRFIDIdle = false;
+
+                        if (BleMvxApplication._reader.rfid.GetModelName() == "CS710S")
                         {
-                            case 0x00:  // normal end
-                                break;
+                            switch (BleMvxApplication._reader.rfid.LastMacErrorCode)
+                            {
+                                case 0x00:  // normal end
+                                    break;
 
-                            case 0x0309:    // 
-                                _userDialogs.Alert("Too near to metal, please move CS108 away from metal and start inventory again.");
-                                break;
+                                default:
+                                    _userDialogs.Alert("Last error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4"));
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            switch (BleMvxApplication._reader.rfid.LastMacErrorCode)
+                            {
+                                case 0x00:  // normal end
+                                    break;
 
-                            default:
-                                _userDialogs.Alert("Mac error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString ("X4"));
-                                break;
+                                case 0x0309:    // 
+                                    _userDialogs.Alert("Too near to metal, please move CS108 away from metal and start inventory again.");
+                                    break;
+
+                                default:
+                                    _userDialogs.Alert("Mac error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4"));
+                                    break;
+                            }
                         }
 
-                        //InventoryStopped();
+                        InventoryStopped();
                         break;
                 }
             });

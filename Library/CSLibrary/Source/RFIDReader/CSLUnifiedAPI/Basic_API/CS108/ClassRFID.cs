@@ -35,7 +35,7 @@ namespace CSLibrary
 
     public partial class RFIDReader
     {
-        public UInt32 LastMacErrorCode;
+        public UInt32 LastMacErrorCode = 0;
         public UInt16 LastResultCode = 0;
 
         private CSLibrary.Tools.Queue _dataBuffer = new Tools.Queue(16 * 1024 * 1024);

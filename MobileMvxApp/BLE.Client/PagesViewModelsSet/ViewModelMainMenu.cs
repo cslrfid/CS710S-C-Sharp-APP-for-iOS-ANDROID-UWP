@@ -57,14 +57,12 @@ namespace BLE.Client.ViewModels
 			OnFilterButtonCommand = new Command(OnFilterButtonClicked);
             OnConnectButtonCommand = new Command(OnConnectButtonClicked);
 
-            BleMvxApplication._reader.OnReaderStateChanged += new EventHandler<CSLibrary.Events.OnReaderStateChangedEventArgs>(ReaderStateCChangedEvent);
-
             GetPermission();
         }
 
         ~ViewModelMainMenu()
         {
-            BleMvxApplication._reader.OnReaderStateChanged -= new EventHandler<CSLibrary.Events.OnReaderStateChangedEventArgs>(ReaderStateCChangedEvent);
+            SetEvent(false);
         }
 
         // MUST be geant location permission
@@ -109,11 +107,7 @@ namespace BLE.Client.ViewModels
 
             BleMvxApplication._inventoryEntryPoint = 0;
 
-            //BleMvxApplication._reader.OnReaderStateChanged += new EventHandler<CSLibrary.Events.OnReaderStateChangedEventArgs>(ReaderStateCChangedEvent);
-            BleMvxApplication._reader.notification.OnVoltageEvent += new EventHandler<CSLibrary.Notification.VoltageEventArgs>(VoltageEvent);
-            BleMvxApplication._reader.notification.OnKeyEvent += new EventHandler<CSLibrary.Notification.HotKeyEventArgs>(HotKeys_OnKeyEvent);
-
-            BleMvxApplication._reader.rfid.OnStateChanged += new EventHandler<CSLibrary.Events.OnStateChangedEventArgs>(StateChangedEvent);
+            SetEvent(true);
 
             CheckConnection();
 
@@ -128,11 +122,6 @@ namespace BLE.Client.ViewModels
 
         public override void ViewDisappearing()
         {
-            //BleMvxApplication._reader.rfid.OnStateChanged -= new EventHandler<CSLibrary.Events.OnStateChangedEventArgs>(StateChangedEvent);
-
-            BleMvxApplication._reader.notification.OnKeyEvent -= new EventHandler<CSLibrary.Notification.HotKeyEventArgs>(HotKeys_OnKeyEvent);
-            BleMvxApplication._reader.notification.OnVoltageEvent -= new EventHandler<CSLibrary.Notification.VoltageEventArgs>(VoltageEvent);
-            //BleMvxApplication._reader.OnReaderStateChanged -= new EventHandler<CSLibrary.Events.OnReaderStateChangedEventArgs>(ReaderStateCChangedEvent);
             base.ViewDisappearing();
         }
 
@@ -148,6 +137,22 @@ namespace BLE.Client.ViewModels
                 navigation.Close(this);
             }
 		}
+
+        void SetEvent(bool onoff)
+        {
+            BleMvxApplication._reader.CancelEventOnReaderStateChanged();
+            BleMvxApplication._reader.notification.ClearEventHandler(); // Key Button event handler
+            BleMvxApplication._reader.rfid.ClearEventHandler(); // Cancel RFID event handler
+            BleMvxApplication._reader.barcode.ClearEventHandler(); // Cancel Barcode event handler
+
+            if (onoff)
+            {
+                BleMvxApplication._reader.OnReaderStateChanged += new EventHandler<CSLibrary.Events.OnReaderStateChangedEventArgs>(ReaderStateCChangedEvent);
+                BleMvxApplication._reader.notification.OnVoltageEvent += new EventHandler<CSLibrary.Notification.VoltageEventArgs>(VoltageEvent);
+                BleMvxApplication._reader.notification.OnKeyEvent += new EventHandler<CSLibrary.Notification.HotKeyEventArgs>(HotKeys_OnKeyEvent);
+                BleMvxApplication._reader.rfid.OnStateChanged += new EventHandler<CSLibrary.Events.OnStateChangedEventArgs>(StateChangedEvent);
+            }
+        }
 
         private async void Disconnect()
         {
