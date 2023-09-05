@@ -1,4 +1,4 @@
-# C# CS710S DotNetStd App
+# C# CS710S MvvmCross App for iOS, Android and UWP
 
 CS710S Xamarin C# Bluetooth Demo App and SDK 
 
