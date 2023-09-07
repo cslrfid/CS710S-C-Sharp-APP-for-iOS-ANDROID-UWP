@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32427.441
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Library", "Library", "{129A7404-6BDF-4303-82F0-29AE7ED69903}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSLibrary-NETStandard", "Library\CSLibrary\CSLibrary-NETStandard.csproj", "{22CFB5A2-C51E-42BF-9394-3C4F2415E69C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSLibraryBT5-NETStandard", "Library\CSLibrary\CSLibraryBT5-NETStandard.csproj", "{22CFB5A2-C51E-42BF-9394-3C4F2415E69C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MobileMvxApp", "MobileMvxApp", "{704DE96C-C11F-455C-BB36-6EFBAC1C5F93}"
 EndProject

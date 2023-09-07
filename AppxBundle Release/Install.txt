@@ -1,0 +1,16 @@
+installation procedure
+-----------------------------
+1. set pc to development mode
+1.1 Setting > For developers > turn on "Install apps from any source"
+
+2. install CS710S certificate
+2.1. double click the cert file "CS710SRFIDReaderApp.UWP_1.0.1.0_x64.cer"
+2.2. press "install Certificate"
+2.3. Select "Local Machine"
+2.4. Select "Trusted Root Certification Authorities" in browser window
+2.5. click "next" and click "Finish"
+
+3. install CS710S RFID Reader App (UWP) for Windows 10/11
+3.1. double "CS710SRFIDReaderApp.UWP_1.0.1.0_x64.appxbundle" (execute format appxbundle)
+3.2. install
+3.3. first version installed program name is "BLE.Clinet.UWP"

@@ -9,7 +9,7 @@
   <Identity
     Name="94efadeb-c35f-4e8b-8771-0e583097454c"
     Publisher="CN=CS710SRFReaderApp"
-    Version="1.0.1.0" />
+    Version="1.0.2.0" />
 
   <mp:PhoneIdentity PhoneProductId="94efadeb-c35f-4e8b-8771-0e583097454c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -32,10 +32,10 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="BLE.Client.UWP.App">
       <uap:VisualElements
-        DisplayName="BLE.Client.UWP"
+        DisplayName="CS710S RFID Reader App"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="BLE.Client.UWP"
+        Description="CS710S RFID Reader App"
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
