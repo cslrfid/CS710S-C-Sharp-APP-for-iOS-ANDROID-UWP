@@ -275,6 +275,18 @@ namespace BLE.Client.ViewModels
             RaisePropertyChanged(() => startInventoryButtonText);
         }
 
+        async void InventoryStopped()
+        {
+            if (_startInventory)
+                return;
+
+            _startInventory = true;
+            _startInventoryButtonText = "Start Inventory";
+
+            _tagCount = false;
+            RaisePropertyChanged(() => startInventoryButtonText);
+        }
+
         void StopInventory ()
         {
             if (_startInventory)
@@ -380,19 +392,36 @@ namespace BLE.Client.ViewModels
                 case CSLibrary.Constants.RFState.IDLE:
                     ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.IDLE);
                     _cancelVoltageValue = true;
-                    switch (BleMvxApplication._reader.rfid.LastMacErrorCode)
+                    if (BleMvxApplication._reader.rfid.GetModelName() == "CS710S")
                     {
-                        case 0x00:  // normal end
-                            break;
+                        switch (BleMvxApplication._reader.rfid.LastMacErrorCode)
+                        {
+                            case 0x00:  // normal end
+                                break;
 
-                        case 0x0309:    // 
-                            _userDialogs.Alert("Too near to metal, please move CS108 away from metal and start inventory again.");
-                            break;
-
-                        default:
-                            _userDialogs.Alert("Mac error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4"));
-                            break;
+                            default:
+                                _userDialogs.Alert("Last error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4"));
+                                break;
+                        }
                     }
+                    else
+                    {
+                        switch (BleMvxApplication._reader.rfid.LastMacErrorCode)
+                        {
+                            case 0x00:  // normal end
+                                break;
+
+                            case 0x0309:    // 
+                                _userDialogs.Alert("Too near to metal, please move CS108 away from metal and start inventory again.");
+                                break;
+
+                            default:
+                                _userDialogs.Alert("Mac error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4"));
+                                break;
+                        }
+                    }
+
+                    InventoryStopped();
                     break;
             }
             //});

@@ -54,7 +54,7 @@ namespace BLE.Client.ViewModels
         public string labelUSERWord { get { return "Word=" + _labelUSERWord.ToString(); } }
         public string labelMulti { get { return _labelMulti; } }
         public string labelMultiOffset { get { return "Offset=" + _labelMultiOffset.ToString(); } }
-        public string labelMultiWord { get { return "Word=" + _labelUSERWord.ToString(); } }
+        public string labelMultiWord { get { return "Word=" + _labelMultiWord.ToString(); } }
 
         public ICommand OnReadButtonCommand { protected set; get; }
         public ICommand OnWriteButtonCommand { protected set; get; }
@@ -113,13 +113,23 @@ namespace BLE.Client.ViewModels
         public override void ViewAppearing()
         {
             base.ViewAppearing();
-            BleMvxApplication._reader.rfid.OnAccessCompleted += new EventHandler<CSLibrary.Events.OnAccessCompletedEventArgs>(TagCompletedEvent);
+            SetEvent(true);
+            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
         }
 
         public override void ViewDisappearing()
         {
-            BleMvxApplication._reader.rfid.OnAccessCompleted -= new EventHandler<CSLibrary.Events.OnAccessCompletedEventArgs>(TagCompletedEvent);
             base.ViewDisappearing();
+        }
+
+        void SetEvent(bool onoff)
+        {
+            BleMvxApplication._reader.rfid.ClearEventHandler();
+
+            if (onoff)
+            {
+                BleMvxApplication._reader.rfid.OnAccessCompleted += new EventHandler<CSLibrary.Events.OnAccessCompletedEventArgs>(TagCompletedEvent);
+            }
         }
 
         protected override void InitFromBundle(IMvxBundle parameters)
@@ -671,8 +681,6 @@ namespace BLE.Client.ViewModels
 
             //BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_RANGING);
 
-            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
-
             BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
             if (BleMvxApplication._geiger_Bank == 1) // if EPC
             {
@@ -818,7 +826,7 @@ namespace BLE.Client.ViewModels
 				return;
             }
 
-            if (!(switchPCIsToggled | switchEPCIsToggled | switchACCPWDIsToggled | switchKILLPWDIsToggled | switchUSERIsToggled))
+            if (!(switchPCIsToggled | switchEPCIsToggled | switchACCPWDIsToggled | switchKILLPWDIsToggled | switchUSERIsToggled | switchMultiIsToggled))
             {
                 //All unchecked
                 //MessageBox.Show("Please check at least one item to write", "Warning!", MessageBoxButtons.OK, MessageBoxIcon.Question, MessageBoxDefaultButton.Button3);

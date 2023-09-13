@@ -43,6 +43,7 @@ namespace CSLibrary
             SCSLRFIDBlockWriteMBAny = 0x10B6,
             SCSLRFIDLock = 0x10B7,
             SCSLRFIDKill = 0x10B8,
+            SCSLRFIDAuthenticate = 0x10B9,
             SCSLClearTagCacheTable = 0x10D3,
             SCSLUploadTagCacheTableToHost = 0x10D4,
             SCSLRFIDRegisterReset = 0x10D5,
@@ -207,6 +208,12 @@ namespace CSLibrary
         internal void RFIDKillTag()
         {
             RunShortOperation(SCSLRFIDCMD.SCSLRFIDKill, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.CSL_OPERATION_COMPLETE);
+        }
+
+        
+        internal void SCSLRFIDAuthenticate()
+        {
+            RunShortOperation(SCSLRFIDCMD.SCSLRFIDAuthenticate, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.CSL_OPERATION_COMPLETE);
         }
 
         internal void RFIDClearTagCacheTable()

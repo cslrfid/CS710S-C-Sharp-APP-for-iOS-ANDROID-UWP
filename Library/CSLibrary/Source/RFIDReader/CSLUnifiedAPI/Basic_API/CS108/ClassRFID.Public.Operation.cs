@@ -31,7 +31,7 @@ namespace CSLibrary
 {
     public partial class RFIDReader
     {
-        public void StopOperation_CS108()
+        internal void StopOperation_CS108()
         {
             //HighLevelInterface._debugBLEHold = false;
             byte[] cmd = { 0x40, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
@@ -39,7 +39,7 @@ namespace CSLibrary
             _deviceHandler.SendAsync(0, 0, DOWNLINKCMD.RFIDCMD, cmd, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA2);
         }
 
-        public Result StartOperation_CS108(Operation opertion)
+        internal Result StartOperation_CS108(Operation opertion)
         {
             CurrentOperation = opertion;
 

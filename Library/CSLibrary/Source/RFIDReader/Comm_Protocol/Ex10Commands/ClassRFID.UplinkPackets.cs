@@ -624,6 +624,18 @@ namespace CSLibrary
                     break;
 
                 case 0xD5: // Authenticate
+                    {
+                        byte[] response = new byte[size];
+                        Array.Copy(data, index + 12, response, 0, size);
+                        m_rdr_opt_parms.TagAuthenticate.pData = new S_DATA(response);
+
+                        FireAccessCompletedEvent(
+                        new CSLibrary.Events.OnAccessCompletedEventArgs(
+                        (tagErrorCode == 0x10 && macErrorCode == 0x00),
+                            Bank.UNKNOWN,
+                            TagAccess.AUTHENTICATE,
+                            null));
+                    }
                     break;
 
                 default:

@@ -235,6 +235,11 @@ namespace CSLibrary
 
         private void TagAuthenticateThreadProc_CS710S()
         {
+            SetAuthenticateConfig_CS710S(Options.TagAuthenticate.SenRep == SENREP.SEND, Options.TagAuthenticate.IncRepLen == INCREPLEN.INCLUDE, Options.TagAuthenticate.CSI, Options.TagAuthenticate.Length);
+            SetAuthenticateMessage(Tools.Hex.ToBytes(Options.TagAuthenticate.Message));
+            SetAuthenticateResponseLen(Options.TagAuthenticate.ResponseLen);
+
+            SCSLRFIDAuthenticate();
         }
 
         private void TagReadBufferThreadProc_CS710S()

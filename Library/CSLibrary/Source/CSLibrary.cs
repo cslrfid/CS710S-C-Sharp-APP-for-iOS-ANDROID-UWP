@@ -190,6 +190,12 @@ namespace CSLibrary
             DisconnectAsync();
         }
 
+        public void CancelEventOnReaderStateChanged()
+        {
+            OnReaderStateChanged = null;
+        }
+
+
         public Version GetVersion ()
         {
             Version ver = new Version(2, 0, 10, 1);

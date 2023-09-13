@@ -52,15 +52,17 @@ namespace CSLibrary
         {
             UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
             UInt16 commandCode = Tools.Hex.MSBToUInt16(data, index + 4);
-            UInt16 success = Tools.Hex.MSBToUInt16(data, index + 6);
+            UInt16 status = Tools.Hex.MSBToUInt16(data, index + 6);
 
-            Debug.WriteLine("{0:X4} : 0x3008, {1:X2}, {2:X2}", UTCTimeStamp, commandCode, success);
+            Debug.WriteLine("{0:X4} : 0x3008, {1:X2}, {2:X2}", UTCTimeStamp, commandCode, status);
 
+            LastMacErrorCode = status;
 
-                    }
+            FireStateChangedEvent(RFState.IDLE);
+        }
 
-                    // 0x1471
-                    void ReadRegister_packet_proc(byte[] data, int index)
+        // 0x1471
+        void ReadRegister_packet_proc(byte[] data, int index)
         {
             // 33:A7 B3 19 C2 82 9E 02 9B 81 00     51 E2 14 71    00   00 10     01 07 D0 0B B8 00 06 30 F7 00 00 00 08 01 05 00
             //    A7 B3 73 C2 00 9E B3 F4 81 00     51 E2 14 71    00   00 6A     31 2E 31 2E 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 2F 00 00 00 A2 20 1A 06 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF

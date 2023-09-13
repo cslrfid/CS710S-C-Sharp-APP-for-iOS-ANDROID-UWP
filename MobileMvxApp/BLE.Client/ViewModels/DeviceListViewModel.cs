@@ -162,8 +162,30 @@ namespace BLE.Client.ViewModels
                 switch (Xamarin.Forms.Device.RuntimePlatform)
                 {
                     case Xamarin.Forms.Device.UWP:
-                        if (args.Device.AdvertisementRecords.Count == 0)
-                            CSLRFIDReaderService = true;
+                        if (args.Device.AdvertisementRecords.Count < 1)
+                            return;
+
+                        foreach (AdvertisementRecord service in args.Device.AdvertisementRecords)
+                        {
+                            if (service.Data.Length == 2)
+                            {
+                                // CS108 Service ID = 0x0098
+                                if (service.Data[0] == 0x00 && service.Data[1] == 0x98)
+                                {
+                                    BTServiceType = MODEL.CS108;
+                                    CSLRFIDReaderService = true;
+                                    break;
+                                }
+
+                                // CS710S Service ID = 0x0298
+                                if ((service.Data[0] == 0x02 && service.Data[1] == 0x98))
+                                {
+                                    BTServiceType = MODEL.CS710S;
+                                    CSLRFIDReaderService = true;
+                                    break;
+                                }
+                            }
+                        }
                         break;
 
                     default:

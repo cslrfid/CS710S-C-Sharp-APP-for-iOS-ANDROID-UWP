@@ -28,6 +28,8 @@ using System.Threading.Tasks;
 namespace CSLibrary
 {
     using Constants;
+    using CSLibrary.Structures;
+    using System.Runtime.CompilerServices;
 
     public partial class RFIDReader
     {
@@ -54,7 +56,7 @@ namespace CSLibrary
         /// <param name="option"></param>
         /// <param name="threshold"></param>
         /// <returns></returns>
-        public Result SetRSSIFilter_CS710S(RSSIFILTERTYPE type, RSSIFILTEROPTION option, double threshold)
+        internal Result SetRSSIFilter_CS710S(RSSIFILTERTYPE type, RSSIFILTEROPTION option, double threshold)
         {
             if (type == RSSIFILTERTYPE.DISABLE || option == RSSIFILTEROPTION.DISABLE)
             {
@@ -71,5 +73,67 @@ namespace CSLibrary
             }
             return Result.OK;
         }
+
+        internal Result SetAuthenticateConfig_CS710S(bool SenRep, bool IncRepLen, uint CSI, uint MessbitLen)
+        {
+            // Bit 0: SenRep
+            // Bit 1: IncRepLen
+            // Bit 9:2: CSI
+            // Bit 21:10: Length of message in bits
+
+            UInt32 newvalue = 0x00;
+
+            if (SenRep)
+                newvalue |= 0x01;
+
+            if (IncRepLen)
+                newvalue |= 0x02;
+
+            CSI = CSI & 0xff;
+            newvalue |= (CSI << 2);
+
+            MessbitLen = MessbitLen & 0xfff;
+            newvalue |= (MessbitLen << 10);
+
+            if (newvalue == RFIDRegister.AuthenticateConfig.Get())
+                return Result.OK;
+
+            RFIDRegister.AuthenticateConfig.Set(newvalue);
+            return Result.OK;
+        }
+
+        internal Result SetAuthenticateMessage(byte [] value)
+        {
+            if (value.Length > 32)
+                return Result.INVALID_PARAMETER;
+
+            byte [] oldValue = RFIDRegister.AuthenticateMessage.Get();
+            byte [] newValue;
+
+            if (value.Length == 32)
+                newValue = value;
+            else
+            {
+                int i = 0;
+                newValue = new byte[32];
+
+                for (; i < value.Length; i++)
+                    newValue[i] = value[i];
+                for (; i < 32; i++)
+                    newValue[i] = 0x00;
+            }
+
+            RFIDRegister.AuthenticateMessage.Set(newValue);
+
+            return Result.OK;
+        }
+
+        internal Result SetAuthenticateResponseLen(UInt16 value)
+        {
+            RFIDRegister.AuthenticateResponseLen.Set(value);
+
+            return Result.OK;
+        }
+
     }
 }

@@ -118,6 +118,49 @@ namespace CSLibrary
             }
         }
 
+        internal class RegUInt24
+        {
+            private RFIDReader _handler;
+            public UInt16 regAdd;
+            public UInt32 value;
+            public REGPRIVATE Private;
+
+            public RegUInt24(RFIDReader handler, UInt16 add, REGPRIVATE Private)
+            {
+                this._handler = handler;
+                regAdd = add;
+                this.Private = Private;
+            }
+
+            public void Set(UInt32 value)
+            {
+                if (Private == REGPRIVATE.READONLY)
+                    return;
+
+                if (this.value == value)
+                    return;
+
+                this.value = value;
+
+                byte[] byteValue = new byte[3];
+                byteValue[2] = (byte)(value & 0xff);
+                byteValue[1] = (byte)(value >> 8 & 0xff);
+                byteValue[0] = (byte)(value >> 16 & 0xff);
+
+                _handler.WriteRegister(this.regAdd, byteValue);
+            }
+
+            public void Default(UInt16 value)
+            {
+                this.value = value;
+            }
+
+            public UInt32 Get()
+            {
+                return value;
+            }
+        }
+
         internal class RegUInt32
         {
             private RFIDReader _handler;
@@ -255,12 +298,21 @@ namespace CSLibrary
 
             public void Set(byte[] value)
             {
-                value.CopyTo(this.value, 0);
-
                 if (Private == REGPRIVATE.READONLY)
                     return;
 
-                _handler.WriteRegister(this.regAdd, this.value);
+                if (value.Length != this.value.Length)
+                    return;
+
+                for (int i = 0; i < this.value.Length; i++)
+                {
+                    if (value[i] != this.value[i])
+                    {
+                        value.CopyTo(this.value, 0);
+                        _handler.WriteRegister(this.regAdd, this.value);
+                        break;
+                    }
+                }
             }
 
             public byte[] Get()
@@ -1018,8 +1070,9 @@ namespace CSLibrary
                 {
                     if (data[add + i] != sendData[i])
                     {
-                        Array.Copy(sendData, 0, sendData, index, sendData.Length);
+                        Array.Copy(sendData, 0, data, add, sendData.Length);
                         _handler.WriteRegister((UInt16)(regAdd + add), sendData);
+                        break;
                     }
                 }
             }
@@ -1067,16 +1120,26 @@ namespace CSLibrary
                 byte[] sendData = new byte[7];
                 int add = (index * 7);
 
-                data[add] = enable ? (byte)1 : (byte)0;
-                data[add + 1] = (byte)bank;
-                data[add + 2] = (byte)(address >> 24);
-                data[add + 3] = (byte)(address >> 16);
-                data[add + 4] = (byte)(address >> 8);
-                data[add + 5] = (byte)(address);
-                data[add + 6] = (byte)len;
 
-                Array.Copy(data, add, sendData, 0, 7);
-                _handler.WriteRegister((UInt16)(regAdd + add), sendData);
+                sendData[0] = enable ? (byte)1 : (byte)0;
+                sendData[1] = (byte)bank;
+                sendData[2] = (byte)(address >> 24);
+                sendData[3] = (byte)(address >> 16);
+                sendData[4] = (byte)(address >> 8);
+                sendData[5] = (byte)(address);
+                sendData[6] = (byte)len;
+
+
+                for (int i = 0; i < sendData.Length; i++)
+                {
+                    if (data[add + i] != sendData[i])
+                    {
+                        Array.Copy(sendData, 0, data, add, sendData.Length);
+                        _handler.WriteRegister((UInt16)(regAdd + add), sendData);
+                        break;
+                    }
+                }
+
             }
         }
 
@@ -1343,6 +1406,9 @@ namespace CSLibrary
             internal Regbyte IntraPacketDelay;
             internal Regbyte RssiFilteringConfig;
             internal RegUInt16 RssiThreshold;
+            internal RegUInt24 AuthenticateConfig;
+            internal RegByteArray AuthenticateMessage;
+            internal RegUInt16 AuthenticateResponseLen;
             internal Regstring ModelName;
             internal Regstring SerialNumber_1;
             internal RegUInt16 CountryEnum_1;
@@ -1436,6 +1502,9 @@ namespace CSLibrary
                 IntraPacketDelay = new Regbyte(_deviceHandler, 0x3908, REGPRIVATE.READWRITE);
                 RssiFilteringConfig = new Regbyte(_deviceHandler, 0x390a, REGPRIVATE.READWRITE);
                 RssiThreshold = new RegUInt16(_deviceHandler, 0x390c, REGPRIVATE.READWRITE);
+                AuthenticateConfig = new RegUInt24(_deviceHandler, 0x390e, REGPRIVATE.READWRITE);
+                AuthenticateMessage = new RegByteArray(_deviceHandler, 0x3912, 32, REGPRIVATE.READWRITE);
+                AuthenticateResponseLen = new RegUInt16(_deviceHandler, 0x3944, REGPRIVATE.READWRITE);
                 ModelName = new Regstring(_deviceHandler, 0x5000, 32, REGPRIVATE.READONLY);
                 SerialNumber_1 = new Regstring(_deviceHandler, 0x5020, 32, REGPRIVATE.READONLY);
                 CountryEnum_1 = new RegUInt16(_deviceHandler, 0x5040, REGPRIVATE.READONLY);

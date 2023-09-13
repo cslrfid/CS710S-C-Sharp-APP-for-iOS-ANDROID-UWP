@@ -37,6 +37,9 @@ namespace BLE.Client.ViewModels
         private readonly IMvxNavigationService _navigation;
 
         public ICommand OnMultiBankInventoryButtonCommand { protected set; get; }
+
+        public ICommand OnImpinjSpecialFeaturesButtonCommand { protected set; get; }
+
         public ICommand OnPhaseChannelInventoryButtonCommand { protected set; get; }
         public ICommand OnPeriodicReadButtonCommand { protected set; get; }
         public ICommand OnUCODEDNAButtonCommand { protected set; get; }
@@ -65,6 +68,9 @@ namespace BLE.Client.ViewModels
             _navigation = navigation;
 
             OnMultiBankInventoryButtonCommand = new Command(OnMultiBankInventoryButtonClicked);
+            OnImpinjSpecialFeaturesButtonCommand = new Command(OnImpinjSpecialFeaturesButtonClicked);
+
+
             OnPhaseChannelInventoryButtonCommand = new Command(OnPhaseChannelInventoryButtonClicked);
             OnPeriodicReadButtonCommand = new Command(OnPeriodicReadButtonClicked);
             OnUCODEDNAButtonCommand = new Command(OnUCODEDNAButtonClicked);
@@ -99,6 +105,11 @@ namespace BLE.Client.ViewModels
         {
             //ShowViewModel<ViewModelMultiBankInventorySetting>(new MvxBundle());
             _navigation.Navigate<ViewModelMultiBankInventorySetting>(new MvxBundle());
+        }
+
+        void OnImpinjSpecialFeaturesButtonClicked()
+        {
+            _navigation.Navigate<ViewModelImpinjSpecialFeaturesInventory>(new MvxBundle());
         }
 
         void OnPhaseChannelInventoryButtonClicked()

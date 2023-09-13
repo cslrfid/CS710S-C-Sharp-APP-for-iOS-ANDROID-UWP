@@ -11,6 +11,7 @@
 		<StackLayout Margin="0,50,0,0">
 			<StackLayout VerticalOptions="Center" HorizontalOptions="Center">
 				<Button Text="Multi Bank Inventory" Font="Large" Command="{Binding OnMultiBankInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+                <Button Text="Impinj Special Features" Font="Large" Command="{Binding OnImpinjSpecialFeaturesButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<!--<Button Text="Phase and Channel Inventory" Font="Large" Command="{Binding OnPhaseChannelInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Periodic Read" Font="Large" Command="{Binding OnPeriodicReadButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="UCODE DNA" Font="Large" Command="{Binding OnUCODEDNAButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
