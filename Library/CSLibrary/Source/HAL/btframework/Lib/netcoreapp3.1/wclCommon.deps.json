@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "wclCommon/7.11.5.0": {
+        "runtime": {
+          "wclCommon.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "wclCommon/7.11.5.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
