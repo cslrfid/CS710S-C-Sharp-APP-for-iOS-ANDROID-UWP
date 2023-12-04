@@ -60,7 +60,7 @@ namespace BLE.Client.ViewModels
         public ICommand OnUCODE8ButtonCommand { protected set; get; }
         public ICommand OnMonza4QTButtonCommand { protected set; get; }
         public ICommand OnMagnusS3withGPSforTabletButtonCommand { protected set; get; }
-
+        public ICommand OnKilowayKX2005XBLButtonCommand { protected set; get; }
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs, IMvxNavigationService navigation) : base(adapter)
         {
@@ -69,12 +69,12 @@ namespace BLE.Client.ViewModels
 
             OnMultiBankInventoryButtonCommand = new Command(OnMultiBankInventoryButtonClicked);
             OnImpinjSpecialFeaturesButtonCommand = new Command(OnImpinjSpecialFeaturesButtonClicked);
-
+            OnRFMicroButtonCommand = new Command(OnRFMicroButtonClicked);
+            OnKilowayKX2005XBLButtonCommand = new Command(OnOnKilowayKX2005XBLButtonClicked);
 
             OnPhaseChannelInventoryButtonCommand = new Command(OnPhaseChannelInventoryButtonClicked);
             OnPeriodicReadButtonCommand = new Command(OnPeriodicReadButtonClicked);
             OnUCODEDNAButtonCommand = new Command(OnUCODEDNAButtonClicked);
-            OnRFMicroButtonCommand = new Command(OnRFMicroButtonClicked);
             OnXerxesButtonCommand = new Command(OnXerxesButtonClicked);
             OnBlockWriteButtonCommand = new Command(OnBlockWriteButtonClicked);
             OnReadButtonCommand = new Command(OnReadButtonClicked);
@@ -135,6 +135,13 @@ namespace BLE.Client.ViewModels
             //ShowViewModel<ViewModelRFMicroSetting>(new MvxBundle());
             _navigation.Navigate<ViewModelRFMicroSetting>(new MvxBundle());
         }
+
+
+        void OnOnKilowayKX2005XBLButtonClicked()
+        {
+            _navigation.Navigate<ViewModelLEDTag>(new MvxBundle());
+        }
+
 
         void OnXerxesButtonClicked()
         {

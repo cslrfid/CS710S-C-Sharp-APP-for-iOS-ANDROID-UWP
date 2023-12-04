@@ -273,7 +273,189 @@ namespace CSLibrary
             return true;
         }
 
-#region Public Functions
+        internal Result CancelAllSelectCriteria_CS701S()
+        {
+            for (uint cnt = 0; cnt < 7; cnt++)
+            {
+                SetSelectCriteria_CS710S(cnt, null);
+            }
+
+            return Result.OK;
+        }
+
+        /// <summary>
+        /// Configures the tag-selection criteria for the ISO 18000-6C select 
+        /// command.  The supplied tag-selection criteria will be used for any 
+        /// tag-protocol operations (i.e., Inventory, etc.) in 
+        /// which the application specifies that an ISO 18000-6C select 
+        /// command should be issued prior to executing the tag-protocol 
+        /// operation (i.e., the SelectFlags.SELECT flag is provided to 
+        /// the appropriate RFID_18K6CTag* function).  The tag-selection 
+        /// criteria will stay in effect until the next call to 
+        /// SetSelectCriteria.  Tag-selection criteria may not 
+        /// be changed while a radio module is executing a tag-protocol 
+        /// operation. 
+        /// </summary>
+        /// <param name="critlist">
+        /// SelectCriteria array, containing countCriteria entries, of selection 
+        /// criterion structures that are to be applied sequentially, beginning with 
+        /// pCriteria[0], to the tag population.  If this field is NULL, 
+        /// countCriteria must be zero. 
+        ///</param>
+        /// <returns></returns>
+
+        internal Result SetSelectCriteria_CS710S(SelectCriterion[] critlist)
+        {
+            uint index;
+            uint registerValue;
+
+            if (critlist == null || critlist.Length == 0)
+                return Result.INVALID_PARAMETER;
+
+            try
+            {
+                for (index = 0; index < critlist.Length; index++)
+                    SetSelectCriteria_CS710S(index, critlist[index]);
+
+
+/*
+                SelectCriteria SC = new SelectCriteria();
+                SC.countCriteria = (uint)critlist.Length;
+                SC.pCriteria = (SelectCriterion[])critlist.Clone();
+
+                index = 0;
+                {
+                    SelectCriterion pCriterion = SC.pCriteria[index];
+                    SelectMask pMask = pCriterion.mask;
+                    SelectAction pAction = pCriterion.action;
+
+                    // Instruct the MAC as to which select mask we want to work with
+                    MacWriteRegister(MACREGISTER.HST_TAGMSK_DESC_SEL, index);
+
+                    // Create the HST_TAGMSK_DESC_CFG register value and write it to the MAC
+                    registerValue = (0x01 |
+                        (((uint)(pAction.target) & 0x07) << 1) |
+                        (((uint)(pAction.action) & 0x07) << 4) |
+                        (pAction.enableTruncate != 0x00 ? (uint)(1 << 7) : 0)) |
+                        (((uint)(pAction.delay) & 0xFF) << 8);
+                    MacWriteRegister(MACREGISTER.HST_TAGMSK_DESC_CFG, registerValue);
+
+                    // Create the HST_TAGMSK_BANK register value and write it to the MAC
+                    registerValue = (uint)pMask.bank;
+                    MacWriteRegister(MACREGISTER.HST_TAGMSK_BANK, registerValue);
+
+                    // Write the mask offset to the HST_TAGMSK_PTR register
+                    MacWriteRegister(MACREGISTER.HST_TAGMSK_PTR, (uint)pMask.offset);
+
+                    // Create the HST_TAGMSK_LEN register and write it to the MAC
+                    registerValue = (uint)(pMask.count);
+                    MacWriteRegister(MACREGISTER.HST_TAGMSK_LEN, registerValue);
+
+                    // Now write the MAC's mask registers
+                    WriteMacMaskRegisters((ushort)MACREGISTER.HST_TAGMSK_0_3, pMask.count, pMask.mask);
+                    // Set up the selection criteria
+                }
+*/
+            }
+            catch (System.Exception ex)
+            {
+#if DEBUG
+                //				CSLibrary.Diagnostics.CoreDebug.Logger.ErrorException("HighLevelInterface.SetSelectCriteria()", ex);
+#endif
+                return Result.SYSTEM_CATCH_EXCEPTION;
+            }
+            return m_Result;
+        }
+
+        internal Result SetSelectCriteria_CS710S(uint index, SelectCriterion crit)
+        {
+            try
+            {
+                if (crit == null)
+                {
+                    RFIDRegister.SelectConfiguration.Enable(index, false);
+                    return Result.OK;
+                }
+
+                byte[] a = crit.mask.mask;
+
+                RFIDRegister.SelectConfiguration.Set((int)index, true, (byte)crit.mask.bank, crit.mask.offset, (byte)crit.mask.count, crit.mask.mask, (byte)crit.action.target, (byte)crit.action.action, (byte)crit.action.delay);
+
+                return Result.OK;
+            }
+            catch (System.Exception ex)
+            {
+#if DEBUG
+                //CSLibrary.Diagnostics.CoreDebug.Logger.ErrorException("HighLevelInterface.TagSelected()", ex);
+#endif
+                m_Result = CSLibrary.Constants.Result.SYSTEM_CATCH_EXCEPTION;
+            }
+
+            return Result.FAILURE;
+
+
+
+
+
+
+            /*
+                        uint registerValue;
+
+                        // Instruct the MAC as to which select mask we want to work with
+                        MacWriteRegister(MACREGISTER.HST_TAGMSK_DESC_SEL, index);
+
+                        if (crit == null)
+                        {
+                            MacWriteRegister(MACREGISTER.HST_TAGMSK_DESC_CFG, 0x0000);
+                            //MacWriteRegister(MACREGISTER.HST_TAGMSK_BANK, 0x0000);
+                            //MacWriteRegister(MACREGISTER.HST_TAGMSK_PTR, 0x0000);
+                            //MacWriteRegister(MACREGISTER.HST_TAGMSK_LEN, 0x0000);
+                            return Result.OK;
+                        }
+
+                        try
+                        {
+                            {
+                                SelectCriterion pCriterion = crit;
+                                SelectMask pMask = pCriterion.mask;
+                                SelectAction pAction = pCriterion.action;
+
+                                // Create the HST_TAGMSK_DESC_CFG register value and write it to the MAC
+                                registerValue = (0x01 |
+                                    (((uint)(pAction.target) & 0x07) << 1) |
+                                    (((uint)(pAction.action) & 0x07) << 4) |
+                                    (pAction.enableTruncate != 0x00 ? (uint)(1 << 7) : 0)) |
+                                    (((uint)(pAction.delay) & 0xFF) << 8);
+                                MacWriteRegister(MACREGISTER.HST_TAGMSK_DESC_CFG, registerValue);
+
+                                // Create the HST_TAGMSK_BANK register value and write it to the MAC
+                                registerValue = (uint)pMask.bank;
+                                MacWriteRegister(MACREGISTER.HST_TAGMSK_BANK, registerValue);
+
+                                // Write the mask offset to the HST_TAGMSK_PTR register
+                                MacWriteRegister(MACREGISTER.HST_TAGMSK_PTR, (uint)pMask.offset);
+
+                                // Create the HST_TAGMSK_LEN register and write it to the MAC
+                                registerValue = (uint)(pMask.count);
+                                MacWriteRegister(MACREGISTER.HST_TAGMSK_LEN, registerValue);
+
+                                // Now write the MAC's mask registers
+                                WriteMacMaskRegisters((ushort)MACREGISTER.HST_TAGMSK_0_3, pMask.count, pMask.mask);
+                                // Set up the selection criteria
+                            }
+                        }
+                        catch (System.Exception ex)
+                        {
+            #if DEBUG
+                            //				CSLibrary.Diagnostics.CoreDebug.Logger.ErrorException("HighLevelInterface.SetSelectCriteria()", ex);
+            #endif
+                            return Result.SYSTEM_CATCH_EXCEPTION;
+                        }
+                        return m_Result;
+            */
+        }
+
+        #region Public Functions
 
         internal void Connect_CS710S()
 		{

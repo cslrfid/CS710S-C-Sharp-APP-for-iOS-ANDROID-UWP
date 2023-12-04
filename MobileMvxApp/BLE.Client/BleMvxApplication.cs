@@ -292,6 +292,9 @@ namespace BLE.Client
         // for Large Content
         public static string _LargeContent = "";
 
+        // LED Tag
+        public static bool _LEDTag_Selected = false;
+
         public override void Initialize()
         {
             CreatableTypes()

@@ -51,9 +51,10 @@
 
       <StackLayout Orientation="Horizontal">
         <Button Text="Clear" Font="Large" Command="{Binding OnClearButtonCommand}" HorizontalOptions="StartAndExpand" />
-        <Button Text="Send" Font="Large" Command="{Binding OnSendDataCommand}" HorizontalOptions="Center" />
-        <Button Text="Share" Font="Large" Command="{Binding OnShareDataCommand}" HorizontalOptions="EndAndExpand" />
-		<!--<Button x:Name="buttonShare" Text="Share" Font="Large" Clicked="OnButtonShareClicked" HorizontalOptions="EndAndExpand" />-->
+        <Button Text="Send" Font="Large" Command="{Binding OnSendDataCommand}" HorizontalOptions="CenterAndExpand" />
+        <Button Text="Share" Font="Large" Command="{Binding OnShareDataCommand}" HorizontalOptions="CenterAndExpand" />
+        <Button Text="Save" Font="Large" Command="{Binding OnSaveDataCommand}" HorizontalOptions="EndAndExpand" />
+        <!--<Button x:Name="buttonShare" Text="Share" Font="Large" Clicked="OnButtonShareClicked" HorizontalOptions="EndAndExpand" />-->
 	  </StackLayout>
 
       <StackLayout Orientation="Horizontal">

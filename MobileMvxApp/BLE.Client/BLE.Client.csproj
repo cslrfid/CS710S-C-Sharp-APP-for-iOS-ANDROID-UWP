@@ -7,17 +7,15 @@
   <ItemGroup>
     <Compile Remove="PagesViewModelsSet\NewFolder1\**" />
     <Compile Remove="PagesViewModelsSet\NewFolder\**" />
-    <Compile Remove="PagesViewModelsSet\SpecialFuction\NewFolder\**" />
     <EmbeddedResource Remove="PagesViewModelsSet\NewFolder1\**" />
     <EmbeddedResource Remove="PagesViewModelsSet\NewFolder\**" />
-    <EmbeddedResource Remove="PagesViewModelsSet\SpecialFuction\NewFolder\**" />
     <None Remove="PagesViewModelsSet\NewFolder1\**" />
     <None Remove="PagesViewModelsSet\NewFolder\**" />
-    <None Remove="PagesViewModelsSet\SpecialFuction\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="PagesViewModelsSet\SecurityKill\" />
+    <Folder Include="PagesViewModelsSet\SpecialFuction\MagnusS2orS3\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
@@ -63,6 +61,9 @@
     <Compile Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesConfig.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>PageImpinjSpecialFeaturesConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\LEDTag\LEDTag.xaml.cs">
+      <DependentUpon>LEDTag.xaml</DependentUpon>
     </Compile>
     <Compile Update="PagesViewModelsSet\SpecialFuction\UCODE8\PageUCODE8Inventory.xaml.cs">
       <DependentUpon>PageUCODE8Inventory.xaml</DependentUpon>

@@ -18,6 +18,7 @@ using System.Net.Http.Headers;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
 using MvvmCross.ViewModels;
+using Plugin.Permissions.Abstractions;
 
 namespace BLE.Client.ViewModels
 {
@@ -138,6 +139,7 @@ namespace BLE.Client.ViewModels
     public class ViewModelInventorynScan : BaseViewModel
     {
         private readonly IUserDialogs _userDialogs;
+        readonly IPermissions _permissions;
 
         #region -------------- RFID inventory -----------------
 
@@ -192,9 +194,10 @@ namespace BLE.Client.ViewModels
 
         #endregion
 
-        public ViewModelInventorynScan(IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
+        public ViewModelInventorynScan(IAdapter adapter, IUserDialogs userDialogs, IPermissions permissions) : base(adapter)
         {
             _userDialogs = userDialogs;
+            _permissions = permissions;
 
             OnStartInventoryButtonCommand = new Command(StartInventoryClick);
             OnClearButtonCommand = new Command(ClearClick);
@@ -203,6 +206,7 @@ namespace BLE.Client.ViewModels
             OnClearBarcodeDataButtonCommand = new Command(ClearBarcodeDataButtonClick);
             OnSendDataCommand = new Command(SendDataButtonClick);
             OnShareDataCommand = new Command(ShareDataButtonClick);
+            OnSaveDataCommand = new Command(SaveDataButtonClick);
 
             //SetEvent(true);
 
@@ -846,6 +850,7 @@ namespace BLE.Client.ViewModels
         public ICommand OnClearBarcodeDataButtonCommand { protected set; get; }
         public ICommand OnSendDataCommand { protected set; get; }
         public ICommand OnShareDataCommand { protected set; get; }
+        public ICommand OnSaveDataCommand { protected set; get; }
 
         private string _startBarcodeScanButtonText = "Start Scan";
         public string startBarcodeScanButtonText { get { return _startBarcodeScanButtonText; } }
@@ -906,6 +911,11 @@ namespace BLE.Client.ViewModels
         {
             var result = ShareData();
             CSLibrary.Debug.WriteLine("Share Data : {0}", result.ToString());
+        }
+        private void SaveDataButtonClick()
+        {
+            var result = SaveData();
+            CSLibrary.Debug.WriteLine("Save Data : {0}", result.ToString());
         }
 
         void BarcodeStart ()
@@ -1159,7 +1169,7 @@ namespace BLE.Client.ViewModels
                     r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                     {
                         Text = GetJsonData(),
-                        Title = "CS108 tags list"
+                        Title = "tags list"
                     });
                     break;
 
@@ -1167,7 +1177,7 @@ namespace BLE.Client.ViewModels
                     r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                     {
                         Text = GetCSVData(),
-                        Title = "CS108 tags list.csv"
+                        Title = "tags list.csv"
                     });
                     break;
 
@@ -1175,40 +1185,75 @@ namespace BLE.Client.ViewModels
                     r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                     {
                         Text = GetExcelCSVData(),
-                        Title = "CS108 tags list.csv"
+                        Title = "tags list.csv"
                     });
                     break;
             }
 
             return r;
+        }
 
+        async System.Threading.Tasks.Task<bool> SaveData()
+        {
+            string fileExtName = "";
+            string Text = "";
 
-            /*
-                        bool r = false;
+            switch (BleMvxApplication._config.RFID_ShareFormat)
+            {
+                case 0: // JSON
+                    fileExtName = "json";
+                    Text = GetJsonData();
+                    break;
 
-                        var z = await _userDialogs.ActionSheetAsync("Share Data Format", "Cancel", null, null, new string [] {"JSON", "CSV" });
+                case 1:
+                    fileExtName = "csv";
+                    Text = GetCSVData();
+                    break;
 
-                        switch (z)
+                case 2:
+                    fileExtName = "csv";
+                    Text = GetExcelCSVData();
+                    break;
+
+                default:
+                    fileExtName = "txt";
+                    break;
+            }
+
+            switch (Xamarin.Forms.Device.RuntimePlatform)
+            {
+                case Xamarin.Forms.Device.Android:
+                    {
+                        if (await _permissions.CheckPermissionStatusAsync<Plugin.Permissions.StoragePermission>() != PermissionStatus.Granted)
                         {
-                            case "JSON":
-                                r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
-                                {
-                                    Text = GetJsonData(),
-                                    Title = "CS108 tags list"
-                                });
-                                break;
-
-                            case "CSV":
-                                r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
-                                {
-                                    Text = GetCSVData(),
-                                    Title = "CS108 tags list"
-                                });
-                                break;
+                            await _permissions.RequestPermissionAsync<Plugin.Permissions.StoragePermission>();
                         }
 
-                        return r;
-            */
+                        //string documents = @"/storage/emulated/0/Download/";
+                        //string filename = documents + "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName;
+
+                        var documents = DependencyService.Get<IExternalStorage>().GetPath();
+                        var filename = System.IO.Path.Combine(documents, "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName);
+                        //System.IO.File.WriteAllText(filename, Text);
+                        using (var writer = System.IO.File.CreateText(filename))
+                        {
+                            await writer.WriteLineAsync(Text);
+                        }
+                    }
+                    break;
+
+                default:
+                    {
+                        var documents = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                        var filename = System.IO.Path.Combine(documents, "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName);
+                        System.IO.File.WriteAllText(filename, Text);
+                    }
+                    break;
+            }
+
+            _userDialogs.AlertAsync("File saved, please check file in public folder");
+
+            return true;
         }
 
         async System.Threading.Tasks.Task<bool> BackupData()
