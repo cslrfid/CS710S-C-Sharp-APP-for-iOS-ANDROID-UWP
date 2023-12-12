@@ -26,7 +26,11 @@
             </StackLayout>
 
             <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
-                <Button Text="Authenticated Read" FontSize="Large" BackgroundColor="#C3C3C3" Command="{Binding OnAuthenticatedReadCommand}" />
+                <Button Text="TAM1 Authenticate" FontSize="Large" BackgroundColor="#C3C3C3" Command="{Binding OnAuthenticatedReadCommand}" />
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                <Button Text="TAM2 Authenticate" FontSize="Large" BackgroundColor="#C3C3C3" Command="{Binding OnTAM2AuthenticateCommand}" />
             </StackLayout>
 
         </StackLayout>

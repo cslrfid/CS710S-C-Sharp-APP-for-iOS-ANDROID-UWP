@@ -58,6 +58,18 @@ namespace CSLibrary
 
             LastMacErrorCode = status;
 
+            switch (commandCode)
+            {
+                case 0x10b8:
+                    FireAccessCompletedEvent(
+                    new CSLibrary.Events.OnAccessCompletedEventArgs(
+                    (status == 0x00),
+                        Bank.UNKNOWN,
+                        TagAccess.KILL,
+                        null));
+                    break;
+            }
+
             FireStateChangedEvent(RFState.IDLE);
         }
 

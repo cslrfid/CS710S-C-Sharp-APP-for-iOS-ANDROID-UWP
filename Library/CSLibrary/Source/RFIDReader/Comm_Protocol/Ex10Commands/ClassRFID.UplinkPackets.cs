@@ -592,6 +592,7 @@ namespace CSLibrary
                     }
                     break;
 
+                    /*
                 case 0xC4: // Kill
                     {
                         FireAccessCompletedEvent(
@@ -602,7 +603,7 @@ namespace CSLibrary
                             null));
                     }
                     break;
-
+                    */
                 case 0xC5: // Lock
                     {
                         FireAccessCompletedEvent(

@@ -12,13 +12,13 @@ namespace CSLibrary.Structures
     [StructLayout(LayoutKind.Sequential)]
     public class TagKillParms
     {
-/*        /// <summary>
-        /// Structure size
-        /// </summary>
-        protected readonly UInt32 Length = 21;
-*/
+        /*        /// <summary>
+                /// Structure size
+                /// </summary>
+                protected readonly UInt32 Length = 21;
+        */
         /// <summary>
-        /// The access password for the tags.  A value of zero indicates no 
+        /// (NO USE in Kill Tag, just for compatible old code) The access password for the tags.  A value of zero indicates no 
         /// access password. 
         /// </summary>
         public UInt32 accessPassword;

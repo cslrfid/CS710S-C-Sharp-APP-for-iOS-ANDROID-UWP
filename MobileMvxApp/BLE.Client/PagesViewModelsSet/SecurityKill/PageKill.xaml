@@ -14,10 +14,11 @@
 			<Entry Text="{ Binding entryKillSelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
 		</StackLayout>
 
-		<StackLayout Orientation="Horizontal">
+		<!--
+        <StackLayout Orientation="Horizontal">
 			<Label Text="Access PWD" WidthRequest="70" />
 			<Entry Text="{ Binding entryKillSelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
-		</StackLayout>
+		</StackLayout>-->
 
 		<StackLayout Orientation="Horizontal">
 			<Label Text="Kill PWD" WidthRequest="70" />
