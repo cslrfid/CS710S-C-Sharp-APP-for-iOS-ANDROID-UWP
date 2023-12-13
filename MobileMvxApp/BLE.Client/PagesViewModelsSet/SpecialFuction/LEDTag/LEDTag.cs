@@ -212,8 +212,7 @@ namespace BLE.Client.ViewModels
                 BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
                 BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 64;
             }
-
-            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
 
             BleMvxApplication._reader.rfid.SetRSSIdBmFilter(BleMvxApplication._RSSIFILTER_Type, BleMvxApplication._RSSIFILTER_Option, BleMvxApplication._RSSIFILTER_Threshold_dBm);
 
@@ -223,8 +222,8 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagRanging.count1 = 1;
 
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = false;
-            BleMvxApplication._reader.rfid.Options.TagRanging.focus = BleMvxApplication._config.RFID_Focus;
-            BleMvxApplication._reader.rfid.Options.TagRanging.fastid = BleMvxApplication._config.RFID_FastId;
+            BleMvxApplication._reader.rfid.Options.TagRanging.focus = false;
+            BleMvxApplication._reader.rfid.Options.TagRanging.fastid = false;
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRERANGING);
         }
 
@@ -243,11 +242,16 @@ namespace BLE.Client.ViewModels
             else
             {   // Flash All LED Tags
                 BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.TID;
+                //BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x81, 0xD0, 0x11, 0x20, 0x00, 0x97, 0x56 };
                 BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x81, 0xD0, 0x11, 0x20, 0x00, 0x97, 0x56 };
                 BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
-                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 64;
+                //BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 64;
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 8;
             }
-            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
+
+            // need set preranging one again after set prefilter (will change future version)
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRERANGING);
 
             StartTagCount();
             //if (BleMvxApplication._config.RFID_OperationMode == CSLibrary.Constants.RadioOperationMode.CONTINUOUS)
@@ -256,8 +260,8 @@ namespace BLE.Client.ViewModels
                 _startInventoryButtonText = "Turn LED OFF";
             }
 
-            _ListViewRowHeight = 40 + (int)(BleMvxApplication._reader.rfid.Options.TagRanging.multibanks * 10);
-            RaisePropertyChanged(() => ListViewRowHeight);
+            //_ListViewRowHeight = 40 + (int)(BleMvxApplication._reader.rfid.Options.TagRanging.multibanks * 10);
+            //RaisePropertyChanged(() => ListViewRowHeight);
 
             InventoryStartTime = DateTime.Now;
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_EXERANGING);
