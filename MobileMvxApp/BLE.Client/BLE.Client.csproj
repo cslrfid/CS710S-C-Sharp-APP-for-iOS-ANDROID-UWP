@@ -50,7 +50,7 @@
     <Compile Remove="ViewModels\DescriptorListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\CSLibrary\CSLibraryBT5-NETStandard.csproj" />
+    <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary2024-NETStandard.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesProtectedMode.xaml.cs">
