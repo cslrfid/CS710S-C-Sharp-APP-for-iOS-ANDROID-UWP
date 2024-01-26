@@ -43,6 +43,9 @@ namespace BLE.Client.ViewModels
         {
             get
             {
+                if (displayFormat == 1)
+                    return this._RSSI;
+
                 if (BleMvxApplication._config.RFID_DBm)
                     return (float)Math.Round(this._RSSI);
                 else
@@ -64,6 +67,7 @@ namespace BLE.Client.ViewModels
         public DateTime timeOfRead;
         public string locationOfRead;
         public string eCompass;
+        public int displayFormat = 0;
 
         public TagInfoViewModel()
         {
@@ -155,11 +159,10 @@ namespace BLE.Client.ViewModels
         public ICommand OnUPCButtonommand { protected set; get; }
         public ICommand OnSGTINButtonCommand { protected set; get; }
 
-
         private ObservableCollection<TagInfoViewModel> _TagInfoList = new ObservableCollection<TagInfoViewModel>();
         public ObservableCollection<TagInfoViewModel> TagInfoList { get { return _TagInfoList; } set { SetProperty(ref _TagInfoList, value); } }
 
-        private System.Collections.Generic.SortedDictionary<string, int> TagInfoListSpeedup = new SortedDictionary<string, int>();
+        private System.Collections.Generic.SortedDictionary<string, (int index, string URI)> TagInfoListSpeedup = new SortedDictionary<string, (int, string)>();
         private System.Collections.Generic.SortedDictionary<string, int> TagInfoListSpeedup1 = new SortedDictionary<string, int>();
 
         public bool _InventoryScanning = false;
@@ -606,10 +609,13 @@ namespace BLE.Client.ViewModels
                 {
                     if (BleMvxApplication._config.RFID_InventoryAlertSound)
                     {
+                        InvokeOnMainThread(() =>
+                        {
                         if (_newtagCount4BeepSound > 0)
-                            Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(3);
-                        else
-                            Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(2);
+                                Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(3);
+                            else
+                                Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(2);
+                        });
                         _newtagCount4BeepSound = 0;
                     }
                 }
@@ -690,11 +696,10 @@ namespace BLE.Client.ViewModels
         {
             InvokeOnMainThread(() =>
             {
-                if (_displayFormat != 0)
-                    return;
-
                 lock (TagInfoList)
                 {
+                    if (_displayFormat != 0)
+                        return;
 
 #if not_binarysearch
                     for (cnt = 0; cnt < TagInfoList.Count; cnt++)
@@ -739,22 +744,14 @@ namespace BLE.Client.ViewModels
 
                     try
                     {
-                        TagInfoListSpeedup.Add(epcstr, TagInfoList.Count);
+                        TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, null));
 
                         TagInfoViewModel item = new TagInfoViewModel();
 
                         item.timeOfRead = DateTime.Now;
                         item.EPC = info.epc.ToString();
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
-                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
-                            item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
-
+                        item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                        item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
                         item.RSSI = info.rssidBm;
                         //item.Phase = info.phase;
                         //item.Channel = (byte)info.freqChannel;
@@ -767,8 +764,8 @@ namespace BLE.Client.ViewModels
                             TagInfoList.Add(item);
 
                         _newtagCount4BeepSound++;
-                        _newtagCount4Vibration ++;
-                        _newTagPerSecond ++;
+                        _newtagCount4Vibration++;
+                        _newTagPerSecond++;
 
                         Trace.Message("EPC Data = {0}", item.EPC);
 
@@ -776,26 +773,17 @@ namespace BLE.Client.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        int index;
-
-                        if (TagInfoListSpeedup.TryGetValue(epcstr, out index))
+                        if (TagInfoListSpeedup.TryGetValue(epcstr, out var values))
                         {
                             if (BleMvxApplication._config.RFID_NewTagLocation)
                             {
-                                index = TagInfoList.Count - index;
-                                index--;
+                                values.index = TagInfoList.Count - values.index;
+                                values.index--;
                             }
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
-
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
-                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
-                                TagInfoList[index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
-
-                            TagInfoList[index].RSSI = info.rssidBm;
+                            TagInfoList[values.index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                            TagInfoList[values.index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+                            TagInfoList[values.index].RSSI = info.rssidBm;
                         }
                         else
                         {
@@ -811,31 +799,9 @@ namespace BLE.Client.ViewModels
         private void AddOrUpdateTagDataUPC(CSLibrary.Structures.TagCallbackInfo info)
         {
             string epcstr = info.epc.ToString();
-            string l;
-            string PureURI;
-            string[] PureURIItems;
-            string UPC;
-            string Serial;
 
             if (epcstr.Substring(0, 2) != "30")
                 return;
-
-            // EPC display convertion
-            try
-            {
-                TDTEngine engine = new TDTEngine();
-                string epcIdentifier = engine.HexToBinary(epcstr);
-                string parameterList = @"tagLength=96";
-                l = engine.Translate(epcIdentifier, parameterList, @"PURE_IDENTITY");
-                PureURI = l.Split(':')[4];
-                PureURIItems = PureURI.Split('.');
-                UPC = PureURIItems[0] + PureURIItems[1];
-                Serial = PureURIItems[2];
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
 
             InvokeOnMainThread(() =>
             {
@@ -846,76 +812,93 @@ namespace BLE.Client.ViewModels
                 {
                     try
                     {
-                        TagInfoListSpeedup.Add(UPC, TagInfoList.Count);
-                        TagInfoListSpeedup1.Add(PureURI, TagInfoList.Count);
+                        string URI = null;
+                        string PureURI;
+                        string[] PureURIItems;
+                        string UPC;
+                        string Serial;
 
-                        TagInfoViewModel item = new TagInfoViewModel();
-
-                        item.timeOfRead = DateTime.Now;
-                        item.EPC = UPC;
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
-                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
-                            item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
-
-                        item.RSSI = 1;
-                        //item.Phase = info.phase;
-                        //item.Channel = (byte)info.freqChannel;
-                        item.PC = info.pc.ToUshorts()[0];
-
-                        //TagInfoList.Add(item);
-                        if (BleMvxApplication._config.RFID_NewTagLocation)
-                            TagInfoList.Insert(0, item);
+                        if (TagInfoListSpeedup.TryGetValue(epcstr, out var values))
+                        {
+                            return;
+                        }
                         else
-                            TagInfoList.Add(item);
+                        {
+                            try
+                            {
+                                TDTEngine engine = new TDTEngine();
+                                string epcIdentifier = engine.HexToBinary(epcstr);
+                                string parameterList = @"tagLength=96";
+                                URI = engine.Translate(epcIdentifier, parameterList, @"PURE_IDENTITY");
+                                PureURI = URI.Split(':')[4];
+                                PureURIItems = PureURI.Split('.');
+                                UPC = PureURIItems[0] + PureURIItems[1];
+                                Serial = PureURIItems[2];
+                            }
+                            catch (Exception ex)
+                            {
+                                TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, null));
+                                return;
+                            }
 
-                        _newtagCount4BeepSound++;
-                        _newtagCount4Vibration++;
-                        _newTagPerSecond++;
+                            TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, URI));
+                        }
 
-                        Trace.Message("EPC Data = {0}", item.EPC);
+                        if (TagInfoListSpeedup1.TryGetValue(UPC, out int index))
+                        {
+                            if (BleMvxApplication._config.RFID_NewTagLocation)
+                            {
+                                index = TagInfoList.Count - index;
+                                index--;
+                            }
 
-                        //_newTag = true;
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
+                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
+                                TagInfoList[index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
+                            TagInfoList[index].RSSI++;
+                        }
+                        else
+                        {
+                            TagInfoListSpeedup1.Add(UPC, TagInfoList.Count);
+
+                            TagInfoViewModel item = new TagInfoViewModel();
+
+                            item.timeOfRead = DateTime.Now;
+                            item.EPC = UPC;
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
+                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
+                                item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
+                            item.displayFormat = 1;
+                            item.RSSI = 1;
+                            item.PC = info.pc.ToUshorts()[0];
+
+                            if (BleMvxApplication._config.RFID_NewTagLocation)
+                                TagInfoList.Insert(0, item);
+                            else
+                                TagInfoList.Add(item);
+
+                            _newtagCount4BeepSound++;
+                            _newtagCount4Vibration++;
+                            _newTagPerSecond++;
+
+                            Trace.Message("EPC Data = {0}", item.EPC);
+                        }
                     }
                     catch (Exception ex)
                     {
-                        int index;
-
-                        if (TagInfoListSpeedup.TryGetValue(UPC, out index))
-                        {
-                            int index1;
-                            if (!TagInfoListSpeedup1.TryGetValue(PureURI, out index1))
-                            {
-                                TagInfoListSpeedup1.Add(PureURI, TagInfoList.Count);
-
-                                if (BleMvxApplication._config.RFID_NewTagLocation)
-                                {
-                                    index = TagInfoList.Count - index;
-                                    index--;
-                                }
-
-                                if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                    TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
-
-                                if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
-                                    TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-
-                                if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
-                                    TagInfoList[index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
-
-                                TagInfoList[index].RSSI++;
-                            }
-                        }
-                        else
-                        {
-                            // error found epc
-                        }
-
                     }
                 }
             });
@@ -924,27 +907,11 @@ namespace BLE.Client.ViewModels
         private void AddOrUpdateTagDataGTIN(CSLibrary.Structures.TagCallbackInfo info)
         {
             string epcstr = info.epc.ToString();
-            string l;
-            string TagURI;
-
 
             if (epcstr.Substring(0, 2) != "30")
                 return;
 
             // EPC display convertion
-            try
-            {
-                TDTEngine engine = new TDTEngine();
-                string epcIdentifier = engine.HexToBinary(epcstr);
-                string parameterList = @"tagLength=96";
-                l = engine.Translate(epcIdentifier, parameterList, @"TAG_ENCODING");
-                TagURI = l.Split(':')[4];
-                //TagURI = engine.Translate(epcIdentifier, parameterList, @"TAG_ENCODING").Split(':')[4];
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
 
             InvokeOnMainThread(() =>
             {
@@ -955,46 +922,36 @@ namespace BLE.Client.ViewModels
                 {
                     try
                     {
-                        TagInfoListSpeedup.Add(TagURI, TagInfoList.Count);
+                        string URI = null;
+                        string TagURI = "";
+                        if (TagInfoListSpeedup.TryGetValue(epcstr, out var values))
+                        {
+                            if (values.URI == null)
+                                return;
 
-                        TagInfoViewModel item = new TagInfoViewModel();
-
-                        item.timeOfRead = DateTime.Now;
-                        item.EPC = TagURI;
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
-                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
-                            item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
-
-                        item.RSSI = info.rssidBm;
-                        //item.Phase = info.phase;
-                        //item.Channel = (byte)info.freqChannel;
-                        item.PC = info.pc.ToUshorts()[0];
-
-                        //TagInfoList.Add(item);
-                        if (BleMvxApplication._config.RFID_NewTagLocation)
-                            TagInfoList.Insert(0, item);
+                            URI = values.URI;
+                            TagURI = URI.Split(':')[4];
+                        }
                         else
-                            TagInfoList.Add(item);
+                        {
+                            try
+                            {
+                                TDTEngine engine = new TDTEngine();
+                                string epcIdentifier = engine.HexToBinary(epcstr);
+                                string parameterList = @"tagLength=96";
+                                URI = engine.Translate(epcIdentifier, parameterList, @"TAG_ENCODING");
+                                TagURI = URI.Split(':')[4];
+                            }
+                            catch (Exception ex)
+                            {
+                                TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, null));
+                                return;
+                            }
 
-                        _newtagCount4BeepSound++;
-                        _newtagCount4Vibration++;
-                        _newTagPerSecond++;
+                            TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, URI));
+                        }
 
-                        Trace.Message("EPC Data = {0}", item.EPC);
-
-                        //_newTag = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        int index;
-
-                        if (TagInfoListSpeedup.TryGetValue(TagURI, out index))
+                        if (TagInfoListSpeedup1.TryGetValue(TagURI, out int index))
                         {
                             if (BleMvxApplication._config.RFID_NewTagLocation)
                             {
@@ -1015,9 +972,39 @@ namespace BLE.Client.ViewModels
                         }
                         else
                         {
-                            // error found epc
-                        }
+                            TagInfoListSpeedup1.Add(TagURI, TagInfoList.Count);
 
+                            TagInfoViewModel item = new TagInfoViewModel();
+
+                            item.timeOfRead = DateTime.Now;
+                            item.EPC = TagURI;
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
+                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
+                                item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
+                            item.RSSI = info.rssidBm;
+                            item.PC = info.pc.ToUshorts()[0];
+
+                            if (BleMvxApplication._config.RFID_NewTagLocation)
+                                TagInfoList.Insert(0, item);
+                            else
+                                TagInfoList.Add(item);
+
+                            _newtagCount4BeepSound++;
+                            _newtagCount4Vibration++;
+                            _newTagPerSecond++;
+
+                            Trace.Message("EPC Data = {0}", item.EPC);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
                     }
                 }
             });

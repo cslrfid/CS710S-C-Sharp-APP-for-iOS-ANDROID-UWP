@@ -12,43 +12,59 @@
     <ScrollView>
         <StackLayout Padding="5, 3, 5, 0">
 
-            <Label Text="Selected Mask"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Tag Model" WidthRequest="70" VerticalOptions="Center" />
+                <Button x:Name="buttonTagModel" Text="{ Binding buttonTagModelText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <Label Text="Selected Mask" VerticalOptions="End" />
             <Entry x:Name="entrySelectedMask" Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand"/>
 
             <StackLayout Orientation="Horizontal">
-                <Label Text="Access PWD" WidthRequest="70" />
+                <Label Text="Access PWD" WidthRequest="140" VerticalOptions="Center" />
                 <Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
             </StackLayout>
 
+            <Label Text="Config Word Setting" FontSize="Large"/>
+
             <StackLayout Orientation="Horizontal">
-                <Label Text="Mode" WidthRequest="70" />
-                <Button x:Name="buttonConfigurationMode" Text="{ Binding buttonConfigurationModeText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonConfigurationModeClicked" />
-                <!--<Button x:Name="buttonConfigurationMode" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonConfigurationModeClicked" />-->
+                <Label Text="Disable AutoTune" WidthRequest="140" VerticalOptions="Center" />
+                <Switch x:Name="switchDisableAutoTune" IsToggled="{ Binding switchDisableAutoTuneIsToggled, Mode=TwoWay }"/>
             </StackLayout>
 
-            <ListView x:Name="protectedModeOption" IsVisible = "false" RowHeight="95" ItemSelected="OnItemSelected">
-                <ListView.Header>
-                    <Label Text="Please Select Mode to Set :" FontSize="Medium" Background="black" TextColor="White" ></Label>
-                </ListView.Header>
-                
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Label Text="{Binding .}" FontSize="Medium" Background="green" TextColor="White" ></Label>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            
-            
-            
-            
-            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
-                <Button Text="Write Config Word" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnWriteConfigWordCommand}" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Enable Protect" WidthRequest="140" VerticalOptions="Center" />
+                <Switch x:Name="switchEnableProtect" IsToggled="{ Binding switchEnableProtectToggled, Mode=TwoWay }"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Enable Short Range" WidthRequest="140" VerticalOptions="Center" />
+                <Switch x:Name="switchEnableShortRange" IsToggled="{ Binding switchEnableShortRangeIsToggled, Mode=TwoWay }"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Enable Unkillable" WidthRequest="140" VerticalOptions="Center" />
+                <Switch x:Name="switchEnableUnkillable" IsToggled="{ Binding switchEnableUnkillableIsToggled, Mode=TwoWay }"/>
             </StackLayout>
 
             <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
-                <Button Text="Resume Invisble Tag to Normal" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnResumeInvisbleTagtoNormalCommand}" />
+                <Button Text="Read Config Word (Normal Mode)" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnNormalReadConfigWordCommand}" />
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                <Button Text="Write Config Word (Normal Mode)" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnNormalWriteConfigWordCommand}" />
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                <Button Text="Read Config Word (Protect Mode)" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnProtectReadConfigWordCommand}" />
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                <Button Text="Write Config Word (Protect Mode)" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnProtectWriteConfigWordCommand}" />
+            </StackLayout>
+
+            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                <Button Text="Resume invisible tag to normal (Protect Mode to normal)" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnResumeInvisbleTagtoNormalCommand}" />
             </StackLayout>
 
         </StackLayout>

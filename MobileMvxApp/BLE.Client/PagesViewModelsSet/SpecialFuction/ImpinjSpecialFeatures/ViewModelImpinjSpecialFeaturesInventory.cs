@@ -28,6 +28,8 @@ namespace BLE.Client.ViewModels
 
         #region -------------- RFID inventory -----------------
 
+        public bool switchUsePinIsToggled { set; get; }
+        public string entrySelectedPWD { set; get; }
         public ICommand OnStartInventoryButtonCommand { protected set; get; }
         public ICommand OnClearButtonCommand { protected set; get; }
         public ICommand OnAuthenticateButtonCommand { protected set; get; }
@@ -84,6 +86,9 @@ namespace BLE.Client.ViewModels
 
             RaisePropertyChanged(() => ListViewRowHeight);
             _DefaultRowHight = ListViewRowHeight;
+
+            entrySelectedPWD = "00000000";
+            RaisePropertyChanged(() => entrySelectedPWD);
 
             OnStartInventoryButtonCommand = new Command(StartInventoryClick);
             OnClearButtonCommand = new Command(ClearClick);
@@ -231,17 +236,58 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRERANGING);
         }
 
+        void SelectProtectTag(UInt32 password)
+        {
+            byte[] protectedModePIN = new byte[4];
+
+            protectedModePIN[3] = (byte)(password);
+            protectedModePIN[2] = (byte)(password >> 8);
+            protectedModePIN[1] = (byte)(password >> 16);
+            protectedModePIN[0] = (byte)(password >> 24);
+
+            BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
+            BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.BANK3;
+            BleMvxApplication._reader.rfid.Options.TagSelected.Mask = protectedModePIN;
+            BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+            BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 32;
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
+        }
+
         void StartInventory()
         {
             if (_startInventory == false)
                 return;
 
-            //TagInfoList.Clear();
+            RaisePropertyChanged(() => switchUsePinIsToggled);
+            if (switchUsePinIsToggled)
+            {
+                // Inventory invisable tag with PIN
+                RaisePropertyChanged(() => entrySelectedPWD);
+
+                var password = Convert.ToUInt32(entrySelectedPWD, 16);
+
+                if (password == 00)
+                {
+                    _userDialogs.ShowError("Password can not all zero!!!", 3000);
+                    return;
+                }
+
+                SelectProtectTag(password);
+            }
+            else
+            {
+                BleMvxApplication._reader.rfid.Options.TagRanging.flags |= CSLibrary.Constants.SelectFlags.SELECT;
+                BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
+                BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.TID;
+                BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes("0118");
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 12;
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 13;
+                BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
+            }
 
 
             /*
-            RaisePropertyChanged(() => switchTagTypeIsToggled);
-
+            //TagInfoList.Clear();
             if (switchTagTypeIsToggled)
             {
                 // M730 / M750

@@ -13,8 +13,8 @@
 				<Button Text="Multi Bank Inventory" Font="Large" Command="{Binding OnMultiBankInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
                 <Button Text="Impinj Special Features" Font="Large" Command="{Binding OnImpinjSpecialFeaturesButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
                 <Button Text="Magnus S2 or S3 IC" Font="Large" Command="{Binding OnRFMicroButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
-                <Button Text="Kiloway KX2005X-BL" Font="Large" Command="{Binding OnKilowayKX2005XBLButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
-                <Button Text="N2ESL" Font="Large" Command="{Binding OnN2ESLButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+                <!--<Button Text="Kiloway KX2005X-BL" Font="Large" Command="{Binding OnKilowayKX2005XBLButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />-->
+                <Button Text="CS6861" Font="Large" Command="{Binding OnN2ESLButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 
                 <!--<Button Text="Phase and Channel Inventory" Font="Large" Command="{Binding OnPhaseChannelInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 				<Button Text="Periodic Read" Font="Large" Command="{Binding OnPeriodicReadButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
