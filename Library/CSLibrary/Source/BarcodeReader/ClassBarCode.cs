@@ -77,8 +77,10 @@ namespace CSLibrary
                     if (recvData.Length < 24 || recvData[15] != 0x01 || recvData[16] != 0x06 || recvData[23] != 0x01 || recvData[24] != 0x06)
                         FactoryReset();
                     else
+                    {
+                        FactoryReset_Second();
                         _state = STATE.READY;
-
+                    }
                     return true;
                 }
 
@@ -416,6 +418,10 @@ namespace CSLibrary
         readonly byte[] barcodecmd_V4Format2Step11 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x35, 0x30, 0x32, 0x31, 0x31, 0x30 };
         readonly byte[] barcodecmd_V4Format2Step12 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x31, 0x31, 0x35, 0x30, 0x3B, 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x30, 0x30, 0x3B };
 
+        readonly byte[] barcodecmd_T14FormatStep01 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x31, 0x30, 0x3B };
+        readonly byte[] barcodecmd_T14FormatStep02 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x34, 0x30, 0x35, 0x31, 0x30, 0x30, 0x3B };
+        readonly byte[] barcodecmd_T14FormatStep03 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x30, 0x30, 0x3B };
+
         internal void CheckHWValid()
         {
             //var a = GetLRC(new byte[] { 0x48, 0x30, 0x32, 0x30 });
@@ -469,6 +475,13 @@ namespace CSLibrary
             CheckHWValid();
 
             //_deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_QueryReadingMode, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+        }
+
+        internal void FactoryReset_Second()
+        {
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_T14FormatStep01, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_T14FormatStep02, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_T14FormatStep03, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
         }
 
         // LRC : Data checkout value 1 bytes(Computing method: 0xff^lens^types^data
