@@ -845,6 +845,9 @@ namespace CSLibrary
                 return;
             }
 
+
+            // Set up the access password register
+            MacWriteRegister(MACREGISTER.HST_TAGACC_ACCPWD, m_rdr_opt_parms.TagAuthenticate.password);
             value |= (UInt32)m_rdr_opt_parms.TagAuthenticate.SenRep & 0x01;
             value |= ((UInt32)m_rdr_opt_parms.TagAuthenticate.IncRepLen & 0x01) << 1;
             value |= ((UInt32)m_rdr_opt_parms.TagAuthenticate.CSI & 0xff) << 2;

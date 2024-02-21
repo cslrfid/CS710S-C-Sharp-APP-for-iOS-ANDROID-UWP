@@ -18,6 +18,13 @@ using System.Net.Http.Headers;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
 using MvvmCross.ViewModels;
+using Plugin.Permissions.Abstractions;
+using TagDataTranslation;
+using CSLibrary.Barcode.Constants;
+using System.Text.RegularExpressions;
+
+// GTIN Convert
+
 
 namespace BLE.Client.ViewModels
 {
@@ -36,6 +43,9 @@ namespace BLE.Client.ViewModels
         {
             get
             {
+                if (displayFormat == 1)
+                    return this._RSSI;
+
                 if (BleMvxApplication._config.RFID_DBm)
                     return (float)Math.Round(this._RSSI);
                 else
@@ -57,6 +67,7 @@ namespace BLE.Client.ViewModels
         public DateTime timeOfRead;
         public string locationOfRead;
         public string eCompass;
+        public int displayFormat = 0;
 
         public TagInfoViewModel()
         {
@@ -138,16 +149,21 @@ namespace BLE.Client.ViewModels
     public class ViewModelInventorynScan : BaseViewModel
     {
         private readonly IUserDialogs _userDialogs;
+        readonly IPermissions _permissions;
 
         #region -------------- RFID inventory -----------------
 
         public ICommand OnStartInventoryButtonCommand { protected set; get; }
         public ICommand OnClearButtonCommand { protected set; get; }
+        public ICommand OnHEXButtonCommand { protected set; get; }
+        public ICommand OnUPCButtonommand { protected set; get; }
+        public ICommand OnSGTINButtonCommand { protected set; get; }
 
         private ObservableCollection<TagInfoViewModel> _TagInfoList = new ObservableCollection<TagInfoViewModel>();
         public ObservableCollection<TagInfoViewModel> TagInfoList { get { return _TagInfoList; } set { SetProperty(ref _TagInfoList, value); } }
 
-        private System.Collections.Generic.SortedDictionary<string, int> TagInfoListSpeedup = new SortedDictionary<string, int>();
+        private System.Collections.Generic.SortedDictionary<string, (int index, string URI)> TagInfoListSpeedup = new SortedDictionary<string, (int, string)>();
+        private System.Collections.Generic.SortedDictionary<string, int> TagInfoListSpeedup1 = new SortedDictionary<string, int>();
 
         public bool _InventoryScanning = false;
         public bool _KeyDown = false;
@@ -177,6 +193,11 @@ namespace BLE.Client.ViewModels
         public string _DebugMessage = "";
         public string DebugMessage { get { return _DebugMessage; } }
 
+        string _EPCHeaderText;
+        public string EPCHeaderText { get { return _EPCHeaderText; } }
+        string _RSSIHeaderText;
+        public string RSSIHeaderText { get { return _RSSIHeaderText; } }
+
         bool _cancelVoltageValue = false;
 
         //bool _waitingRFIDIdle = false;
@@ -190,11 +211,14 @@ namespace BLE.Client.ViewModels
         uint _noNewTag = 0;
         uint _newTagPerSecond = 0;
 
+        int _displayFormat = 0; // Display format, 0=HEX, 1=UPC, 2=GTIN
+
         #endregion
 
-        public ViewModelInventorynScan(IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
+        public ViewModelInventorynScan(IAdapter adapter, IUserDialogs userDialogs, IPermissions permissions) : base(adapter)
         {
             _userDialogs = userDialogs;
+            _permissions = permissions;
 
             OnStartInventoryButtonCommand = new Command(StartInventoryClick);
             OnClearButtonCommand = new Command(ClearClick);
@@ -203,6 +227,13 @@ namespace BLE.Client.ViewModels
             OnClearBarcodeDataButtonCommand = new Command(ClearBarcodeDataButtonClick);
             OnSendDataCommand = new Command(SendDataButtonClick);
             OnShareDataCommand = new Command(ShareDataButtonClick);
+            OnSaveDataCommand = new Command(SaveDataButtonClick);
+            OnHEXButtonCommand = new Command(HEXButtonClick);
+            OnUPCButtonommand = new Command(UPCButtonClick);
+            OnSGTINButtonCommand = new Command(SGTINButtonClick);
+
+            _EPCHeaderText = "EPC";
+            _RSSIHeaderText = "RSSI";
 
             //SetEvent(true);
 
@@ -312,23 +343,29 @@ namespace BLE.Client.ViewModels
             {
                 lock (TagInfoList)
                 {
-                    _InventoryTime = 0;
-                    RaisePropertyChanged(() => InventoryTime);
-
-                    _DebugMessage = "";
-                    RaisePropertyChanged(() => DebugMessage);
-
-                    TagInfoList.Clear();
-                    TagInfoListSpeedup.Clear();
-                    _numberOfTagsText = "     " + _TagInfoList.Count.ToString() + " tags";
-                    RaisePropertyChanged(() => numberOfTagsText);
-
-                    _tagCount4Display = 0;
-                    _tagPerSecondText = "0/" + _newTagPerSecond.ToString() + "/" + _tagCount4Display.ToString() + " internal/new/tags/s     ";
-
-                    RaisePropertyChanged(() => tagPerSecondText);
+                    ClearClickImmediately();
                 }
             });
+        }
+
+        private void ClearClickImmediately()
+        {
+            _InventoryTime = 0;
+            RaisePropertyChanged(() => InventoryTime);
+
+            _DebugMessage = "";
+            RaisePropertyChanged(() => DebugMessage);
+
+            TagInfoList.Clear();
+            TagInfoListSpeedup.Clear();
+            TagInfoListSpeedup1.Clear();
+            _numberOfTagsText = "     " + _TagInfoList.Count.ToString() + " tags";
+            RaisePropertyChanged(() => numberOfTagsText);
+
+            _tagCount4Display = 0;
+            _tagPerSecondText = "0/" + _newTagPerSecond.ToString() + "/" + _tagCount4Display.ToString() + " internal/new/tags/s     ";
+
+            RaisePropertyChanged(() => tagPerSecondText);
         }
 
         void SetConfigPower()
@@ -563,8 +600,8 @@ namespace BLE.Client.ViewModels
             //if (_waitingRFIDIdle) // ignore display tags
             //    return;
 
-            InvokeOnMainThread(() =>
-            {
+            //InvokeOnMainThread(() =>
+            //{
                 _tagCount4Display++;
                 _tagCount4BeepSound++;
 
@@ -572,18 +609,35 @@ namespace BLE.Client.ViewModels
                 {
                     if (BleMvxApplication._config.RFID_InventoryAlertSound)
                     {
+                        InvokeOnMainThread(() =>
+                        {
                         if (_newtagCount4BeepSound > 0)
-                            Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(3);
-                        else
-                            Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(2);
+                                Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(3);
+                            else
+                                Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(2);
+                        });
                         _newtagCount4BeepSound = 0;
                     }
                 }
                 else if (_tagCount4BeepSound >= 40) // from 5
                     _tagCount4BeepSound = 0;
 
-                AddOrUpdateTagData(e.info);
-            });
+
+                switch (_displayFormat)
+                {
+                    case 1:
+                        AddOrUpdateTagDataUPC(e.info);
+                        break;
+
+                    case 2:
+                        AddOrUpdateTagDataGTIN(e.info);
+                        break;
+
+                    default:
+                        AddOrUpdateTagData(e.info);
+                        break;
+                }
+            //});
         }
 
         void StateChangedEvent(object sender, CSLibrary.Events.OnStateChangedEventArgs e)
@@ -642,12 +696,10 @@ namespace BLE.Client.ViewModels
         {
             InvokeOnMainThread(() =>
             {
-                bool found = false;
-
-                int cnt;
-
                 lock (TagInfoList)
                 {
+                    if (_displayFormat != 0)
+                        return;
 
 #if not_binarysearch
                     for (cnt = 0; cnt < TagInfoList.Count; cnt++)
@@ -692,22 +744,14 @@ namespace BLE.Client.ViewModels
 
                     try
                     {
-                        TagInfoListSpeedup.Add(epcstr, TagInfoList.Count);
+                        TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, null));
 
                         TagInfoViewModel item = new TagInfoViewModel();
 
                         item.timeOfRead = DateTime.Now;
                         item.EPC = info.epc.ToString();
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
-                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-
-                        if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
-                            item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
-
+                        item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                        item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
                         item.RSSI = info.rssidBm;
                         //item.Phase = info.phase;
                         //item.Channel = (byte)info.freqChannel;
@@ -720,8 +764,8 @@ namespace BLE.Client.ViewModels
                             TagInfoList.Add(item);
 
                         _newtagCount4BeepSound++;
-                        _newtagCount4Vibration ++;
-                        _newTagPerSecond ++;
+                        _newtagCount4Vibration++;
+                        _newTagPerSecond++;
 
                         Trace.Message("EPC Data = {0}", item.EPC);
 
@@ -729,9 +773,185 @@ namespace BLE.Client.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        int index;
+                        if (TagInfoListSpeedup.TryGetValue(epcstr, out var values))
+                        {
+                            if (BleMvxApplication._config.RFID_NewTagLocation)
+                            {
+                                values.index = TagInfoList.Count - values.index;
+                                values.index--;
+                            }
 
-                        if (TagInfoListSpeedup.TryGetValue(epcstr, out index))
+                            TagInfoList[values.index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                            TagInfoList[values.index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+                            TagInfoList[values.index].RSSI = info.rssidBm;
+                        }
+                        else
+                        {
+                            // error found epc
+                        }
+
+                    }
+#endif
+                }
+            });
+        }
+
+        private void AddOrUpdateTagDataUPC(CSLibrary.Structures.TagCallbackInfo info)
+        {
+            string epcstr = info.epc.ToString();
+
+            if (epcstr.Substring(0, 2) != "30")
+                return;
+
+            InvokeOnMainThread(() =>
+            {
+                if (_displayFormat != 1)
+                    return;
+
+                lock (TagInfoList)
+                {
+                    try
+                    {
+                        string URI = null;
+                        string PureURI;
+                        string[] PureURIItems;
+                        string UPC;
+                        string Serial;
+
+                        if (TagInfoListSpeedup.TryGetValue(epcstr, out var values))
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                TDTEngine engine = new TDTEngine();
+                                string epcIdentifier = engine.HexToBinary(epcstr);
+                                string parameterList = @"tagLength=96";
+                                URI = engine.Translate(epcIdentifier, parameterList, @"PURE_IDENTITY");
+                                PureURI = URI.Split(':')[4];
+                                PureURIItems = PureURI.Split('.');
+                                UPC = PureURIItems[0] + PureURIItems[1];
+                                Serial = PureURIItems[2];
+                            }
+                            catch (Exception ex)
+                            {
+                                TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, null));
+                                return;
+                            }
+
+                            TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, URI));
+                        }
+
+                        if (TagInfoListSpeedup1.TryGetValue(UPC, out int index))
+                        {
+                            if (BleMvxApplication._config.RFID_NewTagLocation)
+                            {
+                                index = TagInfoList.Count - index;
+                                index--;
+                            }
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
+                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
+                                TagInfoList[index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
+                            TagInfoList[index].RSSI++;
+                        }
+                        else
+                        {
+                            TagInfoListSpeedup1.Add(UPC, TagInfoList.Count);
+
+                            TagInfoViewModel item = new TagInfoViewModel();
+
+                            item.timeOfRead = DateTime.Now;
+                            item.EPC = UPC;
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
+                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
+                                item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
+                            item.displayFormat = 1;
+                            item.RSSI = 1;
+                            item.PC = info.pc.ToUshorts()[0];
+
+                            if (BleMvxApplication._config.RFID_NewTagLocation)
+                                TagInfoList.Insert(0, item);
+                            else
+                                TagInfoList.Add(item);
+
+                            _newtagCount4BeepSound++;
+                            _newtagCount4Vibration++;
+                            _newTagPerSecond++;
+
+                            Trace.Message("EPC Data = {0}", item.EPC);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+            });
+        }
+
+        private void AddOrUpdateTagDataGTIN(CSLibrary.Structures.TagCallbackInfo info)
+        {
+            string epcstr = info.epc.ToString();
+
+            if (epcstr.Substring(0, 2) != "30")
+                return;
+
+            // EPC display convertion
+
+            InvokeOnMainThread(() =>
+            {
+                if (_displayFormat != 2)
+                    return;
+
+                lock (TagInfoList)
+                {
+                    try
+                    {
+                        string URI = null;
+                        string TagURI = "";
+                        if (TagInfoListSpeedup.TryGetValue(epcstr, out var values))
+                        {
+                            if (values.URI == null)
+                                return;
+
+                            URI = values.URI;
+                            TagURI = URI.Split(':')[4];
+                        }
+                        else
+                        {
+                            try
+                            {
+                                TDTEngine engine = new TDTEngine();
+                                string epcIdentifier = engine.HexToBinary(epcstr);
+                                string parameterList = @"tagLength=96";
+                                URI = engine.Translate(epcIdentifier, parameterList, @"TAG_ENCODING");
+                                TagURI = URI.Split(':')[4];
+                            }
+                            catch (Exception ex)
+                            {
+                                TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, null));
+                                return;
+                            }
+
+                            TagInfoListSpeedup.Add(epcstr, (TagInfoList.Count, URI));
+                        }
+
+                        if (TagInfoListSpeedup1.TryGetValue(TagURI, out int index))
                         {
                             if (BleMvxApplication._config.RFID_NewTagLocation)
                             {
@@ -752,16 +972,45 @@ namespace BLE.Client.ViewModels
                         }
                         else
                         {
-                            // error found epc
-                        }
+                            TagInfoListSpeedup1.Add(TagURI, TagInfoList.Count);
 
+                            TagInfoViewModel item = new TagInfoViewModel();
+
+                            item.timeOfRead = DateTime.Now;
+                            item.EPC = TagURI;
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
+                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 1)
+                                item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
+                            item.RSSI = info.rssidBm;
+                            item.PC = info.pc.ToUshorts()[0];
+
+                            if (BleMvxApplication._config.RFID_NewTagLocation)
+                                TagInfoList.Insert(0, item);
+                            else
+                                TagInfoList.Add(item);
+
+                            _newtagCount4BeepSound++;
+                            _newtagCount4Vibration++;
+                            _newTagPerSecond++;
+
+                            Trace.Message("EPC Data = {0}", item.EPC);
+                        }
                     }
-#endif
+                    catch (Exception ex)
+                    {
+                    }
                 }
             });
         }
 
-		void VoltageEvent(object sender, CSLibrary.Notification.VoltageEventArgs e)
+        void VoltageEvent(object sender, CSLibrary.Notification.VoltageEventArgs e)
 		{
             InvokeOnMainThread(() =>
             {
@@ -846,6 +1095,7 @@ namespace BLE.Client.ViewModels
         public ICommand OnClearBarcodeDataButtonCommand { protected set; get; }
         public ICommand OnSendDataCommand { protected set; get; }
         public ICommand OnShareDataCommand { protected set; get; }
+        public ICommand OnSaveDataCommand { protected set; get; }
 
         private string _startBarcodeScanButtonText = "Start Scan";
         public string startBarcodeScanButtonText { get { return _startBarcodeScanButtonText; } }
@@ -906,6 +1156,41 @@ namespace BLE.Client.ViewModels
         {
             var result = ShareData();
             CSLibrary.Debug.WriteLine("Share Data : {0}", result.ToString());
+        }
+        private void SaveDataButtonClick()
+        {
+            var result = SaveData();
+            CSLibrary.Debug.WriteLine("Save Data : {0}", result.ToString());
+        }
+
+        private void HEXButtonClick()
+        {
+            _displayFormat = 0;
+            _EPCHeaderText = "EPC";
+            _RSSIHeaderText = "RSSI";
+            RaisePropertyChanged(() => EPCHeaderText);
+            RaisePropertyChanged(() => RSSIHeaderText);
+            ClearClick();
+        }
+
+        private void UPCButtonClick()
+        {
+            _displayFormat = 1;
+            _EPCHeaderText = "UPC";
+            _RSSIHeaderText = "Unit Count";
+            RaisePropertyChanged(() => EPCHeaderText);
+            RaisePropertyChanged(() => RSSIHeaderText);
+            ClearClick();
+        }
+
+        private void SGTINButtonClick()
+        {
+            _displayFormat = 2;
+            _EPCHeaderText = "SGTIN";
+            _RSSIHeaderText = "RSSI";
+            RaisePropertyChanged(() => EPCHeaderText);
+            RaisePropertyChanged(() => RSSIHeaderText);
+            ClearClick();
         }
 
         void BarcodeStart ()
@@ -1159,7 +1444,7 @@ namespace BLE.Client.ViewModels
                     r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                     {
                         Text = GetJsonData(),
-                        Title = "CS108 tags list"
+                        Title = "tags list"
                     });
                     break;
 
@@ -1167,7 +1452,7 @@ namespace BLE.Client.ViewModels
                     r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                     {
                         Text = GetCSVData(),
-                        Title = "CS108 tags list.csv"
+                        Title = "tags list.csv"
                     });
                     break;
 
@@ -1175,40 +1460,75 @@ namespace BLE.Client.ViewModels
                     r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
                     {
                         Text = GetExcelCSVData(),
-                        Title = "CS108 tags list.csv"
+                        Title = "tags list.csv"
                     });
                     break;
             }
 
             return r;
+        }
 
+        async System.Threading.Tasks.Task<bool> SaveData()
+        {
+            string fileExtName = "";
+            string Text = "";
 
-            /*
-                        bool r = false;
+            switch (BleMvxApplication._config.RFID_ShareFormat)
+            {
+                case 0: // JSON
+                    fileExtName = "json";
+                    Text = GetJsonData();
+                    break;
 
-                        var z = await _userDialogs.ActionSheetAsync("Share Data Format", "Cancel", null, null, new string [] {"JSON", "CSV" });
+                case 1:
+                    fileExtName = "csv";
+                    Text = GetCSVData();
+                    break;
 
-                        switch (z)
+                case 2:
+                    fileExtName = "csv";
+                    Text = GetExcelCSVData();
+                    break;
+
+                default:
+                    fileExtName = "txt";
+                    break;
+            }
+
+            switch (Xamarin.Forms.Device.RuntimePlatform)
+            {
+                case Xamarin.Forms.Device.Android:
+                    {
+                        if (await _permissions.CheckPermissionStatusAsync<Plugin.Permissions.StoragePermission>() != PermissionStatus.Granted)
                         {
-                            case "JSON":
-                                r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
-                                {
-                                    Text = GetJsonData(),
-                                    Title = "CS108 tags list"
-                                });
-                                break;
-
-                            case "CSV":
-                                r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
-                                {
-                                    Text = GetCSVData(),
-                                    Title = "CS108 tags list"
-                                });
-                                break;
+                            await _permissions.RequestPermissionAsync<Plugin.Permissions.StoragePermission>();
                         }
 
-                        return r;
-            */
+                        //string documents = @"/storage/emulated/0/Download/";
+                        //string filename = documents + "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName;
+
+                        var documents = DependencyService.Get<IExternalStorage>().GetPath();
+                        var filename = System.IO.Path.Combine(documents, "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName);
+                        //System.IO.File.WriteAllText(filename, Text);
+                        using (var writer = System.IO.File.CreateText(filename))
+                        {
+                            await writer.WriteLineAsync(Text);
+                        }
+                    }
+                    break;
+
+                default:
+                    {
+                        var documents = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                        var filename = System.IO.Path.Combine(documents, "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName);
+                        System.IO.File.WriteAllText(filename, Text);
+                    }
+                    break;
+            }
+
+            _userDialogs.AlertAsync("File saved, please check file in public folder");
+
+            return true;
         }
 
         async System.Threading.Tasks.Task<bool> BackupData()

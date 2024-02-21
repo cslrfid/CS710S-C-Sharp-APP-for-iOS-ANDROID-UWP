@@ -17,8 +17,8 @@
               <ColumnDefinition Width="0.8*" />
               <ColumnDefinition Width="0.2*" />
             </Grid.ColumnDefinitions>
-            <Label Text="EPC" VerticalTextAlignment="Center" FontSize="Small" />
-            <Label Grid.Column="1" Text="RSSI" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
+                        <Label Text="{Binding EPCHeaderText}" VerticalTextAlignment="Center" FontSize="Small" />
+                        <Label Grid.Column="1" Text="{Binding RSSIHeaderText}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
           </Grid>
         </StackLayout>
       </ListView.Header>
@@ -49,11 +49,19 @@
 
       <Button Text= "{Binding startInventoryButtonText}" Font="Large" Command="{Binding OnStartInventoryButtonCommand}" />
 
-      <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal">
+                <Button Text="HEX" Font="Large" Command="{Binding OnHEXButtonCommand}" HorizontalOptions="StartAndExpand" />
+                <Button Text="UPC" Font="Large" Command="{Binding OnUPCButtonommand}" HorizontalOptions="CenterAndExpand" />
+                <Button Text="SGTIN" Font="Large" Command="{Binding OnSGTINButtonCommand}" HorizontalOptions="EndAndExpand" />
+            </StackLayout>
+
+
+            <StackLayout Orientation="Horizontal">
         <Button Text="Clear" Font="Large" Command="{Binding OnClearButtonCommand}" HorizontalOptions="StartAndExpand" />
-        <Button Text="Send" Font="Large" Command="{Binding OnSendDataCommand}" HorizontalOptions="Center" />
-        <Button Text="Share" Font="Large" Command="{Binding OnShareDataCommand}" HorizontalOptions="EndAndExpand" />
-		<!--<Button x:Name="buttonShare" Text="Share" Font="Large" Clicked="OnButtonShareClicked" HorizontalOptions="EndAndExpand" />-->
+        <Button Text="Send" Font="Large" Command="{Binding OnSendDataCommand}" HorizontalOptions="CenterAndExpand" />
+        <Button Text="Share" Font="Large" Command="{Binding OnShareDataCommand}" HorizontalOptions="CenterAndExpand" />
+        <Button Text="Save" Font="Large" Command="{Binding OnSaveDataCommand}" HorizontalOptions="EndAndExpand" />
+        <!--<Button x:Name="buttonShare" Text="Share" Font="Large" Clicked="OnButtonShareClicked" HorizontalOptions="EndAndExpand" />-->
 	  </StackLayout>
 
       <StackLayout Orientation="Horizontal">

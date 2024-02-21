@@ -2,22 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <UserSecretsId>dc141870-cb13-42a9-a9a3-392a54f09990</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="PagesViewModelsSet\NewFolder1\**" />
     <Compile Remove="PagesViewModelsSet\NewFolder\**" />
-    <Compile Remove="PagesViewModelsSet\SpecialFuction\NewFolder\**" />
     <EmbeddedResource Remove="PagesViewModelsSet\NewFolder1\**" />
     <EmbeddedResource Remove="PagesViewModelsSet\NewFolder\**" />
-    <EmbeddedResource Remove="PagesViewModelsSet\SpecialFuction\NewFolder\**" />
     <None Remove="PagesViewModelsSet\NewFolder1\**" />
     <None Remove="PagesViewModelsSet\NewFolder\**" />
-    <None Remove="PagesViewModelsSet\SpecialFuction\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="PagesViewModelsSet\SecurityKill\" />
+    <Folder Include="PagesViewModelsSet\SpecialFuction\MagnusS2orS3\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
@@ -25,6 +24,7 @@
     <PackageReference Include="MvvmCross" Version="7.1.2" />
     <PackageReference Include="MvvmCross.Forms" Version="7.1.2" />
     <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
+    <PackageReference Include="TagDataTranslation" Version="1.1.5" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
     <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
@@ -50,7 +50,7 @@
     <Compile Remove="ViewModels\DescriptorListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\CSLibrary\CSLibraryBT5-NETStandard.csproj" />
+    <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary2024-NETStandard.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesProtectedMode.xaml.cs">
@@ -63,6 +63,9 @@
     <Compile Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesConfig.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>PageImpinjSpecialFeaturesConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\LEDTag\LEDTag.xaml.cs">
+      <DependentUpon>LEDTag.xaml</DependentUpon>
     </Compile>
     <Compile Update="PagesViewModelsSet\SpecialFuction\UCODE8\PageUCODE8Inventory.xaml.cs">
       <DependentUpon>PageUCODE8Inventory.xaml</DependentUpon>

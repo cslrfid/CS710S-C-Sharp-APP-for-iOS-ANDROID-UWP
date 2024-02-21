@@ -16,10 +16,10 @@ namespace BLE.Client.ViewModels
 
         public string entrySelectedEPC { get; set; }
         public string entrySelectedPWD { get; set; }
-
         public string entryAuthenticatedResultText { get; set; }
 
         public ICommand OnAuthenticatedReadCommand { protected set; get; }
+        public ICommand OnTAM2AuthenticateCommand { protected set; get; }
 
         uint accessPwd;
 
@@ -28,6 +28,7 @@ namespace BLE.Client.ViewModels
             _userDialogs = userDialogs;
 
             OnAuthenticatedReadCommand = new Command(OnAuthenticatedReadClick);
+            OnTAM2AuthenticateCommand = new Command(OnTAM2AuthenticatedClick);
         }
 
         public override void ViewAppearing()
@@ -72,272 +73,6 @@ namespace BLE.Client.ViewModels
             {
                 ShowDialog("Authenticated Read ERROR!!!");
             }
-
-
-            //            if (e.access == CSLibrary.Constants.TagAccess.READ)
-            //            {
-            /*
-                            switch (e.bank)
-                            {
-                                case CSLibrary.Constants.Bank:
-                                    break;
-            */
-
-
-            /*
-
-                        if (e.access == CSLibrary.Constants.TagAccess.READ)
-                        {
-                            switch (e.bank)
-                            {
-                                case CSLibrary.Constants.Bank.PC:
-
-                                case CSLibrary.Constants.Bank.EPC:
-                                    if (e.success)
-                                    {
-                                        entryEPC = BleMvxApplication._reader.rfid.Options.TagReadEPC.epc.ToString();
-
-                                        RaisePropertyChanged(() => entryEPC);
-                                        labelEPCStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--readEPCRetryCnt == 0)
-                                            labelEPCStatus = "Er";
-                                        else
-                                            ReadEPC();
-                                    }
-                                    RaisePropertyChanged(() => labelEPCStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.ACC_PWD:
-                                    if (e.success)
-                                    {
-                                        entryACCPWD = BleMvxApplication._reader.rfid.Options.TagReadAccPwd.password.ToString();
-                                        RaisePropertyChanged(() => entryACCPWD);
-                                        labelACCPWDStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--readACCPWDRetryCnt == 0)
-                                            labelACCPWDStatus = "Er";
-                                        else
-                                            ReadACCPWD();
-                                    }
-                                    RaisePropertyChanged(() => labelACCPWDStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.KILL_PWD:
-                                    if (e.success)
-                                    {
-                                        entryKILLPWD = BleMvxApplication._reader.rfid.Options.TagReadKillPwd.password.ToString();
-                                        RaisePropertyChanged(() => entryKILLPWD);
-                                        labelKILLPWDStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--readKILLPWDRetryCnt == 0)
-                                            labelKILLPWDStatus = "Er";
-                                        else
-                                            ReadKILLPWD();
-                                    }
-                                    RaisePropertyChanged(() => labelKILLPWDStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.TID:
-                                    if (e.success)
-                                    {
-                                        entryTIDUID = BleMvxApplication._reader.rfid.Options.TagReadTid.tid.ToString();
-                                        RaisePropertyChanged(() => entryTIDUID);
-                                        labelTIDUIDStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--readTIDUIDRetryCnt == 0)
-                                            labelTIDUIDStatus = "Er";
-                                        else
-                                            ReadTIDUID();
-                                    }
-                                    RaisePropertyChanged(() => labelTIDUIDStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.USER:
-                                    if (e.success)
-                                    {
-                                        entryUSER = BleMvxApplication._reader.rfid.Options.TagReadUser.pData.ToString();
-                                        RaisePropertyChanged(() => entryUSER);
-                                        labelUSERStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--readUSERRetryCnt == 0)
-                                            labelUSERStatus = "Er";
-                                        else
-                                            ReadUSER();
-                                    }
-                                    RaisePropertyChanged(() => labelUSERStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.SPECIFIC:
-                                    switch (_process)
-                                    {
-                                        default:
-                                            if (e.success)
-                                            {
-                                                entryKILLPWD = BleMvxApplication._reader.rfid.Options.TagRead.pData.ToString();
-                                                RaisePropertyChanged(() => entryKILLPWD);
-                                                labelKILLPWDStatus = "Ok";
-                                            }
-                                            else
-                                            {
-                                                if (--readKILLPWDRetryCnt == 0)
-                                                    labelKILLPWDStatus = "Er";
-                                                else
-                                                    ReadKILLPWD();
-                                            }
-                                            RaisePropertyChanged(() => labelKILLPWDStatus);
-                                            break;
-
-                                        case 1:
-                                            if (e.success)
-                                            {
-                                                entryMulti = BleMvxApplication._reader.rfid.Options.TagRead.pData.ToString();
-                                                RaisePropertyChanged(() => entryMulti);
-                                                labelMultiStatus = "Ok";
-                                            }
-                                            else
-                                            {
-                                                if (--readMultiRetryCnt == 0)
-                                                    labelMultiStatus = "Er";
-                                                else
-                                                    ReadMulti();
-                                            }
-                                            RaisePropertyChanged(() => labelMultiStatus);
-                                            break;
-                                    }
-                                    break;
-                            }
-                        }
-
-                        if (e.access == CSLibrary.Constants.TagAccess.WRITE)
-                        {
-                            switch (e.bank)
-                            {
-                                case CSLibrary.Constants.Bank.PC:
-                                    if (e.success)
-                                    {
-                                        labelPCStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--writePCRetryCnt == 0)
-                                            labelPCStatus = "Er";
-                                        else
-                                            WritePC();
-                                    }
-                                    RaisePropertyChanged(() => labelPCStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.EPC:
-                                    if (e.success)
-                                    {
-                                        labelEPCStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--writeEPCRetryCnt == 0)
-                                            labelEPCStatus = "Er";
-                                        else
-                                            WriteEPC();
-                                    }
-                                    RaisePropertyChanged(() => labelEPCStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.ACC_PWD:
-                                    if (e.success)
-                                    {
-                                        labelACCPWDStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--writeACCPWDRetryCnt == 0)
-                                            labelACCPWDStatus = "Er";
-                                        else
-                                            WriteACCPWD();
-                                    }
-                                    RaisePropertyChanged(() => labelACCPWDStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.KILL_PWD:
-                                    if (e.success)
-                                    {
-                                        labelKILLPWDStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--writeKILLPWDRetryCnt == 0)
-                                            labelKILLPWDStatus = "Er";
-                                        else
-                                            WriteKILLPWD();
-                                    }
-                                    RaisePropertyChanged(() => labelKILLPWDStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.USER:
-                                    if (e.success)
-                                    {
-                                        labelUSERStatus = "Ok";
-                                    }
-                                    else
-                                    {
-                                        if (--writeUSERRetryCnt == 0)
-                                            labelUSERStatus = "Er";
-                                        else
-                                            WriteUSER();
-                                    }
-                                    RaisePropertyChanged(() => labelUSERStatus);
-                                    break;
-
-                                case CSLibrary.Constants.Bank.SPECIFIC:
-                                    switch (_process)
-                                    {
-                                        default:
-                                            if (e.success)
-                                            {
-                                                labelKILLPWDStatus = "Ok";
-                                            }
-                                            else
-                                            {
-                                                if (--writeKILLPWDRetryCnt == 0)
-                                                    labelKILLPWDStatus = "Er";
-                                                else
-                                                    WriteKILLPWD();
-                                            }
-                                            RaisePropertyChanged(() => labelKILLPWDStatus);
-                                            break;
-
-                                        case 1:
-                                            if (e.success)
-                                            {
-                                                labelMultiStatus = "Ok";
-                                            }
-                                            else
-                                            {
-                                                if (--writeMultiRetryCnt == 0)
-                                                    labelMultiStatus = "Er";
-                                                else
-                                                    WriteMulti();
-                                            }
-                                            RaisePropertyChanged(() => labelMultiStatus);
-                                            break;
-                                    }
-                                    break;
-
-                            }
-                        }
-              */
-            //}
-            //          }
         }
 
         void OnAuthenticatedReadClick()
@@ -366,6 +101,44 @@ namespace BLE.Client.ViewModels
 
             BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
 
+            BleMvxApplication._reader.rfid.Options.TagAuthenticate.password = accessPwd;
+            BleMvxApplication._reader.rfid.Options.TagAuthenticate.SenRep = CSLibrary.Structures.SENREP.SEND;
+            BleMvxApplication._reader.rfid.Options.TagAuthenticate.IncRepLen = CSLibrary.Structures.INCREPLEN.INCLUDE;
+            BleMvxApplication._reader.rfid.Options.TagAuthenticate.CSI = 1;
+            BleMvxApplication._reader.rfid.Options.TagAuthenticate.Length = 0x30;
+            BleMvxApplication._reader.rfid.Options.TagAuthenticate.Message = "009ca53e55ea";
+            BleMvxApplication._reader.rfid.Options.TagAuthenticate.ResponseLen = 0x40;
+
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_AUTHENTICATE);
+        }
+
+        void OnTAM2AuthenticatedClick()
+        {
+            Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(1);
+
+            if (BleMvxApplication._reader.rfid.State != CSLibrary.Constants.RFState.IDLE)
+            {
+                //MessageBox.Show("Reader is busy now, please try later.");
+                return;
+            }
+
+            RaisePropertyChanged(() => entrySelectedEPC);
+            RaisePropertyChanged(() => entrySelectedPWD);
+
+            accessPwd = Convert.ToUInt32(entrySelectedPWD, 16);
+
+            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
+
+            BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
+            BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
+            BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(entrySelectedEPC);
+            BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = 0;
+            BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)BleMvxApplication._reader.rfid.Options.TagSelected.epcMask.Length * 8;
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
+
+            BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
+
+            BleMvxApplication._reader.rfid.Options.TagAuthenticate.password = accessPwd;
             BleMvxApplication._reader.rfid.Options.TagAuthenticate.SenRep = CSLibrary.Structures.SENREP.SEND;
             BleMvxApplication._reader.rfid.Options.TagAuthenticate.IncRepLen = CSLibrary.Structures.INCREPLEN.INCLUDE;
             BleMvxApplication._reader.rfid.Options.TagAuthenticate.CSI = 1;

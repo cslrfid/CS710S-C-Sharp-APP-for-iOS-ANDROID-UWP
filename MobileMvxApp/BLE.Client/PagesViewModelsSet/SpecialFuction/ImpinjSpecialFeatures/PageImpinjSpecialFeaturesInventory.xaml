@@ -49,11 +49,11 @@
 
     <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" >
 
-            <!--<StackLayout Orientation="Horizontal">
-                <Label Text="M775" VerticalOptions="Center" TextColor="Blue"/>
-                <Switch x:Name="switchTagType" IsToggled="{Binding switchTagTypeIsToggled, Mode=TwoWay }"/>
-                <Label Text="M730/M750" VerticalOptions="Center" TextColor="Blue" />
-            </StackLayout>-->
+            <StackLayout Orientation="Horizontal">
+                <Switch IsToggled="{ Binding switchUsePinIsToggled, Mode=TwoWay }"/>
+                <Label Text="Use PIN/Access PWD" WidthRequest="140" VerticalOptions="Center" />
+                <Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
 
             <Button Text= "{Binding startInventoryButtonText}" Font="Large" Command="{Binding OnStartInventoryButtonCommand}" />
             <Button Text="Clear" Font="Large" Command="{Binding OnClearButtonCommand}" />

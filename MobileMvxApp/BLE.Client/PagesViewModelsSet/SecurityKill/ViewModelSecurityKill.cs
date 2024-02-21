@@ -18,7 +18,7 @@ namespace BLE.Client.ViewModels
 		public string entrySelectedEPC { get; set; }
 		public string entrySelectedPWD { get; set; }
 		public string entryKillSelectedEPC { get; set; }
-		public string entryKillSelectedPWD { get; set; }
+		//public string entryKillSelectedPWD { get; set; }
 		public string entryKillPWD { get; set; }
 
 		public string buttonEPCText { get; set; }
@@ -63,7 +63,7 @@ namespace BLE.Client.ViewModels
 			entrySelectedEPC = BleMvxApplication._SELECT_EPC;
 			entryKillSelectedEPC = BleMvxApplication._SELECT_EPC;
 			entrySelectedPWD = "00000000";
-			entryKillSelectedPWD = "00000000";
+			//entryKillSelectedPWD = "00000000";
 			entryKillPWD = "00000000";
 
 			buttonEPCText = stringUnchanged;
@@ -76,7 +76,7 @@ namespace BLE.Client.ViewModels
             RaisePropertyChanged(() => entrySelectedEPC);
 			RaisePropertyChanged(() => entrySelectedPWD);
 			RaisePropertyChanged(() => entryKillSelectedEPC);
-			RaisePropertyChanged(() => entryKillSelectedPWD);
+			//RaisePropertyChanged(() => entryKillSelectedPWD);
 			RaisePropertyChanged(() => entryKillPWD);
 			RaisePropertyChanged(() => buttonEPCText);
 			RaisePropertyChanged(() => buttonACCPWDText);
@@ -103,8 +103,11 @@ namespace BLE.Client.ViewModels
 					break;
 
 				case CSLibrary.Constants.TagAccess.KILL:
-					labelKillStatus = "Kill Tag command sent!";
-					RaisePropertyChanged(() => labelKillStatus);
+					if (e.success)
+						labelKillStatus = "Kill Tag command sent!";
+					else
+                        labelKillStatus = "Kill Tag command ERROR! errcode = 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4");
+                    RaisePropertyChanged(() => labelKillStatus);
 					break;
 			}
 		}
@@ -169,7 +172,7 @@ namespace BLE.Client.ViewModels
 			}
 
 			RaisePropertyChanged(() => entryKillSelectedEPC);
-			RaisePropertyChanged(() => entryKillSelectedPWD);
+			//RaisePropertyChanged(() => entryKillSelectedPWD);
 			RaisePropertyChanged(() => entryKillPWD);
 
 			BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
@@ -179,7 +182,7 @@ namespace BLE.Client.ViewModels
 			BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.DISABLE_ALL;
 			BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
 
-			BleMvxApplication._reader.rfid.Options.TagKill.accessPassword = Convert.ToUInt32(entryKillSelectedPWD, 16); ;
+			//BleMvxApplication._reader.rfid.Options.TagKill.accessPassword = Convert.ToUInt32(entryKillSelectedPWD, 16); ;
 			BleMvxApplication._reader.rfid.Options.TagKill.killPassword = Convert.ToUInt32(entryKillPWD, 16); ;
 			BleMvxApplication._reader.rfid.Options.TagKill.retryCount = 7;
 			BleMvxApplication._reader.rfid.Options.TagKill.flags = CSLibrary.Constants.SelectFlags.SELECT;

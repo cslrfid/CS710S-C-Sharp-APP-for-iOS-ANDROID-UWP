@@ -8,8 +8,8 @@ namespace CSLibrary
 {
     public partial class DeviceFinder
     {
-        static private wclBluetoothManager Manager;
-        static internal wclBluetoothRadio Radio;
+        static private wclBluetoothManager Manager = null;
+        static internal wclBluetoothRadio Radio = null;
 
         /// <summary>
         /// DeviceFinder Argument
@@ -177,6 +177,7 @@ namespace CSLibrary
 
         static public void Stop()
         {
+
             /*
             /// <summary>
             /// Stops watching for all nearby Bluetooth devices.
@@ -193,7 +194,26 @@ namespace CSLibrary
             */
         }
 
-	    static public void ClearDeviceList()
+        /// <summary>
+        /// Close BT Libraray
+        /// </summary>
+        static public void Disconnect()
+        {
+/*            if (Radio != null)
+            {
+                Radio.TurnOff();
+                Radio = null;
+            }
+*/
+
+            if (Manager != null)
+            {
+                Manager.Close();
+                Manager = null;
+            }
+        }
+
+        static public void ClearDeviceList()
 	    {
 		    _deviceDB.Clear ();
 	    }

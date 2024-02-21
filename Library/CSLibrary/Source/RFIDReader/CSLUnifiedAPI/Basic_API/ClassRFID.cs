@@ -552,16 +552,43 @@ namespace CSLibrary
         /// <returns></returns>
         public Result SetSelectCriteria(SelectCriterion[] critlist)
         {
+            switch (_deviceType)
+            {
+                case MODEL.CS108:
+                    return SetSelectCriteria_CS108(critlist);
+
+                case MODEL.CS710S:
+                    return SetSelectCriteria_CS710S(critlist);
+            }
+
             return Result.FAILURE;
         }
 
         public Result SetSelectCriteria(uint index, SelectCriterion crit)
         {
+            switch (_deviceType)
+            {
+                case MODEL.CS108:
+                    return SetSelectCriteria_CS108(index, crit);
+
+                case MODEL.CS710S:
+                    return SetSelectCriteria_CS710S(index, crit);
+            }
+
             return Result.FAILURE;
         }
 
         public Result SetPostMatchCriteria(SingulationCriterion[] postmatch)
         {
+            switch (_deviceType)
+            {
+                case MODEL.CS108:
+                    return SetPostMatchCriteria_CS108(postmatch);
+
+                    //                case MODEL.CS710S:
+                    //                    return SetSelectCriteria_CS710S(critlist);
+            }
+
             return Result.FAILURE;
         }
 

@@ -205,6 +205,8 @@ namespace CSLibrary
 
         private void TagKillThreadProc_CS710S()
         {
+            RFIDRegister.KillPassword.Set(m_rdr_opt_parms.TagKill.killPassword);
+
             RFIDKillTag();
 
             m_Result = Result.OK;
@@ -235,6 +237,7 @@ namespace CSLibrary
 
         private void TagAuthenticateThreadProc_CS710S()
         {
+            RFIDRegister.AccessPassword.Set(m_rdr_opt_parms.TagAuthenticate.password);
             SetAuthenticateConfig_CS710S(Options.TagAuthenticate.SenRep == SENREP.SEND, Options.TagAuthenticate.IncRepLen == INCREPLEN.INCLUDE, Options.TagAuthenticate.CSI, Options.TagAuthenticate.Length);
             SetAuthenticateMessage(Tools.Hex.ToBytes(Options.TagAuthenticate.Message));
             SetAuthenticateResponseLen(Options.TagAuthenticate.ResponseLen);

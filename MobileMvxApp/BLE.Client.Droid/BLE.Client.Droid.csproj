@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassIExternalStorage.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainApplication.cs" />

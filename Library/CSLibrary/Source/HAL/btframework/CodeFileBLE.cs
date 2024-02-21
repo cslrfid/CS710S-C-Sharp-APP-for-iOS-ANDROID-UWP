@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using wclCommon;
 using wclBluetooth;
+using static CSLibrary.RFIDDEVICE;
 
 namespace CSLibrary
 {
@@ -25,7 +26,8 @@ namespace CSLibrary
         wclGattService CS108Service;
         wclGattCharacteristic UpdateCharacteristic;
         wclGattCharacteristic WriteCharacteristic;
-        //= FCharacteristics[lvCharacteristics.SelectedItems[0].Index];
+        wclGattCharacteristic ReadCharacteristic;
+        MODEL _deviceType = MODEL.UNKNOWN;
 
         IDevice _device = new IDevice();
 
@@ -66,7 +68,7 @@ namespace CSLibrary
             FServices = null;
         }
 
-        public async Task<bool> ConnectAsync(object macAdd)
+        public async Task<bool> ConnectAsync(object macAdd, MODEL deviceType)
         {
             if (_readerState != READERSTATE.DISCONNECT)
                 return false; // reader can not reconnect
@@ -76,6 +78,8 @@ namespace CSLibrary
             //Client = new wclGattClient();
             Int32 Res;
 
+
+            _deviceType = deviceType;
             Client.Address = (long)macAdd;
             Res = Client.Connect(DeviceFinder.Radio);
             if (Res != wclErrors.WCL_E_SUCCESS)
@@ -113,7 +117,8 @@ namespace CSLibrary
             foreach (wclGattService Service in FServices)
             {
                 if (Service.Uuid.IsShortUuid)
-                    if (Service.Uuid.ShortUuid == 0x9800)
+                    //if (Service.Uuid.ShortUuid == 0x9800)
+                    if (Service.Uuid.ShortUuid == 0x9800 || Service.Uuid.ShortUuid == 0x9802) // CS108=9800, CS710S=9802
                         CS108Service = Service;
             }
 
@@ -165,11 +170,10 @@ namespace CSLibrary
         public async Task<bool> DisconnectAsync()
         {
             if (Status != READERSTATE.IDLE)
-                return false;
+                _handlerRFIDReader.StopOperation();
 
             BARCODEPowerOff();
             WhenBLEFinish(ClearConnection);
-
             return true;
         }
 
@@ -190,6 +194,7 @@ namespace CSLibrary
             if (Value != null)
                 if (Value.Length > 0)
                 {
+                    CSLibrary.Debug.WriteBytes("BT reveice data : ", Value);
                     CharacteristicOnValueUpdated(Value);
                 }
         }

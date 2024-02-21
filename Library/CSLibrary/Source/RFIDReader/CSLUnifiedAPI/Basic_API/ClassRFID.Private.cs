@@ -177,7 +177,7 @@ namespace CSLibrary
                     break;
 
                 case MODEL.CS710S:
-                    RFIDKillTag();
+                    TagKillThreadProc_CS710S();
                     break;
             }
 

@@ -13,7 +13,7 @@
     <AssemblyName>BLEClientiOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <ProvisioningType>manual</ProvisioningType>
+    <ProvisioningType>automatic</ProvisioningType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,11 +24,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
-    <MtouchArch>i386, x86_64</MtouchArch>
-    <MtouchLink>None</MtouchLink>
+    <MtouchLink>SdkOnly</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>Apple Development: Wallace Sit (JBBYRB3QK9)</CodesignKey>
-    <CodesignProvision>VS: com.csl.CS710SRFIDReaderCSharp Development</CodesignProvision>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -40,7 +39,7 @@
     <MtouchArch>i386, x86_64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>Apple Development: Wallace Sit (JBBYRB3QK9)</CodesignKey>
-    <CodesignProvision>VS: com.csl.CS710SRFIDReaderCSharp Development</CodesignProvision>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,9 +56,8 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchInterpreter>-all</MtouchInterpreter>
     <MtouchLink>SdkOnly</MtouchLink>
-    <CodesignProvision>VS: com.csl.CS710SRFIDReaderCSharp Development</CodesignProvision>
     <IOSDebugOverWiFi>true</IOSDebugOverWiFi>
-    <MtouchProfiling>true</MtouchProfiling>
+    <CodesignProvision>VS: com.csl.CS710SRFIDReaderCSharp Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -72,7 +70,7 @@
     <CodesignKey>Apple Development: Wallace Sit (JBBYRB3QK9)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
-    <CodesignProvision>VS: com.csl.CS710SRFIDReaderCSharp Development</CodesignProvision>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>none</DebugType>
@@ -83,7 +81,7 @@
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <BuildIpa>True</BuildIpa>
-    <CodesignProvision>VS: com.csl.CS710SRFIDReaderCSharp Development</CodesignProvision>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
     <CodesignKey>Apple Development: Wallace Sit (JBBYRB3QK9)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
@@ -96,10 +94,10 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignProvision>VS: com.csl.CS710SRFIDReaderCSharp Development</CodesignProvision>
-    <CodesignKey>Apple Development: Wallace Sit (JBBYRB3QK9)</CodesignKey>
+    <CodesignKey>Apple Distribution: CONVERGENCE SYSTEMS LIMITED (67RT9ZRG3Y)</CodesignKey>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>SdkOnly</MtouchLink>
+    <CodesignProvision>CS710S RFID Reader C Sharp</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
     <AppExtensionDebugBundleId />
@@ -265,6 +263,9 @@
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
+      <Version>7.0.1</Version>
+    </PackageReference>
     <PackageReference Include="MvvmCross">
       <Version>7.1.2</Version>
     </PackageReference>

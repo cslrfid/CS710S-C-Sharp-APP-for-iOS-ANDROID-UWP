@@ -44,7 +44,7 @@ namespace BLE.Client.ViewModels
         UInt16 _labelTIDOffset = 0;
         UInt16 _labelTIDWord = 2;
         UInt16 _labelUSEROffset = 0;
-        UInt16 _labelUSERWord = 2;
+        UInt16 _labelUSERWord = 1;
         string _labelMulti = "Bank 0";
         UInt16 _labelMultiOffset = 0;
         UInt16 _labelMultiWord = 2;
@@ -459,10 +459,13 @@ namespace BLE.Client.ViewModels
         {
             try
             {
-                var msg = $"Enter a TID bank offset value (word)";
+                var msg = $"Enter a TID bank offset address (decimal)";
                 this.cancelSrc?.CancelAfter(TimeSpan.FromSeconds(3));
                 var r = await this._userDialogs.PromptAsync(msg, inputType: InputType.Number, placeholder: _labelTIDOffset.ToString(), cancelToken: this.cancelSrc?.Token);
                 await System.Threading.Tasks.Task.Delay(500);
+
+                if (r.Text == "")
+                    return;
 
                 _labelTIDOffset = UInt16.Parse(r.Text);
 
@@ -485,13 +488,14 @@ namespace BLE.Client.ViewModels
 
                 try
                 {
+                    if (r.Text == "")
+                        return;
+
                     UInt16 count = UInt16.Parse(r.Text);
 
                     if (count < 0 || count > 32)
                     {
                         this._userDialogs.Alert("Invalid value, 0 ~ 32");
-
-                        _labelTIDWord = 32;
                     }
                     else
                     {
@@ -500,9 +504,7 @@ namespace BLE.Client.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    this._userDialogs.Alert("Invalid value");
-
-                    _labelTIDWord = 32;
+                    this._userDialogs.Alert("Invalid value, 0 ~ 32");
                 }
             }
             catch (Exception ex)
@@ -516,10 +518,13 @@ namespace BLE.Client.ViewModels
         {
             try
             {
-                var msg = $"Enter a USER bank offset value (word)";
+                var msg = $"Enter a USER bank offset address (decimal)";
                 this.cancelSrc?.CancelAfter(TimeSpan.FromSeconds(3));
                 var r = await this._userDialogs.PromptAsync(msg, inputType: InputType.Number, placeholder: _labelUSEROffset.ToString(), cancelToken: this.cancelSrc?.Token);
                 await System.Threading.Tasks.Task.Delay(500);
+
+                if (r.Text == "")
+                    return;
 
                 _labelUSEROffset = UInt16.Parse(r.Text);
             }
@@ -541,13 +546,14 @@ namespace BLE.Client.ViewModels
 
                 try
                 {
+                    if (r.Text == "")
+                        return;
+
                     UInt16 count = UInt16.Parse(r.Text);
 
                     if (count < 0 || count > 32)
                     {
                         this._userDialogs.Alert ("Invalid value, 0 ~ 32");
-
-                        _labelUSERWord = 32;
                     }
                     else
                     {
@@ -556,9 +562,7 @@ namespace BLE.Client.ViewModels
                 }
                 catch(Exception ex)
                 {
-                    this._userDialogs.Alert ("Invalid value");
-
-                    _labelUSERWord = 32;
+                    this._userDialogs.Alert("Invalid value, 0 ~ 32");
                 }
             }
             catch (Exception ex)
@@ -590,10 +594,13 @@ namespace BLE.Client.ViewModels
         {
             try
             {
-                var msg = $"Enter a offset value (word)";
+                var msg = $"Enter a offset address (decimal)";
                 this.cancelSrc?.CancelAfter(TimeSpan.FromSeconds(3));
                 var r = await this._userDialogs.PromptAsync(msg, inputType: InputType.Number, placeholder: _labelMultiOffset.ToString(), cancelToken: this.cancelSrc?.Token);
                 await System.Threading.Tasks.Task.Delay(500);
+
+                if (r.Text == "")
+                    return;
 
                 _labelMultiOffset = UInt16.Parse(r.Text);
             }
@@ -615,13 +622,14 @@ namespace BLE.Client.ViewModels
 
                 try
                 {
+                    if (r.Text == "")
+                        return;
+
                     UInt16 count = UInt16.Parse(r.Text);
 
                     if (count < 0 || count > 32)
                     {
                         this._userDialogs.Alert("Invalid value, 0 ~ 32");
-
-                        _labelMultiWord = 32;
                     }
                     else
                     {
@@ -630,9 +638,7 @@ namespace BLE.Client.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    this._userDialogs.Alert("Invalid value");
-
-                    _labelMultiWord = 32;
+                    this._userDialogs.Alert("Invalid value, 0 ~ 32");
                 }
             }
             catch (Exception ex)

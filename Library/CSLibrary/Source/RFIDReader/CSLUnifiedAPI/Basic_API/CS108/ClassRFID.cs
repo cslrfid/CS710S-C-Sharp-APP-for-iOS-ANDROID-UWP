@@ -1057,7 +1057,7 @@ namespace CSLibrary
         ///</param>
         /// <returns></returns>
 
-        public Result SetSelectCriteria_CS108(SelectCriterion[] critlist)
+        internal Result SetSelectCriteria_CS108(SelectCriterion[] critlist)
         {
             uint index;
             uint registerValue;
@@ -1071,7 +1071,7 @@ namespace CSLibrary
                 SC.countCriteria = (uint)critlist.Length;
                 SC.pCriteria = (SelectCriterion[])critlist.Clone();
 
-                index = 0;
+                for (index = 0; index < critlist.Length; index++)
                 {
                     SelectCriterion pCriterion = SC.pCriteria[index];
                     SelectMask pMask = pCriterion.mask;
@@ -1114,7 +1114,7 @@ namespace CSLibrary
             return m_Result;
         }
 
-        public Result CancelAllSelectCriteria_CS108()
+        internal Result CancelAllSelectCriteria_CS108()
         {
             for (uint cnt = 0; cnt < 7; cnt++)
             {
@@ -1124,7 +1124,7 @@ namespace CSLibrary
             return Result.OK;
         }
 
-        public Result SetSelectCriteria_CS108(uint index, SelectCriterion crit)
+        internal Result SetSelectCriteria_CS108(uint index, SelectCriterion crit)
         {
             uint registerValue;
 
@@ -1204,7 +1204,7 @@ namespace CSLibrary
         /// singulation criteria will be disabled.  This 
         /// parameter must not be NULL. </param>
         /// <returns></returns>
-        public Result SetPostMatchCriteria_C108(SingulationCriterion[] postmatch)
+        internal Result SetPostMatchCriteria_CS108(SingulationCriterion[] postmatch)
 		{
 			UInt32 registerValue;
 

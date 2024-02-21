@@ -19,6 +19,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+
 namespace CSLibrary
 {
     public static class Debug
@@ -33,12 +35,14 @@ namespace CSLibrary
 
         public static void WriteLine(string format, params object[] args)
         {
-            Plugin.BLE.Abstractions.Trace.Message(string.Format(format, args));
+            Console.WriteLine(string.Format(format, args));
+            //Plugin.BLE.Abstractions.Trace.Message(string.Format(format, args));
         }
 
         public static void Write(string format, params object[] args)
         {
-            Plugin.BLE.Abstractions.Trace.Message(string.Format(format, args));
+            Console.Write(string.Format(format, args));
+            //Plugin.BLE.Abstractions.Trace.Message(string.Format(format, args));
         }
     }
 }
