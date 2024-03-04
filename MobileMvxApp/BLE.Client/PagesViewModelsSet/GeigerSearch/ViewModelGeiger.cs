@@ -41,6 +41,7 @@ namespace BLE.Client.ViewModels
         // end for test
 
         bool _startInventory = false;
+        public bool _KeyDown = false;
         int _beepSoundCount = 0;
         int _noTagCount = 0;
 
@@ -60,8 +61,6 @@ namespace BLE.Client.ViewModels
 
         ~ViewModelGeiger()
         {
-            StopGeiger();
-            SetEvent(false);
         }
 
         private void SetEvent(bool enable)
@@ -90,8 +89,8 @@ namespace BLE.Client.ViewModels
         public override void ViewDisappearing()
         {
             // don't turn off event handler is you need program work in sleep mode.
-            // StopGeiger();
-            // SetEvent(false);
+            StopGeiger();
+            SetEvent(false);
             base.ViewDisappearing();
         }
 
@@ -316,11 +315,15 @@ namespace BLE.Client.ViewModels
             {
                 if (e.KeyDown)
                 {
-                    StartGeiger();
+                    if (!_KeyDown)
+                        StartGeiger();
+                    _KeyDown = true;
                 }
                 else
                 {
-                    StopGeiger();
+                    if (_KeyDown == true)
+                        StopGeiger();
+                    _KeyDown = false;
                 }
             }
         }

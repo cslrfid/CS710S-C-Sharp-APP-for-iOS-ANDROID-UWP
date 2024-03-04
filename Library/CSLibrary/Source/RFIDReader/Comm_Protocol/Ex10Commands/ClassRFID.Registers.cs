@@ -651,6 +651,16 @@ namespace CSLibrary
                 return;
             }
 
+            internal bool FastId(int port = 0)
+            {
+                UInt32 Value = data[port].inventoryRoundControl | ~(0xfdffffff);
+
+                if (Value == 0)
+                    return false;
+
+                return true;
+            }
+
             internal void TagFocusEnable(bool enable, int port = 0)
             {
                 UInt32 newValue = data[port].inventoryRoundControl & 0xfbffffff;

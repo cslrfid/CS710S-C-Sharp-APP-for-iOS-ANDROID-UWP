@@ -34,6 +34,8 @@ namespace BLE.Client.ViewModels
     {
         private string _EPC;
         public string EPC { get { return this._EPC; } set { this.SetProperty(ref this._EPC, value); } }
+        private string _EPC_ORG;
+        public string EPC_ORG { get { return this._EPC_ORG; } set { this.SetProperty(ref this._EPC_ORG, value); } }
         private string _Bank1Data;
         public string Bank1Data { get { return this._Bank1Data; } set { this.SetProperty(ref this._Bank1Data, value); } }
         private string _Bank2Data;
@@ -443,6 +445,13 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = true;
             BleMvxApplication._reader.rfid.Options.TagRanging.focus = BleMvxApplication._config.RFID_Focus;
             BleMvxApplication._reader.rfid.Options.TagRanging.fastid = BleMvxApplication._config.RFID_FastId;
+            BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = true;
+
+            // if CS108 enable fast ID, please use compactmode = false (slow speed)
+            if (BleMvxApplication._config.RFID_FastId)
+                if (BleMvxApplication._reader.rfid.GetModel() == CSLibrary.RFIDDEVICE.MODEL.CS108)
+                    BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = false;
+            
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRERANGING);
 
             // Set Power setting and clone antenna 0 setting to other antennas
@@ -750,8 +759,16 @@ namespace BLE.Client.ViewModels
 
                         item.timeOfRead = DateTime.Now;
                         item.EPC = info.epc.ToString();
-                        item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                        item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+                        item.EPC_ORG = item.EPC;
+//                        if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                        {
+//                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                        }
+//                        else
+//                        {
+                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                            item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+//                        }
                         item.RSSI = info.rssidBm;
                         //item.Phase = info.phase;
                         //item.Channel = (byte)info.freqChannel;
@@ -781,8 +798,16 @@ namespace BLE.Client.ViewModels
                                 values.index--;
                             }
 
-                            TagInfoList[values.index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                            TagInfoList[values.index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                            {
+//                                TagInfoList[values.index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            }
+//                            else
+//                            {
+                                TagInfoList[values.index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                                TagInfoList[values.index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+//                            }
+
                             TagInfoList[values.index].RSSI = info.rssidBm;
                         }
                         else
@@ -852,8 +877,8 @@ namespace BLE.Client.ViewModels
                                 index--;
                             }
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
 
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
                                 TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
@@ -871,9 +896,10 @@ namespace BLE.Client.ViewModels
 
                             item.timeOfRead = DateTime.Now;
                             item.EPC = UPC;
+                            item.EPC_ORG = epcstr;
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
 
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
                                 item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
@@ -959,8 +985,8 @@ namespace BLE.Client.ViewModels
                                 index--;
                             }
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
 
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
                                 TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
@@ -978,9 +1004,10 @@ namespace BLE.Client.ViewModels
 
                             item.timeOfRead = DateTime.Now;
                             item.EPC = TagURI;
+                            item.EPC_ORG = epcstr;
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
 
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
                                 item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
