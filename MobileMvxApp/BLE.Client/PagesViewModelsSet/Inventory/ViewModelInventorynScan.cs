@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Acr.UserDialogs;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 using Plugin.BLE.Abstractions.Contracts;
 
@@ -18,7 +19,7 @@ using System.Net.Http.Headers;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
 using MvvmCross.ViewModels;
-using Plugin.Permissions.Abstractions;
+//using Plugin.Permissions.Abstractions;
 using TagDataTranslation;
 using CSLibrary.Barcode.Constants;
 using System.Text.RegularExpressions;
@@ -151,7 +152,7 @@ namespace BLE.Client.ViewModels
     public class ViewModelInventorynScan : BaseViewModel
     {
         private readonly IUserDialogs _userDialogs;
-        readonly IPermissions _permissions;
+        //readonly IPermissions _permissions;
 
         #region -------------- RFID inventory -----------------
 
@@ -217,10 +218,10 @@ namespace BLE.Client.ViewModels
 
         #endregion
 
-        public ViewModelInventorynScan(IAdapter adapter, IUserDialogs userDialogs, IPermissions permissions) : base(adapter)
+        public ViewModelInventorynScan(IAdapter adapter, IUserDialogs userDialogs/* , IPermissions permissions */) : base(adapter)
         {
             _userDialogs = userDialogs;
-            _permissions = permissions;
+            //_permissions = permissions;
 
             OnStartInventoryButtonCommand = new Command(StartInventoryClick);
             OnClearButtonCommand = new Command(ClearClick);
@@ -1526,13 +1527,22 @@ namespace BLE.Client.ViewModels
             {
                 case Xamarin.Forms.Device.Android:
                     {
-                        if (await _permissions.CheckPermissionStatusAsync<Plugin.Permissions.StoragePermission>() != PermissionStatus.Granted)
-                        {
-                            await _permissions.RequestPermissionAsync<Plugin.Permissions.StoragePermission>();
-                        }
 
+                        /*                        while (await _permissions.CheckPermissionStatusAsync<Plugin.Permissions.StoragePermission>() != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+                                                {
+                                                    await _permissions.RequestPermissionAsync<Plugin.Permissions.StoragePermission>();
+                                                }
+                        */
+
+                        var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+                        if (status != PermissionStatus.Granted)
+                        {
+                            status = await Permissions.RequestAsync<Permissions.StorageRead>();
+                        }
+                        
                         //string documents = @"/storage/emulated/0/Download/";
                         //string filename = documents + "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName;
+                        //var documents = DependencyService.Get<IExternalStorage>().GetPath();
 
                         var documents = DependencyService.Get<IExternalStorage>().GetPath();
                         var filename = System.IO.Path.Combine(documents, "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName);

@@ -100,6 +100,8 @@ namespace BLE.Client.ViewModels
         {
             base.ViewAppearing();
 
+            BleMvxApplication._reader.rfid.StopOperation();
+            BleMvxApplication._reader.barcode.Stop();
             BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
         }
 

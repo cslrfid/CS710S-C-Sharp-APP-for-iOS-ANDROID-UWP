@@ -12,7 +12,6 @@ using BLE.Client.Extensions;
 
 using Plugin.BLE.Abstractions;
 using Plugin.Settings.Abstractions;
-using Plugin.Permissions.Abstractions;
 using MvvmCross.ViewModels;
 using MvvmCross.Navigation;
 using BLE.Client.Pages;
@@ -27,7 +26,6 @@ namespace BLE.Client.ViewModels
     public class ViewModelMainMenu : BaseViewModel
     {
         private readonly IUserDialogs _userDialogs;
-        readonly IPermissions _permissions;
         private IDevice _device;
 
         public string connectedButton { get; set; }
@@ -37,10 +35,9 @@ namespace BLE.Client.ViewModels
         public string labelAppVersion { get; set; }
 
 
-        public ViewModelMainMenu(IBluetoothLE bluetoothLe, IAdapter adapter, IUserDialogs userDialogs, ISettings settings, IPermissions permissions) : base(adapter)
+        public ViewModelMainMenu(IBluetoothLE bluetoothLe, IAdapter adapter, IUserDialogs userDialogs, ISettings settings) : base(adapter)
         {
             _userDialogs = userDialogs;
-            _permissions = permissions;
 
             this.labelAppVersion = "Version\n" + DependencyService.Get<IAppVersion>().GetVersion();
             RaisePropertyChanged(() => labelAppVersion);
@@ -70,12 +67,12 @@ namespace BLE.Client.ViewModels
         {
             if (Device.RuntimePlatform == Device.Android)
             {
-                while (await _permissions.CheckPermissionStatusAsync<Plugin.Permissions.LocationPermission>() != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+                while (await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() != PermissionStatus.Granted)
                 {
                     await _userDialogs.AlertAsync("This app collects location data in the background.  In terms of the features using this location data in the background, this App collects location data when it is reading temperature RFID tag in the “Magnus S3 with GPS for Advantech” page.  The purpose of this is to correlate the RFID tag with the actual GNSS location of the tag.  In other words, this is to track the physical location of the logistics item tagged with the RFID tag.");
                     //                await _userDialogs.AlertAsync("This app collects location data to enable temperature RFID tag inventory with GNSS location mapped to each tag data when the app is open and in the foreground.  This location data collection is not carried out when the app is closed or not in use.   Specifically, this App collects location data when it is reading temperature RFID tag in the “Magnus S3 with GPS for Advantech” page.");
 
-                    await _permissions.RequestPermissionAsync<Plugin.Permissions.LocationPermission>();
+                    await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
                 }
             }
         }
@@ -99,8 +96,7 @@ namespace BLE.Client.ViewModels
 
         public override void ViewAppearing()
         {
-            if (BleMvxApplication._reader.rfid.State == CSLibrary.Constants.RFState.BUSY)
-                BleMvxApplication._reader.rfid.StopOperation();
+            BleMvxApplication._reader.rfid.StopOperation();
             BleMvxApplication._reader.barcode.Stop();
 
             base.ViewAppearing();
