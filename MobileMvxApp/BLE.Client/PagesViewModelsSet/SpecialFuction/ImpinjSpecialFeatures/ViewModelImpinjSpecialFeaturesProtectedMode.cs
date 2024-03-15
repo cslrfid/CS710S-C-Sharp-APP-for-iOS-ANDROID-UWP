@@ -48,6 +48,7 @@ namespace BLE.Client.ViewModels
         {
             base.ViewAppearing();
             SetEvent(true);
+            BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
         }
 
         public override void ViewDisappearing()
@@ -61,7 +62,6 @@ namespace BLE.Client.ViewModels
 
             if (onoff)
             {
-                BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
                 BleMvxApplication._reader.rfid.OnAccessCompleted += new EventHandler<CSLibrary.Events.OnAccessCompletedEventArgs>(TagCompletedEvent);
             }
         }
@@ -143,21 +143,25 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
         }
 
-        void SelectProtectTag (UInt32 password)
+        void SelectProtectTag (string epc, UInt32 password)
         {
-            byte[] protectedModePIN = new byte[4];
+            {
+                CSLibrary.Structures.SelectCriterion extraSlecetion = new CSLibrary.Structures.SelectCriterion();
+                byte[] protectedModePIN = new byte[4];
 
-            protectedModePIN[3] = (byte)(password);
-            protectedModePIN[2] = (byte)(password >> 8);
-            protectedModePIN[1] = (byte)(password >> 16);
-            protectedModePIN[0] = (byte)(password >> 24);
+                protectedModePIN[3] = (byte)(password);
+                protectedModePIN[2] = (byte)(password >> 8);
+                protectedModePIN[1] = (byte)(password >> 16);
+                protectedModePIN[0] = (byte)(password >> 24);
 
-            BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
-            BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.BANK3;
-            BleMvxApplication._reader.rfid.Options.TagSelected.Mask = protectedModePIN;
-            BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
-            BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 32;
-            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
+                extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.ASLINVA_DSLINVB, 0, BleMvxApplication._xerxes_delay);
+                extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.BANK3, 0, 32, protectedModePIN);
+                BleMvxApplication._reader.rfid.SetSelectCriteria(0, extraSlecetion);
+
+                extraSlecetion.action = new CSLibrary.Structures.SelectAction(CSLibrary.Constants.Target.SELECTED, CSLibrary.Constants.Action.ASLINVA_DSLINVB, 0, BleMvxApplication._xerxes_delay);
+                extraSlecetion.mask = new CSLibrary.Structures.SelectMask(CSLibrary.Constants.MemoryBank.EPC, 0x20, (uint)(epc.Length) * 4, CSLibrary.Tools.Hex.ToBytes(epc));
+                BleMvxApplication._reader.rfid.SetSelectCriteria(1, extraSlecetion);
+            }
         }
 
         UInt16 GetConfigWord()
@@ -294,7 +298,7 @@ namespace BLE.Client.ViewModels
                 return;
             }
 
-            SelectProtectTag(password);
+            SelectProtectTag(entrySelectedEPC, password);
 
             BleMvxApplication._reader.rfid.Options.TagRead.bank = CSLibrary.Constants.MemoryBank.BANK0;
             BleMvxApplication._reader.rfid.Options.TagRead.offset = 4;
@@ -320,7 +324,7 @@ namespace BLE.Client.ViewModels
 
             var password = Convert.ToUInt32(entrySelectedPWD, 16);
 
-            SelectProtectTag(password);
+            SelectProtectTag(entrySelectedEPC, password);
             var configWord = GetConfigWord();
 
             BleMvxApplication._reader.rfid.Options.TagWrite.bank = CSLibrary.Constants.MemoryBank.BANK0;
@@ -354,7 +358,7 @@ namespace BLE.Client.ViewModels
                 return;
             }
 
-            SelectProtectTag(password);
+            SelectProtectTag(entrySelectedEPC, password);
             UInt16 configWord = 0x0000;
 
             BleMvxApplication._reader.rfid.Options.TagWrite.bank = CSLibrary.Constants.MemoryBank.BANK0;

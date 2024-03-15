@@ -86,9 +86,9 @@ namespace CSLibrary
             if (m_rdr_opt_parms.TagRanging.fastid)
                 Value |= 0x20;
             MacWriteRegister(MACREGISTER.HST_IMPINJ_EXTENSIONS, Value);
-            
-        // Set up the access bank register
-        Value = (UInt32)(m_rdr_opt_parms.TagRanging.bank1) | (UInt32)(((int)m_rdr_opt_parms.TagRanging.bank2) << 2);
+
+            // Set up the access bank register
+            Value = (UInt32)(m_rdr_opt_parms.TagRanging.bank1) | (UInt32)(((int)m_rdr_opt_parms.TagRanging.bank2) << 2);
 			MacWriteRegister(MACREGISTER.HST_TAGACC_BANK, Value);
 
 			// Set up the access pointer register (tells the offset)

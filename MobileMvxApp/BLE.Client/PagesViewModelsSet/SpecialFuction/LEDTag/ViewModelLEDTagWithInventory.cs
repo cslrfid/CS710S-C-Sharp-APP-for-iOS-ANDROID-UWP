@@ -17,19 +17,22 @@ using Plugin.BLE.Abstractions.Extensions;
 using Prism.Mvvm;
 using MvvmCross.ViewModels;
 using BLE.Client.Pages;
+using MvvmCross.Navigation;
 
 namespace BLE.Client.ViewModels
 {
     public class ViewModelLEDTagWithInventory : BaseViewModel
 	{
 		private readonly IUserDialogs _userDialogs;
+        private readonly IMvxNavigationService _navigation;
 
-		#region -------------- RFID inventory -----------------
+        #region -------------- RFID inventory -----------------
 
-		public ICommand OnStartInventoryButtonCommand { protected set; get; }
+        public ICommand OnStartInventoryButtonCommand { protected set; get; }
         public ICommand OnClearButtonCommand { protected set; get; }
-
-		private ObservableCollection<TagInfoViewModel> _TagInfoList = new ObservableCollection<TagInfoViewModel>();
+        public ICommand OnLEDTagWithGeiGerButtonCommand { protected set; get; }
+        
+        private ObservableCollection<TagInfoViewModel> _TagInfoList = new ObservableCollection<TagInfoViewModel>();
 		public ObservableCollection<TagInfoViewModel> TagInfoList { get { return _TagInfoList; } set { SetProperty(ref _TagInfoList, value); } }
 
 		public int tagsCount = 0;
@@ -65,31 +68,30 @@ namespace BLE.Client.ViewModels
 
         bool _cancelVoltageValue = false;
 
+        public bool switchFlashTagsIsToggled { set; get; }
+
         #endregion
 
-        public ViewModelLEDTagWithInventory(IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
+        public ViewModelLEDTagWithInventory(IAdapter adapter, IUserDialogs userDialogs, IMvxNavigationService navigation) : base(adapter)
         {
             _userDialogs = userDialogs;
+            _navigation = navigation;
 
             RaisePropertyChanged(() => ListViewRowHeight);
             _DefaultRowHight = ListViewRowHeight;
 
             OnStartInventoryButtonCommand = new Command(StartInventoryClick);
             OnClearButtonCommand = new Command(ClearClick);
+            OnLEDTagWithGeiGerButtonCommand = new Command(OnLEDTagWithGeiGerClick);
 
             BleMvxApplication._reader.rfid.SetCountry(BleMvxApplication._config.RFID_Region, (int)BleMvxApplication._config.RFID_FixedChannel);
-
-            InventorySetting();
-        }
-
-        ~ViewModelLEDTagWithInventory()
-        {
         }
 
         public override void ViewAppearing()
         {
             base.ViewAppearing();
             SetEvent(true);
+            InventorySetting();
         }
 
         public override void ViewDisappearing()
@@ -101,6 +103,12 @@ namespace BLE.Client.ViewModels
         {
             base.InitFromBundle(parameters);
         }
+
+        private void OnLEDTagWithGeiGerClick()
+        {
+            _navigation.Navigate<ViewModelLEDTagWithGeiger>(new MvxBundle());
+        }
+
 
         private void ClearClick()
         {
@@ -173,7 +181,22 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_CompactInventoryDelayTime); // for CS108 only
             BleMvxApplication._reader.rfid.SetIntraPacketDelayTime((uint)BleMvxApplication._config.RFID_IntraPacketDelayTime); // for CS710S only
             BleMvxApplication._reader.rfid.SetDuplicateEliminationRollingWindow(BleMvxApplication._config.RFID_DuplicateEliminationRollingWindow);
-            BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
+
+            switch (BleMvxApplication._reader.rfid.GetModel())
+            {
+                case CSLibrary.RFIDDEVICE.MODEL.CS710S:
+                    if (BleMvxApplication._reader.rfid.GetCountry() == 1)
+                        BleMvxApplication._reader.rfid.SetCurrentLinkProfile(241);
+                    else
+                        BleMvxApplication._reader.rfid.SetCurrentLinkProfile(244);
+                    break;
+
+                default:
+                    BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
+                    break;
+            }
+
+            BleMvxApplication._reader.rfid.SetOperationMode(BleMvxApplication._config.RFID_OperationMode);
             BleMvxApplication._reader.rfid.SetTagGroup(BleMvxApplication._config.RFID_TagGroup);
 
             if (BleMvxApplication._config.RFID_Algorithm == CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ)
@@ -187,55 +210,35 @@ namespace BLE.Client.ViewModels
                 BleMvxApplication._reader.rfid.SetFixedQParms(BleMvxApplication._config.RFID_FixedQParms);
             }
 
-            // Select Criteria filter
-            if (BleMvxApplication._PREFILTER_Enable)
-            {
-                BleMvxApplication._reader.rfid.Options.TagRanging.flags |= CSLibrary.Constants.SelectFlags.SELECT;
-                BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
-                if (BleMvxApplication._PREFILTER_Bank == 1)
-                {
-                    BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
-                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(BleMvxApplication._PREFILTER_MASK_EPC);
-                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = BleMvxApplication._PREFILTER_MASK_Offset;
-                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
-                }
-                else
-                {
-                    BleMvxApplication._reader.rfid.Options.TagSelected.bank = (CSLibrary.Constants.MemoryBank)(BleMvxApplication._PREFILTER_Bank);
-                    BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes(BleMvxApplication._PREFILTER_MASK_EPC);
-                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = BleMvxApplication._PREFILTER_MASK_Offset;
-                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
-                }
-                BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
-            }
+            // Select Criteria filter for LED Tag
+            BleMvxApplication._reader.rfid.Options.TagRanging.flags = CSLibrary.Constants.SelectFlags.SELECT;
+            BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.TID;
+
+            BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x01, 0xE2 };
+            BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+            BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 24;
+
+            /*
+            BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x01, 0xE2, 0xB5, 0x8F, 0x0B, 0x0E, 0x1C };
+            BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+            BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 64;
+*/
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
+
 
             BleMvxApplication._reader.rfid.SetRSSIdBmFilter(BleMvxApplication._RSSIFILTER_Type, BleMvxApplication._RSSIFILTER_Option, BleMvxApplication._RSSIFILTER_Threshold_dBm);
 
-            BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 0;
-            if (BleMvxApplication._config.RFID_MBI_MultiBank1Enable)
-            {
-                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks++;
-                BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = BleMvxApplication._config.RFID_MBI_MultiBank1;
-                BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = BleMvxApplication._config.RFID_MBI_MultiBank1Offset;
-                BleMvxApplication._reader.rfid.Options.TagRanging.count1 = BleMvxApplication._config.RFID_MBI_MultiBank1Count;
-            }
+            BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 1;
+            BleMvxApplication._reader.rfid.Options.TagRanging.bank1 =  CSLibrary.Constants.MemoryBank.TID;
+            BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = 0;
+            BleMvxApplication._reader.rfid.Options.TagRanging.count1 = 6;
 
-            if (BleMvxApplication._config.RFID_MBI_MultiBank2Enable)
+            if (switchFlashTagsIsToggled)
             {
-                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks++;
-
-                if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks == 1)
-                {
-                    BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = BleMvxApplication._config.RFID_MBI_MultiBank2;
-                    BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = BleMvxApplication._config.RFID_MBI_MultiBank2Offset;
-                    BleMvxApplication._reader.rfid.Options.TagRanging.count1 = BleMvxApplication._config.RFID_MBI_MultiBank2Count;
-                }
-                else
-                {
-                    BleMvxApplication._reader.rfid.Options.TagRanging.bank2 = BleMvxApplication._config.RFID_MBI_MultiBank2;
-                    BleMvxApplication._reader.rfid.Options.TagRanging.offset2 = BleMvxApplication._config.RFID_MBI_MultiBank2Offset;
-                    BleMvxApplication._reader.rfid.Options.TagRanging.count2 = BleMvxApplication._config.RFID_MBI_MultiBank2Count;
-                }
+                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 2;
+                BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = CSLibrary.Constants.MemoryBank.USER;
+                BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = 112;
+                BleMvxApplication._reader.rfid.Options.TagRanging.count1 = 1;
             }
 
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = false;
@@ -258,11 +261,25 @@ namespace BLE.Client.ViewModels
                 _startInventoryButtonText = "Stop Inventory";
             }
 
+            BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 1;
+            BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = CSLibrary.Constants.MemoryBank.TID;
+            BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = 0;
+            BleMvxApplication._reader.rfid.Options.TagRanging.count1 = 6;
+
+            RaisePropertyChanged(() => switchFlashTagsIsToggled);
+            if (switchFlashTagsIsToggled)
+            {
+                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 2;
+                BleMvxApplication._reader.rfid.Options.TagRanging.bank2 = CSLibrary.Constants.MemoryBank.USER;
+                BleMvxApplication._reader.rfid.Options.TagRanging.offset2 = 112;
+                BleMvxApplication._reader.rfid.Options.TagRanging.count2 = 1;
+            }
+
             _ListViewRowHeight = 40 + (int)(BleMvxApplication._reader.rfid.Options.TagRanging.multibanks * 10);
             RaisePropertyChanged(() => ListViewRowHeight);
 
             InventoryStartTime = DateTime.Now;
-            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_EXERANGING);
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_RANGING);
             ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.INVENTORY);
             _cancelVoltageValue = true;
 
@@ -349,12 +366,6 @@ namespace BLE.Client.ViewModels
                     return;
             }
 
-            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 2)
-            {
-                if (e.info.Bank2Data.Length != BleMvxApplication._reader.rfid.Options.TagRanging.count2)
-                    return;
-            }
-
             InvokeOnMainThread(() =>
             {
                 _tagCountForAlert++;
@@ -438,11 +449,7 @@ namespace BLE.Client.ViewModels
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1 && TagInfoList[cnt].Bank1Data != CSLibrary.Tools.Hex.ToString(info.Bank1Data))
                                 continue;
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks == 2 && TagInfoList[cnt].Bank2Data != CSLibrary.Tools.Hex.ToString(info.Bank2Data))
-                                continue;
-
                             TagInfoList[cnt].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                            TagInfoList[cnt].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
                             TagInfoList[cnt].RSSI = info.rssidBm;
                             found = true;
                             break;
@@ -455,7 +462,6 @@ namespace BLE.Client.ViewModels
 
                         item.EPC = info.epc.ToString();
                         item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                        item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
                         item.RSSI = info.rssidBm;
                         item.PC = info.pc.ToUshorts()[0];
 

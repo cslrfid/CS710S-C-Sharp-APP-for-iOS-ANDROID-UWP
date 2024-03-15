@@ -20,6 +20,7 @@ using BLE.Client.ViewModels;
 using static CSLibrary.RFIDDEVICE;
 using static CSLibrary.FrequencyBand;
 using Xamarin.Essentials;
+using System.Threading.Tasks;
 
 namespace BLE.Client.ViewModels
 {
@@ -159,8 +160,17 @@ namespace BLE.Client.ViewModels
         {
             if (e.state == CSLibrary.Constants.RFState.INITIALIZATION_COMPLETE)
             {
+                //Trace.Message("load config");
+                {
+                    //_ = BleMvxApplication.LoadConfig(BleMvxApplication._deviceinfo.Id.ToString(), BleMvxApplication._reader.rfid.GetModel(), (int)BleMvxApplication._reader.rfid.GetCountry());
+                    //BleMvxApplication._config.readerID = BleMvxApplication._deviceinfo.Id.ToString();
+
+                    if (BleMvxApplication._reader.rfid.GetModelName() == "CS710S-1" && BleMvxApplication._config.RFID_Profile == 244)
+                        BleMvxApplication._config.RFID_Profile = 241;
+                }
+
                 // System Setting
-//                Xamarin.Essentials.DeviceDisplay.KeepScreenOn = BleMvxApplication._config._keepScreenOn;
+                //                Xamarin.Essentials.DeviceDisplay.KeepScreenOn = BleMvxApplication._config._keepScreenOn;
                 BleMvxApplication._batteryLow = false;
                 RaisePropertyChanged(() => labelVoltageTextColor);
 

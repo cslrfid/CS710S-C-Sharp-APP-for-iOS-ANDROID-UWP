@@ -181,7 +181,18 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_CompactInventoryDelayTime); // for CS108 only
             BleMvxApplication._reader.rfid.SetIntraPacketDelayTime((uint)BleMvxApplication._config.RFID_IntraPacketDelayTime); // for CS710S only
             BleMvxApplication._reader.rfid.SetDuplicateEliminationRollingWindow(BleMvxApplication._config.RFID_DuplicateEliminationRollingWindow);
-            BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
+            
+            if (BleMvxApplication._reader.rfid.GetModelName() == "CS710S")
+            {
+                // if use CS710S, only work in 244 profile
+                BleMvxApplication._reader.rfid.SetCurrentLinkProfile(244);
+            }
+            else
+            {
+                BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
+            }
+
+
             BleMvxApplication._reader.rfid.SetTagGroup(BleMvxApplication._config.RFID_TagGroup);
 
             if (BleMvxApplication._config.RFID_Algorithm == CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ)
@@ -208,10 +219,13 @@ namespace BLE.Client.ViewModels
             else
             {   // Flash All LED Tags
                 BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.TID;
-                BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x01, 0xE2, 0xB5, 0x8F, 0x0B, 0x0E, 0x1C };
+                BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x01, 0xE2 };
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 24;
+/*                BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x01, 0xE2, 0xB5, 0x8F, 0x0B, 0x0E, 0x1C };
                 BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
                 BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 64;
-            }
+*/            }
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
 
             BleMvxApplication._reader.rfid.SetRSSIdBmFilter(BleMvxApplication._RSSIFILTER_Type, BleMvxApplication._RSSIFILTER_Option, BleMvxApplication._RSSIFILTER_Threshold_dBm);

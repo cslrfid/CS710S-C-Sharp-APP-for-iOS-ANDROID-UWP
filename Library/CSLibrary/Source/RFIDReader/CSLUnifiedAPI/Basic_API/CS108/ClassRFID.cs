@@ -108,6 +108,9 @@ namespace CSLibrary
                     info.pc = (UInt16)(recvData[newInventoryPacketOffset] << 8 | recvData[newInventoryPacketOffset + 1]);
                     int epcbytelen = ((info.pc & 0xf800) >> 11) * 2;
 
+                    if (epcbytelen == 0)
+                        return false;
+
                     if ((newInventoryPacketOffset + epcbytelen + 1) >= recvData.Length)
                         return false;
 

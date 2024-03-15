@@ -18,7 +18,7 @@
               <ColumnDefinition Width="0.8*" />
               <ColumnDefinition Width="0.2*" />
             </Grid.ColumnDefinitions>
-            <Label Text="EPC" VerticalTextAlignment="Center" FontSize="Small" />
+            <Label Text="EPC / TID" VerticalTextAlignment="Center" FontSize="Small" />
             <Label Grid.Column="1" Text="RSSI" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
           </Grid>
         </StackLayout>
@@ -49,13 +49,18 @@
 
     <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" >
 
-      <Button Text= "{Binding startInventoryButtonText}" Font="Large" Command="{Binding OnStartInventoryButtonCommand}" />
-      <Button Text="Clear" Font="Large" Command="{Binding OnClearButtonCommand}" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Flash LEDs" WidthRequest="100" VerticalOptions="Center" />
+                <Label Text="Off" VerticalOptions="Center" />
+                <Switch x:Name="switchFlashTags"  IsToggled="{ Binding switchFlashTagsIsToggled, Mode=TwoWay }"/>
+                <Label Text="On" VerticalOptions="Center" />
+            </StackLayout>
             <Button Text= "{Binding startInventoryButtonText}" Font="Large" Command="{Binding OnStartInventoryButtonCommand}" />
+      <Button Text="Clear" Font="Large" Command="{Binding OnClearButtonCommand}" />
+            <Button Text= "Geiger LED Tag" Font="Large" Command="{Binding OnLEDTagWithGeiGerButtonCommand}" />
 
             <StackLayout Orientation="Horizontal">
 
-        <Label Text="{Binding FilterIndicator}" Font="Small" TextColor="Red" HorizontalOptions="Start" VerticalTextAlignment="End"/>
         <Label Text="{Binding InventoryTime}" Font="Small" HorizontalOptions="CenterAndExpand" VerticalOptions="End" />
 
       </StackLayout>

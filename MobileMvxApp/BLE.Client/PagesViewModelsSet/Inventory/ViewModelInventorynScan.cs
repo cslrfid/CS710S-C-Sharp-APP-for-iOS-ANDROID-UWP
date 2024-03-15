@@ -446,13 +446,7 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = true;
             BleMvxApplication._reader.rfid.Options.TagRanging.focus = BleMvxApplication._config.RFID_Focus;
             BleMvxApplication._reader.rfid.Options.TagRanging.fastid = BleMvxApplication._config.RFID_FastId;
-            BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = true;
 
-            // if CS108 enable fast ID, please use compactmode = false (slow speed)
-            if (BleMvxApplication._config.RFID_FastId)
-                if (BleMvxApplication._reader.rfid.GetModel() == CSLibrary.RFIDDEVICE.MODEL.CS108)
-                    BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = false;
-            
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRERANGING);
 
             // Set Power setting and clone antenna 0 setting to other antennas

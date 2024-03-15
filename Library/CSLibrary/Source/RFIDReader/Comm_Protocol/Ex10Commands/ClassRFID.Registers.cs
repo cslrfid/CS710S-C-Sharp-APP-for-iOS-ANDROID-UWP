@@ -1659,11 +1659,11 @@ namespace CSLibrary
             switch (m_oem_country_code)
             {
                 case 0x01:
-                    m_save_region_code = RegionCode.FCC;
+                    m_save_region_code = RegionCode.ETSI;
                     break;
 
                 case 0x02:
-                    m_save_region_code = RegionCode.ETSI;
+                    m_save_region_code = RegionCode.FCC;
                     break;
             }
         }

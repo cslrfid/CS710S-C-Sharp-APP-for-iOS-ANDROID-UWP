@@ -408,7 +408,9 @@ namespace BLE.Client.ViewModels
 
         private async void Connect(IDevice _device, MODEL deviceType)
         {
-            Trace.Message("device name :" + _device.Name);
+            //Trace.Message("device name :" + _device.Name);
+
+            BleMvxApplication._deviceinfo = _device;
 
             await BleMvxApplication._reader.ConnectAsync(Adapter, _device, deviceType);
 
