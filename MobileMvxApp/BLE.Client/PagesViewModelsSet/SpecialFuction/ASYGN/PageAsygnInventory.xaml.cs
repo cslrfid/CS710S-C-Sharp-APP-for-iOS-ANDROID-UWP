@@ -7,6 +7,7 @@ using BLE.Client.Pages;
 using BLE.Client.ViewModels;
 using MvvmCross.Forms.Views;
 using Xamarin.Forms;
+using static BLE.Client.ViewModels.ViewModelAsygnInventory;
 
 namespace BLE.Client.Pages
 {
@@ -23,17 +24,10 @@ namespace BLE.Client.Pages
 
             if (answer)
             {
-				//BLE.Client.ViewModels.ViewModelInventorynScan.TagInfo Items = (BLE.Client.ViewModels.ViewModelInventorynScan.TagInfo)e.SelectedItem;
-				TagInfoViewModel Items = (TagInfoViewModel)e.SelectedItem;
+                TagInfoWithTempViewModel Items = (TagInfoWithTempViewModel)e.SelectedItem;
 
 				BleMvxApplication._SELECT_EPC = Items.EPC;
                 BleMvxApplication._SELECT_PC = Items.PC;
-
-                if ((BleMvxApplication._config.RFID_MBI_MultiBank1Enable && BleMvxApplication._config.RFID_MBI_MultiBank1 == CSLibrary.Constants.MemoryBank.TID) ||
-                    (!BleMvxApplication._config.RFID_MBI_MultiBank1Enable && BleMvxApplication._config.RFID_MBI_MultiBank2Enable && BleMvxApplication._config.RFID_MBI_MultiBank2 == CSLibrary.Constants.MemoryBank.TID))
-                    BleMvxApplication._SELECT_TID = Items.Bank1Data;
-                else if (BleMvxApplication._config.RFID_MBI_MultiBank2Enable && BleMvxApplication._config.RFID_MBI_MultiBank2 == CSLibrary.Constants.MemoryBank.TID)
-                    BleMvxApplication._SELECT_TID = Items.Bank2Data;
             }
         }
     }

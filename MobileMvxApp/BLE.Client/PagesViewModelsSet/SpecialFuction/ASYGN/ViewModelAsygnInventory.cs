@@ -22,15 +22,56 @@ namespace BLE.Client.ViewModels
 {
     public class ViewModelAsygnInventory : BaseViewModel
 	{
-		private readonly IUserDialogs _userDialogs;
+        public class TagInfoWithTempViewModel : BindableBase
+        {
+            private string _EPC;
+            public string EPC { get { return this._EPC; } set { this.SetProperty(ref this._EPC, value); } }
+            private string _EPC_ORG;
+            public string EPC_ORG { get { return this._EPC_ORG; } set { this.SetProperty(ref this._EPC_ORG, value); } }
+            private float _RSSI;
+            public float RSSI
+            {
+                get
+                {
+                    if (displayFormat == 1)
+                        return this._RSSI;
+
+                    if (BleMvxApplication._config.RFID_DBm)
+                        return (float)Math.Round(this._RSSI);
+                    else
+                        return (float)(CSLibrary.Tools.dBConverion.dBm2dBuV(this._RSSI, 0));
+                }
+                set
+                {
+                    this.SetProperty(ref this._RSSI, value);
+                }
+            }
+            private float _Temp;
+            public float Temp { get { return this._Temp; } set { this.SetProperty(ref this._Temp, value); } }
+            private UInt16 _PC;
+            public UInt16 PC { get { return this._PC; } set { this.SetProperty(ref this._PC, value); } }
+
+            // Additional for Backend Server
+            public DateTime timeOfRead;
+            public string locationOfRead;
+            public string eCompass;
+            public int displayFormat = 0;
+
+            public TagInfoWithTempViewModel()
+            {
+            }
+        }
+
+
+        private readonly IUserDialogs _userDialogs;
 
 		#region -------------- RFID inventory -----------------
 
 		public ICommand OnStartInventoryButtonCommand { protected set; get; }
         public ICommand OnClearButtonCommand { protected set; get; }
 
-		private ObservableCollection<TagInfoViewModel> _TagInfoList = new ObservableCollection<TagInfoViewModel>();
-		public ObservableCollection<TagInfoViewModel> TagInfoList { get { return _TagInfoList; } set { SetProperty(ref _TagInfoList, value); } }
+		private ObservableCollection<TagInfoWithTempViewModel> _TagInfoList = new ObservableCollection<TagInfoWithTempViewModel>();
+		public ObservableCollection<TagInfoWithTempViewModel> TagInfoList { get { return _TagInfoList; } set { SetProperty(ref _TagInfoList, value); } }
 
 		public int tagsCount = 0;
         bool _newTag = false;
@@ -170,6 +211,7 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.SetIntraPacketDelayTime((uint)BleMvxApplication._config.RFID_IntraPacketDelayTime); // for CS710S only
             BleMvxApplication._reader.rfid.SetDuplicateEliminationRollingWindow(BleMvxApplication._config.RFID_DuplicateEliminationRollingWindow);
             BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
+            BleMvxApplication._reader.rfid.SetOperationMode(BleMvxApplication._config.RFID_OperationMode);
             BleMvxApplication._reader.rfid.SetTagGroup(BleMvxApplication._config.RFID_TagGroup);
 
             if (BleMvxApplication._config.RFID_Algorithm == CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ)
@@ -184,55 +226,22 @@ namespace BLE.Client.ViewModels
             }
 
             // Select Criteria filter
-            if (BleMvxApplication._PREFILTER_Enable)
             {
                 BleMvxApplication._reader.rfid.Options.TagRanging.flags |= CSLibrary.Constants.SelectFlags.SELECT;
                 BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
-                if (BleMvxApplication._PREFILTER_Bank == 1)
-                {
-                    BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.EPC;
-                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMask = new CSLibrary.Structures.S_MASK(BleMvxApplication._PREFILTER_MASK_EPC);
-                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskOffset = BleMvxApplication._PREFILTER_MASK_Offset;
-                    BleMvxApplication._reader.rfid.Options.TagSelected.epcMaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
-                }
-                else
-                {
-                    BleMvxApplication._reader.rfid.Options.TagSelected.bank = (CSLibrary.Constants.MemoryBank)(BleMvxApplication._PREFILTER_Bank);
-                    BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes(BleMvxApplication._PREFILTER_MASK_EPC);
-                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = BleMvxApplication._PREFILTER_MASK_Offset;
-                    BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = (uint)(BleMvxApplication._PREFILTER_MASK_EPC.Length) * 4;
-                }
+                BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.TID;
+                BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x83, 0xa1 };
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 24;
                 BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
             }
 
             BleMvxApplication._reader.rfid.SetRSSIdBmFilter(BleMvxApplication._RSSIFILTER_Type, BleMvxApplication._RSSIFILTER_Option, BleMvxApplication._RSSIFILTER_Threshold_dBm);
 
-            BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 0;
-            if (BleMvxApplication._config.RFID_MBI_MultiBank1Enable)
-            {
-                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks++;
-                BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = BleMvxApplication._config.RFID_MBI_MultiBank1;
-                BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = BleMvxApplication._config.RFID_MBI_MultiBank1Offset;
-                BleMvxApplication._reader.rfid.Options.TagRanging.count1 = BleMvxApplication._config.RFID_MBI_MultiBank1Count;
-            }
-
-            if (BleMvxApplication._config.RFID_MBI_MultiBank2Enable)
-            {
-                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks++;
-
-                if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks == 1)
-                {
-                    BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = BleMvxApplication._config.RFID_MBI_MultiBank2;
-                    BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = BleMvxApplication._config.RFID_MBI_MultiBank2Offset;
-                    BleMvxApplication._reader.rfid.Options.TagRanging.count1 = BleMvxApplication._config.RFID_MBI_MultiBank2Count;
-                }
-                else
-                {
-                    BleMvxApplication._reader.rfid.Options.TagRanging.bank2 = BleMvxApplication._config.RFID_MBI_MultiBank2;
-                    BleMvxApplication._reader.rfid.Options.TagRanging.offset2 = BleMvxApplication._config.RFID_MBI_MultiBank2Offset;
-                    BleMvxApplication._reader.rfid.Options.TagRanging.count2 = BleMvxApplication._config.RFID_MBI_MultiBank2Count;
-                }
-            }
+            BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 1;
+            BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = CSLibrary.Constants.MemoryBank.USER;
+            BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = 0;
+            BleMvxApplication._reader.rfid.Options.TagRanging.count1 = 7;
 
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = false;
             BleMvxApplication._reader.rfid.Options.TagRanging.focus = BleMvxApplication._config.RFID_Focus;
@@ -376,7 +385,7 @@ namespace BLE.Client.ViewModels
                 temperature += (float)398.54;
             }
 
-            return temperature;
+            return (float)System.Math.Round((double)temperature, 2);
         } //4278
 
 
@@ -567,6 +576,9 @@ namespace BLE.Client.ViewModels
 
         private void AddOrUpdateTagData(CSLibrary.Structures.TagCallbackInfo info)
         {
+            if (info.Bank1Data.Length != 7)
+                return;
+
             InvokeOnMainThread(() =>
             {
                 bool found = false;
@@ -579,15 +591,8 @@ namespace BLE.Client.ViewModels
                     {
                         if (TagInfoList[cnt].EPC == info.epc.ToString())
                         {
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1 && TagInfoList[cnt].Bank1Data != CSLibrary.Tools.Hex.ToString(info.Bank1Data))
-                                continue;
-
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks == 2 && TagInfoList[cnt].Bank2Data != CSLibrary.Tools.Hex.ToString(info.Bank2Data))
-                                continue;
-
-                            TagInfoList[cnt].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                            TagInfoList[cnt].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
                             TagInfoList[cnt].RSSI = info.rssidBm;
+                            TagInfoList[cnt].Temp = decodeAsygnTemperature(info.Bank1Data[5], info.Bank1Data[6], info.Bank1Data[1]);
                             found = true;
                             break;
                         }
@@ -595,12 +600,11 @@ namespace BLE.Client.ViewModels
 
                     if (!found)
                     {
-                        TagInfoViewModel item = new TagInfoViewModel();
+                        TagInfoWithTempViewModel item = new TagInfoWithTempViewModel();
 
                         item.EPC = info.epc.ToString();
-                        item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                        item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
                         item.RSSI = info.rssidBm;
+                        item.Temp = decodeAsygnTemperature(info.Bank1Data[5], info.Bank1Data[6], info.Bank1Data[1]);
                         item.PC = info.pc.ToUshorts()[0];
 
                         TagInfoList.Insert(0, item);

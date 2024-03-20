@@ -213,7 +213,6 @@ namespace BLE.Client.ViewModels
             // Select Criteria filter for LED Tag
             BleMvxApplication._reader.rfid.Options.TagRanging.flags = CSLibrary.Constants.SelectFlags.SELECT;
             BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.TID;
-
             BleMvxApplication._reader.rfid.Options.TagSelected.Mask = new byte[] { 0xE2, 0x01, 0xE2 };
             BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
             BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 24;

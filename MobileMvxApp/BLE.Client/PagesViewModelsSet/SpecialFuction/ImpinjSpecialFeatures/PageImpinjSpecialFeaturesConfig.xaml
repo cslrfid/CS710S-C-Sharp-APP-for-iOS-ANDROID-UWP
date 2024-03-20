@@ -25,12 +25,37 @@
                 <Entry Text="{ Binding entryAuthenticatedResultText, Mode=TwoWay }" FontSize="Small" HorizontalOptions="FillAndExpand" />
             </StackLayout>
 
-            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
-                <Button Text="TAM1 Authenticate" FontSize="Large" BackgroundColor="#C3C3C3" Command="{Binding OnAuthenticatedReadCommand}" />
+            <!--<StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">-->
+            <Button Text="TAM1 Authenticate" FontSize="Large" BackgroundColor="LightBlue" HorizontalOptions="Center" Command="{Binding OnAuthenticatedReadCommand}" />
+            <!--</StackLayout>-->
+
+            <!--<StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">-->
+            <Button Text="TAM2 Authenticate" FontSize="Large" BackgroundColor="LightBlue" HorizontalOptions="Center" Command="{Binding OnTAM2AuthenticateCommand}" />
+            <!--</StackLayout>-->
+
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="#1690F4"/>
+
+            <Label Text="Impinj Verification Demonstration" FontSize="Large"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="email* :" WidthRequest="75" VerticalOptions="Center"/>
+                <Entry Text="{ Binding entryVerificationemailText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
             </StackLayout>
 
-            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
-                <Button Text="TAM2 Authenticate" FontSize="Large" BackgroundColor="#C3C3C3" Command="{Binding OnTAM2AuthenticateCommand}" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="password* :" WidthRequest="75" VerticalOptions="Center"/>
+                <Entry Text="{ Binding entryVerificationpasswordText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <Label Text="*please register with CSL first for this demostration Account" TextColor="Gray" VerticalOptions="Start"/>
+
+            <StackLayout Orientation="Vertical">
+                <Button Text="Demonstrate Impinj Authenticate" FontSize="Large" BackgroundColor="LightBlue" Command="{Binding OnSentToServerCommand}" HorizontalOptions="Center"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Verification Result" WidthRequest="70" />
+                <Entry Text="{ Binding entryVerificationResultText, Mode=TwoWay }" FontSize="Small" HorizontalOptions="FillAndExpand" />
             </StackLayout>
 
         </StackLayout>

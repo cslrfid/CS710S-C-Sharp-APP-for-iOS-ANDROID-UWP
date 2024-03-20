@@ -228,7 +228,10 @@ namespace BLE.Client.ViewModels
 
             BleMvxApplication._reader.rfid.SetRSSIdBmFilter(BleMvxApplication._RSSIFILTER_Type, BleMvxApplication._RSSIFILTER_Option, BleMvxApplication._RSSIFILTER_Threshold_dBm);
 
-            BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 0;
+            BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 1;
+            BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = CSLibrary.Constants.MemoryBank.TID;
+            BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = 0;
+            BleMvxApplication._reader.rfid.Options.TagRanging.count1 = 6;
 
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = false;
             BleMvxApplication._reader.rfid.Options.TagRanging.focus = BleMvxApplication._config.RFID_Focus;
