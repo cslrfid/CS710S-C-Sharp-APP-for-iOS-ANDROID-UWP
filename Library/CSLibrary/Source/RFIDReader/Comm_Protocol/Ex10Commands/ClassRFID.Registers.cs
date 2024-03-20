@@ -651,6 +651,16 @@ namespace CSLibrary
                 return;
             }
 
+            internal bool FastId(int port = 0)
+            {
+                UInt32 Value = data[port].inventoryRoundControl | ~(0xfdffffff);
+
+                if (Value == 0)
+                    return false;
+
+                return true;
+            }
+
             internal void TagFocusEnable(bool enable, int port = 0)
             {
                 UInt32 newValue = data[port].inventoryRoundControl & 0xfbffffff;
@@ -1649,11 +1659,11 @@ namespace CSLibrary
             switch (m_oem_country_code)
             {
                 case 0x01:
-                    m_save_region_code = RegionCode.FCC;
+                    m_save_region_code = RegionCode.ETSI;
                     break;
 
                 case 0x02:
-                    m_save_region_code = RegionCode.ETSI;
+                    m_save_region_code = RegionCode.FCC;
                     break;
             }
         }

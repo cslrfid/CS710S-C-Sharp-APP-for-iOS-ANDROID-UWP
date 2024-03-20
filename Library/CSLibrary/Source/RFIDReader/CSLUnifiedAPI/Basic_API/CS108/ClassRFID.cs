@@ -108,6 +108,9 @@ namespace CSLibrary
                     info.pc = (UInt16)(recvData[newInventoryPacketOffset] << 8 | recvData[newInventoryPacketOffset + 1]);
                     int epcbytelen = ((info.pc & 0xf800) >> 11) * 2;
 
+                    if (epcbytelen == 0)
+                        return false;
+
                     if ((newInventoryPacketOffset + epcbytelen + 1) >= recvData.Length)
                         return false;
 
@@ -133,6 +136,7 @@ namespace CSLibrary
                     byte[] byteEpc = new byte[epcbytelen];
                     Array.Copy(recvData, (int)(newInventoryPacketOffset + 2 + xpcoffset), byteEpc, 0, epcbytelen);
 
+/*
                     if (Options.TagRanging.fastid && info.pc.EPCLength >= 6 && byteEpc[byteEpc.Length - 12] == 0xe2 && byteEpc[byteEpc.Length - 11] == 0x80 && byteEpc[byteEpc.Length - 10] == 0x11)
                     {
                         byte[] newbyteEpc = new byte[byteEpc.Length - 12];
@@ -144,6 +148,7 @@ namespace CSLibrary
                         info.FastTid = newbyteTid;
                         byteEpc = newbyteEpc;
                     }
+*/
 
                     info.epc = new S_EPC(byteEpc);
 
@@ -290,6 +295,7 @@ namespace CSLibrary
                 byte[] byteEpc = new byte[info.pc.EPCLength * 2];
                 Array.Copy(recvData, (int)(offset + 22 + xpcoffset), byteEpc, 0, (int)info.pc.EPCLength * 2);
 
+/*
                 if (Options.TagRanging.fastid && info.pc.EPCLength >= 6 && byteEpc[byteEpc.Length - 12] == 0xe2 && byteEpc[byteEpc.Length - 11] == 0x80 && byteEpc[byteEpc.Length - 10] == 0x11)
                 {
                     byte[] newbyteEpc = new byte[byteEpc.Length - 12];
@@ -301,6 +307,7 @@ namespace CSLibrary
                     info.FastTid = newbyteTid;
                     byteEpc = newbyteEpc;
                 }
+*/
 
                 info.epc = new S_EPC(byteEpc);
 

@@ -7,11 +7,8 @@
 
   <ItemGroup>
     <Compile Remove="PagesViewModelsSet\NewFolder1\**" />
-    <Compile Remove="PagesViewModelsSet\NewFolder\**" />
     <EmbeddedResource Remove="PagesViewModelsSet\NewFolder1\**" />
-    <EmbeddedResource Remove="PagesViewModelsSet\NewFolder\**" />
     <None Remove="PagesViewModelsSet\NewFolder1\**" />
-    <None Remove="PagesViewModelsSet\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +20,6 @@
   <ItemGroup>
     <PackageReference Include="MvvmCross" Version="7.1.2" />
     <PackageReference Include="MvvmCross.Forms" Version="7.1.2" />
-    <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
     <PackageReference Include="TagDataTranslation" Version="1.1.5" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
@@ -53,6 +49,9 @@
     <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary2024-NETStandard.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\ASYGN\PageAsygnInventory.xaml.cs">
+      <DependentUpon>PageAsygnInventory.xaml</DependentUpon>
+    </Compile>
     <Compile Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesProtectedMode.xaml.cs">
       <DependentUpon>PageImpinjSpecialFeaturesProtectedMode.xaml</DependentUpon>
     </Compile>
@@ -67,6 +66,13 @@
     <Compile Update="PagesViewModelsSet\SpecialFuction\LEDTag\LEDTag.xaml.cs">
       <DependentUpon>LEDTag.xaml</DependentUpon>
     </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\LEDTag\PageLEDTagWithGeiger.xaml.cs">
+      <DependentUpon>PageLEDTagWithGeiger.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\LEDTag\PageLEDTagWithInventory.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>PageLEDTagWithInventory.xaml</DependentUpon>
+    </Compile>
     <Compile Update="PagesViewModelsSet\SpecialFuction\UCODE8\PageUCODE8Inventory.xaml.cs">
       <DependentUpon>PageUCODE8Inventory.xaml</DependentUpon>
     </Compile>
@@ -77,6 +83,10 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\ImpinjSpecialFeatures\PageImpinjSpecialFeaturesConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="PagesViewModelsSet\SpecialFuction\LEDTag\PageLEDTagWithInventory.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

@@ -364,6 +364,22 @@ namespace CSLibrary
                 info.Bank2Data = new ushort[0];
                 info.Bank3Data = new ushort[0];
 
+/*
+                if (RFIDRegister.AntennaPortConfig.FastId() && info.pc.EPCLength >= 6 && epc[epcbytelen - 12] == 0xe2 && epc[epcbytelen - 11] == 0x80 && epc[epcbytelen - 10] == 0x11)
+                {
+                    byte[] newbyteEpc = new byte[epcbytelen - 12];
+                    UInt16[] newbyteTid = new UInt16[6];
+
+                    Array.Copy(epc, 0, newbyteEpc, 0, newbyteEpc.Length);
+                    ArrayCopy(epc, epcbytelen - 12, newbyteTid, 0, 12);
+
+                    info.FastTid = newbyteTid;
+                    epc = newbyteEpc;
+                }
+                else
+                    info.FastTid = new UInt16[0];
+*/
+
                 CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
 
                 if (OnAsyncCallback != null)

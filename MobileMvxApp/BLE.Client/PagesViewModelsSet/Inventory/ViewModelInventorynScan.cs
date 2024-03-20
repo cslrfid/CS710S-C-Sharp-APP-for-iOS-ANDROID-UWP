@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Acr.UserDialogs;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 using Plugin.BLE.Abstractions.Contracts;
 
@@ -18,7 +19,7 @@ using System.Net.Http.Headers;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
 using MvvmCross.ViewModels;
-using Plugin.Permissions.Abstractions;
+//using Plugin.Permissions.Abstractions;
 using TagDataTranslation;
 using CSLibrary.Barcode.Constants;
 using System.Text.RegularExpressions;
@@ -34,6 +35,8 @@ namespace BLE.Client.ViewModels
     {
         private string _EPC;
         public string EPC { get { return this._EPC; } set { this.SetProperty(ref this._EPC, value); } }
+        private string _EPC_ORG;
+        public string EPC_ORG { get { return this._EPC_ORG; } set { this.SetProperty(ref this._EPC_ORG, value); } }
         private string _Bank1Data;
         public string Bank1Data { get { return this._Bank1Data; } set { this.SetProperty(ref this._Bank1Data, value); } }
         private string _Bank2Data;
@@ -149,7 +152,7 @@ namespace BLE.Client.ViewModels
     public class ViewModelInventorynScan : BaseViewModel
     {
         private readonly IUserDialogs _userDialogs;
-        readonly IPermissions _permissions;
+        //readonly IPermissions _permissions;
 
         #region -------------- RFID inventory -----------------
 
@@ -215,10 +218,10 @@ namespace BLE.Client.ViewModels
 
         #endregion
 
-        public ViewModelInventorynScan(IAdapter adapter, IUserDialogs userDialogs, IPermissions permissions) : base(adapter)
+        public ViewModelInventorynScan(IAdapter adapter, IUserDialogs userDialogs/* , IPermissions permissions */) : base(adapter)
         {
             _userDialogs = userDialogs;
-            _permissions = permissions;
+            //_permissions = permissions;
 
             OnStartInventoryButtonCommand = new Command(StartInventoryClick);
             OnClearButtonCommand = new Command(ClearClick);
@@ -443,6 +446,7 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = true;
             BleMvxApplication._reader.rfid.Options.TagRanging.focus = BleMvxApplication._config.RFID_Focus;
             BleMvxApplication._reader.rfid.Options.TagRanging.fastid = BleMvxApplication._config.RFID_FastId;
+
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRERANGING);
 
             // Set Power setting and clone antenna 0 setting to other antennas
@@ -750,8 +754,16 @@ namespace BLE.Client.ViewModels
 
                         item.timeOfRead = DateTime.Now;
                         item.EPC = info.epc.ToString();
-                        item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                        item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+                        item.EPC_ORG = item.EPC;
+//                        if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                        {
+//                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                        }
+//                        else
+//                        {
+                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                            item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+//                        }
                         item.RSSI = info.rssidBm;
                         //item.Phase = info.phase;
                         //item.Channel = (byte)info.freqChannel;
@@ -781,8 +793,16 @@ namespace BLE.Client.ViewModels
                                 values.index--;
                             }
 
-                            TagInfoList[values.index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                            TagInfoList[values.index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                            {
+//                                TagInfoList[values.index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            }
+//                            else
+//                            {
+                                TagInfoList[values.index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                                TagInfoList[values.index].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+//                            }
+
                             TagInfoList[values.index].RSSI = info.rssidBm;
                         }
                         else
@@ -852,8 +872,8 @@ namespace BLE.Client.ViewModels
                                 index--;
                             }
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
 
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
                                 TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
@@ -871,9 +891,10 @@ namespace BLE.Client.ViewModels
 
                             item.timeOfRead = DateTime.Now;
                             item.EPC = UPC;
+                            item.EPC_ORG = epcstr;
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
 
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
                                 item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
@@ -959,8 +980,8 @@ namespace BLE.Client.ViewModels
                                 index--;
                             }
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                                TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
 
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
                                 TagInfoList[index].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
@@ -978,9 +999,10 @@ namespace BLE.Client.ViewModels
 
                             item.timeOfRead = DateTime.Now;
                             item.EPC = TagURI;
+                            item.EPC_ORG = epcstr;
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
-                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
+//                            if (BleMvxApplication._reader.rfid.Options.TagRanging.fastid)
+//                                item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.FastTid);
 
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks > 0)
                                 item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
@@ -1499,13 +1521,22 @@ namespace BLE.Client.ViewModels
             {
                 case Xamarin.Forms.Device.Android:
                     {
-                        if (await _permissions.CheckPermissionStatusAsync<Plugin.Permissions.StoragePermission>() != PermissionStatus.Granted)
-                        {
-                            await _permissions.RequestPermissionAsync<Plugin.Permissions.StoragePermission>();
-                        }
 
+                        /*                        while (await _permissions.CheckPermissionStatusAsync<Plugin.Permissions.StoragePermission>() != Plugin.Permissions.Abstractions.PermissionStatus.Granted)
+                                                {
+                                                    await _permissions.RequestPermissionAsync<Plugin.Permissions.StoragePermission>();
+                                                }
+                        */
+
+                        var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+                        if (status != PermissionStatus.Granted)
+                        {
+                            status = await Permissions.RequestAsync<Permissions.StorageRead>();
+                        }
+                        
                         //string documents = @"/storage/emulated/0/Download/";
                         //string filename = documents + "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName;
+                        //var documents = DependencyService.Get<IExternalStorage>().GetPath();
 
                         var documents = DependencyService.Get<IExternalStorage>().GetPath();
                         var filename = System.IO.Path.Combine(documents, "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName);

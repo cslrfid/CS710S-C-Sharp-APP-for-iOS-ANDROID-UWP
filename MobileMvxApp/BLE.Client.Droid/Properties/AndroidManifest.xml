@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="csl.CS710Sfulldemo.demo" android:installLocation="auto" android:versionName="0.1.6" android:versionCode="55">
-	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="33" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="csl.CS710Sfulldemo.demo" android:installLocation="preferExternal" android:versionName="0.1.7" android:versionCode="70">
+	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" />
 	<application android:label="CS710S C# Reader" android:icon="@drawable/icon" android:theme="@style/MyTheme"></application>
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -10,4 +10,6 @@
 	<uses-permission android:name="android.permission.CONTROL_LOCATION_UPDATES" />
 	<uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 	<uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

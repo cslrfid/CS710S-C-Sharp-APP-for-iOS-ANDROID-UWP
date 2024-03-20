@@ -28,6 +28,7 @@ using Plugin.BLE.Abstractions.Contracts;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using MvvmCross;
+using BLE.Client.Pages;
 
 namespace BLE.Client.ViewModels
 {
@@ -62,6 +63,8 @@ namespace BLE.Client.ViewModels
         public ICommand OnMagnusS3withGPSforTabletButtonCommand { protected set; get; }
         public ICommand OnKilowayKX2005XBLButtonCommand { protected set; get; }
         public ICommand OnN2ESLButtonCommand { protected set; get; }
+        public ICommand OnAsygnButtonCommand { protected set; get; }
+
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs, IMvxNavigationService navigation) : base(adapter)
         {
@@ -73,6 +76,7 @@ namespace BLE.Client.ViewModels
             OnRFMicroButtonCommand = new Command(OnRFMicroButtonClicked);
             OnKilowayKX2005XBLButtonCommand = new Command(OnOnKilowayKX2005XBLButtonClicked);
             OnN2ESLButtonCommand = new Command(OnN2ESLButtonClicked);
+            OnAsygnButtonCommand = new Command(OnAsygnButtonClicked);
 
             OnPhaseChannelInventoryButtonCommand = new Command(OnPhaseChannelInventoryButtonClicked);
             OnPeriodicReadButtonCommand = new Command(OnPeriodicReadButtonClicked);
@@ -100,6 +104,8 @@ namespace BLE.Client.ViewModels
         {
             base.ViewAppearing();
 
+            BleMvxApplication._reader.rfid.StopOperation();
+            BleMvxApplication._reader.barcode.Stop();
             BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
         }
 
@@ -138,17 +144,23 @@ namespace BLE.Client.ViewModels
             _navigation.Navigate<ViewModelRFMicroSetting>(new MvxBundle());
         }
 
-
         void OnOnKilowayKX2005XBLButtonClicked()
         {
             _navigation.Navigate<ViewModelLEDTag>(new MvxBundle());
         }
-
         
         void OnN2ESLButtonClicked()
         {
-            _navigation.Navigate<ViewModelLEDTag1>(new MvxBundle());
+            //_navigation.Navigate<ViewModelLEDTag1>(new MvxBundle());
+            _navigation.Navigate<ViewModelLEDTagWithInventory>(new MvxBundle());
         }
+
+        void OnAsygnButtonClicked()
+        {
+            //_navigation.Navigate<ViewModelLEDTag1>(new MvxBundle());
+            _navigation.Navigate<ViewModelAsygnInventory>(new MvxBundle());
+        }
+
 
         void OnXerxesButtonClicked()
         {

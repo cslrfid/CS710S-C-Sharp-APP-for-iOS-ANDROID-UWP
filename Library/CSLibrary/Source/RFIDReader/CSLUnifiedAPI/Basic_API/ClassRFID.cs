@@ -112,55 +112,60 @@ namespace CSLibrary
             return m_oem_machine;
         }
 
-/*
-        public string GetCountryCode()
+        public uint GetCountry()
         {
-            m_save_country_code = 2;
-            m_oem_freq_modification_flag = 0;
-            string country = "-" + m_save_country_code.ToString();
+            return m_oem_country_code;
+        }
+        
+        /*
+                public string GetCountryCode()
+                {
+                    m_save_country_code = 2;
+                    m_oem_freq_modification_flag = 0;
+                    string country = "-" + m_save_country_code.ToString();
 
-            switch (m_save_country_code)
-            {
-                case 2:
-                    if (m_oem_freq_modification_flag == 0)
+                    switch (m_save_country_code)
                     {
-                        country += " RW";
-                    }
-                    else
-                    {
-                        switch (m_oem_special_country_version)
-                        {
-                            case 0x4f464341:
-                                country += " OFCA";
-                                break;
-                            case 0x2a2a4153:
-                                country += " AS";
-                                break;
-                            case 0x2a2a4e5a:
-                                country += " NZ";
-                                break;
-                            case 0x20937846: 
-                                country += " ZA";
-                                break;
-                            case 0x2A2A5347:
-                                country += " SG";
-                                break;
-                        }
-                    }
-                    break;
+                        case 2:
+                            if (m_oem_freq_modification_flag == 0)
+                            {
+                                country += " RW";
+                            }
+                            else
+                            {
+                                switch (m_oem_special_country_version)
+                                {
+                                    case 0x4f464341:
+                                        country += " OFCA";
+                                        break;
+                                    case 0x2a2a4153:
+                                        country += " AS";
+                                        break;
+                                    case 0x2a2a4e5a:
+                                        country += " NZ";
+                                        break;
+                                    case 0x20937846: 
+                                        country += " ZA";
+                                        break;
+                                    case 0x2A2A5347:
+                                        country += " SG";
+                                        break;
+                                }
+                            }
+                            break;
 
-                case 8:
-                    switch (m_oem_special_country_version)
-                    {
-                        case 0x2A4A5036:
-                            country += " JP6";
+                        case 8:
+                            switch (m_oem_special_country_version)
+                            {
+                                case 0x2A4A5036:
+                                    country += " JP6";
+                                    break;
+                            }
                             break;
                     }
-                    break;
-            }
-            return country;
-        }
-*/
+                    return country;
+                }
+        */
 
         public string GetPCBAssemblyCode()
         { 

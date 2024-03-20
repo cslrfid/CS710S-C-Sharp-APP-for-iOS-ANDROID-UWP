@@ -13,7 +13,6 @@ using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Extensions;
-using Plugin.Permissions.Abstractions;
 using Plugin.Settings.Abstractions;
 
 using static CSLibrary.RFIDDEVICE;
@@ -75,7 +74,7 @@ namespace BLE.Client.ViewModels
             }
         }, () => _cancellationTokenSource != null);
 
-        public DeviceListViewModel(IBluetoothLE bluetoothLe, IAdapter adapter, IUserDialogs userDialogs, ISettings settings, IPermissions permissions, IMvxNavigationService navigation) : base(adapter)
+        public DeviceListViewModel(IBluetoothLE bluetoothLe, IAdapter adapter, IUserDialogs userDialogs, ISettings settings, IMvxNavigationService navigation) : base(adapter)
         {
             _bluetoothLe = bluetoothLe;
             _userDialogs = userDialogs;
@@ -409,7 +408,9 @@ namespace BLE.Client.ViewModels
 
         private async void Connect(IDevice _device, MODEL deviceType)
         {
-            Trace.Message("device name :" + _device.Name);
+            //Trace.Message("device name :" + _device.Name);
+
+            BleMvxApplication._deviceinfo = _device;
 
             await BleMvxApplication._reader.ConnectAsync(Adapter, _device, deviceType);
 

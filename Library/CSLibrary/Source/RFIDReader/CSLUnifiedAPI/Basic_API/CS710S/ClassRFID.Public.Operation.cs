@@ -80,8 +80,14 @@ namespace CSLibrary
                     }
                     break;
 
-                case Operation.TAG_PREFILTER:
                 case Operation.TAG_SELECTED:
+                    // Set Q = 1
+                    SetFixedQParms_CS710S(1, 1);
+                    // Set 
+                    TagSelected_CS710S();
+                    break;
+
+                case Operation.TAG_PREFILTER:
                     TagSelected_CS710S();
                     break;
 

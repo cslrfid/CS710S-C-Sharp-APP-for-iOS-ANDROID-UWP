@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Threading.Tasks;
 using BLE.Client.ViewModels;
 using CSLibrary;
@@ -9,6 +10,7 @@ using MvvmCross.Localization;
 using MvvmCross.ViewModels;
 using Newtonsoft.Json;
 using PCLStorage;
+using Plugin.BLE.Abstractions.Contracts;
 using Xamarin.Forms;
 using static CSLibrary.RFIDDEVICE;
 
@@ -35,6 +37,7 @@ namespace BLE.Client
 
         public string readerID = ""; // device GUID
         public MODEL readerModel = MODEL.UNKNOWN;
+        public int country = 0;
 
         public int BatteryLevelIndicatorFormat = 1; // 0 = voltage, other = percentage 
 
@@ -143,10 +146,20 @@ namespace BLE.Client
             RFID_OperationMode = CSLibrary.Constants.RadioOperationMode.CONTINUOUS;
             RFID_TagGroup = new CSLibrary.Structures.TagGroup(CSLibrary.Constants.Selected.ALL, CSLibrary.Constants.Session.S0, CSLibrary.Constants.SessionTarget.A);
             RFID_Algorithm = CSLibrary.Constants.SingulationAlgorithm.DYNAMICQ;
-            if (model == MODEL.CS710S)
-                RFID_Profile = 345;
-            else
-                RFID_Profile = 1;
+            switch (model)
+            {
+                case MODEL.CS710S:
+//                  Set profile to 241 if CS710S-1 in application
+//                    if (country == 1)
+//                        RFID_Profile = 241;
+//                    else
+                        RFID_Profile = 244;
+                    break;
+
+                default:
+                    RFID_Profile = 1;
+                    break;
+            }
 
             RFID_DynamicQParms = new CSLibrary.Structures.DynamicQParms();
             RFID_DynamicQParms.minQValue = 0;
@@ -219,6 +232,9 @@ namespace BLE.Client
     {
         static public HighLevelInterface _reader = new HighLevelInterface();
         public static CONFIG _config;
+
+        // System
+        public static IDevice _deviceinfo;
 
         // for Geiger and Read/Write
         public static string _SELECT_EPC = "";
@@ -351,9 +367,11 @@ namespace BLE.Client
         {
             var readerID = _config.readerID;
             var readerModel = _config.readerModel;
+            var country = _config.country;
             _config = new CONFIG(_config.readerModel);
             _config.readerID = readerID;
             _config.readerModel = readerModel;
+            _config.country = country;
         }
     }
 }

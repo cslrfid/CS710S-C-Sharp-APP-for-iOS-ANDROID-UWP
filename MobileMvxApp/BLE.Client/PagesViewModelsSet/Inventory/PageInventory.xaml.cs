@@ -49,7 +49,7 @@ USDOD-96
 				//BLE.Client.ViewModels.ViewModelInventorynScan.TagInfo Items = (BLE.Client.ViewModels.ViewModelInventorynScan.TagInfo)e.SelectedItem;
 				BLE.Client.ViewModels.TagInfoViewModel Items = (BLE.Client.ViewModels.TagInfoViewModel)e.SelectedItem;
 
-				BleMvxApplication._SELECT_EPC = Items.EPC;
+				BleMvxApplication._SELECT_EPC = Items.EPC_ORG;
                 BleMvxApplication._SELECT_PC = Items.PC;
             }
         }
