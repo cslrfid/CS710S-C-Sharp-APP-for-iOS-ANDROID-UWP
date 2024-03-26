@@ -26,11 +26,16 @@ namespace BLE.Client.ViewModels
         public string entryVerificationpasswordText { get; set; }
         public string entryVerificationResultText { get; set; }
 
+        public bool buttonTAM1AuthenticateIsEnabled { get; set; }
+        public bool buttonTAM2AuthenticateIsEnabled { get; set; }
+        public bool buttonTagVerificationIsEnabled { get; set; }
+
         public ICommand OnAuthenticatedReadCommand { protected set; get; }
         public ICommand OnTAM2AuthenticateCommand { protected set; get; }
         public ICommand OnSentToServerCommand { protected set; get; }
 
         uint accessPwd;
+        bool _TagVerificationProcess = false;
 
         public ViewModelImpinjSpecialFeaturesConfig(IAdapter adapter, IUserDialogs userDialogs) : base(adapter)
         {
@@ -44,6 +49,7 @@ namespace BLE.Client.ViewModels
             entryVerificationpasswordText = "Cne12345_";
             RaisePropertyChanged(() => entryVerificationemailText);
             RaisePropertyChanged(() => entryVerificationpasswordText);
+            EnableAllButton();
         }
 
         public override void ViewAppearing()
@@ -83,11 +89,42 @@ namespace BLE.Client.ViewModels
             {
                 entryAuthenticatedResultText = BleMvxApplication._reader.rfid.Options.TagAuthenticate.pData.ToString();
                 RaisePropertyChanged(() => entryAuthenticatedResultText);
+
+                if (_TagVerificationProcess)
+                {
+                    _TagVerificationProcess = false;
+                    TagVerification();
+                }
+                else
+                {
+                    EnableAllButton();
+                }
             }
             else
             {
                 ShowDialog("Authenticated Read ERROR!!!");
+                EnableAllButton();
             }
+        }
+
+        void DisableAllButton ()
+        {
+            buttonTAM1AuthenticateIsEnabled = false;
+            buttonTAM2AuthenticateIsEnabled = false;
+            buttonTagVerificationIsEnabled = false;
+            RaisePropertyChanged(() => buttonTAM1AuthenticateIsEnabled);
+            RaisePropertyChanged(() => buttonTAM2AuthenticateIsEnabled);
+            RaisePropertyChanged(() => buttonTagVerificationIsEnabled);
+        }
+
+        void EnableAllButton()
+        {
+            buttonTAM1AuthenticateIsEnabled = true;
+            buttonTAM2AuthenticateIsEnabled = true;
+            buttonTagVerificationIsEnabled = true;
+            RaisePropertyChanged(() => buttonTAM1AuthenticateIsEnabled);
+            RaisePropertyChanged(() => buttonTAM2AuthenticateIsEnabled);
+            RaisePropertyChanged(() => buttonTagVerificationIsEnabled);
         }
 
         void OnAuthenticatedReadClick()
@@ -100,6 +137,7 @@ namespace BLE.Client.ViewModels
                 return;
             }
 
+            DisableAllButton();
             RaisePropertyChanged(() => entrySelectedEPC);
             RaisePropertyChanged(() => entrySelectedPWD);
 
@@ -137,6 +175,7 @@ namespace BLE.Client.ViewModels
                 return;
             }
 
+            DisableAllButton();
             RaisePropertyChanged(() => entrySelectedEPC);
             RaisePropertyChanged(() => entrySelectedPWD);
 
@@ -199,11 +238,20 @@ namespace BLE.Client.ViewModels
 
         async void OnOnSentToServerClick()
         {
+            DisableAllButton();
+            _TagVerificationProcess = true;
+
             entryVerificationResultText = "";
             RaisePropertyChanged(() => entryVerificationemailText);
             RaisePropertyChanged(() => entryVerificationpasswordText);
             RaisePropertyChanged(() => entryVerificationResultText);
 
+            // Tag Verification Only support TAM1 Authenticated
+            OnAuthenticatedReadClick();
+        }
+
+        async void TagVerification()
+        {
             if (entryAuthenticatedResultText == null || entryAuthenticatedResultText.Length == 0)
             {
                 _userDialogs.ShowError("Authenticated Result CANNOT empty!!!", 3000);
@@ -237,10 +285,11 @@ namespace BLE.Client.ViewModels
                 entryVerificationResultText = "NOT Valid";
                 _userDialogs.ShowError("Authenticate Result NOT Valid !!!", 5000);
             }
+
             RaisePropertyChanged(() => entryVerificationResultText);
+            EnableAllButton();
         }
 
-        //async System.Threading.Tasks.Task<bool> LoginCSLServer(string email, string password)
         async System.Threading.Tasks.Task<string> LoginCSLServer(string email, string password)
         {
             try
@@ -286,6 +335,8 @@ namespace BLE.Client.ViewModels
 
         async System.Threading.Tasks.Task<bool> VerifyTag(string token, string tid, string challenge, string tagResponse)
         {
+
+
             try
             {
                 string LoginAddress = "https://h9tqczg9-7275.asse.devtunnels.ms/api/ImpinjAuthentication/authenticate";

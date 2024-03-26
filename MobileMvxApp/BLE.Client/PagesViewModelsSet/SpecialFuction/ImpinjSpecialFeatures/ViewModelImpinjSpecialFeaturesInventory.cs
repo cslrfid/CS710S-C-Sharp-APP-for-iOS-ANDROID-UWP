@@ -221,9 +221,9 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagRanging.flags |= CSLibrary.Constants.SelectFlags.SELECT;
             BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
             BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.TID;
-            BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes("0118");
-            BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 12;
-            BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 13;
+            BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes("E2C0118");
+            BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+            BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 25;
             BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
 
             BleMvxApplication._reader.rfid.SetRSSIdBmFilter(BleMvxApplication._RSSIFILTER_Type, BleMvxApplication._RSSIFILTER_Option, BleMvxApplication._RSSIFILTER_Threshold_dBm);
@@ -253,7 +253,8 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.Options.TagSelected.Mask = protectedModePIN;
             BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
             BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 32;
-            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
+            //BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_SELECTED);
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
         }
 
         void StartInventory()
@@ -282,12 +283,14 @@ namespace BLE.Client.ViewModels
                 BleMvxApplication._reader.rfid.Options.TagRanging.flags |= CSLibrary.Constants.SelectFlags.SELECT;
                 BleMvxApplication._reader.rfid.Options.TagSelected.flags = CSLibrary.Constants.SelectMaskFlags.ENABLE_TOGGLE;
                 BleMvxApplication._reader.rfid.Options.TagSelected.bank = CSLibrary.Constants.MemoryBank.TID;
-                BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes("0118");
-                BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 12;
-                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 13;
+                BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes("E2C0118");
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 0;
+                BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 24;
+                //BleMvxApplication._reader.rfid.Options.TagSelected.Mask = CSLibrary.Tools.Hex.ToBytes("0118");
+                //BleMvxApplication._reader.rfid.Options.TagSelected.MaskOffset = 12;
+                //BleMvxApplication._reader.rfid.Options.TagSelected.MaskLength = 13;
                 BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PREFILTER);
             }
-
 
             /*
             //TagInfoList.Clear();

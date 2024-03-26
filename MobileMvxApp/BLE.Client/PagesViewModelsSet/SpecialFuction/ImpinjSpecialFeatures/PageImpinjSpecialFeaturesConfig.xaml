@@ -26,11 +26,11 @@
             </StackLayout>
 
             <!--<StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">-->
-            <Button Text="TAM1 Authenticate" FontSize="Large" BackgroundColor="LightBlue" HorizontalOptions="Center" Command="{Binding OnAuthenticatedReadCommand}" />
+            <Button Text="TAM1 Authenticate" FontSize="Large" BackgroundColor="LightBlue" HorizontalOptions="Center" Command="{Binding OnAuthenticatedReadCommand}" IsEnabled="{ Binding buttonTAM1AuthenticateIsEnabled, Mode=TwoWay }" />
             <!--</StackLayout>-->
 
             <!--<StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">-->
-            <Button Text="TAM2 Authenticate" FontSize="Large" BackgroundColor="LightBlue" HorizontalOptions="Center" Command="{Binding OnTAM2AuthenticateCommand}" />
+            <Button Text="TAM2 Authenticate" FontSize="Large" BackgroundColor="LightBlue" HorizontalOptions="Center" Command="{Binding OnTAM2AuthenticateCommand}" IsEnabled="{ Binding buttonTAM2AuthenticateIsEnabled, Mode=TwoWay}" />
             <!--</StackLayout>-->
 
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="#1690F4"/>
@@ -50,7 +50,7 @@
             <Label Text="*please register with CSL first for this demostration Account" TextColor="Gray" VerticalOptions="Start"/>
 
             <StackLayout Orientation="Vertical">
-                <Button Text="Demonstrate Impinj Authenticate" FontSize="Large" BackgroundColor="LightBlue" Command="{Binding OnSentToServerCommand}" HorizontalOptions="Center"/>
+                <Button Text="Demonstrate Impinj Authenticate" FontSize="Large" BackgroundColor="LightBlue" Command="{Binding OnSentToServerCommand}" HorizontalOptions="Center" IsEnabled="{ Binding buttonTagVerificationIsEnabled, Mode=TwoWay }" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal">
