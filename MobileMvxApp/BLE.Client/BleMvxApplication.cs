@@ -101,7 +101,11 @@ namespace BLE.Client
 
         public uint RFID_BatteryPollingTime = 300;
 
-        public  bool _keepScreenOn = false;
+        public string Impinj_AuthenticateServerURL;
+        public string Impinj_AuthenticateEmail;
+        public string Impinj_AuthenticatePassword;
+
+        public bool _keepScreenOn = false;
 
         // LNA setting
         //public int RFID_RxAttenuation = 0;
@@ -203,7 +207,11 @@ namespace BLE.Client
 
             RFID_DuplicateEliminationRollingWindow = 0;
 
-            _keepScreenOn = false;
+            Impinj_AuthenticateServerURL = "https://democloud.convergence.com.hk/ias";
+            Impinj_AuthenticateEmail = "";
+            Impinj_AuthenticatePassword = "";
+
+        _keepScreenOn = false;
 
             for (int cnt = 0; cnt < RFID_Shortcut.Length; cnt++)
             {

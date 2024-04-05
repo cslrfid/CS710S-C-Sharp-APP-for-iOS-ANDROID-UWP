@@ -22,7 +22,6 @@
     <PackageReference Include="MvvmCross.Forms" Version="7.1.2" />
     <PackageReference Include="TagDataTranslation" Version="1.1.5" />
     <PackageReference Include="Xam.Plugins.Settings" Version="4.1.0-beta" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
     <PackageReference Include="Acr.UserDialogs" Version="6.5.1" />
     <PackageReference Include="PCLStorage" Version="1.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

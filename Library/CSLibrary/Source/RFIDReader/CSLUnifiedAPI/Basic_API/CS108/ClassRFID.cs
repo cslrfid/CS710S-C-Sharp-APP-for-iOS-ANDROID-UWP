@@ -1362,7 +1362,7 @@ namespace CSLibrary
 
         internal UInt32 _INVENTORYDELAYTIME = (7 << 20);
 
-        public bool SetTagDelayTime_CS108(UInt32 ms)
+        internal bool SetTagDelayTime_CS108(UInt32 ms)
         {
             if (ms > 0x3f)
                 return false;

@@ -111,25 +111,46 @@
         <Switch x:Name="switchSavetoFile" />
         <Label Text="on" VerticalOptions="Center" />
       </StackLayout> -->
-      
-      <StackLayout Orientation="Horizontal">
-        <Label Text="Save to cloud : off" VerticalOptions="Center" />
-        <Switch x:Name="switchSavetoCloud" />
-        <Label Text="on" VerticalOptions="Center" />
-      </StackLayout>
 
-      <StackLayout Orientation="Horizontal">
-        <Label Text="http protocol : Body" VerticalOptions="Center" />
-        <Switch x:Name="switchhttpProtocol" />
-        <Label Text="Params" VerticalOptions="Center" />
-      </StackLayout>
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="#1690F4"/>
+            <Label Text="Imping Verification demostration Setting"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="URL :" WidthRequest="75" VerticalOptions="Center"/>
+                <Entry x:Name="entryAuthServerURL" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="email :" WidthRequest="75" VerticalOptions="Center"/>
+                <Entry x:Name="entryVerificationemail" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="password :" WidthRequest="75" VerticalOptions="Center"/>
+                <Entry x:Name="entryVerificationpassword" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="#1690F4"/>
+
+            <Label Text="Cloud Server Setting"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Save to cloud : off" VerticalOptions="Center" />
+                <Switch x:Name="switchSavetoCloud" />
+                <Label Text="on" VerticalOptions="Center" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="http protocol : Body" VerticalOptions="Center" />
+                <Switch x:Name="switchhttpProtocol" />
+                <Label Text="Params" VerticalOptions="Center" />
+            </StackLayout>
       
-      <!--StackLayout Orientation="Horizontal"-->
-        <Label Text="Cloud address"/>
-        <Entry x:Name="entryServerIP"/>
-      <!--/StackLayout-->
+            <Label Text="Cloud address"/>
+            <Entry x:Name="entryServerIP"/>
       
-      <Button Text="CSL Cloud" BackgroundColor="#C3C3C3" Clicked="btnCSLCloudClicked" TextColor="Black" />
+      <Button Text="Set to CSL Cloud" BackgroundColor="#C3C3C3" Clicked="btnCSLCloudClicked" TextColor="Black" />
       
       <Button Text="SAVE" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnOKClicked" TextColor="Black" />
     

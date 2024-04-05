@@ -15,12 +15,14 @@
         <StackLayout Padding="10,5,0,5" BackgroundColor="#cccccc">
           <Grid>
             <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="0.8*" />
+              <ColumnDefinition Width="0.6*" />
               <ColumnDefinition Width="0.2*" />
-            </Grid.ColumnDefinitions>
+              <ColumnDefinition Width="0.2*" />
+          </Grid.ColumnDefinitions>
             <Label Text="EPC" VerticalTextAlignment="Center" FontSize="Small" />
             <Label Grid.Column="1" Text="RSSI" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
-          </Grid>
+            <Label Grid.Column="2" Text="Temp" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
+        </Grid>
         </StackLayout>
       </ListView.Header>
 
@@ -30,12 +32,14 @@
             <StackLayout Orientation="Vertical">
               <Grid>
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="0.8*" />
+                  <ColumnDefinition Width="0.6*" />
                   <ColumnDefinition Width="0.2*" />
-                </Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.2*" />
+                                </Grid.ColumnDefinitions>
                 <Label Text="{Binding EPC}" VerticalTextAlignment="Center" FontSize="Small" />
                 <Label Grid.Column="1" Text="{Binding RSSI}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
-              </Grid>
+                                <Label Grid.Column="2" Text="{Binding Temp}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                            </Grid>
 
               <Label Text="{Binding Bank1Data}" VerticalTextAlignment="Center" FontSize="Small" />
               <Label Text="{Binding Bank2Data}" VerticalTextAlignment="Center" FontSize="Small" />

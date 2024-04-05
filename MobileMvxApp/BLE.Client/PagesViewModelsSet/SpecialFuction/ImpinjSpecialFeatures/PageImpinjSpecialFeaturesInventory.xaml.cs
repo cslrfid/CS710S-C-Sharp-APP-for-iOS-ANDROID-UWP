@@ -26,6 +26,7 @@ namespace BLE.Client.Pages
 				TagInfoViewModel Items = (TagInfoViewModel)e.SelectedItem;
 
 				BleMvxApplication._SELECT_EPC = Items.EPC;
+                BleMvxApplication._SELECT_TID = Items.Bank1Data;
                 BleMvxApplication._SELECT_PC = Items.PC;
             }
         }

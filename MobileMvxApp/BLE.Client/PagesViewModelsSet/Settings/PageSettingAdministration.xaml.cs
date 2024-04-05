@@ -64,6 +64,10 @@ namespace BLE.Client.Pages
 
             //entryBatteryIntervalTime.Text = BleMvxApplication._config.RFID_BatteryPollingTime.ToString();
 
+            entryAuthServerURL.Text = BleMvxApplication._config.Impinj_AuthenticateServerURL;
+            entryVerificationemail.Text = BleMvxApplication._config.Impinj_AuthenticateEmail;
+            entryVerificationpassword.Text = BleMvxApplication._config.Impinj_AuthenticatePassword;
+
             if (Device.RuntimePlatform != Device.Android)
             {
                 //switchSavetoFile.IsEnabled = false;
@@ -119,6 +123,10 @@ namespace BLE.Client.Pages
             BleMvxApplication._config.RFID_VibrationTime = UInt32.Parse(entryVibrationTime.Text);
 
             //BleMvxApplication._config._keepScreenOn = Xamarin.Essentials.DeviceDisplay.KeepScreenOn = switchKeepScreenOn.IsToggled;
+
+            BleMvxApplication._config.Impinj_AuthenticateServerURL = entryAuthServerURL.Text;
+            BleMvxApplication._config.Impinj_AuthenticateEmail = entryVerificationemail.Text;
+            BleMvxApplication._config.Impinj_AuthenticatePassword = entryVerificationpassword.Text;
 
             BleMvxApplication.SaveConfig();
 
