@@ -38,6 +38,11 @@
             <Label Text="Impinj Verification Demonstration" FontSize="Large"/>
 
             <StackLayout Orientation="Horizontal">
+                <Label Text="URL* :" WidthRequest="75" VerticalOptions="Center"/>
+                <Entry Text="{ Binding entryAuthServerURLText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
                 <Label Text="email* :" WidthRequest="75" VerticalOptions="Center"/>
                 <Entry Text="{ Binding entryVerificationemailText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
             </StackLayout>

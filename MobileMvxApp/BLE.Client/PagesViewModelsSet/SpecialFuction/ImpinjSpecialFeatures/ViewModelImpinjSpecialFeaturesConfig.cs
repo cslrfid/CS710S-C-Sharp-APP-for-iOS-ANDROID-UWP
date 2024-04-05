@@ -22,6 +22,7 @@ namespace BLE.Client.ViewModels
         public string entrySelectedEPC { get; set; }
         public string entrySelectedPWD { get; set; }
         public string entryAuthenticatedResultText { get; set; }
+        public string entryAuthServerURLText { get; set; }
         public string entryVerificationemailText { get; set; }
         public string entryVerificationpasswordText { get; set; }
         public string entryVerificationResultText { get; set; }
@@ -45,8 +46,9 @@ namespace BLE.Client.ViewModels
             OnTAM2AuthenticateCommand = new Command(OnTAM2AuthenticatedClick);
             OnSentToServerCommand = new Command(OnOnSentToServerClick);
 
-            entryVerificationemailText = "mephist.siu@cne.com.hk";
-            entryVerificationpasswordText = "Cne12345_";
+            entryAuthServerURLText = BleMvxApplication._config.Impinj_AuthenticateServerURL;
+            entryVerificationemailText = BleMvxApplication._config.Impinj_AuthenticateEmail;
+            entryVerificationpasswordText = BleMvxApplication._config.Impinj_AuthenticatePassword;
             RaisePropertyChanged(() => entryVerificationemailText);
             RaisePropertyChanged(() => entryVerificationpasswordText);
             EnableAllButton();
@@ -102,7 +104,7 @@ namespace BLE.Client.ViewModels
             }
             else
             {
-                ShowDialog("Authenticated Read ERROR!!!");
+                _userDialogs.ShowError("Authenticated Read ERROR!!!", 5000);
                 EnableAllButton();
             }
         }
@@ -252,49 +254,58 @@ namespace BLE.Client.ViewModels
 
         async void TagVerification()
         {
-            if (entryAuthenticatedResultText == null || entryAuthenticatedResultText.Length == 0)
+            try
             {
-                _userDialogs.ShowError("Authenticated Result CANNOT empty!!!", 3000);
-                return;
-            }
+                if (entryAuthenticatedResultText == null || entryAuthenticatedResultText.Length == 0)
+                {
+                    _userDialogs.ShowError("Authenticated Result CANNOT empty!!!", 3000);
+                    return;
+                }
 
-            if (entryAuthenticatedResultText.Length != 16)
+                if (entryAuthenticatedResultText.Length != 16)
+                {
+                    _userDialogs.ShowError("ONLY SUPPORT TAM1 !!!", 5000);
+                    return;
+                }
+
+                RaisePropertyChanged(() => entryAuthServerURLText);
+                RaisePropertyChanged(() => entryVerificationemailText);
+                RaisePropertyChanged(() => entryVerificationpasswordText);
+
+                var token = await LoginCSLServer(entryVerificationemailText, entryVerificationpasswordText);
+
+                if (token == null)
+                {
+                    _userDialogs.ShowError("User Name and password error, can not get token from server!!!", 3000);
+                    return;
+                }
+
+                bool check;
+                check = await VerifyTag(token, BleMvxApplication._SELECT_TID, "009ca53e55ea", entryAuthenticatedResultText);
+
+                if (check)
+                {
+                    entryVerificationResultText = "Valid";
+                    _userDialogs.ShowSuccess("Authenticate Result Valid !!!", 5000);
+                }
+                else
+                {
+                    entryVerificationResultText = "NOT Valid";
+                    _userDialogs.ShowError("Authenticate Result NOT Valid !!!", 5000);
+                }
+            }
+            finally 
             {
-                _userDialogs.ShowError("ONLY SUPPORT TAM1 !!!", 5000);
-                return;
+                RaisePropertyChanged(() => entryVerificationResultText);
+                EnableAllButton();
             }
-
-            var token = await LoginCSLServer("mephist.siu@cne.com.hk", "Cne12345_");
-
-            if (token == null)
-            {
-                _userDialogs.ShowError("User Name and password error, can not get token from server!!!", 3000);
-                return;
-            }
-
-            bool check;
-            check = await VerifyTag(token, BleMvxApplication._SELECT_TID, "009ca53e55ea", entryAuthenticatedResultText);
-
-            if (check)
-            {
-                entryVerificationResultText = "Valid";
-                _userDialogs.ShowSuccess("Authenticate Result Valid !!!", 5000);
-            }
-            else
-            {
-                entryVerificationResultText = "NOT Valid";
-                _userDialogs.ShowError("Authenticate Result NOT Valid !!!", 5000);
-            }
-
-            RaisePropertyChanged(() => entryVerificationResultText);
-            EnableAllButton();
         }
 
         async System.Threading.Tasks.Task<string> LoginCSLServer(string email, string password)
         {
             try
             {
-                string LoginAddress = "https://h9tqczg9-7275.asse.devtunnels.ms/api/Auth/login";
+                string LoginAddress = entryAuthServerURLText + "/api/Auth/login";
                 RESTfulLoginDetail logindata = new RESTfulLoginDetail();
                 logindata.email = email;
                 logindata.password = password;
@@ -335,11 +346,9 @@ namespace BLE.Client.ViewModels
 
         async System.Threading.Tasks.Task<bool> VerifyTag(string token, string tid, string challenge, string tagResponse)
         {
-
-
             try
             {
-                string LoginAddress = "https://h9tqczg9-7275.asse.devtunnels.ms/api/ImpinjAuthentication/authenticate";
+                string LoginAddress = entryAuthServerURLText + "/api/ImpinjAuthentication/authenticate";
                 RESTfulTagVerifyDetail[] tagVerify = new RESTfulTagVerifyDetail[1];
                 tagVerify[0] = new RESTfulTagVerifyDetail
                 {
