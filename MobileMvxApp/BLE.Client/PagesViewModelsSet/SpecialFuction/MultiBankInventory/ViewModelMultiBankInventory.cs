@@ -349,18 +349,6 @@ namespace BLE.Client.ViewModels
             if (e.type != CSLibrary.Constants.CallbackType.TAG_RANGING)
                 return;
 
-            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1)
-            {
-                if (e.info.Bank1Data.Length != BleMvxApplication._reader.rfid.Options.TagRanging.count1)
-                    return;
-            }
-
-            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 2)
-            {
-                if (e.info.Bank2Data.Length != BleMvxApplication._reader.rfid.Options.TagRanging.count2)
-                    return;
-            }
-
             InvokeOnMainThread(() =>
             {
                 _tagCountForAlert++;
@@ -441,14 +429,31 @@ namespace BLE.Client.ViewModels
                     {
                         if (TagInfoList[cnt].EPC == info.epc.ToString())
                         {
+/*
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1 && TagInfoList[cnt].Bank1Data != CSLibrary.Tools.Hex.ToString(info.Bank1Data))
                                 continue;
 
                             if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks == 2 && TagInfoList[cnt].Bank2Data != CSLibrary.Tools.Hex.ToString(info.Bank2Data))
                                 continue;
+*/
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1)
+                                if (TagInfoList[cnt].Bank1Data.Length > 0)
+                                    if (info.Bank1Data.Length > 0)
+                                        if (TagInfoList[cnt].Bank1Data != CSLibrary.Tools.Hex.ToString(info.Bank1Data))
+                                            continue;
 
-                            TagInfoList[cnt].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                            TagInfoList[cnt].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 2)
+                                if (TagInfoList[cnt].Bank2Data.Length > 0)
+                                    if (info.Bank2Data.Length > 0)
+                                        if (TagInfoList[cnt].Bank2Data != CSLibrary.Tools.Hex.ToString(info.Bank2Data))
+                                            continue;
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1 && info.Bank1Data.Length > 0)
+                                TagInfoList[cnt].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+
+                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 2 && info.Bank2Data.Length > 0)
+                                TagInfoList[cnt].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
                             TagInfoList[cnt].RSSI = info.rssidBm;
                             found = true;
                             break;

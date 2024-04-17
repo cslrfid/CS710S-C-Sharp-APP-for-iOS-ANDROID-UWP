@@ -130,7 +130,6 @@
                 <Entry x:Name="entryVerificationpassword" HorizontalOptions="FillAndExpand" />
             </StackLayout>
 
-
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="#1690F4"/>
 
             <Label Text="Cloud Server Setting"/>
