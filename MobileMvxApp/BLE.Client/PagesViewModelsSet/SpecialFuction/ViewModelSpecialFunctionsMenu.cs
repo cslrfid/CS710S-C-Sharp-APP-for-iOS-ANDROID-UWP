@@ -64,6 +64,7 @@ namespace BLE.Client.ViewModels
         public ICommand OnKilowayKX2005XBLButtonCommand { protected set; get; }
         public ICommand OnN2ESLButtonCommand { protected set; get; }
         public ICommand OnAsygnButtonCommand { protected set; get; }
+        public ICommand OnMQTTButtonCommand { protected set; get; }
 
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs, IMvxNavigationService navigation) : base(adapter)
@@ -77,8 +78,9 @@ namespace BLE.Client.ViewModels
             OnKilowayKX2005XBLButtonCommand = new Command(OnOnKilowayKX2005XBLButtonClicked);
             OnN2ESLButtonCommand = new Command(OnN2ESLButtonClicked);
             OnAsygnButtonCommand = new Command(OnAsygnButtonClicked);
+            OnMQTTButtonCommand = new Command(OnMQTTButtonClicked);
 
-            OnPhaseChannelInventoryButtonCommand = new Command(OnPhaseChannelInventoryButtonClicked);
+        OnPhaseChannelInventoryButtonCommand = new Command(OnPhaseChannelInventoryButtonClicked);
             OnPeriodicReadButtonCommand = new Command(OnPeriodicReadButtonClicked);
             OnUCODEDNAButtonCommand = new Command(OnUCODEDNAButtonClicked);
             OnXerxesButtonCommand = new Command(OnXerxesButtonClicked);
@@ -146,7 +148,8 @@ namespace BLE.Client.ViewModels
 
         void OnOnKilowayKX2005XBLButtonClicked()
         {
-            _navigation.Navigate<ViewModelLEDTag>(new MvxBundle());
+            //            _navigation.Navigate<ViewModelLEDTag>(new MvxBundle());
+            _navigation.Navigate< ViewModelLEDKilowayTagWithInventory>(new MvxBundle());
         }
         
         void OnN2ESLButtonClicked()
@@ -255,6 +258,13 @@ namespace BLE.Client.ViewModels
             //ShowViewModel<ViewModelTempGPSSetting>(new MvxBundle());
             _navigation.Navigate<ViewModelTempGPSSetting>(new MvxBundle());
         }
+
+        void OnMQTTButtonClicked()
+        {
+            //ShowViewModel<ViewModelTempGPSSetting>(new MvxBundle());
+            _navigation.Navigate<ViewModelMQTTInventory>(new MvxBundle());
+        }
+
 
         /*
         void OnASCIIdemoButtonClicked()

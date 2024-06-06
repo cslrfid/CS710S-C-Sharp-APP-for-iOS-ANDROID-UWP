@@ -27,7 +27,12 @@
 
         <StackLayout Orientation="Vertical" >
             <Button Text= "{Binding startBarcodeScanButtonText}" Font="Large" Command="{Binding OnStartBarcodeScanButtonCommand}" />
-            <Button Text="Clear" Font="Large" Command="{Binding OnClearBarcodeDataButtonCommand}" />
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Clear" Font="Large" Command="{Binding OnClearBarcodeDataButtonCommand}" HorizontalOptions="StartAndExpand" />
+                <Button Text="Send" Font="Large" Command="{Binding OnBarCodeSendDataCommand}" HorizontalOptions="CenterAndExpand" />
+                <Button Text="Share" Font="Large" Command="{Binding OnBarCodeShareDataCommand}" HorizontalOptions="CenterAndExpand" />
+                <Button Text="Save" Font="Large" Command="{Binding OnBarCodeSaveDataCommand}" HorizontalOptions="EndAndExpand" />
+            </StackLayout>
         </StackLayout>
 
     </StackLayout>

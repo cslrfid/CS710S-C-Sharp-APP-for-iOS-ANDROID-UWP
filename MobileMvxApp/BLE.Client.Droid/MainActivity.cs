@@ -55,6 +55,8 @@ namespace BLE.Client.Droid
             {
                 (Android.Manifest.Permission.BluetoothScan, true),
                 (Android.Manifest.Permission.BluetoothConnect, true),
+                (Android.Manifest.Permission.Internet, true),
+                (Android.Manifest.Permission.AccessNetworkState, true),
                 (Android.Manifest.Permission.ReadExternalStorage, true),
                 (Android.Manifest.Permission.WriteExternalStorage, true)
             }.ToArray();

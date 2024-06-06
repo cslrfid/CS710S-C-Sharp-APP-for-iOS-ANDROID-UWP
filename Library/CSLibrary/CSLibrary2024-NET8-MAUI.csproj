@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>CSLibrary</RootNamespace>
+    <AssemblyName>CSLibrary2024.NET8.MAUI</AssemblyName>
+    <Version>3.0.3</Version>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Source\HAL\Acr.ble\**" />
+    <Compile Remove="Source\HAL\btframework\**" />
+    <Compile Remove="Source\HAL\MvvmCross.Plugin.BLE\**" />
+    <Compile Remove="Source\HAL\UWP\**" />
+    <Compile Remove="Source\RFIDReader\Antenna\**" />
+    <Compile Remove="Source\RFIDReader\API_EM4325\**" />
+    <Compile Remove="Source\RFIDReader\API_FM13DT160\**" />
+    <EmbeddedResource Remove="Source\HAL\Acr.ble\**" />
+    <EmbeddedResource Remove="Source\HAL\btframework\**" />
+    <EmbeddedResource Remove="Source\HAL\MvvmCross.Plugin.BLE\**" />
+    <EmbeddedResource Remove="Source\HAL\UWP\**" />
+    <EmbeddedResource Remove="Source\RFIDReader\Antenna\**" />
+    <EmbeddedResource Remove="Source\RFIDReader\API_EM4325\**" />
+    <EmbeddedResource Remove="Source\RFIDReader\API_FM13DT160\**" />
+    <None Remove="Source\HAL\Acr.ble\**" />
+    <None Remove="Source\HAL\btframework\**" />
+    <None Remove="Source\HAL\MvvmCross.Plugin.BLE\**" />
+    <None Remove="Source\HAL\UWP\**" />
+    <None Remove="Source\RFIDReader\Antenna\**" />
+    <None Remove="Source\RFIDReader\API_EM4325\**" />
+    <None Remove="Source\RFIDReader\API_FM13DT160\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="CSLibrary.cs" />
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <Compile Remove="Properties\Resources.Designer.cs" />
+    <Compile Remove="Source\SystemInformation\ClassdBm2dBV.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Properties\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove=".DS_Store" />
+    <None Remove="CSLibrary-UWP.projitems" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+    <Folder Include="Source\RFIDReader\Comm_Protocol\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Plugin.BLE" Version="3.0.0" />
+  </ItemGroup>
+</Project>
