@@ -1,0 +1,1291 @@
+﻿Start debugging Android application ...
+Forwarding debugger port 8887
+Detecting existing process
+> am start -a "android.intent.action.MAIN" -c "android.intent.category.LAUNCHER" -n "csl.CS710Sfulldemo.demo/crc648d0a0ab3e1cc7257.SplashScreen"
+> Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=csl.CS710Sfulldemo.demo/crc648d0a0ab3e1cc7257.SplashScreen }
+[0Sfulldemo.dem] Late-enabling -Xcheck:jni
+[0Sfulldemo.dem] Unknown bits set in runtime_flags: 0x8000
+[KPI-6PA-ZY-6] 1232645661 enter ActivityThread.main()
+[debug-app-helper] Checking if libmonodroid was unpacked to /data/app/csl.CS710Sfulldemo.demo-F9UBlvXCv_LtBJbesaeODw==/lib/arm64/libmonodroid.so
+[debug-app-helper] Native libs extracted to /data/app/csl.CS710Sfulldemo.demo-F9UBlvXCv_LtBJbesaeODw==/lib/arm64, assuming application/android:extractNativeLibs == true
+[debug-app-helper] Setting up for DSO lookup in app data directories
+[debug-app-helper] Added filesystem DSO lookup location: /data/app/csl.CS710Sfulldemo.demo-F9UBlvXCv_LtBJbesaeODw==/lib/arm64
+[debug-app-helper] Using runtime path: /data/app/csl.CS710Sfulldemo.demo-F9UBlvXCv_LtBJbesaeODw==/lib/arm64
+[debug-app-helper] checking directory: `/data/user/0/csl.CS710Sfulldemo.demo/files/.__override__/lib`
+[debug-app-helper] directory does not exist: `/data/user/0/csl.CS710Sfulldemo.demo/files/.__override__/lib`
+[debug-app-helper] Checking whether Mono runtime exists at: /data/user/0/csl.CS710Sfulldemo.demo/files/.__override__/libmonosgen-2.0.so
+[debug-app-helper] Checking whether Mono runtime exists at: /data/app/csl.CS710Sfulldemo.demo-F9UBlvXCv_LtBJbesaeODw==/lib/arm64/libmonosgen-2.0.so
+[debug-app-helper] Mono runtime found at: /data/app/csl.CS710Sfulldemo.demo-F9UBlvXCv_LtBJbesaeODw==/lib/arm64/libmonosgen-2.0.so
+[0Sfulldemo.dem] Attempt to remove non-JNI local reference, dumping thread
+[monodroid] Creating public update directory: `/data/user/0/csl.CS710Sfulldemo.demo/files/.__override__`
+[0Sfulldemo.dem] Attempt to remove non-JNI local reference, dumping thread
+[monodroid-debug] Trying to initialize the debugger with options: --debugger-agent=transport=dt_socket,loglevel=0,address=127.0.0.1:8887,server=y,embedding=1
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Arch.Core.Common.dll
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/BLE.Client.Droid.dll
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/CSLibrary2024.NETSTD2.dll
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Acr.Support.Android.dll
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Acr.UserDialogs.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Acr.UserDialogs.Interface.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/AndHUD.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/BLE.Client.dll
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/FormsViewGroup.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Microsoft.Extensions.Logging.Abstractions.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/MQTTnet.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/MvvmCross.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/MvvmCross.Forms.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/MvvmCross.Plugins.BLE.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/MvvmCross.Plugins.BLE.Droid.dll
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Newtonsoft.Json.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/PCLStorage.Abstractions.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/PCLStorage.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Plugin.BLE.Abstractions.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Plugin.BLE.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Plugin.CurrentActivity.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Plugin.Settings.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Plugin.Share.Abstractions.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Plugin.Share.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Prism.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Splat.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/TagDataTranslation.dll [External]
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Arch.Lifecycle.Common.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Arch.Lifecycle.Runtime.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Animated.Vector.Drawable.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Annotations.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Collections.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Compat.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Core.UI.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Core.Utils.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.CustomTabs.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Design.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Fragment.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Media.Compat.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Transition.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.v7.AppCompat.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.v7.RecyclerView.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.Vector.Drawable.dll
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Android.Support.VersionedParcelable.dll
+[monodroid-gc] GREF GC Threshold: 46080
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Activity.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Annotation.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Annotation.Experimental.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.AppCompat.AppCompatResources.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.AppCompat.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Arch.Core.Common.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Arch.Core.Runtime.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.AsyncLayoutInflater.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Browser.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.CardView.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Collection.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Concurrent.Futures.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.ConstraintLayout.Core.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.ConstraintLayout.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.CoordinatorLayout.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Core.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.CursorAdapter.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.CustomView.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.DocumentFile.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.DrawerLayout.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.DynamicAnimation.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Fragment.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Interpolator.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Legacy.Support.Core.UI.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Legacy.Support.Core.Utils.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Legacy.Support.V4.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Lifecycle.Common.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Lifecycle.LiveData.Core.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Lifecycle.LiveData.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Lifecycle.Runtime.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Lifecycle.ViewModel.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Lifecycle.ViewModelSavedState.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Loader.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.LocalBroadcastManager.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Media.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.MediaRouter.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.MultiDex.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Navigation.Common.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Navigation.Runtime.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Navigation.UI.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Palette.dll [External]
+[0Sfulldemo.dem] Waiting for a blocking GC ProfileSaver
+[0Sfulldemo.dem] WaitForGcToComplete blocked ProfileSaver on ClassLinker for 5.206ms
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Preference.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Print.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.RecyclerView.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.SavedState.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.SlidingPaneLayout.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.SwipeRefreshLayout.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Tracing.Tracing.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.Transition.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.VectorDrawable.Animated.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.VectorDrawable.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.VersionedParcelable.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.ViewPager.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.AndroidX.ViewPager2.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.Essentials.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.Forms.Core.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.Forms.Platform.Android.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.Forms.Platform.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.Forms.Xaml.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.Google.Android.Material.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Xamarin.Google.Guava.ListenableFuture.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Mono.Android.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Java.Interop.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.dll [External]
+Resolved pending breakpoint for 'Android.Runtime.JNIEnvInit.RegisterJniNatives(System.IntPtr, System.Int32, System.IntPtr, System.IntPtr, System.Int32)' to /Users/runner/work/1/s/xamarin-android/src/Mono.Android/Android.Runtime/JNIEnvInit.cs:59 [0x00000].
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Mono.Security.dll [External]
+[0Sfulldemo.dem] Attempt to remove non-JNI local reference, dumping thread
+Loaded assembly: data-0x7478252d00 [External]
+[] Symbol file LoadedFromMemory is not a mono symbol file
+Loaded assembly: data-0x747825f200 [External]
+Loaded assembly: data-0x747826a700 [External]
+Loaded assembly: data-0x74782c0e80 [External]
+Loaded assembly: data-0x74782d6c40 [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/netstandard.dll [External]
+Resolved pending breakpoint for 'Xamarin.HotReload.HotReloadAgent.BreakpointSendToIde(System.String)' to D:\a\_work\1\s\HotReload\Source\Xamarin.HotReload.Agent\HotReloadAgent.cs:423 [0x00000].
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Core.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Runtime.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Resources.ResourceManager.dll [External]
+Resolved pending breakpoint for 'Xamarin.HotReload.HotReloadAgent.BreakpointCheckpoint()' to D:\a\_work\1\s\HotReload\Source\Xamarin.HotReload.Agent\HotReloadAgent.cs:418 [0x00000].
+[Looper] Slow dispatch took 8948ms main h=android.app.ActivityThread$H c=null m=110
+[KPI-6PA-AT-5] 1232654634 enter ApplicationThread.handleLaunchActivity() : ActivityInfo{7d454ba crc648d0a0ab3e1cc7257.SplashScreen}
+2024-06-11 14:37:28 [TRACE] (MvvmCross.Core.MvxSetup) Setup: Primary start
+2024-06-11 14:37:28 [TRACE] (MvvmCross.Core.MvxSetup) Setup: FirstChance start
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Xml.dll [External]
+Thread started:  #2
+Thread started:  #3
+Thread started:  #4
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Runtime.Serialization.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.ServiceModel.Internals.dll [External]
+2024-06-11 14:37:29 [TRACE] (MvvmCross.Core.MvxSetup) Setup: MvvmCross settings start
+2024-06-11 14:37:29 [TRACE] (MvvmCross.Core.MvxSetup) Setup: Singleton Cache start
+2024-06-11 14:37:29 [TRACE] (MvvmCross.Core.MvxSetup) Setup: ViewDispatcher start
+Thread started: <Thread Pool> #5
+Thread started: <Thread Pool> #6
+Thread started: <Thread Pool> #7
+Thread started: <Thread Pool> #8
+2024-06-11 14:37:29 [TRACE] (MvvmCross.Core.MvxSetup) Setup: Bootstrap actions
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Net.Http.dll [External]
+2024-06-11 14:37:29 [TRACE] (MvvmCross.Logging.MvxLog) No view model type finder available - assuming we are looking for a splash screen - returning null
+2024-06-11 14:37:29 [TRACE] (MvvmCross.Core.MvxSetup) Setup: StringToTypeParser start
+2024-06-11 14:37:29 [TRACE] (MvvmCross.Core.MvxSetup) Setup: FillableStringToTypeParser start
+2024-06-11 14:37:29 [TRACE] (MvvmCross.Core.MvxSetup) Setup: PluginManagerFramework start
+[0Sfulldemo.dem] Accessing hidden method Landroid/view/View;->computeFitSystemWindows(Landroid/graphics/Rect;Landroid/graphics/Rect;)Z (greylist, reflection, allowed)
+[0Sfulldemo.dem] Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (greylist, reflection, allowed)
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Threading.Tasks.dll [External]
+[KPI-6PA-AT-6] 1232656156 leave ApplicationThread.handleLaunchActivity() :ActivityInfo{7d454ba crc648d0a0ab3e1cc7257.SplashScreen}
+Thread started: <Thread Pool> #9
+Thread started: <Thread Pool> #10
+Thread started: <Thread Pool> #11
+Thread started: <Thread Pool> #12
+Thread started: <Thread Pool> #13
+Thread started: <Thread Pool> #14
+Thread started: <Thread Pool> #15
+Thread started: <Thread Pool> #16
+Thread started: <Thread Pool> #17
+[ViewRootImpl] package=csl.CS710Sfulldemo.demo is not forcedto immersive fullscreen
+[Looper] Slow dispatch took 1724ms main h=android.app.ActivityThread$H c=null m=159
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: Create App
+Thread started:  #18
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: NavigationService
+[AdrenoGLES-0] QUALCOMM build                   : 39a1dfd, Ic628754133
+[AdrenoGLES-0] Build Date                       : 06/29/20
+[AdrenoGLES-0] OpenGL ES Shader Compiler Version: EV031.29.00.13
+[AdrenoGLES-0] Local Branch                     : 
+[AdrenoGLES-0] Remote Branch                    : 
+[AdrenoGLES-0] Remote Branch                    : 
+[AdrenoGLES-0] Reconstruct Branch               : 
+[AdrenoGLES-0] Build Config                     : S P 8.0.16 AArch64
+[AdrenoGLES-0] Driver Path                      : /vendor/lib64/egl/libGLESv2_adreno.so
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: Load navigation routes
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: App start
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: Application Initialize - On background thread
+[AdrenoGLES-0] PFP: 0x016ee188, ME: 0x00000000
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: ViewModelTypeFinder start
+[ViewRootImpl] package=csl.CS710Sfulldemo.demo is not forcedto immersive fullscreen
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: ViewsContainer start
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: Lookup Dictionary start
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view MainActivity
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageBarcodeScan
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageInventory
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PagePostFilter
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PagePreFilter
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageRSSIFilter
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageKill
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageSecurity
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageAbout
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageSettingAdministration
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageSettingAntenna
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageSettingOperation
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageSettingPower
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view PageXerxesSetting
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: Views start
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: CommandCollectionBuilder start
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: NavigationSerializer start
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: InpcInterception start
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: InpcInterception start
+2024-06-11 14:37:30 [TRACE] (MvvmCross.Core.MvxSetup) Setup: LastChance start
+[0Sfulldemo.dem] Explicit concurrent copying GC freed 325(51KB) AllocSpace objects, 0(0B) LOS objects, 53% free, 1327KB/2863KB, paused 46us total 7.150ms
+2024-06-11 14:37:31 [TRACE] (MvvmCross.Core.MvxSetup) Setup: Secondary end
+[KPI-6PA-AT-5] 1232657280 enter ApplicationThread.handleLaunchActivity() : ActivityInfo{11959c crc648d0a0ab3e1cc7257.MainActivity}
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/Mono.Android.Export.dll [External]
+Loaded assembly: __callback_factory__ [External]
+[0Sfulldemo.dem] Accessing hidden method Landroid/view/LayoutInflater;->setPrivateFactory(Landroid/view/LayoutInflater$Factory2;)V (greylist, reflection, allowed)
+2024-06-11 14:37:31 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view MainActivity
+2024-06-11 14:37:31 [TRACE] (MvvmCross.Logging.MvxLog) No ViewModel class specified for MainActivity in LoadViewModel
+2024-06-11 14:37:31 [TRACE] (MvvmCross.Logging.MvxLog) Null Extras seen on Intent when creating ViewModel - have you tried to navigate to an MvvmCross View directly? Will try direct load
+2024-06-11 14:37:31 [ERROR] (MvvmCross.Logging.MvxLog) Unable to load viewmodel - no type hint provided
+2024-06-11 14:37:31 [WARN]  (MvvmCross.Logging.MvxLog) ViewModel not loaded for view MainActivity
+2024-06-11 14:37:31 [TRACE] (MvvmCross.Logging.MvxLog) AppStart: Application Startup - On UI thread
+2024-06-11 14:37:31 [TRACE] (MvxForms) PresentationAttribute not found for ViewModelMainMenu. Assuming ContentPage presentation
+2024-06-11 14:37:31 [WARN]  (MvxForms) Ignoring close for ViewModel - Matching View for ViewModel instance failed
+2024-06-11 14:37:31 [TRACE] (MvxForms) PresentationAttribute not found for ViewModelMainMenu. Assuming ContentPage presentation
+2024-06-11 14:37:31 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view MainActivity
+2024-06-11 14:37:31 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view MainActivity
+[0Sfulldemo.dem] Explicit concurrent copying GC freed 908(279KB) AllocSpace objects, 0(0B) LOS objects, 50% free, 1493KB/3029KB, paused 46us total 8.123ms
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Drawing.Common.dll [External]
+Loaded assembly: Anonymously Hosted DynamicMethods Assembly [External]
+[monodroid-assembly] open_from_bundles: failed to load assembly Xamarin.Forms.Platform.Android.AppLinks.dll
+[Activity] setRequestedOrientation 1
+[KPI-6PA-AT-6] 1232658779 leave ApplicationThread.handleLaunchActivity() :ActivityInfo{11959c crc648d0a0ab3e1cc7257.MainActivity}
+[0Sfulldemo.dem] Explicit concurrent copying GC freed 1410(327KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 1718KB/3437KB, paused 44us total 9.151ms
+SendAsync : 9003
+2024-06-11 14:37:32 [TRACE] (MvvmCross.Logging.MvxLog) ViewAppeared ViewModelMainMenu
+[ViewRootImpl] package=csl.CS710Sfulldemo.demo is not forcedto immersive fullscreen
+[Looper] Slow dispatch took 1918ms main h=android.app.ActivityThread$H c=null m=159
+2024-06-11 14:37:33 [TRACE] (MvvmCross.Logging.MvxLog) ViewDisappeared ViewModelMainMenu
+SendAsync : 9003
+2024-06-11 14:37:33 [TRACE] (MvvmCross.Logging.MvxLog) ViewAppeared ViewModelMainMenu
+[ViewRootImpl] package=csl.CS710Sfulldemo.demo is not forcedto immersive fullscreen
+[OpenGLRenderer] Davey! duration=1010ms; Flags=1, IntendedVsync=1232659196904741, Vsync=1232659246904739, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=1232659256149585, AnimationStart=1232659256209898, PerformTraversalsStart=1232659256216408, DrawStart=1232660169019103, SyncQueued=1232660186272803, SyncStart=1232660187062751, IssueDrawCommandsStart=1232660187212542, SwapBuffers=1232660207641919, FrameCompleted=1232660208415513, DequeueBufferDuration=140000, QueueBufferDuration=435000, 
+[Choreographer] Skipped 52 frames!  The application may be doing too much work on its main thread.
+Thread started: <Thread Pool> #19
+Thread started: <Thread Pool> #20
+[ViewRootImpl] title=csl.CS710Sfulldemo.demo/crc648d0a0ab3e1cc7257.MainActivity enqueue motion: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=245.0, y[0]=1402.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=1232665160, downTime=1232665160, deviceId=6, source=0x1002, displayId=0 }
+[ViewRootImpl] title=csl.CS710Sfulldemo.demo/crc648d0a0ab3e1cc7257.MainActivity enqueue motion: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=245.0, y[0]=1402.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=1232665304, downTime=1232665160, deviceId=6, source=0x1002, displayId=0 }
+2024-06-11 14:37:39 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view MainActivity
+2024-06-11 14:37:39 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view MainActivity
+2024-06-11 14:37:39 [TRACE] (MvvmCross.Logging.MvxLog) ViewDisappeared ViewModelMainMenu
+[BluetoothAdapter] isLeEnabled(): ON
+[BluetoothLeScanner] onScannerRegistered() - status=0 scannerId=8 mScannerId=0
+2024-06-11 14:37:39 [TRACE] (MvvmCross.Logging.MvxLog) ViewAppeared DeviceListViewModel
+2024-06-11 14:37:39 [TRACE] (MvvmCross.Logging.MvxLog) No view model association found for candidate view MvxContentPage
+2024-06-11 14:37:39 [TRACE] (MvvmCross.Logging.MvxLog) ViewAppeared DeviceListViewModel
+[0:] Binding: 'DisconnectCommand' property not found on 'MvvmCross.Binding.BindingContext.MvxBindingContext', target property: 'Xamarin.Forms.MenuItem.Command'
+[0:] Binding: 'CopyGuidCommand' property not found on 'MvvmCross.Binding.BindingContext.MvxBindingContext', target property: 'Xamarin.Forms.MenuItem.Command'
+[0:] Binding: 'ConnectDisposeCommand' property not found on 'MvvmCross.Binding.BindingContext.MvxBindingContext', target property: 'Xamarin.Forms.MenuItem.Command'
+[0Sfulldemo.dem] Explicit concurrent copying GC freed 6051(844KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 2170KB/4341KB, paused 57us total 12.440ms
+[0:] Binding: 'DisconnectCommand' property not found on 'MvvmCross.Binding.BindingContext.MvxBindingContext', target property: 'Xamarin.Forms.MenuItem.Command'
+[0:] Binding: 'CopyGuidCommand' property not found on 'MvvmCross.Binding.BindingContext.MvxBindingContext', target property: 'Xamarin.Forms.MenuItem.Command'
+[0:] Binding: 'ConnectDisposeCommand' property not found on 'MvvmCross.Binding.BindingContext.MvxBindingContext', target property: 'Xamarin.Forms.MenuItem.Command'
+[ViewRootImpl] title=csl.CS710Sfulldemo.demo/crc648d0a0ab3e1cc7257.MainActivity enqueue motion: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=294.0, y[0]=321.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=1232670199, downTime=1232670199, deviceId=6, source=0x1002, displayId=0 }
+[ViewRootImpl] title=csl.CS710Sfulldemo.demo/crc648d0a0ab3e1cc7257.MainActivity enqueue motion: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=294.0, y[0]=321.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=1232670381, downTime=1232670199, deviceId=6, source=0x1002, displayId=0 }
+[AppCompatDelegate] The Activity's LayoutInflater already has a Factory installed so we can not install AppCompat's
+[ViewRootImpl] package=csl.CS710Sfulldemo.demo is not forcedto immersive fullscreen
+[ViewRootImpl] package=csl.CS710Sfulldemo.demo is not forcedto immersive fullscreen
+[ViewRootImpl] title=csl.CS710Sfulldemo.demo/crc648d0a0ab3e1cc7257.MainActivity enqueue motion: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=570.0, y[0]=185.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=1232671819, downTime=1232671819, deviceId=6, source=0x1002, displayId=0 }
+[ViewRootImpl] title=csl.CS710Sfulldemo.demo/crc648d0a0ab3e1cc7257.MainActivity enqueue motion: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=570.0, y[0]=185.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=1232672001, downTime=1232671819, deviceId=6, source=0x1002, displayId=0 }
+[BluetoothGatt] connect() - device: 84:C6:92:C3:D9:73, auto: false
+[BluetoothGatt] registerApp()
+[BluetoothGatt] registerApp() - UUID=3fdb42ec-cba1-42bf-986e-8ca9b8da8bc6
+[OpenGLRenderer] endAllActiveAnimators on 0x73fd49f700 (RippleDrawable) with handle 0x73fd4b1c80
+[BluetoothGatt] onClientRegistered() - status=0 clientIf=9
+[BluetoothGatt] onClientConnectionState() - status=0 clientIf=9 device=84:C6:92:C3:D9:73
+Thread started:  #21
+[ViewRootImpl] package=csl.CS710Sfulldemo.demo is not forcedto immersive fullscreen
+[BluetoothGatt] configureMTU() - device: 84:C6:92:C3:D9:73 mtu: 255
+[0:] NavigationPage: RemovePage called for CurrentPage object. This can result in undesired behavior, consider calling PopAsync instead.
+[BluetoothAdapter] isLeEnabled(): ON
+2024-06-11 14:37:46 [TRACE] (MvvmCross.Logging.MvxLog) ViewDisappeared DeviceListViewModel
+2024-06-11 14:37:46 [TRACE] (MvvmCross.Logging.MvxLog) ViewDisappeared DeviceListViewModel
+[ViewRootImpl] package=csl.CS710Sfulldemo.demo is not forcedto immersive fullscreen
+SendAsync : 9003
+2024-06-11 14:37:46 [TRACE] (MvvmCross.Logging.MvxLog) ViewAppeared ViewModelMainMenu
+[BluetoothGatt] onConnectionUpdated() - Device=84:C6:92:C3:D9:73 interval=6 latency=0 timeout=500 status=0
+[BluetoothGatt] onConfigureMTU() - Device=84:C6:92:C3:D9:73 mtu=251 status=0
+[BluetoothGatt] discoverServices() - device: 84:C6:92:C3:D9:73
+[BluetoothGatt] onSearchComplete() = Device=84:C6:92:C3:D9:73 Status=0
+[BluetoothGatt] onConnectionUpdated() - Device=84:C6:92:C3:D9:73 interval=12 latency=0 timeout=50 status=0
+[BluetoothGatt] setCharacteristicNotification() - uuid: 00009901-0000-1000-8000-00805f9b34fb enable: true
+SendAsync : 9000
+SendAsync : 8001
+SendAsync : 8000
+SendAsync : C000
+SendAsync : C004
+SendAsync : B000
+SendAsync : B004
+SendAsync : B006
+SendAsync : 8002
+SendAsync : 8002
+SendAsync : A002
+[0Sfulldemo.dem] Explicit concurrent copying GC freed 21330(1105KB) AllocSpace objects, 0(0B) LOS objects, 49% free, 2381KB/4762KB, paused 53us total 15.818ms
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.IO.dll [External]
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Numerics.dll [External]
+Resolved pending breakpoint at 'CodeFileBLE.cs:195,1' to void CSLibrary.HighLevelInterface.<BLE_Recv>d__94.MoveNext () [0x00039].
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Thread finished: <Thread Pool> #12
+The thread 0xc has exited with code 0 (0x0).
+Thread finished: <Thread Pool> #17
+Resolved pending breakpoint at 'C:\Projects\GitHub\CS710S-C-Sharp-APP-for-iOS-ANDROID-UWP\Library\CSLibrary\Source\HAL\MvvmCross.Plugin.BLE\CodeFileBLE.cs:195,1' to void CSLibrary.HighLevelInterface.<BLE_Recv>d__94.MoveNext () [0x00039].
+The thread 0x11 has exited with code 0 (0x0).
+Thread finished: <Thread Pool> #15
+The thread 0xf has exited with code 0 (0x0).
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  22125ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  5544ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  1395ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+Thread started:  #22
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Thread finished: <Thread Pool> #10
+The thread 0xa has exited with code 0 (0x0).
+Resolved pending breakpoint at 'C:\Projects\GitHub\CS710S-C-Sharp-APP-for-iOS-ANDROID-UWP\Library\CSLibrary\Source\HAL\MvvmCross.Plugin.BLE\CodeFileBLE.cs:190,1' to void CSLibrary.HighLevelInterface.<BLE_Recv>d__94.MoveNext () [0x00024].
+Thread finished: <Thread Pool> #5
+Thread finished: <Thread Pool> #14
+The thread 0x5 has exited with code 0 (0x0).
+The thread 0xe has exited with code 0 (0x0).
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  16540ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+Thread started: <Thread Pool> #23
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Loaded assembly: /data/data/csl.CS710Sfulldemo.demo/files/.__override__/System.Data.dll [External]
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  10017ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+Resolved pending breakpoint at 'C:\Projects\GitHub\CS710S-C-Sharp-APP-for-iOS-ANDROID-UWP\Library\CSLibrary\Source\HAL\MvvmCross.Plugin.BLE\ClassDebug.cs:34,1' to void CSLibrary.Debug.WriteBytes (string header, byte[] data) [0x0005b].
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Thread finished: <Thread Pool> #23
+The thread 0x17 has exited with code 0 (0x0).
+Thread started: <Thread Pool> #24
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  60989ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Thread finished: <Thread Pool> #13
+The thread 0xd has exited with code 0 (0x0).
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  26935ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+Resolved pending breakpoint at 'C:\Projects\GitHub\CS710S-C-Sharp-APP-for-iOS-ANDROID-UWP\Library\CSLibrary\Source\HAL\MvvmCross.Plugin.BLE\CodeFileBLE.cs:191,1' to void CSLibrary.HighLevelInterface.<BLE_Recv>d__94.MoveNext () [0x0002f].
+Thread finished: <Thread Pool> #7
+The thread 0x7 has exited with code 0 (0x0).
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  12167ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Resolved pending breakpoint at 'C:\Projects\GitHub\CS710S-C-Sharp-APP-for-iOS-ANDROID-UWP\Library\CSLibrary\Source\CSLibrary.cs:255,1' to bool CSLibrary.HighLevelInterface.ProcessAPIPacket (byte[] recData) [0x0000c].
+Thread finished: <Thread Pool> #24
+The thread 0x18 has exited with code 0 (0x0).
+Resolved pending breakpoint at 'C:\Projects\GitHub\CS710S-C-Sharp-APP-for-iOS-ANDROID-UWP\Library\CSLibrary\Source\CSLibrary.cs:466,1' to bool CSLibrary.HighLevelInterface.RecvNofigicationPacket (byte[] recvData) [0x000c8].
+Thread started: <Thread Pool> #25
+Resolved pending breakpoint at 'C:\Projects\GitHub\CS710S-C-Sharp-APP-for-iOS-ANDROID-UWP\Library\CSLibrary\Source\Notification\ClassNotification.cs:155,1' to void CSLibrary.Notification.DeviceRecvState (int value) [0x0002a].
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  60963ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Thread finished: <Thread Pool> #6
+The thread 0x6 has exited with code 0 (0x0).
+Program execption error, please check BLE_Recv!!! error message : Object reference not set to an instance of an object.
+[IPCThreadState] Slow binder transaction:  19152ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[Looper] Slow dispatch took 241187ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@71309d2 m=0
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) identical 4 lines
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[Looper] Slow dispatch took 1505ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@1b78464 m=0
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) identical 1 line
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[Choreographer] Skipped 14558 frames!  The application may be doing too much work on its main thread.
+[Looper] Slow dispatch took 1957ms main h=android.view.Choreographer$FrameHandler c=android.view.Choreographer$FrameDisplayEventReceiver@1d2567e m=0
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+[OpenGLRenderer] Davey! duration=244601ms; Flags=0, IntendedVsync=1232673583121159, Vsync=1232916216444787, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=1232916225728726, AnimationStart=1232916226123778, PerformTraversalsStart=1232916226158674, DrawStart=1232918171099284, SyncQueued=1232918181181889, SyncStart=1232918181659441, IssueDrawCommandsStart=1232918181815066, SwapBuffers=1232918183831264, FrameCompleted=1232918184641994, DequeueBufferDuration=190000, QueueBufferDuration=332000, 
+The thread 0x19 has exited with code 0 (0x0).
+Thread finished: <Thread Pool> #25
+Thread started: <Thread Pool> #26
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+[Looper] Slow dispatch took 2804ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@c164285 m=0
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[IPCThreadState] Slow binder transaction:  19887ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[Looper] Slow dispatch took 17795ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@e52d8a6 m=0
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[Looper] Slow dispatch took 2881ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@7bf3d3d m=0
+Command timeout
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+[Looper] Slow dispatch took 3782ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@8fc4000 m=0
+[Choreographer] Skipped 226 frames!  The application may be doing too much work on its main thread.
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+Thread started: <Thread Pool> #27
+[Looper] Slow dispatch took 1385ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@3c5d6f5 m=0
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+Thread started: <Thread Pool> #28
+Thread started: <Thread Pool> #29
+[Looper] Slow dispatch took 1619ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@45aa2fb m=0
+[Looper] Slow dispatch took 1259ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@be9ed71 m=0
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[IPCThreadState] Slow binder transaction:  26716ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Thread started:  #30
+Command timeout
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Thread started: <Thread Pool> #31
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[IPCThreadState] Slow binder transaction:  14780ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Resolved pending breakpoint at 'C:\Projects\GitHub\CS710S-C-Sharp-APP-for-iOS-ANDROID-UWP\Library\CSLibrary\Source\CSLibrary.cs:466,1' to bool CSLibrary.HighLevelInterface.RecvNofigicationPacket (byte[] recvData) [0x000c8].
+Thread finished: <Thread Pool> #16
+The thread 0x10 has exited with code 0 (0x0).
+Thread finished: <Thread Pool> #27
+The thread 0x1b has exited with code 0 (0x0).
+Thread finished: <Thread Pool> #31
+The thread 0x1f has exited with code 0 (0x0).
+Thread started: <Thread Pool> #32
+Thread started: <Thread Pool> #33
+Thread started: <Thread Pool> #34
+Thread started: <Thread Pool> #35
+Thread started: <Thread Pool> #36
+Thread started: <Thread Pool> #37
+Thread started: <Thread Pool> #38
+Thread started: <Thread Pool> #39
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+[IPCThreadState] Slow binder transaction:  11042ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+Thread started: <Thread Pool> #40
+The thread 0x1a has exited with code 0 (0x0).
+Thread started: <Thread Pool> #41
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+Thread finished: <Thread Pool> #26
+Thread started: <Thread Pool> #42
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+[Looper] Slow dispatch took 1442ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@c481e1d m=0
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[Looper] Slow dispatch took 7443ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@28eebde m=0
+[IPCThreadState] Slow binder transaction:  22428ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[Looper] Slow dispatch took 5427ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@6adf3d5 m=0
+[IPCThreadState] Slow binder transaction:  5433ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+[IPCThreadState] Slow binder transaction:  1078ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+Command timeout
+[Looper] Slow dispatch took 5669ms main h=android.os.Handler c=mono.java.lang.RunnableImplementor@e6f851 m=0
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 6A 82 37 00 00 90 00 
+[IPCThreadState] Slow binder transaction:  5681ms { pid=0 uid=1002 InterfaceDescriptor=android.bluetooth.IBluetoothGattCallback code=11 serviceObj=00000073feeb53a0 }
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) Binder:12678_3 identical 4 lines
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) Binder:12678_3 identical 1 line
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) Binder:12678_1 identical 1 line
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) Binder:12678_1 identical 2 lines
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 6A 82 9E 25 4E 90 00 00 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:WAIT_BTAPIRESPONSE
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 C2 82 37 00 00 80 01 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) Binder:12678_1 identical 1 line
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) Binder:12678_2 identical 3 lines
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) Binder:12678_2 identical 2 lines
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 6A 82 9E 25 4E 90 00 00 
+wait response : WAIT_BTAPIRESPONSE:WAIT_BTAPIRESPONSE
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 C2 82 37 00 00 80 00 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 C2 82 9E 01 41 80 00 00 
+Routine : RecvRFIDPacket
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+wait response : WAIT_BTAPIRESPONSE:WAIT_BTAPIRESPONSE
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 5F 82 37 00 00 C0 00 
+CSLibrary : BT data received 13:A7 B3 05 5F 82 9E 3E A7 C0 00 01 00 06 
+wait response : WAIT_BTAPIRESPONSE:WAIT_BTAPIRESPONSE
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 5F 82 37 00 00 C0 04 
+CSLibrary : BT data received 31:A7 B3 17 5F 82 9E 96 23 C0 04 43 53 37 31 30 53 72 65 61 64 65 72 43 33 44 39 37 33 00 00 00 
+wait response : WAIT_BTAPIRESPONSE:WAIT_BTAPIRESPONSE
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 E8 82 37 00 00 B0 00 
+CSLibrary : BT data received 13:A7 B3 05 E8 82 9E 7E 54 B0 00 02 00 06 
+wait response : WAIT_BTAPIRESPONSE:WAIT_BTAPIRESPONSE
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 11:A7 B3 03 E8 82 37 00 00 B0 04 00 
+CSLibrary : BT data received 42:A7 B3 22 E8 82 9E BC 48 B0 04 4B 42 41 32 33 41 31 50 42 30 30 30 30 33 32 38 34 30 31 30 31 30 31 33 00 00 00 00 00 00 00 00 
+wait response : WAIT_BTAPIRESPONSE:WAIT_BTAPIRESPONSE
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 11:A7 B3 03 E8 82 37 00 00 B0 06 00 
+CSLibrary : BT data received 42:A7 B3 22 E8 82 9E 8C F3 B0 06 43 53 37 31 30 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+wait response : WAIT_BTAPIRESPONSE:WAIT_BTAPIRESPONSE
+CSLibrary : BT send data (DATA1) 17:A7 B3 09 6A 82 37 00 00 90 03 7E 00 00 02 33 37 F9 
+CSLibrary : BT data received 11:A7 B3 03 6A 82 9E 0F 26 90 03 00 
+wait response : DATA1:WAIT_BTAPIRESPONSE
+CSLibrary : BT data received 32:A7 B3 18 6A D8 9E FE 1D 91 00 02 00 00 11 34 01 06 02 00 07 10 17 13 01 06 05 01 11 16 03 04 CF 
+SendAsync : 9003
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) Binder:12678_1 identical 1 line
+SendAsync : 9003
+wait response : DATA1:WAIT_BTAPIRESPONSE_DATA1
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+
+
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE_DATA1) 48:A7 B3 28 C2 82 37 00 00 80 02 80 B3 14 71 00 00 1F 0A 00 08 20 00 28 04 30 14 02 30 18 01 50 00 20 50 20 20 50 40 02 EF 98 04 EF AC 04 EF B0 04 
+CSLibrary : BT data received 134:A7 B3 7E C2 D9 9E 03 D6 81 00 51 E2 14 71 00 00 75 32 2E 30 30 2E 30 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 97 00 43 53 37 31 30 53 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 4B 42 41 32 33 41 31 50 42 30 30 30 30 33 32 38 34 30 31 30 31 30 31 33 00 00 00 00 00 00 00 00 FF FF 00 00 00 01 00 00 00 00 00 00 00 AA 
+
+
+wait response : WAIT_BTAPIRESPONSE_DATA1:WAIT_BTAPIRESPONSE
+BLE stat : Total Inventory Received 0, Skip packet 86
+Routine : RecvRFIDPacket
+Routine : DeviceRecvData
+SendAsync : 8002
+wait response : WAIT_BTAPIRESPONSE_DATA1:WAIT_BTAPIRESPONSE
+SendAsync : 8002
+[chatty] uid=10314(csl.CS710Sfulldemo.demo) Binder:12678_1 identical 2 lines
+SendAsync : 8002
+wait response : WAIT_BTAPIRESPONSE_DATA1:WAIT_BTAPIRESPONSE_DATA1
+CSLibrary : BT send data (COMMANDENDRESPONSE) 23:A7 B3 0F C2 82 37 00 00 80 02 80 B3 9A 06 00 00 06 01 39 06 02 00 09 
+wait response : COMMANDENDRESPONSE:NOWAIT
+wait response : COMMANDENDRESPONSE:NOWAIT
+wait response : COMMANDENDRESPONSE:NOWAIT
+wait response : COMMANDENDRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 C2 82 9E 32 F1 80 02 00 
+Routine : RecvRFIDPacket
+CSLibrary : BT data received 18:A7 B3 0A C2 DA 9E 4F 4B 81 00 51 E2 9A 06 00 00 01 00 
+Routine : RecvRFIDPacket
+Routine : DeviceRecvData
+wait response : COMMANDENDRESPONSE:WAIT_BTAPIRESPONSE_COMMANDENDRESPONSE
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE) 10:A7 B3 02 D9 82 37 00 00 A0 02 
+wait response : WAIT_BTAPIRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 D9 82 9E 5E 5F A0 02 00 
+wait response : WAIT_BTAPIRESPONSE:WAIT_BTAPIRESPONSE
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE_DATA1) 21:A7 B3 0D 6A 82 37 00 00 90 03 6E 6C 73 30 30 30 36 30 31 30 3B 
+CSLibrary : BT data received 11:A7 B3 03 6A 82 9E 0F 26 90 03 00 
+wait response : WAIT_BTAPIRESPONSE_DATA1:WAIT_BTAPIRESPONSE
+CSLibrary : BT data received 11:A7 B3 03 6A DB 9E 3E A2 91 00 06 
+wait response : WAIT_BTAPIRESPONSE_DATA1:WAIT_BTAPIRESPONSE_DATA1
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE_DATA1) 21:A7 B3 0D 6A 82 37 00 00 90 03 6E 6C 73 30 34 30 35 31 30 30 3B 
+CSLibrary : BT data received 11:A7 B3 03 6A 82 9E 0F 26 90 03 00 
+wait response : WAIT_BTAPIRESPONSE_DATA1:WAIT_BTAPIRESPONSE
+CSLibrary : BT data received 11:A7 B3 03 6A DC 9E 0E 7E 91 00 06 
+wait response : WAIT_BTAPIRESPONSE_DATA1:WAIT_BTAPIRESPONSE_DATA1
+CSLibrary : BT data received 12:A7 B3 04 D9 82 9E 05 92 A0 00 10 23 
+CSLibrary : BT send data (WAIT_BTAPIRESPONSE_DATA1) 21:A7 B3 0D 6A 82 37 00 00 90 03 6E 6C 73 30 30 30 36 30 30 30 3B 
+wait response : WAIT_BTAPIRESPONSE_DATA1:NOWAIT
+wait response : WAIT_BTAPIRESPONSE_DATA1:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 6A 82 9E 0F 26 90 03 00 
+wait response : WAIT_BTAPIRESPONSE_DATA1:WAIT_BTAPIRESPONSE
+CSLibrary : BT data received 11:A7 B3 03 6A DD 9E 05 3A 91 00 06 
+wait response : WAIT_BTAPIRESPONSE_DATA1:WAIT_BTAPIRESPONSE_DATA1
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT send data (COMMANDENDRESPONSE) 23:A7 B3 0F C2 82 37 00 00 80 02 80 B3 9A 06 01 00 06 01 30 14 02 00 97 
+wait response : COMMANDENDRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 C2 82 9E 32 F1 80 02 00 
+Routine : RecvRFIDPacket
+CSLibrary : BT data received 18:A7 B3 0A C2 DE 9E 56 86 81 00 51 E2 9A 06 01 00 01 00 
+BLE stat : Total Inventory Received 0, Skip packet 89
+Routine : RecvRFIDPacket
+Routine : DeviceRecvData
+wait response : COMMANDENDRESPONSE:WAIT_BTAPIRESPONSE_COMMANDENDRESPONSE
+CSLibrary : BT send data (COMMANDENDRESPONSE) 23:A7 B3 0F C2 82 37 00 00 80 02 80 B3 9A 06 02 00 06 01 30 33 02 0C E4 
+wait response : COMMANDENDRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 C2 82 9E 32 F1 80 02 00 
+Routine : RecvRFIDPacket
+CSLibrary : BT data received 18:A7 B3 0A C2 DF 9E F6 1E 81 00 51 E2 9A 06 02 00 01 00 
+Routine : RecvRFIDPacket
+Routine : DeviceRecvData
+wait response : COMMANDENDRESPONSE:WAIT_BTAPIRESPONSE_COMMANDENDRESPONSE
+CSLibrary : BT send data (COMMANDENDRESPONSE) 23:A7 B3 0F C2 82 37 00 00 80 02 80 B3 9A 06 03 00 06 01 30 31 02 00 00 
+wait response : COMMANDENDRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 C2 82 9E 32 F1 80 02 00 
+Routine : RecvRFIDPacket
+CSLibrary : BT data received 18:A7 B3 0A C2 E0 9E 5C B9 81 00 51 E2 9A 06 03 00 01 00 
+Routine : RecvRFIDPacket
+Routine : DeviceRecvData
+wait response : COMMANDENDRESPONSE:WAIT_BTAPIRESPONSE_COMMANDENDRESPONSE
+CSLibrary : BT send data (COMMANDENDRESPONSE) 23:A7 B3 0F C2 82 37 00 00 80 02 80 B3 9A 06 04 00 06 01 30 33 02 0B B8 
+wait response : COMMANDENDRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 C2 82 9E 32 F1 80 02 00 
+Routine : RecvRFIDPacket
+CSLibrary : BT data received 18:A7 B3 0A C2 E1 9E 8E CD 81 00 51 E2 9A 06 04 00 01 00 
+Routine : RecvRFIDPacket
+Routine : DeviceRecvData
+wait response : COMMANDENDRESPONSE:WAIT_BTAPIRESPONSE_COMMANDENDRESPONSE
+CSLibrary : BT send data (COMMANDENDRESPONSE) 23:A7 B3 0F C2 82 37 00 00 80 02 80 B3 9A 06 05 00 06 01 30 31 02 07 D0 
+wait response : COMMANDENDRESPONSE:NOWAIT
+CSLibrary : BT data received 11:A7 B3 03 C2 82 9E 32 F1 80 02 00 
+Routine : RecvRFIDPacket
+CSLibrary : BT data received 18:A7 B3 0A C2 E2 9E 15 98 81 00 51 E2 9A 06 05 00 01 00 
+Routine : RecvRFIDPacket
+Routine : DeviceRecvData
+wait response : COMMANDENDRESPONSE:WAIT_BTAPIRESPONSE_COMMANDENDRESPONSE
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 12:A7 B3 04 D9 82 9E 60 A4 A0 00 10 25 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 
+CSLibrary : BT data received 10:A7 B3 02 D9 82 9E B6 E6 A1 03 

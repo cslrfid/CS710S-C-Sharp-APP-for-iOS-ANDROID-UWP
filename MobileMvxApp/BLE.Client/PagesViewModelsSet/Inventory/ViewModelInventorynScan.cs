@@ -1298,6 +1298,7 @@ namespace BLE.Client.ViewModels
 
                     item.code = decodeInfo.pchMessage;
                     item.count = 1;
+                    item.timeOfRead = DateTime.Now;
 
                     barcodeData.Insert(0, item);
                 }
@@ -1391,12 +1392,20 @@ namespace BLE.Client.ViewModels
                 data.sequenceNumber = BleMvxApplication._sequenceNumber++;
                 data.rfidReaderName = BleMvxApplication._reader.ReaderName;
 
+                switch (BleMvxApplication._reader.rfid.GetModelName())
+                {
+                    case "CS108":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 13);
+                        break;
 
-                data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync();
+                    case "CS710S":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 16);
+                        break;
+                }
                 if (data.rfidReaderSerialNumber == null)
                     _userDialogs.Alert("No Serial Number");
 
-                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode();
+                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode().Substring(0, 13);
                 data.numberOfTags = (UInt16)_TagInfoList.Count;
 
                 foreach (var tagitem in _TagInfoList)
@@ -1473,12 +1482,20 @@ namespace BLE.Client.ViewModels
                 data.sequenceNumber = BleMvxApplication._sequenceNumber++;
                 data.rfidReaderName = BleMvxApplication._reader.ReaderName;
 
+                switch (BleMvxApplication._reader.rfid.GetModelName())
+                {
+                    case "CS108":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 13);
+                        break;
 
-                data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync();
+                    case "CS710S":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 16);
+                        break;
+                }
                 if (data.rfidReaderSerialNumber == null)
                     _userDialogs.Alert("No Serial Number");
 
-                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode();
+                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode().Substring(0, 13);
                 data.numberOfTags = (UInt16)barcodeData.Count;
 
                 foreach (var tagitem in barcodeData)
@@ -1754,11 +1771,20 @@ namespace BLE.Client.ViewModels
                 data.sequenceNumber = BleMvxApplication._sequenceNumber ++;
                 data.rfidReaderName = BleMvxApplication._reader.ReaderName;
 
-                data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync();
+                switch (BleMvxApplication._reader.rfid.GetModelName())
+                {
+                    case "CS108":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 13);
+                        break;
+
+                    case "CS710S":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 16);
+                        break;
+                }
                 if (data.rfidReaderSerialNumber == null)
                     _userDialogs.Alert("No Serial Number");
 
-                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode();
+                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode().Substring(0,13);
                 data.numberOfTags = (UInt16)_TagInfoList.Count;
 
                 foreach (var tagitem in _TagInfoList)
@@ -1867,11 +1893,20 @@ namespace BLE.Client.ViewModels
                 data.sequenceNumber = BleMvxApplication._sequenceNumber++;
                 data.rfidReaderName = BleMvxApplication._reader.ReaderName;
 
-                data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync();
+                switch (BleMvxApplication._reader.rfid.GetModelName())
+                {
+                    case "CS108":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 13);
+                        break;
+
+                    case "CS710S":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 16);
+                        break;
+                }
                 if (data.rfidReaderSerialNumber == null)
                     _userDialogs.Alert("No Serial Number");
 
-                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode();
+                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode().Substring(0, 13);
                 data.numberOfTags = (UInt16)barcodeData.Count;
 
                 foreach (var tagitem in barcodeData)

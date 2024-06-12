@@ -173,6 +173,8 @@ namespace CSLibrary
 
         bool R2000Packet_Inventory (byte [] recvData, int offset = 0)
         {
+            try
+            {
             if (OnAsyncCallback != null)
             {
                 CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
@@ -373,7 +375,12 @@ namespace CSLibrary
                         return false;
                 }
             }
-
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("R2000Packet_Inventory Error : " + ex.Message);
+                return false;
+            }
             return true;
         }
 
@@ -587,12 +594,14 @@ namespace CSLibrary
         /// <param name="size"></param>
         internal CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE DeviceRecvData_CS108(byte[] recvData1, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE currentCommandResponse)
         {
+            CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE result = HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.NOWAIT;
+
+            try
+            {
             CSLibrary.Debug.WriteLine("Routine : DeviceRecvData");
 
             if (!_dataBuffer.DataIn(recvData1, 10, recvData1[2] - 2))
                 CSLibrary.Debug.WriteLine("RFID ring buffer FULL!!!!");
-
-            CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE result = HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.NOWAIT;
 
             while (_dataBuffer.length >= 8)
             {
@@ -993,7 +1002,11 @@ namespace CSLibrary
                         break;
                 }
             }
-
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("DeviceRecvData_CS108 Error : " + ex.Message);
+            }
             return result;
         }
 

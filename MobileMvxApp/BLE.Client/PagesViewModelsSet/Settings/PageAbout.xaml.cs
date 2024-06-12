@@ -32,6 +32,7 @@ namespace BLE.Client.Pages
             else
                 labelSiliconlabFwVer.Text = "SiliconLab IC Firmware Version " + Version2String(BleMvxApplication._reader.siliconlabIC.GetFirmwareVersion());
             labelSerialNumber.Text = "Reader Serial Number " + BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync();
+            labelPCBSerialNumber.Text = "PCB Serial Number " + BleMvxApplication._reader.rfid.GetPCBAssemblyCode();
         }
 
         string Version2String(uint ver)

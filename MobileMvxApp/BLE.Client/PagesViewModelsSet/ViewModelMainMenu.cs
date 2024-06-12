@@ -247,6 +247,9 @@ namespace BLE.Client.ViewModels
 
         void HotKeys_OnKeyEvent(object sender, CSLibrary.Notification.HotKeyEventArgs e)
         {
+            if (BleMvxApplication._config == null) // reader not connected
+                return;
+
             if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
             {
                 if (e.KeyDown)
@@ -285,6 +288,9 @@ namespace BLE.Client.ViewModels
 
         void VoltageEvent(object sender, CSLibrary.Notification.VoltageEventArgs e)
 		{
+            if (BleMvxApplication._config == null) // reader not connected
+                return;
+
 			if (e.Voltage == 0xffff)
 			{
 				labelVoltage = "Battery ERROR"; //			3.98v

@@ -64,54 +64,70 @@ namespace CSLibrary
 
         bool CheckSingalPacket(byte[] data)
         {
-            if (!CheckAPIHeader(data) || data[2] != (data.Length - 8))
-                return false;
+            try
+            {
+                if (!CheckAPIHeader(data) || data[2] != (data.Length - 8))
+                    return false;
 
-            UInt16 recvCRC = (UInt16)(data[6] << 8 | data[7]);
-            if (recvCRC != Tools.Crc.ComputeChecksum(data))
-                return false;
+                UInt16 recvCRC = (UInt16)(data[6] << 8 | data[7]);
+                if (recvCRC != Tools.Crc.ComputeChecksum(data))
+                    return false;
 
-            ProcessAPIPacket(data);
+                ProcessAPIPacket(data);
+            }
+            catch(Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("CheckSingalPacket error : " + ex.Message);
+                return false;
+            }
+
             return true;
         }
 
         bool FirstAssemblePacketMohod(byte[] recvData)
         {
-            if (CheckAPIHeader(recvData))
+            try
             {
-                if (_currentRecvBufferSize > 0)
+                if (CheckAPIHeader(recvData))
                 {
-                    CSLibrary.Debug.WriteLine("BT1 : Packet Too small, can not process");
+                    if (_currentRecvBufferSize > 0)
+                    {
+                        CSLibrary.Debug.WriteLine("BT1 : Packet Too small, can not process");
+                    }
+
+                    Array.Copy(recvData, 0, _recvBuffer, 0, recvData.Length);
+                    _currentRecvBufferSize = recvData.Length;
+                    return false;
                 }
 
-                Array.Copy(recvData, 0, _recvBuffer, 0, recvData.Length);
-                _currentRecvBufferSize = recvData.Length;
-                return false;
-            }
-
-            if ((_currentRecvBufferSize + recvData.Length) > _recvBuffer[2] + 8)
-            {
-                CSLibrary.Debug.WriteLine("BT1 : Current packet size too large");
-                _currentRecvBufferSize = 0;
-                return false;
-            }
-
-            Array.Copy(recvData, 0, _recvBuffer, _currentRecvBufferSize, recvData.Length);
-            _currentRecvBufferSize += recvData.Length;
-
-            if (_currentRecvBufferSize == (_recvBuffer[2] + 8))
-            {
-                UInt16 recvCRC = (UInt16)(_recvBuffer[6] << 8 | _recvBuffer[7]);
-                UInt16 calCRC = Tools.Crc.ComputeChecksum(_recvBuffer);
-                if (recvCRC != calCRC)
+                if ((_currentRecvBufferSize + recvData.Length) > _recvBuffer[2] + 8)
                 {
-                    CSLibrary.Debug.WriteLine("BT1 : Checksum error " + recvCRC.ToString("X4") + " " + calCRC.ToString("X4"));
+                    CSLibrary.Debug.WriteLine("BT1 : Current packet size too large");
                     _currentRecvBufferSize = 0;
                     return false;
                 }
 
-                ProcessAPIPacket(_recvBuffer);
-                return true;
+                Array.Copy(recvData, 0, _recvBuffer, _currentRecvBufferSize, recvData.Length);
+                _currentRecvBufferSize += recvData.Length;
+
+                if (_currentRecvBufferSize == (_recvBuffer[2] + 8))
+                {
+                    UInt16 recvCRC = (UInt16)(_recvBuffer[6] << 8 | _recvBuffer[7]);
+                    UInt16 calCRC = Tools.Crc.ComputeChecksum(_recvBuffer);
+                    if (recvCRC != calCRC)
+                    {
+                        CSLibrary.Debug.WriteLine("BT1 : Checksum error " + recvCRC.ToString("X4") + " " + calCRC.ToString("X4"));
+                        _currentRecvBufferSize = 0;
+                        return false;
+                    }
+
+                    ProcessAPIPacket(_recvBuffer);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("FirstAssemblePacketMohod Error : " + ex.Message);                
             }
 
             return false;
@@ -119,6 +135,8 @@ namespace CSLibrary
 
         bool BackupAssemblePacketMohod(byte[] recvData)
         {
+            try
+            {
             if (_currentRecvBufferSizeBackup == 0)
             {
                 if (!CheckAPIHeader(recvData))
@@ -152,6 +170,11 @@ namespace CSLibrary
 
                 ProcessAPIPacket(_recvBufferBackup);
                 return true;
+            }
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("BackupAssemblePacketMohod Error : " + ex.Message);
             }
 
             return false;

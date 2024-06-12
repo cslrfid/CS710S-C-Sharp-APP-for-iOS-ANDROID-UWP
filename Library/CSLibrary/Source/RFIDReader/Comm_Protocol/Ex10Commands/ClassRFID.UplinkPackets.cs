@@ -404,7 +404,16 @@ namespace CSLibrary
 
             switch (eventCode)
             {
-                case 0x0004: // Tag Rate
+                case 0x0001: // keep alive
+                    break;
+
+                case 0x0002: // inventory round end
+                    break;
+
+                case 0x0003: // CRC error rate (2 bytes Data)
+                    break;
+
+                case 0x0004: // tag rate value (2 bytes Data)
                     {
                         uint tagRate = Tools.Hex.MSBToUInt16(data, index + 6);
 
@@ -416,11 +425,14 @@ namespace CSLibrary
                             }
                             catch (Exception ex)
                             {
-                                //Console.WriteLine(ex);
+                                CSLibrary.Debug.WriteLine("csl_miscellaneous_event call back error : " + ex.Message);
                             }
                         }
                     }
+                    break;
 
+                default:
+                    CSLibrary.Debug.WriteLine("csl_miscellaneous_event Event Code : " + eventCode.ToString());
                     break;
             }
         }

@@ -1335,67 +1335,67 @@ namespace CSLibrary
         {
             internal RFIDReader _handler;
 
-            internal RegUInt32 CommandResult;
-            internal RegUInt16 ResetCause;
-            internal RegUInt16 Status;
+            //internal RegUInt32 CommandResult;
+            //internal RegUInt16 ResetCause;
+            //internal RegUInt16 Status;
             internal Regstring VersionString;
             internal Regstring BuildNumber;
-            internal RegUInt32 Githash;
-            internal Regstring SerialNumber;
-            internal RegUInt32 FrefFreq;
-            internal RegUInt64 ProductSku;
-            internal RegUInt32 DeviceInfo;
-            internal RegUInt32 DeviceBuild;
-            internal RegUInt32 RtlRevision;
-            internal Regbyte InterruptMask;
-            internal RegUInt32 InterruptMaskSet;
-            internal RegUInt32 InterruptMaskClear;
-            internal Regbyte InterruptStatus;
-            internal RegUInt16 EventFifoNumBytes;
-            internal RegUInt16 EventFifoIntLevel;
-            internal RegUInt32 GpioOutputEnable;
-            internal RegUInt32 GpioOutputLevel;
-            internal Regbyte OpsControl;
-            internal RegUInt32 OpsStatus;
-            internal RegUInt32 HaltedControl;
-            internal RegUInt32 HaltedStatus;
-            internal RegUInt32 LogTestPeriod;
-            internal RegUInt32 LogTestWordRepeat;
-            internal RegUInt32 EventFifoTestPeriod;
-            internal RegUInt32 EventFifoTestPayloadNumWords;
-            internal RegUInt16 LogSpeed;
-            internal RegUInt16 LogEnables;
-            internal RegUInt32 BerControl;
-            internal Regbyte BerMode;
-            internal RegUInt16 AuxAdcControl;
-            internal RegUInt16 AuxAdcResults;
-            internal RegUInt32 RfSynthesizerControl;
-            internal RegUInt32 TxFineGain;
-            internal RegUInt32 RxGainControl;
-            internal RegUInt32 TxCoarseGain;
+            //internal RegUInt32 Githash;
+            //internal Regstring SerialNumber;
+            //internal RegUInt32 FrefFreq;
+            //internal RegUInt64 ProductSku;
+            //internal RegUInt32 DeviceInfo;
+            //internal RegUInt32 DeviceBuild;
+            //internal RegUInt32 RtlRevision;
+            //internal Regbyte InterruptMask;
+            //internal RegUInt32 InterruptMaskSet;
+            //internal RegUInt32 InterruptMaskClear;
+            //internal Regbyte InterruptStatus;
+            //internal RegUInt16 EventFifoNumBytes;
+            //internal RegUInt16 EventFifoIntLevel;
+            //internal RegUInt32 GpioOutputEnable;
+            //internal RegUInt32 GpioOutputLevel;
+            //internal Regbyte OpsControl;
+            //internal RegUInt32 OpsStatus;
+            //internal RegUInt32 HaltedControl;
+            //internal RegUInt32 HaltedStatus;
+            //internal RegUInt32 LogTestPeriod;
+            //internal RegUInt32 LogTestWordRepeat;
+            //internal RegUInt32 EventFifoTestPeriod;
+            //internal RegUInt32 EventFifoTestPayloadNumWords;
+            //internal RegUInt16 LogSpeed;
+            //internal RegUInt16 LogEnables;
+            //internal RegUInt32 BerControl;
+            //internal Regbyte BerMode;
+            //internal RegUInt16 AuxAdcControl;
+            //internal RegUInt16 AuxAdcResults;
+            //internal RegUInt32 RfSynthesizerControl;
+            //internal RegUInt32 TxFineGain;
+            //internal RegUInt32 RxGainControl;
+            //internal RegUInt32 TxCoarseGain;
             //internal RegUInt32 RfMode;
-            internal RegUInt32 DcOffset;
-            internal RegUInt32 CwOffTime;
-            internal Regbyte SjcControl;
-            internal RegUInt32 SjcGainControl;
-            internal RegUInt32 SjcSettlingTime;
-            internal RegUInt32 SjcCdacI;
-            internal RegUInt32 SjcCdacQ;
-            internal RegUInt32 SjcResultI;
-            internal RegUInt32 SjcResultQ;
-            internal RegUInt32 AnalogEnable;
+            //internal RegUInt32 DcOffset;
+            //internal RegUInt32 CwOffTime;
+            //internal Regbyte SjcControl;
+            //internal RegUInt32 SjcGainControl;
+            //internal RegUInt32 SjcSettlingTime;
+            //internal RegUInt32 SjcCdacI;
+            //internal RegUInt32 SjcCdacQ;
+            //internal RegUInt32 SjcResultI;
+            //internal RegUInt32 SjcResultQ;
+            //internal RegUInt32 AnalogEnable;
             //internal RegInventoryRoundControl InventoryRoundControl;
             //internal RegUInt32 InventoryRoundControl_2;
-            internal RegUInt16 NominalStopTime;
-            internal RegUInt16 ExtendedStopTime;
-            internal RegUInt16 RegulatoryStopTime;
-            internal RegUInt16 Gen2SelectEnable;
-            internal RegUInt16 Gen2AccessEnable;
-            internal Regbyte Gen2Offsets;
-            internal RegUInt16 Gen2Lengths;
-            internal Regbyte Gen2TransactionIds;
-            internal RegUInt32 Gen2TxnControls;
-            internal RegByteArray Gen2TxBuffer;
+            //internal RegUInt16 NominalStopTime;
+            //internal RegUInt16 ExtendedStopTime;
+            //internal RegUInt16 RegulatoryStopTime;
+            //internal RegUInt16 Gen2SelectEnable;
+            //internal RegUInt16 Gen2AccessEnable;
+            //internal Regbyte Gen2Offsets;
+            //internal RegUInt16 Gen2Lengths;
+            //internal Regbyte Gen2TransactionIds;
+            //internal RegUInt32 Gen2TxnControls;
+            //internal RegByteArray Gen2TxBuffer;
             internal RegUInt32 LoopStyle;
             internal Regbyte HopStyle;
             internal RegUInt16 RegulatoryNoEmissionTime;
@@ -1419,10 +1419,13 @@ namespace CSLibrary
             internal RegUInt24 AuthenticateConfig;
             internal RegByteArray AuthenticateMessage;
             internal RegUInt16 AuthenticateResponseLen;
+            internal RegUInt16 ReversePowerADC;
+            internal Regbyte CurrentPort;
             internal Regstring ModelName;
             internal Regstring SerialNumber_1;
             internal RegUInt16 CountryEnum_1;
             internal RegUInt32 EF98;
+            internal Regstring EF9C;
             internal RegUInt32 EFAC;
             internal RegUInt32 EFB0;
 
@@ -1431,67 +1434,67 @@ namespace CSLibrary
 
                 this._handler = _deviceHandler;
 
-                CommandResult = new RegUInt32(_deviceHandler, 0x0000, REGPRIVATE.READONLY);
-                ResetCause = new RegUInt16(_deviceHandler, 0x0004, REGPRIVATE.READONLY);
-                Status = new RegUInt16(_deviceHandler, 0x0006, REGPRIVATE.READONLY);
+                //CommandResult = new RegUInt32(_deviceHandler, 0x0000, REGPRIVATE.READONLY);
+                //ResetCause = new RegUInt16(_deviceHandler, 0x0004, REGPRIVATE.READONLY);
+                //Status = new RegUInt16(_deviceHandler, 0x0006, REGPRIVATE.READONLY);
                 VersionString = new Regstring(_deviceHandler, 0x0008, 32, REGPRIVATE.READONLY);
                 BuildNumber = new Regstring(_deviceHandler, 00028, 4, REGPRIVATE.READONLY);
-                Githash = new RegUInt32(_deviceHandler, 0x002c, REGPRIVATE.READONLY);
-                SerialNumber = new Regstring(_deviceHandler, 0x0070, 32, REGPRIVATE.READONLY);
-                FrefFreq = new RegUInt32(_deviceHandler, 0x0034, REGPRIVATE.READONLY);
-                ProductSku = new RegUInt64(_deviceHandler, 0x0068, REGPRIVATE.READONLY);
-                DeviceInfo = new RegUInt32(_deviceHandler, 0x0090, REGPRIVATE.READONLY);
-                DeviceBuild = new RegUInt32(_deviceHandler, 0x0094, REGPRIVATE.READONLY);
-                RtlRevision = new RegUInt32(_deviceHandler, 0x0098, REGPRIVATE.READONLY);
-                InterruptMask = new Regbyte(_deviceHandler, 0x00a0, REGPRIVATE.READWRITE);
-                InterruptMaskSet = new RegUInt32(_deviceHandler, 0x00a4, REGPRIVATE.WRITEONLY);
-                InterruptMaskClear = new RegUInt32(_deviceHandler, 0x00a8, REGPRIVATE.WRITEONLY);
-                InterruptStatus = new Regbyte(_deviceHandler, 0x00ac, REGPRIVATE.READONLY);
-                EventFifoNumBytes = new RegUInt16(_deviceHandler, 0x00b0, REGPRIVATE.READONLY);
-                EventFifoIntLevel = new RegUInt16(_deviceHandler, 0x00b2, REGPRIVATE.READWRITE);
-                GpioOutputEnable = new RegUInt32(_deviceHandler, 0x00b4, REGPRIVATE.READWRITE);
-                GpioOutputLevel = new RegUInt32(_deviceHandler, 0x00b8, REGPRIVATE.READWRITE);
-                OpsControl = new Regbyte(_deviceHandler, 0x0300, REGPRIVATE.READWRITE);
-                OpsStatus = new RegUInt32(_deviceHandler, 0x0304, REGPRIVATE.READONLY);
-                HaltedControl = new RegUInt32(_deviceHandler, 0x0308, REGPRIVATE.READWRITE);
-                HaltedStatus = new RegUInt32(_deviceHandler, 0x030c, REGPRIVATE.READONLY);
-                LogTestPeriod = new RegUInt32(_deviceHandler, 0x0320, REGPRIVATE.READWRITE);
-                LogTestWordRepeat = new RegUInt32(_deviceHandler, 0x0324, REGPRIVATE.READWRITE);
-                EventFifoTestPeriod = new RegUInt32(_deviceHandler, 0x0328, REGPRIVATE.READWRITE);
-                EventFifoTestPayloadNumWords = new RegUInt32(_deviceHandler, 0x032c, REGPRIVATE.READWRITE);
-                LogSpeed = new RegUInt16(_deviceHandler, 0x0330, REGPRIVATE.READWRITE);
-                LogEnables = new RegUInt16(_deviceHandler, 0x0334, REGPRIVATE.READWRITE);
-                BerControl = new RegUInt32(_deviceHandler, 0x0338, REGPRIVATE.READWRITE);
-                BerMode = new Regbyte(_deviceHandler, 0x033c, REGPRIVATE.READWRITE);
-                AuxAdcControl = new RegUInt16(_deviceHandler, 0x0400, REGPRIVATE.READWRITE);
-                AuxAdcResults = new RegUInt16(_deviceHandler, 0x0404, REGPRIVATE.READONLY);
-                RfSynthesizerControl = new RegUInt32(_deviceHandler, 0x0500, REGPRIVATE.READWRITE);
-                TxFineGain = new RegUInt32(_deviceHandler, 0x504, REGPRIVATE.READWRITE);
-                RxGainControl = new RegUInt32(_deviceHandler, 0x0508, REGPRIVATE.READWRITE);
-                TxCoarseGain = new RegUInt32(_deviceHandler, 0x050c, REGPRIVATE.READWRITE);
+                //Githash = new RegUInt32(_deviceHandler, 0x002c, REGPRIVATE.READONLY);
+                //SerialNumber = new Regstring(_deviceHandler, 0x0070, 32, REGPRIVATE.READONLY);
+                //FrefFreq = new RegUInt32(_deviceHandler, 0x0034, REGPRIVATE.READONLY);
+                //ProductSku = new RegUInt64(_deviceHandler, 0x0068, REGPRIVATE.READONLY);
+                //DeviceInfo = new RegUInt32(_deviceHandler, 0x0090, REGPRIVATE.READONLY);
+                //DeviceBuild = new RegUInt32(_deviceHandler, 0x0094, REGPRIVATE.READONLY);
+                //RtlRevision = new RegUInt32(_deviceHandler, 0x0098, REGPRIVATE.READONLY);
+                //InterruptMask = new Regbyte(_deviceHandler, 0x00a0, REGPRIVATE.READWRITE);
+                //InterruptMaskSet = new RegUInt32(_deviceHandler, 0x00a4, REGPRIVATE.WRITEONLY);
+                //InterruptMaskClear = new RegUInt32(_deviceHandler, 0x00a8, REGPRIVATE.WRITEONLY);
+                //InterruptStatus = new Regbyte(_deviceHandler, 0x00ac, REGPRIVATE.READONLY);
+                //EventFifoNumBytes = new RegUInt16(_deviceHandler, 0x00b0, REGPRIVATE.READONLY);
+                //EventFifoIntLevel = new RegUInt16(_deviceHandler, 0x00b2, REGPRIVATE.READWRITE);
+                //GpioOutputEnable = new RegUInt32(_deviceHandler, 0x00b4, REGPRIVATE.READWRITE);
+                //GpioOutputLevel = new RegUInt32(_deviceHandler, 0x00b8, REGPRIVATE.READWRITE);
+                //OpsControl = new Regbyte(_deviceHandler, 0x0300, REGPRIVATE.READWRITE);
+                //OpsStatus = new RegUInt32(_deviceHandler, 0x0304, REGPRIVATE.READONLY);
+                //HaltedControl = new RegUInt32(_deviceHandler, 0x0308, REGPRIVATE.READWRITE);
+                //HaltedStatus = new RegUInt32(_deviceHandler, 0x030c, REGPRIVATE.READONLY);
+                //LogTestPeriod = new RegUInt32(_deviceHandler, 0x0320, REGPRIVATE.READWRITE);
+                //LogTestWordRepeat = new RegUInt32(_deviceHandler, 0x0324, REGPRIVATE.READWRITE);
+                //EventFifoTestPeriod = new RegUInt32(_deviceHandler, 0x0328, REGPRIVATE.READWRITE);
+                //EventFifoTestPayloadNumWords = new RegUInt32(_deviceHandler, 0x032c, REGPRIVATE.READWRITE);
+                //LogSpeed = new RegUInt16(_deviceHandler, 0x0330, REGPRIVATE.READWRITE);
+                //LogEnables = new RegUInt16(_deviceHandler, 0x0334, REGPRIVATE.READWRITE);
+                //BerControl = new RegUInt32(_deviceHandler, 0x0338, REGPRIVATE.READWRITE);
+                //BerMode = new Regbyte(_deviceHandler, 0x033c, REGPRIVATE.READWRITE);
+                //AuxAdcControl = new RegUInt16(_deviceHandler, 0x0400, REGPRIVATE.READWRITE);
+                //AuxAdcResults = new RegUInt16(_deviceHandler, 0x0404, REGPRIVATE.READONLY);
+                //RfSynthesizerControl = new RegUInt32(_deviceHandler, 0x0500, REGPRIVATE.READWRITE);
+                //TxFineGain = new RegUInt32(_deviceHandler, 0x504, REGPRIVATE.READWRITE);
+                //RxGainControl = new RegUInt32(_deviceHandler, 0x0508, REGPRIVATE.READWRITE);
+                //TxCoarseGain = new RegUInt32(_deviceHandler, 0x050c, REGPRIVATE.READWRITE);
                 //RfMode = new RegUInt32(_deviceHandler, 0x0514, REGPRIVATE.READWRITE);
-                DcOffset = new RegUInt32(_deviceHandler, 0x0518, REGPRIVATE.READWRITE);
-                CwOffTime = new RegUInt32(_deviceHandler, 0x051c, REGPRIVATE.READWRITE);
-                SjcControl = new Regbyte(_deviceHandler, 0x0600, REGPRIVATE.READWRITE);
-                SjcGainControl = new RegUInt32(_deviceHandler, 0x0604, REGPRIVATE.READWRITE);
-                SjcSettlingTime = new RegUInt32(_deviceHandler, 0x0608, REGPRIVATE.READWRITE);
-                SjcCdacI = new RegUInt32(_deviceHandler, 0x060c, REGPRIVATE.READWRITE);
-                SjcCdacQ = new RegUInt32(_deviceHandler, 0x0610, REGPRIVATE.READWRITE);
-                SjcResultI = new RegUInt32(_deviceHandler, 0x0614, REGPRIVATE.READONLY);
-                SjcResultQ = new RegUInt32(_deviceHandler, 0x0618, REGPRIVATE.READONLY);
-                AnalogEnable = new RegUInt32(_deviceHandler, 0x0700, REGPRIVATE.READWRITE);
+                //DcOffset = new RegUInt32(_deviceHandler, 0x0518, REGPRIVATE.READWRITE);
+                //CwOffTime = new RegUInt32(_deviceHandler, 0x051c, REGPRIVATE.READWRITE);
+                //SjcControl = new Regbyte(_deviceHandler, 0x0600, REGPRIVATE.READWRITE);
+                //SjcGainControl = new RegUInt32(_deviceHandler, 0x0604, REGPRIVATE.READWRITE);
+                //SjcSettlingTime = new RegUInt32(_deviceHandler, 0x0608, REGPRIVATE.READWRITE);
+                //SjcCdacI = new RegUInt32(_deviceHandler, 0x060c, REGPRIVATE.READWRITE);
+                //SjcCdacQ = new RegUInt32(_deviceHandler, 0x0610, REGPRIVATE.READWRITE);
+                //SjcResultI = new RegUInt32(_deviceHandler, 0x0614, REGPRIVATE.READONLY);
+                //SjcResultQ = new RegUInt32(_deviceHandler, 0x0618, REGPRIVATE.READONLY);
+                //AnalogEnable = new RegUInt32(_deviceHandler, 0x0700, REGPRIVATE.READWRITE);
                 //InventoryRoundControl = new RegInventoryRoundControl(_deviceHandler); // for E710 only
                 //InventoryRoundControl_2 = new RegUInt32(_deviceHandler, 0x1004, REGPRIVATE.READWRITE); // for E710 only
-                NominalStopTime = new RegUInt16(_deviceHandler, 0x1008, REGPRIVATE.READWRITE);
-                ExtendedStopTime = new RegUInt16(_deviceHandler, 0x100c, REGPRIVATE.READWRITE);
-                RegulatoryStopTime = new RegUInt16(_deviceHandler, 0x1010, REGPRIVATE.READWRITE);
-                Gen2SelectEnable = new RegUInt16(_deviceHandler, 0x1014, REGPRIVATE.READWRITE);
-                Gen2AccessEnable = new RegUInt16(_deviceHandler, 0x1018, REGPRIVATE.READWRITE);
-                Gen2Offsets = new Regbyte(_deviceHandler, 0x1020, REGPRIVATE.READWRITE);
-                Gen2Lengths = new RegUInt16(_deviceHandler, 0x1030, REGPRIVATE.READWRITE);
-                Gen2TransactionIds = new Regbyte(_deviceHandler, 0x1050, REGPRIVATE.READWRITE);
-                Gen2TxnControls = new RegUInt32(_deviceHandler, 0x1060, REGPRIVATE.READWRITE);
-                Gen2TxBuffer = new RegByteArray(_deviceHandler, 0x1100, 128, REGPRIVATE.READWRITE);
+                //NominalStopTime = new RegUInt16(_deviceHandler, 0x1008, REGPRIVATE.READWRITE);
+                //ExtendedStopTime = new RegUInt16(_deviceHandler, 0x100c, REGPRIVATE.READWRITE);
+                //RegulatoryStopTime = new RegUInt16(_deviceHandler, 0x1010, REGPRIVATE.READWRITE);
+                //Gen2SelectEnable = new RegUInt16(_deviceHandler, 0x1014, REGPRIVATE.READWRITE);
+                //Gen2AccessEnable = new RegUInt16(_deviceHandler, 0x1018, REGPRIVATE.READWRITE);
+                //Gen2Offsets = new Regbyte(_deviceHandler, 0x1020, REGPRIVATE.READWRITE);
+                //Gen2Lengths = new RegUInt16(_deviceHandler, 0x1030, REGPRIVATE.READWRITE);
+                //Gen2TransactionIds = new Regbyte(_deviceHandler, 0x1050, REGPRIVATE.READWRITE);
+                //Gen2TxnControls = new RegUInt32(_deviceHandler, 0x1060, REGPRIVATE.READWRITE);
+                //Gen2TxBuffer = new RegByteArray(_deviceHandler, 0x1100, 128, REGPRIVATE.READWRITE);
                 LoopStyle = new RegUInt32(_deviceHandler, 0x3000, REGPRIVATE.READWRITE);
                 HopStyle = new Regbyte(_deviceHandler, 0x3008, REGPRIVATE.READWRITE);
                 RegulatoryNoEmissionTime = new RegUInt16(_deviceHandler, 0x3010, REGPRIVATE.READWRITE);
@@ -1515,10 +1518,13 @@ namespace CSLibrary
                 AuthenticateConfig = new RegUInt24(_deviceHandler, 0x390e, REGPRIVATE.READWRITE);
                 AuthenticateMessage = new RegByteArray(_deviceHandler, 0x3912, 32, REGPRIVATE.READWRITE);
                 AuthenticateResponseLen = new RegUInt16(_deviceHandler, 0x3944, REGPRIVATE.READWRITE);
+                ReversePowerADC = new RegUInt16(_deviceHandler, 0x3946, REGPRIVATE.READWRITE);
+                CurrentPort = new Regbyte(_deviceHandler, 0x3948, REGPRIVATE.READWRITE);
                 ModelName = new Regstring(_deviceHandler, 0x5000, 32, REGPRIVATE.READONLY);
                 SerialNumber_1 = new Regstring(_deviceHandler, 0x5020, 32, REGPRIVATE.READONLY);
                 CountryEnum_1 = new RegUInt16(_deviceHandler, 0x5040, REGPRIVATE.READONLY);
                 EF98 = new RegUInt32(_deviceHandler, 0xef98, REGPRIVATE.READONLY);
+                EF9C = new Regstring(_deviceHandler, 0xef9c, 16, REGPRIVATE.READONLY);
                 EFAC = new RegUInt32(_deviceHandler, 0xefac, REGPRIVATE.READONLY);
                 EFB0 = new RegUInt32(_deviceHandler, 0xefb0, REGPRIVATE.READONLY);
             }
@@ -1539,24 +1545,36 @@ namespace CSLibrary
                 Serial Number 5020, 32
                 Country Enum 5040, 2
         */
+        /*
+                int[,] ReaderOEMDDataAddress = new int[,] { { 0x0008, 32 },
+                                                            { 0x0028, 4 },
+        //                                                    { 0x002c, 4 },
+        //                                                    { 0x0034, 4 },
+        //                                                    { 0x0068, 8 },
+        //                                                    { 0x0070, 32 },
+        //                                                    { 0x0090, 4 },
+        //                                                    { 0x0094, 4 },
+        //                                                    { 0x0098, 4 },
+                                                            { 0x5000, 32 },
+                                                            { 0x5020, 32 },
+                                                            { 0x5040, 2 },
+        //                                                    { 0xef98, 4 },
+        //                                                    { 0xefac, 4 },
+        //                                                    { 0xefb0, 4 },
+                                                            { 0x3014, 2 },
+                                                            { 0x3018, 1 }
+        */
         int[,] ReaderOEMDDataAddress = new int[,] { { 0x0008, 32 },
                                                     { 0x0028, 4 },
-                                                    { 0x002c, 4 },
-                                                    { 0x0034, 4 },
-                                                    { 0x0068, 8 },
-                                                    { 0x0070, 32 },
-                                                    { 0x0090, 4 },
-                                                    { 0x0094, 4 },
-                                                    { 0x0098, 4 },
+                                                    { 0x3014, 2 },
+                                                    { 0x3018, 1 },
                                                     { 0x5000, 32 },
-                                                    { 0x5020, 32 },
                                                     { 0x5040, 2 },
                                                     { 0xef98, 4 },
+                                                    { 0xef9c, 16 },
                                                     { 0xefac, 4 },
-                                                    { 0xefb0, 4 },
-                                                    { 0x3014, 2 },
-                                                    { 0x3018, 1 }
-        };
+                                                    { 0xefb0, 4 }
+    };
 
         public bool RegisterInitialize_CS710S()
         {
@@ -1633,23 +1651,36 @@ namespace CSLibrary
 
         void SaveInitRegisters(int index, byte[]data, int size)
         {
+            /*
+                        RFIDRegister.VersionString.Set(System.Text.Encoding.Default.GetString(data, index, RFIDRegister.VersionString.maxlen));
+                        RFIDRegister.BuildNumber.Set(System.Text.Encoding.Default.GetString(data, index + 32, RFIDRegister.BuildNumber.maxlen));
+                        RFIDRegister.Githash.Set(Tools.Hex.MSBToUInt32(data, index + 36));
+                        RFIDRegister.FrefFreq.Set(Tools.Hex.MSBToUInt32(data, index + 40));
+                        RFIDRegister.ProductSku.Set(Tools.Hex.MSBToUInt64(data, index + 44));
+                        RFIDRegister.SerialNumber.Set(System.Text.Encoding.Default.GetString(data, index + 52, RFIDRegister.BuildNumber.maxlen));
+                        RFIDRegister.DeviceInfo.Set(Tools.Hex.MSBToUInt32(data, index + 84));
+                        RFIDRegister.DeviceBuild.Set(Tools.Hex.MSBToUInt32(data, index + 88));
+                        RFIDRegister.RtlRevision.Set(Tools.Hex.MSBToUInt32(data, index + 92));
+                        RFIDRegister.ModelName.Set(System.Text.Encoding.Default.GetString(data, index + 96, RFIDRegister.ModelName.maxlen));
+                        RFIDRegister.SerialNumber_1.Set(System.Text.Encoding.Default.GetString(data, index + 128, RFIDRegister.SerialNumber_1.maxlen));
+                        RFIDRegister.CountryEnum_1.Set(Tools.Hex.MSBToUInt16(data, index + 160));
+                        RFIDRegister.EF98.Set(Tools.Hex.MSBToUInt32(data, index + 162));
+                        RFIDRegister.EFAC.Set(Tools.Hex.MSBToUInt32(data, index + 166));
+                        RFIDRegister.EFB0.Set(Tools.Hex.MSBToUInt32(data, index + 170));
+                        RFIDRegister.CountryEnum.Set(Tools.Hex.MSBToUInt16(data, index + 174));
+                        RFIDRegister.FrequencyChannelIndex.Set(data[index + 176]);
+            */
+
             RFIDRegister.VersionString.Set(System.Text.Encoding.Default.GetString(data, index, RFIDRegister.VersionString.maxlen));
             RFIDRegister.BuildNumber.Set(System.Text.Encoding.Default.GetString(data, index + 32, RFIDRegister.BuildNumber.maxlen));
-            RFIDRegister.Githash.Set(Tools.Hex.MSBToUInt32(data, index + 36));
-            RFIDRegister.FrefFreq.Set(Tools.Hex.MSBToUInt32(data, index + 40));
-            RFIDRegister.ProductSku.Set(Tools.Hex.MSBToUInt64(data, index + 44));
-            RFIDRegister.SerialNumber.Set(System.Text.Encoding.Default.GetString(data, index + 52, RFIDRegister.BuildNumber.maxlen));
-            RFIDRegister.DeviceInfo.Set(Tools.Hex.MSBToUInt32(data, index + 84));
-            RFIDRegister.DeviceBuild.Set(Tools.Hex.MSBToUInt32(data, index + 88));
-            RFIDRegister.RtlRevision.Set(Tools.Hex.MSBToUInt32(data, index + 92));
-            RFIDRegister.ModelName.Set(System.Text.Encoding.Default.GetString(data, index + 96, RFIDRegister.ModelName.maxlen));
-            RFIDRegister.SerialNumber_1.Set(System.Text.Encoding.Default.GetString(data, index + 128, RFIDRegister.SerialNumber_1.maxlen));
-            RFIDRegister.CountryEnum_1.Set(Tools.Hex.MSBToUInt16(data, index + 160));
-            RFIDRegister.EF98.Set(Tools.Hex.MSBToUInt32(data, index + 162));
-            RFIDRegister.EFAC.Set(Tools.Hex.MSBToUInt32(data, index + 166));
-            RFIDRegister.EFB0.Set(Tools.Hex.MSBToUInt32(data, index + 170));
-            RFIDRegister.CountryEnum.Set(Tools.Hex.MSBToUInt16(data, index + 174));
-            RFIDRegister.FrequencyChannelIndex.Set(data[index + 176]);
+            RFIDRegister.CountryEnum.Set(Tools.Hex.MSBToUInt16(data, index + 36));
+            RFIDRegister.FrequencyChannelIndex.Set(data[index + 38]);
+            RFIDRegister.ModelName.Set(System.Text.Encoding.Default.GetString(data, index + 39, RFIDRegister.ModelName.maxlen));
+            RFIDRegister.CountryEnum_1.Set(Tools.Hex.MSBToUInt16(data, index + 71));
+            RFIDRegister.EF98.Set(Tools.Hex.MSBToUInt32(data, index + 73));
+            RFIDRegister.EF9C.Set(System.Text.Encoding.Default.GetString(data, index + 77, RFIDRegister.EF9C.maxlen));
+            RFIDRegister.EFAC.Set(Tools.Hex.MSBToUInt32(data, index + 93));
+            RFIDRegister.EFB0.Set(Tools.Hex.MSBToUInt32(data, index + 97));
 
             m_oem_machine = MODEL.CS710S;
             m_oem_country_code = RFIDRegister.EF98.Get();
@@ -1676,6 +1707,7 @@ namespace CSLibrary
         /// <param name="data"></param>
         /// <param name="index"></param>
         /// <returns></returns>
+/*
         int SaveRegister(int add, byte[] data, int index)
         {
             switch (add)
@@ -1707,5 +1739,6 @@ namespace CSLibrary
 
             return 0;
         }
+*/
     }
 }
