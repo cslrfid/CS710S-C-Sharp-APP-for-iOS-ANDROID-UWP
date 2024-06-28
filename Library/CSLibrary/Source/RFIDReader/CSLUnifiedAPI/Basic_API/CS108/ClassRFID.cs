@@ -315,6 +315,7 @@ namespace CSLibrary
 
                 switch (CurrentOperation)
                 {
+                    case Operation.Kiloway_RANGING:
                     case Operation.TAG_RANGING:
                         {
                             CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;

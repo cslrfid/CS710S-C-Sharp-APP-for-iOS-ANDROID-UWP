@@ -516,6 +516,9 @@ namespace BLE.Client.ViewModels
 
         private void AddOrUpdateTagData(CSLibrary.Structures.TagCallbackInfo info)
         {
+            if (info.Bank1Data.Length == 0)
+                return;
+
             InvokeOnMainThread(() =>
             {
                 bool found = false;

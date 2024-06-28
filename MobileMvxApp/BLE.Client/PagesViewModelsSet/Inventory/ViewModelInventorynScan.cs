@@ -287,25 +287,14 @@ namespace BLE.Client.ViewModels
             base.ViewAppearing();
             SetEvent(true);
 
-            try
+            if (CheckCurrentPage() == 1)
             {
-                Page currentPage;
-
-                currentPage = ((TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1]).CurrentPage;
-
-                if (currentPage.Title == "Barcode Scan")
-                {
-                    BleMvxApplication._reader.barcode.FastBarcodeMode(true);
-                }
-                else
-                {
-                    BleMvxApplication._reader.barcode.FastBarcodeMode(false);
-                }
+                BleMvxApplication._reader.barcode.FastBarcodeMode(true);
             }
-            catch (Exception ex)
+            else
             {
+                BleMvxApplication._reader.barcode.FastBarcodeMode(false);
             }
-
         }
 
         public override void ViewDisappearing()
@@ -317,23 +306,7 @@ namespace BLE.Client.ViewModels
             if (BleMvxApplication._config.RFID_Vibration)
                 BleMvxApplication._reader.barcode.VibratorOff();
 
-            //SetEvent(false);
-
-            try
-            {
-                Page currentPage;
-
-                currentPage = ((TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1]).CurrentPage;
-
-                //if (currentPage.Title != "Barcode Scan")
-                {
-                    BleMvxApplication._reader.barcode.FastBarcodeMode(false);
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
+            BleMvxApplication._reader.barcode.FastBarcodeMode(false);
 
             // don't turn off event handler is you need program work in sleep mode.
             //SetEvent(false);
@@ -343,6 +316,93 @@ namespace BLE.Client.ViewModels
         protected override void InitFromBundle(IMvxBundle parameters)
         {
             base.InitFromBundle(parameters);
+        }
+
+        private int CheckCurrentPage()
+        {
+            try
+            { 
+                var tp = (TabbedPage)(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+                var currentPage1 = tp.CurrentPage;
+                int index = tp.Children.IndexOf(currentPage1);
+
+                return index;
+            }
+            catch (Exception ex1)
+            {
+                string msg = "";
+
+                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
+                {
+                    msg += "[" + i.ToString() + "]" + ((Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage tabbedPage) ? "Y" : "N");
+
+                    _userDialogs.Alert(msg + " : " + ex1.Message);
+                }
+            }
+
+
+
+
+            /*
+            try
+            {
+                string msg = "";
+
+                msg += "[Total : " + Application.Current.MainPage.Navigation.NavigationStack.Count.ToString() + "]";
+
+                _userDialogs.Alert(msg);
+
+                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
+                {
+                    msg += "[" + i.ToString() + "]" + ((Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage) ? "Y" : "N");
+                }
+
+                _userDialogs.Alert(msg );
+            }
+            catch (Exception ex)
+            {
+                _userDialogs.Alert("Error : " + ex.Message);
+            }
+            */
+
+            /*
+                        try
+                        {
+                            var tabbedPage = (TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1];
+                            var currentPage = tabbedPage.CurrentPage;
+                            int index = tabbedPage.Children.IndexOf(currentPage);
+
+                            return index;
+                        }
+                        catch (Exception ex)
+                        {
+                            try
+                            {
+                                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
+                                {
+                                    if (Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage tp)
+                                    {
+                                        var currentPage1 = tp.CurrentPage;
+                                        int index = tp.Children.IndexOf(currentPage1);
+
+                                        return index;
+                                    }
+                                }
+                            }
+                            catch (Exception ex1)
+                            {
+                                string msg = "";
+
+                                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
+                                {
+                                    msg += "[" + i.ToString() + "]" + ((Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage tabbedPage) ? "Y" : "N");
+
+                                    _userDialogs.Alert(msg + " : " + ex1.Message);
+                                }
+                            }
+                        }
+            */
+            return -1;
         }
 
         private void ClearClick()
@@ -1314,54 +1374,23 @@ namespace BLE.Client.ViewModels
         {
             InvokeOnMainThread(() =>
             {
-                Page currentPage;
-
-                Trace.Message("Receive Key Event");
-
-                // try to get current page
-                try
+                if (CheckCurrentPage() == 0)
                 {
-                    currentPage = ((TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1]).CurrentPage;
-                }
-                catch (Exception ex)
-                {
-                    return;
-                }
-
-                switch (currentPage.Title)
-                {
-                    case "RFID Inventory":
-                        if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
+                    if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
+                    {
+                        if (e.KeyDown)
                         {
-                            if (e.KeyDown)
-                            {
-                                if (!_KeyDown)
-                                    StartInventory();
-                                _KeyDown = true;
-                            }
-                            else
-                            {
-                                if (_KeyDown == true)
-                                    StopInventory();
-                                _KeyDown = false;
-                            }
+                            if (!_KeyDown)
+                                StartInventory();
+                            _KeyDown = true;
                         }
-                        break;
-
-                    case "Barcode Scan":
-                        /*
-                        if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
+                        else
                         {
-                            if (e.KeyDown)
-                            {
-                                BarcodeStart();
-                            }
-                            else
-                            {
-                                BarcodeStop();
-                            }
-                        }*/
-                        break;
+                            if (_KeyDown == true)
+                                StopInventory();
+                            _KeyDown = false;
+                        }
+                    }
                 }
             });
         }

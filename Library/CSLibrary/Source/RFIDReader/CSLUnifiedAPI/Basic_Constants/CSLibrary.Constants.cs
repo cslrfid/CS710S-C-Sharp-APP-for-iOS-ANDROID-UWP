@@ -1250,6 +1250,11 @@ ISO/IEC 24730 (WhereNet)	48	0000 0000	0000 0000	xxxx xxxx xxxx xxxx xxxx xxxx xx
         FM13DT_OPMODECHK,
         FM13DT_INITIALREGFILE,
         FM13DT_LEDCTRL,
+
+        /// <summary>
+        /// for Kiloway Tag
+        /// </summary>
+        Kiloway_RANGING,
     }
     /// <summary>
     /// Memory bank

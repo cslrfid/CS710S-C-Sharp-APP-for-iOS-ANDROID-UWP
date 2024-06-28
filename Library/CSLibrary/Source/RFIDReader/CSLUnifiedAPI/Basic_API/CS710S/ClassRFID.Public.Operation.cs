@@ -40,6 +40,41 @@ namespace CSLibrary
             InventoryDebug.Clear();
             switch (opertion)
             {
+                case Operation.Kiloway_RANGING: // Spical Kiloway LED Inventory
+                    _deviceHandler.battery.EnableAutoBatteryLevel();
+
+                    _currentTagRanging = Options.TagRanging.Clone();
+
+                    RFIDRegister.AntennaPortConfig.FastIdEnable(Options.TagRanging.fastid);
+                    RFIDRegister.AntennaPortConfig.TagFocusEnable(Options.TagRanging.focus);
+                    if (m_rdr_opt_parms.TagRanging.multibanks == 0)
+                    {
+                        if ((Options.TagRanging.flags & SelectFlags.FILTER) == 0X00 && (Options.TagRanging.flags & SelectFlags.SELECT) == 0x00)
+                        {
+                            //RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0);
+                            RFIDStartCompactInventory();
+                        }
+                        else
+                        {
+                            RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0, 0xffff);
+                            RFIDStartSelectCompactInventory();
+                        }
+                    }
+                    else
+                    {
+                        if ((Options.TagRanging.flags & SelectFlags.FILTER) == 0X00 && (Options.TagRanging.flags & SelectFlags.SELECT) == 0x00)
+                        {
+                            //RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0);
+                            RFIDStartKilowayMBInventory();
+                        }
+                        else
+                        {
+                            RFIDRegister.AntennaPortConfig.TagGroup(0, 3, 0, 0xffff);
+                            RFIDStartKilowaySelectMBInventory();
+                        }
+                    }
+                    break;
+
                 case Operation.TAG_EXESEARCHING: // phase out for backward compatible
                 case Operation.TAG_EXERANGING: // phase out for backward compatible
                 case Operation.TAG_RANGING: // Enable get battery level by interrupt

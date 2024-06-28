@@ -114,6 +114,7 @@ namespace CSLibrary
         {
             int index = 0;
 
+            m_rdr_opt_parms.TagRanging.multibankswithreply = m_rdr_opt_parms.TagRanging.multibanks;
             if (m_rdr_opt_parms.TagRanging.multibanks > 0)
             {
                 RFIDRegister.MultibankReadConfig.Set(0, true, (int)m_rdr_opt_parms.TagRanging.bank1, m_rdr_opt_parms.TagRanging.offset1, m_rdr_opt_parms.TagRanging.count1);
@@ -134,6 +135,7 @@ namespace CSLibrary
         {
             int index = 0;
 
+            m_rdr_opt_parms.TagRanging.multibankswithreply = m_rdr_opt_parms.TagRanging.multibanks;
             if (m_rdr_opt_parms.TagRanging.multibanks > 0)
             {
                 RFIDRegister.MultibankReadConfig.Set(0, true, (int)m_rdr_opt_parms.TagRanging.bank1, m_rdr_opt_parms.TagRanging.offset1, m_rdr_opt_parms.TagRanging.count1);
@@ -141,6 +143,92 @@ namespace CSLibrary
                     RFIDRegister.MultibankReadConfig.Set(1, true, (int)m_rdr_opt_parms.TagRanging.bank2, m_rdr_opt_parms.TagRanging.offset2, m_rdr_opt_parms.TagRanging.count2);
                 if (m_rdr_opt_parms.TagRanging.multibanks > 2)
                     RFIDRegister.MultibankReadConfig.Set(2, true, (int)m_rdr_opt_parms.TagRanging.bank3, m_rdr_opt_parms.TagRanging.offset3, m_rdr_opt_parms.TagRanging.count3);
+                index = (int)m_rdr_opt_parms.TagRanging.multibanks;
+            }
+
+            for (; index < 3; index++)
+                RFIDRegister.MultibankReadConfig.Enable((byte)index, false);
+
+            RunShortOperation(SCSLRFIDCMD.SCSLRFIDStartSelectMBInventory);
+        }
+
+        internal void RFIDStartKilowayMBInventory()
+        {
+            int index = 0;
+
+            m_rdr_opt_parms.TagRanging.multibankswithreply = m_rdr_opt_parms.TagRanging.multibanks;
+            if (m_rdr_opt_parms.TagRanging.multibanks > 0)
+            {
+                RFIDRegister.MultibankReadConfig.Set(0, true, (int)m_rdr_opt_parms.TagRanging.bank1, m_rdr_opt_parms.TagRanging.offset1, m_rdr_opt_parms.TagRanging.count1);
+                if (m_rdr_opt_parms.TagRanging.bank1 == CSLibrary.Constants.MemoryBank.BANK0 && m_rdr_opt_parms.TagRanging.offset1 == 4 && m_rdr_opt_parms.TagRanging.count1 == 1)
+                {
+                    RFIDRegister.MultibankReadConfig.SetNoReply(0);
+                    m_rdr_opt_parms.TagRanging.multibankswithreply--;
+                }
+
+                if (m_rdr_opt_parms.TagRanging.multibanks > 1)
+                {
+                    RFIDRegister.MultibankReadConfig.Set(1, true, (int)m_rdr_opt_parms.TagRanging.bank2, m_rdr_opt_parms.TagRanging.offset2, m_rdr_opt_parms.TagRanging.count2);
+                    if (m_rdr_opt_parms.TagRanging.bank2 == CSLibrary.Constants.MemoryBank.BANK0 && m_rdr_opt_parms.TagRanging.offset2 == 4 && m_rdr_opt_parms.TagRanging.count2 == 1)
+                    {
+                        RFIDRegister.MultibankReadConfig.SetNoReply(1);
+                        m_rdr_opt_parms.TagRanging.multibankswithreply--;
+                    }
+                }
+
+
+                if (m_rdr_opt_parms.TagRanging.multibanks > 2)
+                {
+                    RFIDRegister.MultibankReadConfig.Set(2, true, (int)m_rdr_opt_parms.TagRanging.bank3, m_rdr_opt_parms.TagRanging.offset3, m_rdr_opt_parms.TagRanging.count3);
+                    if (m_rdr_opt_parms.TagRanging.bank3 == CSLibrary.Constants.MemoryBank.BANK0 && m_rdr_opt_parms.TagRanging.offset3 == 4 && m_rdr_opt_parms.TagRanging.count3 == 1)
+                    {
+                        RFIDRegister.MultibankReadConfig.SetNoReply(2);
+                        m_rdr_opt_parms.TagRanging.multibankswithreply--;
+                    }
+                }
+                index = (int)m_rdr_opt_parms.TagRanging.multibanks;
+            }
+
+            for (; index < 3; index++)
+                RFIDRegister.MultibankReadConfig.Enable((byte)index, false);
+
+            RunShortOperation(SCSLRFIDCMD.SCSLRFIDStartMBInventory);
+        }
+
+        internal void RFIDStartKilowaySelectMBInventory()
+        {
+            int index = 0;
+
+            m_rdr_opt_parms.TagRanging.multibankswithreply = m_rdr_opt_parms.TagRanging.multibanks;
+            if (m_rdr_opt_parms.TagRanging.multibanks > 0)
+            {
+                RFIDRegister.MultibankReadConfig.Set(0, true, (int)m_rdr_opt_parms.TagRanging.bank1, m_rdr_opt_parms.TagRanging.offset1, m_rdr_opt_parms.TagRanging.count1);
+                if (m_rdr_opt_parms.TagRanging.bank1 == CSLibrary.Constants.MemoryBank.BANK0 && m_rdr_opt_parms.TagRanging.offset1 == 4 && m_rdr_opt_parms.TagRanging.count1 == 1)
+                {
+                    RFIDRegister.MultibankReadConfig.SetNoReply(0);
+                    m_rdr_opt_parms.TagRanging.multibankswithreply--;
+                }
+
+                if (m_rdr_opt_parms.TagRanging.multibanks > 1)
+                {
+                    RFIDRegister.MultibankReadConfig.Set(1, true, (int)m_rdr_opt_parms.TagRanging.bank2, m_rdr_opt_parms.TagRanging.offset2, m_rdr_opt_parms.TagRanging.count2);
+                    if (m_rdr_opt_parms.TagRanging.bank2 == CSLibrary.Constants.MemoryBank.BANK0 && m_rdr_opt_parms.TagRanging.offset2 == 4 && m_rdr_opt_parms.TagRanging.count2 == 1)
+                    { 
+                        RFIDRegister.MultibankReadConfig.SetNoReply(1);
+                        m_rdr_opt_parms.TagRanging.multibankswithreply--;
+                    }
+                }
+
+                if (m_rdr_opt_parms.TagRanging.multibanks > 2)
+                {
+                    RFIDRegister.MultibankReadConfig.Set(2, true, (int)m_rdr_opt_parms.TagRanging.bank3, m_rdr_opt_parms.TagRanging.offset3, m_rdr_opt_parms.TagRanging.count3);
+                    if (m_rdr_opt_parms.TagRanging.bank3 == CSLibrary.Constants.MemoryBank.BANK0 && m_rdr_opt_parms.TagRanging.offset3 == 4 && m_rdr_opt_parms.TagRanging.count3 == 1)
+                    {
+                        RFIDRegister.MultibankReadConfig.SetNoReply(2);
+                        m_rdr_opt_parms.TagRanging.multibankswithreply--;
+                    }
+                }
+
                 index = (int)m_rdr_opt_parms.TagRanging.multibanks;
             }
 

@@ -319,6 +319,12 @@ namespace BLE.Client
         // LED Tag
         public static bool _LEDTag_Selected = false;
 
+        // Wedge Forwarder
+        public static string _WedgeIP = "127.0.0.1";
+        public static int _WedgePort = 9394;
+        public static int _WedgeDuplicateFilter = 0;
+        public static int _WedgeRollingWindows = 1;
+
         public override void Initialize()
         {
             CreatableTypes()

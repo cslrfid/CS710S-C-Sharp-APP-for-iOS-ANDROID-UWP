@@ -122,7 +122,7 @@ namespace CSLibrary
 
             //_0309 = new UInt32[8];              
 
-            _0400 = new UInt32[0];              // 408
+            _0400 = new UInt32[11];              // 0x0400-0x040A
 
             //_0408 = new UInt32[2];              // (Selector)
 

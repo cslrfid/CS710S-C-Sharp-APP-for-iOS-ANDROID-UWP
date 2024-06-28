@@ -65,6 +65,8 @@ namespace BLE.Client.ViewModels
         public ICommand OnN2ESLButtonCommand { protected set; get; }
         public ICommand OnAsygnButtonCommand { protected set; get; }
         public ICommand OnMQTTButtonCommand { protected set; get; }
+        public ICommand OnInventorytoWedgeForwarderButtonCommand { protected set; get; }
+        
 
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs, IMvxNavigationService navigation) : base(adapter)
@@ -79,6 +81,7 @@ namespace BLE.Client.ViewModels
             OnN2ESLButtonCommand = new Command(OnN2ESLButtonClicked);
             OnAsygnButtonCommand = new Command(OnAsygnButtonClicked);
             OnMQTTButtonCommand = new Command(OnMQTTButtonClicked);
+            OnInventorytoWedgeForwarderButtonCommand = new Command(OnInventorytoWedgeForwarderButtonClicked);
 
         OnPhaseChannelInventoryButtonCommand = new Command(OnPhaseChannelInventoryButtonClicked);
             OnPeriodicReadButtonCommand = new Command(OnPeriodicReadButtonClicked);
@@ -265,6 +268,11 @@ namespace BLE.Client.ViewModels
             _navigation.Navigate<ViewModelMQTTInventory>(new MvxBundle());
         }
 
+        void OnInventorytoWedgeForwarderButtonClicked()
+        {
+            _navigation.Navigate<ViewModelInventorytoWedgeForwarderSetting>(new MvxBundle());
+        }
+        
 
         /*
         void OnASCIIdemoButtonClicked()

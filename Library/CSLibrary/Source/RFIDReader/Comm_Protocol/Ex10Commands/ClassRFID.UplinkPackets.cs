@@ -26,6 +26,7 @@ using CSLibrary.Structures;
 using CSLibrary.Constants;
 using System.Net.Sockets;
 using CSLibrary.Barcode.Constants;
+using System.Linq.Expressions;
 
 
 namespace CSLibrary
@@ -141,67 +142,77 @@ namespace CSLibrary
         // 0x3001 packet
         void csl_tag_read_epc_only_new_packet_proc(byte[] data, int index)
         {
-            UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
-            UInt16 rf_phase_begin = Tools.Hex.MSBToUInt16(data, index + 6);
-            UInt16 rf_phase_end = Tools.Hex.MSBToUInt16(data, index + 8);
-            byte PortNumber = data[index + 10];
-            UInt16 Tag_Index = Tools.Hex.MSBToUInt16(data, index + 13);
-
-            int rssidBm100;
+            try
             {
-                byte hiByte = data[index + 4];
-                rssidBm100 = Tools.Hex.MSBToUInt16 (data, index + 4);
 
-                if (hiByte > 0x7f)
-                    rssidBm100 -= 0x10000;
-            }
+                UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
+                UInt16 rf_phase_begin = Tools.Hex.MSBToUInt16(data, index + 6);
+                UInt16 rf_phase_end = Tools.Hex.MSBToUInt16(data, index + 8);
+                byte PortNumber = data[index + 10];
+                UInt16 Tag_Index = Tools.Hex.MSBToUInt16(data, index + 13);
 
-            index += 15;
-            //while (index < data.Length)
-            {
-                CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
-                CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
-
-                info.pc = new S_PC(Tools.Hex.MSBToUInt16(data, index));
-                index += 2;
-
-                if (info.pc.XI) // Check XPC W1
+                int rssidBm100;
                 {
-                    info.xpc_w1 = new S_XPC_W1(Tools.Hex.MSBToUInt16(data, index));
-                    index += 2;
+                    byte hiByte = data[index + 4];
+                    rssidBm100 = Tools.Hex.MSBToUInt16 (data, index + 4);
 
-                    if (info.xpc_w1.XEB) // Check XPC W2
-                    {
-                        info.xpc_w2 = new S_XPC_W2(Tools.Hex.MSBToUInt16(data, index));
-                        index += 2;
-                    }
+                    if (hiByte > 0x7f)
+                        rssidBm100 -= 0x10000;
                 }
 
-                int epcbytelen = ((info.pc >> 11) << 1);
-                byte[] epc = new byte[epcbytelen];
-                Array.Copy(data, index, epc, 0, epcbytelen);
-                info.epc = new S_EPC(epc);
-                index += epcbytelen;
+                index += 15;
+                //while (index < data.Length)
+                {
+                    CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
+                    CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
 
-                info.antennaPort = PortNumber;
-                info.rssidBm = rssidBm100 / 100;
-                info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm) ;
+                    info.pc = new S_PC(Tools.Hex.MSBToUInt16(data, index));
+                    index += 2;
 
-                info.Bank1Data = new ushort[0];
-                info.Bank2Data = new ushort[0];
-                info.Bank3Data = new ushort[0];
-
-                CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
-
-                if (OnAsyncCallback != null)
-                    try
+                    if (info.pc.XI) // Check XPC W1
                     {
-                        OnAsyncCallback(_deviceHandler, callBackData);
+                        info.xpc_w1 = new S_XPC_W1(Tools.Hex.MSBToUInt16(data, index));
+                        index += 2;
+
+                        if (info.xpc_w1.XEB) // Check XPC W2
+                        {
+                            info.xpc_w2 = new S_XPC_W2(Tools.Hex.MSBToUInt16(data, index));
+                            index += 2;
+                        }
                     }
-                    catch (Exception ex)
+
+                    int epcbytelen = ((info.pc >> 11) << 1);
+                    byte[] epc = new byte[epcbytelen];
+                    Array.Copy(data, index, epc, 0, epcbytelen);
+                    info.epc = new S_EPC(epc);
+                    index += epcbytelen;
+
+                    info.antennaPort = PortNumber;
+                    info.rssidBm = rssidBm100 / 100;
+                    info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm) ;
+
+                    info.Bank1Data = new ushort[0];
+                    info.Bank2Data = new ushort[0];
+                    info.Bank3Data = new ushort[0];
+
+                    if (OnAsyncCallback != null)
                     {
-                        CSLibrary.Debug.WriteLine("OnAsyncCallback Error : " + ex.Message);
+                        try
+                        {
+                            CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
+
+                            OnAsyncCallback(_deviceHandler, callBackData);
+                        }
+                        catch (Exception ex)
+                        {
+                            CSLibrary.Debug.WriteLine("OnAsyncCallback Error : " + ex.Message);
+                        }
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("csl_tag_read_epc_only_new_packet_proc Error : " + ex.Message);
             }
         }
 
@@ -217,186 +228,202 @@ namespace CSLibrary
         // 0x3003 packet
         void csl_tag_read_multibank_new_packet_proc(byte[] data, int index)
         {
-            UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
-            UInt16 rf_phase_begin = Tools.Hex.MSBToUInt16(data, index + 6);
-            UInt16 rf_phase_end = Tools.Hex.MSBToUInt16(data, index + 8);
-            byte PortNumber = data[index + 10];
-            UInt16 Tag_Index = Tools.Hex.MSBToUInt16(data, index + 13);
-
-            int rssidBm100;
+            try
             {
-                byte hiByte = data[index + 4];
-                rssidBm100 = Tools.Hex.MSBToUInt16(data, index + 4);
+                UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
+                UInt16 rf_phase_begin = Tools.Hex.MSBToUInt16(data, index + 6);
+                UInt16 rf_phase_end = Tools.Hex.MSBToUInt16(data, index + 8);
+                byte PortNumber = data[index + 10];
+                UInt16 Tag_Index = Tools.Hex.MSBToUInt16(data, index + 13);
 
-                if (hiByte > 0x7f)
-                    rssidBm100 -= 0x10000;
-            }
-
-            index += 15;
-            //while (index < data.Length)
-            {
-                CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
-                CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
-
-                info.pc = new S_PC(Tools.Hex.MSBToUInt16(data, index));
-                index += 2;
-
-                if (info.pc.XI) // Check XPC W1
+                int rssidBm100;
                 {
-                    info.xpc_w1 = new S_XPC_W1(Tools.Hex.MSBToUInt16(data, index));
+                    byte hiByte = data[index + 4];
+                    rssidBm100 = Tools.Hex.MSBToUInt16(data, index + 4);
+
+                    if (hiByte > 0x7f)
+                        rssidBm100 -= 0x10000;
+                }
+
+                index += 15;
+                //while (index < data.Length)
+                {
+                    CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
+                    CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
+
+                    info.pc = new S_PC(Tools.Hex.MSBToUInt16(data, index));
                     index += 2;
 
-                    if (info.xpc_w1.XEB) // Check XPC W2
+                    if (info.pc.XI) // Check XPC W1
                     {
-                        info.xpc_w2 = new S_XPC_W2(Tools.Hex.MSBToUInt16(data, index));
+                        info.xpc_w1 = new S_XPC_W1(Tools.Hex.MSBToUInt16(data, index));
                         index += 2;
+
+                        if (info.xpc_w1.XEB) // Check XPC W2
+                        {
+                            info.xpc_w2 = new S_XPC_W2(Tools.Hex.MSBToUInt16(data, index));
+                            index += 2;
+                        }
                     }
-                }
 
-                int epcbytelen = ((info.pc >> 11) << 1);
-                byte[] epc = new byte[epcbytelen];
-                Array.Copy(data, index, epc, 0, epcbytelen);
-                info.epc = new S_EPC(epc);
-                index += epcbytelen;
+                    int epcbytelen = ((info.pc >> 11) << 1);
+                    byte[] epc = new byte[epcbytelen];
+                    Array.Copy(data, index, epc, 0, epcbytelen);
+                    info.epc = new S_EPC(epc);
+                    index += epcbytelen;
 
-                info.antennaPort = PortNumber;
-                info.rssidBm = rssidBm100 / 100;
-                info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm);
+                    info.antennaPort = PortNumber;
+                    info.rssidBm = rssidBm100 / 100;
+                    info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm);
 
-                info.Bank1Data = new ushort[0];
-                info.Bank2Data = new ushort[0];
-                info.Bank3Data = new ushort[0];
-                if (data[index] == m_rdr_opt_parms.TagRanging.multibanks)
-                {
-                    index++;
-                    if (m_rdr_opt_parms.TagRanging.multibanks > 0)
-                        info.Bank1Data = Tools.Hex.MSBToUInt16Array(data, index, m_rdr_opt_parms.TagRanging.count1);
-                    if (m_rdr_opt_parms.TagRanging.multibanks > 1)
-                        info.Bank2Data = Tools.Hex.MSBToUInt16Array(data, index + (m_rdr_opt_parms.TagRanging.count1 * 2), m_rdr_opt_parms.TagRanging.count2);
-                    if (m_rdr_opt_parms.TagRanging.multibanks > 2)
-                        info.Bank3Data = Tools.Hex.MSBToUInt16Array(data, index + ((m_rdr_opt_parms.TagRanging.count1 + m_rdr_opt_parms.TagRanging.count2) * 2), m_rdr_opt_parms.TagRanging.count3);
-                }
-
-                if (_currentTagRanging.multibanks >= 3)
-                {
-                    if (_currentTagRanging.bank3 == MemoryBank.TID)
-                        if (checkmultibankzero(info.Bank3Data))
-                            return;
-                }
-
-                if (_currentTagRanging.multibanks >= 2)
-                {
-                    if (_currentTagRanging.bank2 == MemoryBank.TID)
-                        if (checkmultibankzero(info.Bank2Data))
-                            return;
-                }
-
-                if (_currentTagRanging.multibanks >= 1)
-                {
-                    if (_currentTagRanging.bank1 == MemoryBank.TID)
-                        if (checkmultibankzero(info.Bank1Data))
-                            return;
-                }
-
-                CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
-
-                if (OnAsyncCallback != null)
-                    try
+                    info.Bank1Data = new ushort[0];
+                    info.Bank2Data = new ushort[0];
+                    info.Bank3Data = new ushort[0];
+                    if (data[index] == m_rdr_opt_parms.TagRanging.multibankswithreply)
                     {
-                        OnAsyncCallback(_deviceHandler, callBackData);
+                        index++;
+                        if (m_rdr_opt_parms.TagRanging.multibanks > 0)
+                            info.Bank1Data = Tools.Hex.MSBToUInt16Array(data, index, m_rdr_opt_parms.TagRanging.count1);
+                        if (m_rdr_opt_parms.TagRanging.multibanks > 1)
+                            info.Bank2Data = Tools.Hex.MSBToUInt16Array(data, index + (m_rdr_opt_parms.TagRanging.count1 * 2), m_rdr_opt_parms.TagRanging.count2);
+                        if (m_rdr_opt_parms.TagRanging.multibanks > 2)
+                            info.Bank3Data = Tools.Hex.MSBToUInt16Array(data, index + ((m_rdr_opt_parms.TagRanging.count1 + m_rdr_opt_parms.TagRanging.count2) * 2), m_rdr_opt_parms.TagRanging.count3);
                     }
-                    catch (Exception ex)
+
+                    if (_currentTagRanging.multibankswithreply >= 3)
                     {
-                        CSLibrary.Debug.WriteLine("OnAsyncCallback Error : " + ex.Message);
+                        if (_currentTagRanging.bank3 == MemoryBank.TID)
+                            if (checkmultibankzero(info.Bank3Data))
+                                return;
                     }
+
+                    if (_currentTagRanging.multibankswithreply >= 2)
+                    {
+                        if (_currentTagRanging.bank2 == MemoryBank.TID)
+                            if (checkmultibankzero(info.Bank2Data))
+                                return;
+                    }
+
+                    if (_currentTagRanging.multibankswithreply >= 1)
+                    {
+                        if (_currentTagRanging.bank1 == MemoryBank.TID)
+                            if (checkmultibankzero(info.Bank1Data))
+                                return;
+                    }
+
+                    CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
+
+                    if (OnAsyncCallback != null)
+                        try
+                        {
+                            OnAsyncCallback(_deviceHandler, callBackData);
+                        }
+                        catch (Exception ex)
+                        {
+                            CSLibrary.Debug.WriteLine("OnAsyncCallback Error : " + ex.Message);
+                        }
+                }
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("csl_tag_read_multibank_new_packet_proc Error : " + ex.Message);
             }
         }
 
         // 0x3006 packet
         internal void csl_tag_read_compact_packet_proc(byte[] data, int index)
         {
-            UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
-
-            index += 6;
-            while (index < data.Length)
+            try
             {
-                CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
-                CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
+                UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
 
-                //var PC = BitConverter.ToUInt16(data, index);
-                //info.pc = new S_PC(PC);
-                info.pc = new S_PC((UInt16)(data[index] << 8 | data[index + 1]));
-                index += 2;
-
-                if (info.pc.XI) // Check XPC W1
+                index += 6;
+                while (index < data.Length)
                 {
-                    info.xpc_w1 = new S_XPC_W1((UInt16)(data[index] << 8 | data[index + 1]));
+                    CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
+                    CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
+
+                    //var PC = BitConverter.ToUInt16(data, index);
+                    //info.pc = new S_PC(PC);
+                    info.pc = new S_PC((UInt16)(data[index] << 8 | data[index + 1]));
                     index += 2;
 
-                    if (info.xpc_w1.XEB) // Check XPC W2
+                    if (info.pc.XI) // Check XPC W1
                     {
-                        info.xpc_w2 = new S_XPC_W2((UInt16)(data[index] << 8 | data[index + 1]));
+                        info.xpc_w1 = new S_XPC_W1((UInt16)(data[index] << 8 | data[index + 1]));
                         index += 2;
+
+                        if (info.xpc_w1.XEB) // Check XPC W2
+                        {
+                            info.xpc_w2 = new S_XPC_W2((UInt16)(data[index] << 8 | data[index + 1]));
+                            index += 2;
+                        }
                     }
-                }
 
-                int epcbytelen = ((info.pc >> 11) << 1);
-                byte[] epc = new byte[epcbytelen];
-                Array.Copy(data, index, epc, 0, epcbytelen);
-                info.epc = new S_EPC(epc);
-                index += epcbytelen;
+                    int epcbytelen = ((info.pc >> 11) << 1);
+                    byte[] epc = new byte[epcbytelen];
+                    Array.Copy(data, index, epc, 0, epcbytelen);
+                    info.epc = new S_EPC(epc);
+                    index += epcbytelen;
 
 
-                int rssidBm100;
-                {
-                    byte hiByte = data[index];
-                    rssidBm100 = ((int)(data[index] << 8 | data[index + 1]));
-
-                    if (hiByte > 0x7f)
-                        rssidBm100 -= 0x10000;
-                }
-                info.rssidBm = rssidBm100 / 100;
-                info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm);
-
-                index += 2;
-
-                info.Bank1Data = new ushort[0];
-                info.Bank2Data = new ushort[0];
-                info.Bank3Data = new ushort[0];
-
-/*
-                if (RFIDRegister.AntennaPortConfig.FastId() && info.pc.EPCLength >= 6 && epc[epcbytelen - 12] == 0xe2 && epc[epcbytelen - 11] == 0x80 && epc[epcbytelen - 10] == 0x11)
-                {
-                    byte[] newbyteEpc = new byte[epcbytelen - 12];
-                    UInt16[] newbyteTid = new UInt16[6];
-
-                    Array.Copy(epc, 0, newbyteEpc, 0, newbyteEpc.Length);
-                    ArrayCopy(epc, epcbytelen - 12, newbyteTid, 0, 12);
-
-                    info.FastTid = newbyteTid;
-                    epc = newbyteEpc;
-                }
-                else
-                    info.FastTid = new UInt16[0];
-*/
-
-                CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
-
-                if (OnAsyncCallback != null)
-                    try
+                    int rssidBm100;
                     {
-                        OnAsyncCallback(_deviceHandler, callBackData);
+                        byte hiByte = data[index];
+                        rssidBm100 = ((int)(data[index] << 8 | data[index + 1]));
+
+                        if (hiByte > 0x7f)
+                            rssidBm100 -= 0x10000;
                     }
-                    catch (Exception ex)
-                    {
-                        CSLibrary.Debug.WriteLine("OnAsyncCallback Error : " + ex.Message);
-                    }
+                    info.rssidBm = rssidBm100 / 100;
+                    info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm);
+
+                    index += 2;
+
+                    info.Bank1Data = new ushort[0];
+                    info.Bank2Data = new ushort[0];
+                    info.Bank3Data = new ushort[0];
+
+                    /*
+                                    if (RFIDRegister.AntennaPortConfig.FastId() && info.pc.EPCLength >= 6 && epc[epcbytelen - 12] == 0xe2 && epc[epcbytelen - 11] == 0x80 && epc[epcbytelen - 10] == 0x11)
+                                    {
+                                        byte[] newbyteEpc = new byte[epcbytelen - 12];
+                                        UInt16[] newbyteTid = new UInt16[6];
+
+                                        Array.Copy(epc, 0, newbyteEpc, 0, newbyteEpc.Length);
+                                        ArrayCopy(epc, epcbytelen - 12, newbyteTid, 0, 12);
+
+                                        info.FastTid = newbyteTid;
+                                        epc = newbyteEpc;
+                                    }
+                                    else
+                                        info.FastTid = new UInt16[0];
+                    */
+
+                    CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
+
+                    if (OnAsyncCallback != null)
+                        try
+                        {
+                            OnAsyncCallback(_deviceHandler, callBackData);
+                        }
+                        catch (Exception ex)
+                        {
+                            CSLibrary.Debug.WriteLine("OnAsyncCallback Error : " + ex.Message);
+                        }
+                }
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("csl_tag_read_compact_packet_proc Error : " + ex.Message);
             }
         }
 
         // 0x3007 packet
         void csl_miscellaneous_event_packet_proc(byte[] data, int index, int len)
         {
+            try
+            {
             UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
             UInt16 eventCode = Tools.Hex.MSBToUInt16(data, index + 4);
 
@@ -434,6 +461,11 @@ namespace CSLibrary
                 default:
                     CSLibrary.Debug.WriteLine("csl_miscellaneous_event Event Code : " + eventCode.ToString());
                     break;
+            }
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("csl_miscellaneous_event_packet_proc Error : " + ex.Message);
             }
         }
 

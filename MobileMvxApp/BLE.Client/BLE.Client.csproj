@@ -63,6 +63,12 @@
       <SubType>Code</SubType>
       <DependentUpon>PageImpinjSpecialFeaturesConfig.xaml</DependentUpon>
     </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\InventorytoWedgeForwarder\PageInventorytoWedgeForwarderSetting.xaml.cs">
+      <DependentUpon>PageInventorytoWedgeForwarderSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="PagesViewModelsSet\SpecialFuction\InventorytoWedgeForwarder\PageInventorytoWedgeForwarder.xaml.cs">
+      <DependentUpon>PageInventorytoWedgeForwarder.xaml</DependentUpon>
+    </Compile>
     <Compile Update="PagesViewModelsSet\SpecialFuction\LEDTag\LEDTag.xaml.cs">
       <DependentUpon>LEDTag.xaml</DependentUpon>
     </Compile>

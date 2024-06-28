@@ -1115,7 +1115,7 @@ namespace CSLibrary
 
                 if (data[add] == newValue)
                     return;
-                    
+
                 data[add] = newValue;
 
                 sendData[0] = data[add];
@@ -1151,8 +1151,26 @@ namespace CSLibrary
                 }
 
             }
-        }
 
+            internal void SetNoReply(byte index)
+            {
+                if (Private == REGPRIVATE.READONLY)
+                    return;
+
+                byte[] sendData = new byte[1];
+                int add = (index * 7);
+
+                byte newValue = 2;
+
+                if (data[add] == newValue)
+                    return;
+
+                data[add] = newValue;
+
+                sendData[0] = data[add];
+                _handler.WriteRegister((UInt16)(regAdd + add), sendData);
+            }
+        }
         internal class RegMultibankWriteConfig
         {
             internal RFIDReader _RFIDhandler;

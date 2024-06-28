@@ -106,7 +106,7 @@ namespace BLE.Client.ViewModels
 
         private void OnLEDTagWithGeiGerClick()
         {
-            _navigation.Navigate<ViewModelLEDTagWithGeiger>(new MvxBundle());
+            _navigation.Navigate<ViewModelLEDKilowayTagWithGeiger>(new MvxBundle());
         }
 
 
@@ -228,10 +228,9 @@ namespace BLE.Client.ViewModels
 
             if (switchFlashTagsIsToggled)
             {
-                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 1;
-                BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = CSLibrary.Constants.MemoryBank.BANK0;
-                BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = 4;
-                BleMvxApplication._reader.rfid.Options.TagRanging.count1 = 1;
+                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 2;
+                BleMvxApplication._reader.rfid.Options.TagRanging.bank2 = CSLibrary.Constants.MemoryBank.BANK0;
+                BleMvxApplication._reader.rfid.Options.TagRanging.offset2 = 4;
             }
 
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = false;
@@ -262,17 +261,18 @@ namespace BLE.Client.ViewModels
             RaisePropertyChanged(() => switchFlashTagsIsToggled);
             if (switchFlashTagsIsToggled)
             {
-                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 1;
-                BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = CSLibrary.Constants.MemoryBank.BANK0;
-                BleMvxApplication._reader.rfid.Options.TagRanging.offset1 = 4;
-                BleMvxApplication._reader.rfid.Options.TagRanging.count1 = 1;
+                BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 2;
+                BleMvxApplication._reader.rfid.Options.TagRanging.bank2 = CSLibrary.Constants.MemoryBank.BANK0;
+                BleMvxApplication._reader.rfid.Options.TagRanging.offset2 = 4;
+                BleMvxApplication._reader.rfid.Options.TagRanging.count2 = 1;
             }
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_PRERANGING);
 
             _ListViewRowHeight = 40 + (int)(BleMvxApplication._reader.rfid.Options.TagRanging.multibanks * 10);
             RaisePropertyChanged(() => ListViewRowHeight);
 
             InventoryStartTime = DateTime.Now;
-            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.TAG_RANGING);
+            BleMvxApplication._reader.rfid.StartOperation(CSLibrary.Constants.Operation.Kiloway_RANGING);
             ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.INVENTORY);
             _cancelVoltageValue = true;
 
@@ -353,12 +353,6 @@ namespace BLE.Client.ViewModels
             if (e.type != CSLibrary.Constants.CallbackType.TAG_RANGING)
                 return;
 
-            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1)
-            {
-                if (e.info.Bank1Data.Length != BleMvxApplication._reader.rfid.Options.TagRanging.count1)
-                    return;
-            }
-
             InvokeOnMainThread(() =>
             {
                 _tagCountForAlert++;
@@ -427,6 +421,9 @@ namespace BLE.Client.ViewModels
 
         private void AddOrUpdateTagData(CSLibrary.Structures.TagCallbackInfo info)
         {
+            if (info.Bank1Data.Length == 0) // if no TID data
+                return;
+
             InvokeOnMainThread(() =>
             {
                 bool found = false;
@@ -437,11 +434,10 @@ namespace BLE.Client.ViewModels
                 {
                     for (cnt = 0; cnt < TagInfoList.Count; cnt++)
                     {
-                        if (TagInfoList[cnt].EPC == info.epc.ToString())
+                        if (TagInfoList[cnt].Bank1Data == CSLibrary.Tools.Hex.ToString(info.Bank1Data))
                         {
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1 && TagInfoList[cnt].Bank1Data != CSLibrary.Tools.Hex.ToString(info.Bank1Data))
-                                continue;
 
+                            TagInfoList[cnt].EPC = info.epc.ToString();
                             TagInfoList[cnt].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
                             TagInfoList[cnt].RSSI = info.rssidBm;
                             found = true;
