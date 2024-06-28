@@ -14,15 +14,15 @@ namespace BLE.Client.Droid
     {
         public bool IsBatteryOptimizationDisabled()
         {
-            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
-            {
-                var powerManager = (PowerManager)Android.App.Application.Context.GetSystemService(Android.Content.Context.PowerService);
-                var packageName = Android.App.Application.Context.PackageName;
-                if (powerManager.IsIgnoringBatteryOptimizations(packageName))
-                {
-                    return true;
-                }
-            }
+            // If Android 12 or older
+            if (Build.VERSION.SdkInt < BuildVersionCodes.Tiramisu)
+                return true;
+
+            var powerManager = (PowerManager)Android.App.Application.Context.GetSystemService(Android.Content.Context.PowerService);
+            var packageName = Android.App.Application.Context.PackageName;
+            if (powerManager.IsIgnoringBatteryOptimizations(packageName))
+                return true;
+
             return false;
         }
 

@@ -18,7 +18,7 @@
                 <Button Text="Kiloway KX2005X-BL" Font="Large" Command="{Binding OnKilowayKX2005XBLButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
                 <Button Text="Asygn" Font="Large" Command="{Binding OnAsygnButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
                 <!--<Button Text="MQTT" Font="Large" Command="{Binding OnMQTTButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />-->
-                <Button Text="Inventory -> Wedge Forwarder" Font="Large" Command="{Binding OnInventorytoWedgeForwarderButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
+                <Button Text="Java Wedge Forwarder" Font="Large" Command="{Binding OnInventorytoWedgeForwarderButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
 
 
                 <!--<Button Text="Phase and Channel Inventory" Font="Large" Command="{Binding OnPhaseChannelInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
