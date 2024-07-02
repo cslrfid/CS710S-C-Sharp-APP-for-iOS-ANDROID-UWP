@@ -8,7 +8,7 @@
 					  Title="Java Wedge Forwarder Setting">
 
 
-	<StackLayout Padding="10, 20, 0, 0">
+	<StackLayout Padding="10, 20, 10, 10">
 
         <StackLayout x:Name="Normal" IsVisible="false">
 
@@ -40,9 +40,13 @@
 
         <StackLayout x:Name="BatteryUsage" IsVisible="false">
 
-            <Label Text="This function needs to select Unrestricted in battery usage to work properly." HorizontalTextAlignment="Center"	FontSize="Large" TextColor="Red"/>
-            <Label Text="Click the button below and then enter 'Battery usage' to change the settings." HorizontalTextAlignment="Center"	FontSize="Large" TextColor="Red"/>
-            <!--<Label Text="After changing the setting, please restart the program." HorizontalTextAlignment="Center"	FontSize="Large" TextColor="Red"/>-->
+            <Frame CornerRadius="10" BorderColor="Red" Padding="10">
+                <StackLayout>
+                    <Label Text="This special function requires 'Unrestricted' setting in battery usage to work properly." HorizontalTextAlignment="Center"	FontSize="Large" TextColor="Red"/>
+                    <Label Text="Please click button below to 'App info' page for this app and then enter 'Battery usage' page to change the settings." HorizontalTextAlignment="Center"	FontSize="Large" TextColor="Red"/>
+                </StackLayout>
+            </Frame>
+            
             <Button x:Name="buttonGotoBatteryUsageSetting" Text="Go to Battery Usage Page" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="buttonGotoBatteryUsageSettingClicked" TextColor="Black" />
 
         </StackLayout>
