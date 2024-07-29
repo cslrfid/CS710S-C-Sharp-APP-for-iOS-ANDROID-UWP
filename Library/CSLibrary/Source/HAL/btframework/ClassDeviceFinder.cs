@@ -124,6 +124,7 @@ namespace CSLibrary
         }
 
 	    static List<long> _deviceDB = new List<long>();
+        static List<CSLibrary.RFIDDEVICE.MODEL> _deviceTypeDB = new List<CSLibrary.RFIDDEVICE.MODEL>();
         static public event EventHandler<DeviceFinderArgs> OnSearchCompleted;
 
         static public void SearchDevice()
@@ -216,6 +217,7 @@ namespace CSLibrary
         static public void ClearDeviceList()
 	    {
 		    _deviceDB.Clear ();
+            _deviceTypeDB.Clear ();
 	    }
 
         static public object GetDeviceInformation(int id)
@@ -224,6 +226,14 @@ namespace CSLibrary
                 return _deviceDB[id];
 
             return null;
+        }
+
+        static public CSLibrary.RFIDDEVICE.MODEL GetDeviceModel(int id)
+        {
+            if (id < _deviceTypeDB.Count)
+                return _deviceTypeDB[id];
+
+            return CSLibrary.RFIDDEVICE.MODEL.UNKNOWN;
         }
 
         static public object GetDeviceInformation (string readername)
@@ -281,6 +291,8 @@ namespace CSLibrary
                             di.nativeDeviceInformation = null;
 
                             _deviceDB.Add(Address);
+                            //_deviceTypeDB.Add(RFIDDEVICE.MODEL.CS108);
+                            _deviceTypeDB.Add(RFIDDEVICE.MODEL.CS710S);
 
                             RaiseEvent<DeviceFinderArgs>(OnSearchCompleted, new DeviceFinderArgs(di));
                         }

@@ -225,7 +225,7 @@ namespace BLE.Client.ViewModels
                 {
                     case CSLibrary.Constants.ReaderCallbackType.COMMUNICATION_ERROR:
                         {
-                            _userDialogs.AlertAsync("BLE protocol error, Please reset reader");
+                            _userDialogs.AlertAsync("Reader communication error, Please reset reader");
 
                             //                        _userDialogs.HideLoading();
                             //                        _userDialogs.ErrorToast("Error", $"BLE protocol error, Please reset reader", TimeSpan.MaxValue);

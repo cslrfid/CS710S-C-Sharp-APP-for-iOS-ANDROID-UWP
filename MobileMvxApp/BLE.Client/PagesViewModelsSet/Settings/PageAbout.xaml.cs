@@ -22,7 +22,8 @@ namespace BLE.Client.Pages
                 this.Icon = new FileImageSource();
                 this.Icon.File = "icons8-Settings-50-4-30x30.png";
             }
-            
+
+            labelModel.Text = "Model " + BleMvxApplication._reader.rfid.GetFullModelName();
             labelAppVer.Text = "Application Version " + DependencyService.Get<IAppVersion>().GetVersion() + "-" + DependencyService.Get<IAppVersion>().GetBuild().ToString();
             labelLibVer.Text = "Library Version " + BleMvxApplication._reader.GetVersion().ToString();
             labelBtFwVer.Text = "Bluetooth Firmware Version " + Version2String(BleMvxApplication._reader.bluetoothIC.GetFirmwareVersion());

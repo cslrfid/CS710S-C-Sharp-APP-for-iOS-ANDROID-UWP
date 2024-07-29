@@ -5,6 +5,7 @@ using Acr.UserDialogs;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Essentials;
+using System.Net;
 
 using Plugin.BLE.Abstractions.Contracts;
 
@@ -1840,7 +1841,10 @@ namespace BLE.Client.ViewModels
 
                     var uri = new Uri(fullPath + "?" + JSONdata);
                     var handler = new HttpClientHandler();
-                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                    // .net standard 2.1
+                    //handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                    // .net standard 2.0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
                     HttpClient client = new HttpClient(handler);
                     client.MaxResponseContentBufferSize = 102400;
 
@@ -1878,7 +1882,10 @@ namespace BLE.Client.ViewModels
                     var uri1 = new Uri(string.Format(fullPath1, string.Empty));
                     var content1 = new StringContent(JSONdata, System.Text.Encoding.UTF8, "application/json");
                     var handler = new HttpClientHandler();
-                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                    // .net standard 2.1
+                    //handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                    // .net standard 2.0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
                     HttpClient client1 = new HttpClient(handler);
                     client1.MaxResponseContentBufferSize = 102400;
 
@@ -1962,7 +1969,10 @@ namespace BLE.Client.ViewModels
 
                     var uri = new Uri(fullPath + "?" + JSONdata);
                     var handler = new HttpClientHandler();
-                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                    // .net standard 2.1
+                    //handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                    // .net standard 2.0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
                     HttpClient client = new HttpClient(handler);
                     client.MaxResponseContentBufferSize = 102400;
 
@@ -1999,7 +2009,10 @@ namespace BLE.Client.ViewModels
 
                     var uri1 = new Uri(string.Format(fullPath1, string.Empty));
                     var handler = new HttpClientHandler();
-                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                    // .net standard 2.1
+                    //handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+                    // .net standard 2.0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
                     HttpClient client1 = new HttpClient(handler);
                     client1.MaxResponseContentBufferSize = 102400;
 

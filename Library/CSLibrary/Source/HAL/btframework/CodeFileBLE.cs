@@ -243,8 +243,9 @@ namespace CSLibrary
             while (Res != wclErrors.WCL_E_SUCCESS && errCnt++ < 20)
             {
                 Res = Client.Disconnect();
-                //if (Res != wclErrors.WCL_E_SUCCESS)
+                if (Res != wclErrors.WCL_E_SUCCESS)
                     CSLibrary.Debug.WriteLine("Disconnect Error: 0x" + Res.ToString("X8"));
+
             }
 
             _readerState = READERSTATE.DISCONNECT;
