@@ -26,11 +26,11 @@
 
         <StackLayout Orientation="Horizontal">
             <Label Text="Tag Duplicate Filter" WidthRequest="85" VerticalOptions="Center"	/>
-            <Button x:Name="buttonTagDuplicateFilter" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonTagDuplicateFilterClicked" PropertyChanged="buttonTagDuplicateFilterPropertyChanged" />
+                <Button x:Name="buttonTagDuplicateFilter" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonTagDuplicateFilterClicked" PropertyChanged="buttonTagDuplicateFilterPropertyChanged" />
         </StackLayout>
 
         <StackLayout x:Name="sracklayoutRollingWindows" Orientation="Horizontal" IsVisible="false">
-            <Label Text="Rolling Windows (1-255s) " WidthRequest="80" VerticalOptions="Center" />
+                <Label Text="Duplicate eliminate windows (1-255s) " WidthRequest="80" VerticalOptions="Center" />
             <Entry x:Name="entryRollingWindows" HorizontalOptions="FillAndExpand" />
         </StackLayout>
 

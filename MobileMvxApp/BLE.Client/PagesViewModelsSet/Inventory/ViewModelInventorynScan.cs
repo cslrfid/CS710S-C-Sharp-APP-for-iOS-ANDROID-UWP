@@ -7,12 +7,14 @@ using Xamarin.Forms;
 using Xamarin.Essentials;
 using System.Net;
 
+using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+
 using Plugin.BLE.Abstractions.Contracts;
 
 using Plugin.BLE.Abstractions;
 using Prism.Mvvm;
-
-//using PCLStorage;
 
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -24,6 +26,8 @@ using MvvmCross.ViewModels;
 using TagDataTranslation;
 using CSLibrary.Barcode.Constants;
 using System.Text.RegularExpressions;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 // GTIN Convert
 
@@ -1841,10 +1845,11 @@ namespace BLE.Client.ViewModels
 
                     var uri = new Uri(fullPath + "?" + JSONdata);
                     var handler = new HttpClientHandler();
-                    // .net standard 2.1
-                    //handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-                    // .net standard 2.0
+#if NETSTANDARD2_1
+                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
                     ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
                     HttpClient client = new HttpClient(handler);
                     client.MaxResponseContentBufferSize = 102400;
 
@@ -1882,10 +1887,11 @@ namespace BLE.Client.ViewModels
                     var uri1 = new Uri(string.Format(fullPath1, string.Empty));
                     var content1 = new StringContent(JSONdata, System.Text.Encoding.UTF8, "application/json");
                     var handler = new HttpClientHandler();
-                    // .net standard 2.1
-                    //handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-                    // .net standard 2.0
+#if NETSTANDARD2_1
+                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
                     ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
                     HttpClient client1 = new HttpClient(handler);
                     client1.MaxResponseContentBufferSize = 102400;
 
@@ -1969,10 +1975,12 @@ namespace BLE.Client.ViewModels
 
                     var uri = new Uri(fullPath + "?" + JSONdata);
                     var handler = new HttpClientHandler();
-                    // .net standard 2.1
-                    //handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-                    // .net standard 2.0
+#if NETSTANDARD2_1
+                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
                     ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+//                    ServicePointManager.ServerCertificateValidationCallback += SelfSignedForLocalhost;
+#endif
                     HttpClient client = new HttpClient(handler);
                     client.MaxResponseContentBufferSize = 102400;
 
@@ -2009,10 +2017,11 @@ namespace BLE.Client.ViewModels
 
                     var uri1 = new Uri(string.Format(fullPath1, string.Empty));
                     var handler = new HttpClientHandler();
-                    // .net standard 2.1
-                    //handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-                    // .net standard 2.0
+#if NETSTANDARD2_1
+                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
                     ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
                     HttpClient client1 = new HttpClient(handler);
                     client1.MaxResponseContentBufferSize = 102400;
 
@@ -2048,5 +2057,24 @@ namespace BLE.Client.ViewModels
 
             return false;
         }
+
+#if NETSTANDARD2_0
+        private static bool SelfSignedForLocalhost(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            if (sslPolicyErrors == SslPolicyErrors.None)
+            {
+                return true;
+            }
+
+            // For HTTPS requests to this specific host, we expect this specific certificate.
+            // In practice, you'd want this to be configurable and allow for multiple certificates per host, to enable
+            // seamless certificate rotations.
+            return sender is HttpWebRequest httpWebRequest
+                    && httpWebRequest.RequestUri.Host == "localhost"
+                    && certificate is X509Certificate2 x509Certificate2
+                    && x509Certificate2.Thumbprint == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    && sslPolicyErrors == SslPolicyErrors.RemoteCertificateChainErrors;
+        }
+#endif
     }
 }

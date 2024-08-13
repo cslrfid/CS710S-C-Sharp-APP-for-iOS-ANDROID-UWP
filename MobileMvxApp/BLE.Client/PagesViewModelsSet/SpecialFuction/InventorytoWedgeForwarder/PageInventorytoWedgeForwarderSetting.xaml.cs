@@ -14,8 +14,8 @@ namespace BLE.Client.Pages
 {
     public partial class PageInventorytoWedgeForwarderSetting : MvxContentPage<ViewModelInventorytoWedgeForwarderSetting>
     {
-        string[] duplicateFilterOptions_cs710 = new string[] { "0. Send Unique Tag", "1. Send All Tags", "2. Rolling Windows" };
-        string[] duplicateFilterOptions_cs108 = new string[] { "0. Send Unique Tag", "1. Send All Tags" };
+        string[] duplicateFilterOptions_cs710 = new string[] { "0. Send Unique Tag only once \n (until buffer cleared)", "1. Send All Tags received", "2. Send unique tags using \n duplicate eliminate window" };
+        string[] duplicateFilterOptions_cs108 = new string[] { "0. Send Unique Tag only once \n (until buffer cleared)", "1. Send All Tags received" };
 
         public PageInventorytoWedgeForwarderSetting()
 		{
@@ -23,9 +23,15 @@ namespace BLE.Client.Pages
 
             entryIP.Text = BleMvxApplication._WedgeIP;
             entryPort.Text = BleMvxApplication._WedgePort.ToString();
-            buttonTagDuplicateFilter.Text = duplicateFilterOptions_cs710[BleMvxApplication._WedgeDuplicateFilter];
+            if (BleMvxApplication._reader.rfid.GetModel() == CSLibrary.RFIDDEVICE.MODEL.CS108)
+            {
+                buttonTagDuplicateFilter.Text = duplicateFilterOptions_cs710[1];
+            }
+            else
+            {
+                buttonTagDuplicateFilter.Text = duplicateFilterOptions_cs710[2];
+            }
             entryRollingWindows.Text = BleMvxApplication._WedgeRollingWindows.ToString() ;
-
         }
 
         protected override void OnAppearing()

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <UserSecretsId>dc141870-cb13-42a9-a9a3-392a54f09990</UserSecretsId>
   </PropertyGroup>
 
@@ -47,7 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary2024-NETStandard20.csproj" />
+    <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary2024-NETStandard21.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="PagesViewModelsSet\SpecialFuction\ASYGN\PageAsygnInventory.xaml.cs">
