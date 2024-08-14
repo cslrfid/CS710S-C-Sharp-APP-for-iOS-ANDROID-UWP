@@ -259,12 +259,6 @@
       <Version>5.0.0.2578</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BLE.Client\BLE.Client.csproj">
-      <Project>{47e1bec1-4717-46f5-9e71-6f4ccb7b0eaf}</Project>
-      <Name>BLE.Client</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

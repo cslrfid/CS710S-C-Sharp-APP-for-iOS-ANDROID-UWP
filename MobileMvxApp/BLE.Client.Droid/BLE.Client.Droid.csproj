@@ -236,9 +236,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BLE.Client\BLE.Client.csproj">
+    <ProjectReference Include="..\BLE.Client\BLE.Client-NETStandard21.csproj">
       <Project>{47E1BEC1-4717-46F5-9E71-6F4CCB7B0EAF}</Project>
-      <Name>BLE.Client</Name>
+      <Name>BLE.Client-NETStandard21</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
