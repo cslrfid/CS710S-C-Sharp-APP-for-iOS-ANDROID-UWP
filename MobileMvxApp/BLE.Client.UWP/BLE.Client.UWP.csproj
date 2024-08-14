@@ -259,6 +259,15 @@
       <Version>5.0.0.2578</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLE.Client\BLE.Client-NETStandard20.csproj">
+      <Project>{c4696738-7ef1-426c-a4b5-fcdd5735c9da}</Project>
+      <Name>BLE.Client-NETStandard20</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BLE.Client.UWP_TemporaryKey.pfx" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

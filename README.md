@@ -44,6 +44,11 @@ To build demo application successfully, you need to install Visual Studio 2019 o
 [Xamarin]https://www.xamarin.com/platform
 <br><br>
 
+## Project Files
+1. CS710S-C-Sharp-APP-for-iOS-ANDROID.sln for Android and iOS platform (.net Standard 2.1)
+2. CS710S-C-Sharp-APP-for-UWP.sln for Windows UWP platform (.net Standard 2.0)
+<br><br>
+
 ## Callback-based API Library
 
 The CS710S Callback-based API Library consists of the following files. 
