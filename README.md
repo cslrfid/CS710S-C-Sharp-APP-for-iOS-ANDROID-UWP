@@ -45,8 +45,8 @@ To build demo application successfully, you need to install Visual Studio 2019 o
 <br><br>
 
 ## Project Files
-1. CS710S-C-Sharp-APP-for-iOS-ANDROID.sln for Android and iOS platform (.net Standard 2.1)
-2. CS710S-C-Sharp-APP-for-UWP.sln for Windows UWP platform (.net Standard 2.0)
+1. CS710S-C-Sharp-APP-for-iOS-ANDROID.sln for Android and iOS platform (BLE.Clinet Target framework set to .net Standard 2.1)
+2. CS710S-C-Sharp-APP-for-UWP.sln for Windows UWP platform (BLE.Clinet Target framework set to .net Standard 2.0)
 <br><br>
 
 ## Callback-based API Library
