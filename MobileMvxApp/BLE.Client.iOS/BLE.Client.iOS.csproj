@@ -150,6 +150,9 @@
     <ImageAsset Include="Media.xcassets\AppIcon.appiconset\CSL logo for RFID C# 152x152.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Media.xcassets\AppIcon.appiconset\CSL logo for RFID C# 167x167.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Media.xcassets\AppIcon.appiconset\CSL logo for RFID C# 40x40.png">
       <Visible>false</Visible>
     </ImageAsset>
