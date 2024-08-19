@@ -167,6 +167,7 @@ namespace CSLibrary
                 Debug.WriteLine("Disconnect error " + ex.Message.ToString());
             }
 
+            _handlerRFIDReader.Disconnect();
             return true;
         }
 
@@ -272,6 +273,5 @@ namespace CSLibrary
 
             _readerState = READERSTATE.DISCONNECT;
         }
-
     }
 }

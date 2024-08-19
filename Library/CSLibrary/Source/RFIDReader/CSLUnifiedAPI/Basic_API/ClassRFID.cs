@@ -434,6 +434,11 @@ namespace CSLibrary
             return;
         }
 
+        internal void Disconnect()
+        {
+            _deviceType = MODEL.UNKNOWN;
+        }
+
         public string GetFirmwareVersionString()
         {
             switch (_deviceType)
