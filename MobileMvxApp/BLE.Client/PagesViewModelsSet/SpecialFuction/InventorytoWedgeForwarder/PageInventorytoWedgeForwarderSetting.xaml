@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelInventorytoWedgeForwarderSetting"
+					  xmlns="http://xamarin.com/schemas/2014/forms"
+					  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+					  xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+					  xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+					  x:Class="BLE.Client.Pages.PageInventorytoWedgeForwarderSetting"
+					  Title="Java Wedge Forwarder Setting">
+
+
+	<StackLayout Padding="10, 20, 10, 10">
+
+        <StackLayout x:Name="Normal" IsVisible="false">
+
+            <Label Text="Inventory -> Wedge Forwarder Setting" VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="50" />
+
+            <StackLayout Orientation="Horizontal">
+            <Label Text="Wedge Forwarder IP : " WidthRequest="100" VerticalOptions="Center" />
+			<Entry x:Name="entryIP" HorizontalOptions="FillAndExpand" />		
+		</StackLayout>
+			
+		<StackLayout Orientation="Horizontal">
+  		    <Label Text="Port" WidthRequest="100" VerticalOptions="Center" />
+		    <Entry x:Name="entryPort" HorizontalOptions="FillAndExpand" />
+		</StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Tag Duplicate Filter" WidthRequest="85" VerticalOptions="Center"	/>
+                <Button x:Name="buttonTagDuplicateFilter" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonTagDuplicateFilterClicked" PropertyChanged="buttonTagDuplicateFilterPropertyChanged" />
+        </StackLayout>
+
+        <StackLayout x:Name="sracklayoutRollingWindows" Orientation="Horizontal" IsVisible="false">
+                <Label Text="Duplicate eliminate windows (1-255s) " WidthRequest="80" VerticalOptions="Center" />
+            <Entry x:Name="entryRollingWindows" HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+
+        <Button x:Name="buttonOK" Text="OK" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="buttonOKClicked" Command="{Binding OnOKButtonCommand}" TextColor="Black" />
+
+        </StackLayout>
+
+        <StackLayout x:Name="BatteryUsage" IsVisible="false">
+
+            <Frame CornerRadius="10" BorderColor="Red" Padding="10">
+                <StackLayout>
+                    <Label Text="This special function requires 'Unrestricted' setting in battery usage to work properly." HorizontalTextAlignment="Center"	FontSize="Large" TextColor="Red"/>
+                    <Label Text="Please click button below to 'App info' page for this app and then enter 'Battery usage' page to change the settings." HorizontalTextAlignment="Center"	FontSize="Large" TextColor="Red"/>
+                </StackLayout>
+            </Frame>
+            
+            <Button x:Name="buttonGotoBatteryUsageSetting" Text="Go to Battery Usage Page" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="buttonGotoBatteryUsageSettingClicked" TextColor="Black" />
+
+        </StackLayout>
+
+    </StackLayout>
+</views:MvxContentPage>
+    

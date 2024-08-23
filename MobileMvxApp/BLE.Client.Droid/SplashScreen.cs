@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using MvvmCross.Forms.Platforms.Android.Views;
 using MvvmCross.Platforms.Android.Views;
 using System.Threading.Tasks;
+using System;
 
 namespace BLE.Client.Droid
 {
@@ -27,7 +28,6 @@ namespace BLE.Client.Droid
         {
             base.OnCreate(bundle);
             UserDialogs.Init(this);
-
         }
 
         protected override Task RunAppStartAsync(Bundle bundle)

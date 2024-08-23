@@ -11,8 +11,8 @@
     <AssemblyName>CS710S RFID Reader App</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.20348.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22621.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.20348.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -231,6 +231,9 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity">
       <Version>6.1.1</Version>
     </PackageReference>
+    <PackageReference Include="MQTTnet">
+      <Version>4.3.3.952</Version>
+    </PackageReference>
     <PackageReference Include="MvvmCross">
       <Version>7.1.2</Version>
     </PackageReference>
@@ -258,7 +261,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLE.Client\BLE.Client.csproj">
-      <Project>{47e1bec1-4717-46f5-9e71-6f4ccb7b0eaf}</Project>
+      <Project>{1bb029e4-a2c7-46b4-9e8f-f356ec322125}</Project>
       <Name>BLE.Client</Name>
     </ProjectReference>
   </ItemGroup>

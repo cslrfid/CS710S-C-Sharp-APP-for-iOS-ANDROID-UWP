@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B84B1CFC-D8C3-420C-9526-E604D2710959}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CSLibrary</RootNamespace>
+    <AssemblyName>CSLibrary2024.NET4</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="wclBluetoothFramework">
+      <HintPath>Source\HAL\btframework\wclBluetoothFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="wclCommon">
+      <HintPath>Source\HAL\btframework\wclCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="wclCommunication">
+      <HintPath>Source\HAL\btframework\wclCommunication.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Source\BarcodeReader\ClassBarCode.cs" />
+    <Compile Include="Source\BarcodeReader\Constants\CSLibrary.Barcode.Constants.cs" />
+    <Compile Include="Source\BarcodeReader\Events\CSLibrary.Barcode.EventArgs.cs" />
+    <Compile Include="Source\BarcodeReader\Structures\CSLibrary.Barcode.Structures.cs" />
+    <Compile Include="Source\Battery\ClassBattery.cs" />
+    <Compile Include="Source\BluetoothIC\ClassBluetoothIC.cs" />
+    <Compile Include="Source\BluetoothProtocol\BTConnect.cs" />
+    <Compile Include="Source\BluetoothProtocol\BTReceive.cs" />
+    <Compile Include="Source\BluetoothProtocol\BTSend.cs" />
+    <Compile Include="Source\BluetoothProtocol\ClassBleDebug.cs" />
+    <Compile Include="Source\BluetoothProtocol\CSLibrary.Private.cs" />
+    <Compile Include="Source\CSLibrary.cs" />
+    <Compile Include="Source\HAL\btframework\ClassDebug.cs" />
+    <Compile Include="Source\HAL\btframework\ClassDeviceFinder.cs" />
+    <Compile Include="Source\HAL\btframework\CodeFileBLE.cs" />
+    <Compile Include="Source\Notification\ClassNotification.cs" />
+    <Compile Include="Source\RFIDReader\Comm_Protocol\Ex10Commands\ClassRFID.AdministrationCommands.cs" />
+    <Compile Include="Source\RFIDReader\Comm_Protocol\Ex10Commands\ClassRFID.OperationCommands.cs" />
+    <Compile Include="Source\RFIDReader\Comm_Protocol\Ex10Commands\ClassRFID.ReadRegister.cs" />
+    <Compile Include="Source\RFIDReader\Comm_Protocol\Ex10Commands\ClassRFID.Registers.cs" />
+    <Compile Include="Source\RFIDReader\Comm_Protocol\Ex10Commands\ClassRFID.UplinkPackets.cs" />
+    <Compile Include="Source\RFIDReader\Comm_Protocol\Ex10Commands\ClassRFID.WriteRegister.cs" />
+    <Compile Include="Source\RFIDReader\Comm_Protocol\RX000Commands\ClassRFID.Private.ByPassRegister.cs" />
+    <Compile Include="Source\RFIDReader\Comm_Protocol\RX000Commands\ClassRFID.Private.MacRegister.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Private.Country.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Private.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Private.FrequencyChannel.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Private.Inventory.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Private.Read.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Private.Select.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Private.Write.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.Algorithm.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.Antenna.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.Country.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.FrequencyChannel.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.InventoryOptions.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.Operation.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.Power.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.Profile.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.QTCommandParms.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.RSSIFilter.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Public.SetLNA.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.Puiblic.EngineeringAPI.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.UCODE8.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\ClassRFID.UnifiedAPI.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Private.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Private.FrequencyChannel.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Private.Inventory.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Private.OEM.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Private.PowerManager.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Private.Read.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Private.Select.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Private.Write.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Public.Algorithm.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Public.Antenna.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Public.Country.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Public.FrequencyChannel.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Public.Operation.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Public.Power.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Public.Profile.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Public.RSSIFilter.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS108\ClassRFID.Public.SetLNA.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\Antenna\Antenna.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\Antenna\AntennaConfig.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\Antenna\AntennaList.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\Antenna\AntennaStatus.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Private.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Private.Read.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Private.Select.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Private.Write.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Public.Algorithm.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Public.Antenna.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Public.Country.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Public.FrequencyChannel.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Public.Operation.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Public.Power.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Public.Profile.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.Public.RSSIFilter.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_API\CS710S\ClassRFID.UnifiedAPI.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Constants\AntennaPort.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Constants\AntennaSequenceMode.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Constants\CSLibrary.Constants.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Constants\CSLibrary.Constants.Packet.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Constants\FreqAgile.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Constants\Intel.Constants.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Constants\SelectFlags.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Events\CSLibrary.Events.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Structures\AntennaPortCollections.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Structures\CSLibrary.Structures.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Structures\CSLibrary.Structures.TagKill.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Structures\CSLibrary.Structures.TagLock.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Structures\CSLibrary.Structures.TagRead.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Structures\CSLibrary.Structures.TagWrite.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\Basic_Structures\Intel.Structures.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\TAG_ASYN\ClassRFID.ASYN.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\TAG_EM4325\ClassRFID.EM4325.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\TAG_FM13DT160\ClassRFID.FM13DT160.cs" />
+    <Compile Include="Source\RFIDReader\CSLUnifiedAPI\TAG_FM13DT160\ClassRFID.Private.FM13DT160.cs" />
+    <Compile Include="Source\SystemInformation\ClassCountryInformation.cs" />
+    <Compile Include="Source\SiliconLabIC\ClassEvent.cs" />
+    <Compile Include="Source\SiliconLabIC\ClassSiliconLabIC.cs" />
+    <Compile Include="Source\SystemInformation\ClassDeviceInformation.cs" />
+    <Compile Include="Source\SystemInformation\ClassFrequencyBandInformation.cs" />
+    <Compile Include="Source\Tools\ClassCRC16.cs" />
+    <Compile Include="Source\Tools\ClassdBm2dBuV.cs" />
+    <Compile Include="Source\Tools\ClassFIFIQueue.cs" />
+    <Compile Include="Source\Tools\ClassTimer.cs" />
+    <Compile Include="Source\Tools\HexEncoding.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Readme.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassIBatteryOptimizationService.cs" />
     <Compile Include="ClassIExternalStorage.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="MainActivity.cs" />
@@ -132,6 +133,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions">
       <Version>7.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="MQTTnet">
+      <Version>4.3.3.952</Version>
     </PackageReference>
     <PackageReference Include="MvvmCross">
       <Version>7.1.2</Version>

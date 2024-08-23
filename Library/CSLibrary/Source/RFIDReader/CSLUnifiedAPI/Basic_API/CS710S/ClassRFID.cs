@@ -82,7 +82,7 @@ namespace CSLibrary
 
             int size = (data[15] << 8) + (data[16]);
 
-            if (size > 0xa0)
+            if (size == 101) // OEM packet data len
                 SaveInitRegisters(index, data, size);
             //else
             //    SaveRegister(17, data, size);

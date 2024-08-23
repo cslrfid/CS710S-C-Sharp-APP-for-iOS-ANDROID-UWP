@@ -59,6 +59,7 @@ namespace CSLibrary
             InventoryDebug.Clear();
             switch (opertion)
             {
+                case Operation.Kiloway_RANGING:
                 case Operation.TAG_RANGING: // Enable get battery level by interrupt
                     _deviceHandler.battery.EnableAutoBatteryLevel();
                     TagRangingThreadProc_CS108();

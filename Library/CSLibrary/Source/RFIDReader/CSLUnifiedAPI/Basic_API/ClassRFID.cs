@@ -168,8 +168,17 @@ namespace CSLibrary
         */
 
         public string GetPCBAssemblyCode()
-        { 
-            return m_PCBAssemblyCode;
+        {
+            switch (_deviceType)
+            {
+                case MODEL.CS108:
+                    return m_PCBAssemblyCode;
+
+                case MODEL.CS710S:
+                    return RFIDRegister.EF9C.value;
+            }
+
+            return "";
         }
 
         internal static void ArrayCopy(byte[] src, int srcOffset, UInt16[] dest, int destOffset, int byteSize)
@@ -423,6 +432,11 @@ namespace CSLibrary
             }
 
             return;
+        }
+
+        internal void Disconnect()
+        {
+            _deviceType = MODEL.UNKNOWN;
         }
 
         public string GetFirmwareVersionString()

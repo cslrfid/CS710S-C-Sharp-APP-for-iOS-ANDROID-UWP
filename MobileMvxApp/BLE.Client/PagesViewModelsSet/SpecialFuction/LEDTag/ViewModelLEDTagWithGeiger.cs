@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using MvvmCross.ViewModels;
 using BLE.Client.ViewModels;
+using CSLibrary.Constants;
 
 namespace BLE.Client.ViewModels
 {
@@ -96,16 +97,22 @@ namespace BLE.Client.ViewModels
 
         void InventorySetting()
         {
+            // Optimatize for LED Light
+
             // Cancel old setting
             BleMvxApplication._reader.rfid.CancelAllSelectCriteria();
             BleMvxApplication._reader.rfid.SetPowerSequencing(0);
 
             // Set Geiger parameters
-            BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell);
-            BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_CompactInventoryDelayTime); // for CS108 only
-            BleMvxApplication._reader.rfid.SetIntraPacketDelayTime((uint)BleMvxApplication._config.RFID_IntraPacketDelayTime); // for CS710S only
+            //BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell);
+            //BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_CompactInventoryDelayTime); // for CS108 only
+            //BleMvxApplication._reader.rfid.SetIntraPacketDelayTime((uint)BleMvxApplication._config.RFID_IntraPacketDelayTime); // for CS710S only
+            //BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell);
+            BleMvxApplication._reader.rfid.SetTagDelayTime(0);
+            BleMvxApplication._reader.rfid.SetIntraPacketDelayTime(0);
             BleMvxApplication._reader.rfid.SetDuplicateEliminationRollingWindow(0);
-            BleMvxApplication._config.RFID_FixedQParms.qValue = 1;
+            BleMvxApplication._reader.rfid.SetInventoryDuration(0);
+            BleMvxApplication._config.RFID_FixedQParms.qValue = 0;
             BleMvxApplication._config.RFID_FixedQParms.toggleTarget = 1;
             BleMvxApplication._reader.rfid.SetFixedQParms(BleMvxApplication._config.RFID_FixedQParms);
             BleMvxApplication._reader.rfid.SetCurrentSingulationAlgorithm(CSLibrary.Constants.SingulationAlgorithm.FIXEDQ);
@@ -123,13 +130,13 @@ namespace BLE.Client.ViewModels
                     BleMvxApplication._reader.rfid.SetCurrentLinkProfile(BleMvxApplication._config.RFID_Profile);
                     break;
             }
-            BleMvxApplication._reader.rfid.SetOperationMode(BleMvxApplication._config.RFID_OperationMode);
-            BleMvxApplication._reader.rfid.SetTagGroup(BleMvxApplication._config.RFID_TagGroup);
+            BleMvxApplication._reader.rfid.SetOperationMode( CSLibrary.Constants.RadioOperationMode.CONTINUOUS);
+            BleMvxApplication._reader.rfid.SetTagGroup(Selected.ASSERTED, Session.S0, SessionTarget.A);
 
             // Multi bank inventory
             BleMvxApplication._reader.rfid.Options.TagRanging.flags = CSLibrary.Constants.SelectFlags.SELECT;
             BleMvxApplication._reader.rfid.Options.TagRanging.compactmode = false;
-            BleMvxApplication._reader.rfid.Options.TagRanging.focus = BleMvxApplication._config.RFID_Focus;
+            BleMvxApplication._reader.rfid.Options.TagRanging.focus = false;
 
             BleMvxApplication._reader.rfid.Options.TagRanging.multibanks = 1;
             BleMvxApplication._reader.rfid.Options.TagRanging.bank1 = CSLibrary.Constants.MemoryBank.USER;

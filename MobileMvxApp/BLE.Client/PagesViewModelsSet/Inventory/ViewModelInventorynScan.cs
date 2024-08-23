@@ -5,13 +5,16 @@ using Acr.UserDialogs;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Essentials;
+using System.Net;
+
+using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 using Plugin.BLE.Abstractions.Contracts;
 
 using Plugin.BLE.Abstractions;
 using Prism.Mvvm;
-
-//using PCLStorage;
 
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,6 +26,8 @@ using MvvmCross.ViewModels;
 using TagDataTranslation;
 using CSLibrary.Barcode.Constants;
 using System.Text.RegularExpressions;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 // GTIN Convert
 
@@ -158,6 +163,9 @@ namespace BLE.Client.ViewModels
 
         public ICommand OnStartInventoryButtonCommand { protected set; get; }
         public ICommand OnClearButtonCommand { protected set; get; }
+        public ICommand OnSendDataCommand { protected set; get; }
+        public ICommand OnShareDataCommand { protected set; get; }
+        public ICommand OnSaveDataCommand { protected set; get; }
         public ICommand OnHEXButtonCommand { protected set; get; }
         public ICommand OnUPCButtonommand { protected set; get; }
         public ICommand OnSGTINButtonCommand { protected set; get; }
@@ -225,7 +233,6 @@ namespace BLE.Client.ViewModels
 
             OnStartInventoryButtonCommand = new Command(StartInventoryClick);
             OnClearButtonCommand = new Command(ClearClick);
-
             OnStartBarcodeScanButtonCommand = new Command(StartBarcodeScanButtonClick);
             OnClearBarcodeDataButtonCommand = new Command(ClearBarcodeDataButtonClick);
             OnSendDataCommand = new Command(SendDataButtonClick);
@@ -234,6 +241,9 @@ namespace BLE.Client.ViewModels
             OnHEXButtonCommand = new Command(HEXButtonClick);
             OnUPCButtonommand = new Command(UPCButtonClick);
             OnSGTINButtonCommand = new Command(SGTINButtonClick);
+            OnBarCodeSendDataCommand = new Command(BarCodeSendDataButtonClick);
+            OnBarCodeShareDataCommand = new Command(BarCodeShareDataButtonClick);
+            OnBarCodeSaveDataCommand = new Command(BarCodeSaveDataButtonClick);
 
             _EPCHeaderText = "EPC";
             _RSSIHeaderText = "RSSI";
@@ -282,25 +292,14 @@ namespace BLE.Client.ViewModels
             base.ViewAppearing();
             SetEvent(true);
 
-            try
+            if (CheckCurrentPage() == 1)
             {
-                Page currentPage;
-
-                currentPage = ((TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1]).CurrentPage;
-
-                if (currentPage.Title == "Barcode Scan")
-                {
-                    BleMvxApplication._reader.barcode.FastBarcodeMode(true);
-                }
-                else
-                {
-                    BleMvxApplication._reader.barcode.FastBarcodeMode(false);
-                }
+                BleMvxApplication._reader.barcode.FastBarcodeMode(true);
             }
-            catch (Exception ex)
+            else
             {
+                BleMvxApplication._reader.barcode.FastBarcodeMode(false);
             }
-
         }
 
         public override void ViewDisappearing()
@@ -312,23 +311,7 @@ namespace BLE.Client.ViewModels
             if (BleMvxApplication._config.RFID_Vibration)
                 BleMvxApplication._reader.barcode.VibratorOff();
 
-            //SetEvent(false);
-
-            try
-            {
-                Page currentPage;
-
-                currentPage = ((TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1]).CurrentPage;
-
-                //if (currentPage.Title != "Barcode Scan")
-                {
-                    BleMvxApplication._reader.barcode.FastBarcodeMode(false);
-                }
-            }
-            catch (Exception ex)
-            {
-            }
-
+            BleMvxApplication._reader.barcode.FastBarcodeMode(false);
 
             // don't turn off event handler is you need program work in sleep mode.
             //SetEvent(false);
@@ -338,6 +321,93 @@ namespace BLE.Client.ViewModels
         protected override void InitFromBundle(IMvxBundle parameters)
         {
             base.InitFromBundle(parameters);
+        }
+
+        private int CheckCurrentPage()
+        {
+            try
+            { 
+                var tp = (TabbedPage)(Application.Current.MainPage.Navigation.NavigationStack[Application.Current.MainPage.Navigation.NavigationStack.Count - 1]);
+                var currentPage1 = tp.CurrentPage;
+                int index = tp.Children.IndexOf(currentPage1);
+
+                return index;
+            }
+            catch (Exception ex1)
+            {
+                string msg = "";
+
+                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
+                {
+                    msg += "[" + i.ToString() + "]" + ((Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage tabbedPage) ? "Y" : "N");
+
+                    _userDialogs.Alert(msg + " : " + ex1.Message);
+                }
+            }
+
+
+
+
+            /*
+            try
+            {
+                string msg = "";
+
+                msg += "[Total : " + Application.Current.MainPage.Navigation.NavigationStack.Count.ToString() + "]";
+
+                _userDialogs.Alert(msg);
+
+                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
+                {
+                    msg += "[" + i.ToString() + "]" + ((Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage) ? "Y" : "N");
+                }
+
+                _userDialogs.Alert(msg );
+            }
+            catch (Exception ex)
+            {
+                _userDialogs.Alert("Error : " + ex.Message);
+            }
+            */
+
+            /*
+                        try
+                        {
+                            var tabbedPage = (TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1];
+                            var currentPage = tabbedPage.CurrentPage;
+                            int index = tabbedPage.Children.IndexOf(currentPage);
+
+                            return index;
+                        }
+                        catch (Exception ex)
+                        {
+                            try
+                            {
+                                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
+                                {
+                                    if (Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage tp)
+                                    {
+                                        var currentPage1 = tp.CurrentPage;
+                                        int index = tp.Children.IndexOf(currentPage1);
+
+                                        return index;
+                                    }
+                                }
+                            }
+                            catch (Exception ex1)
+                            {
+                                string msg = "";
+
+                                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
+                                {
+                                    msg += "[" + i.ToString() + "]" + ((Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage tabbedPage) ? "Y" : "N");
+
+                                    _userDialogs.Alert(msg + " : " + ex1.Message);
+                                }
+                            }
+                        }
+            */
+            return -1;
         }
 
         private void ClearClick()
@@ -1115,9 +1185,9 @@ namespace BLE.Client.ViewModels
 
 		public ICommand OnStartBarcodeScanButtonCommand { protected set; get; }
         public ICommand OnClearBarcodeDataButtonCommand { protected set; get; }
-        public ICommand OnSendDataCommand { protected set; get; }
-        public ICommand OnShareDataCommand { protected set; get; }
-        public ICommand OnSaveDataCommand { protected set; get; }
+        public ICommand OnBarCodeSendDataCommand { protected set; get; }
+        public ICommand OnBarCodeShareDataCommand { protected set; get; }
+        public ICommand OnBarCodeSaveDataCommand { protected set; get; }
 
         private string _startBarcodeScanButtonText = "Start Scan";
         public string startBarcodeScanButtonText { get { return _startBarcodeScanButtonText; } }
@@ -1128,6 +1198,7 @@ namespace BLE.Client.ViewModels
             public string code { get { return this._code; } set { this.SetProperty(ref this._code, value); } }
             private uint _count;
             public uint count { get { return this._count; } set { this.SetProperty(ref this._count, value); } }
+            public DateTime timeOfRead;
         }
 
         public ObservableCollection<BARCODEInfoViewModel> barcodeData { get; set; } = new ObservableCollection<BARCODEInfoViewModel>();
@@ -1165,15 +1236,6 @@ namespace BLE.Client.ViewModels
             CSLibrary.Debug.WriteLine("BackupData : {0}", result.ToString());
         }
 
-/*        private void ShareDataButtonClick(object ind)
-        {
-            if (ind == null || (int)ind != 1)
-                return;
-
-            var result = ShareData();
-            CSLibrary.Debug.WriteLine("Share Data : {0}", result.ToString());
-        }
-*/
         private void ShareDataButtonClick()
         {
             var result = ShareData();
@@ -1182,6 +1244,25 @@ namespace BLE.Client.ViewModels
         private void SaveDataButtonClick()
         {
             var result = SaveData();
+            CSLibrary.Debug.WriteLine("Save Data : {0}", result.ToString());
+        }
+
+        private void BarCodeSendDataButtonClick()
+        {
+            var result = BackupBarCodeData();
+
+            CSLibrary.Debug.WriteLine("BackupData : {0}", result.ToString());
+        }
+
+        private void BarCodeShareDataButtonClick()
+        {
+            var result = ShareBarcodeData();
+            CSLibrary.Debug.WriteLine("Share Data : {0}", result.ToString());
+        }
+
+        private void BarCodeSaveDataButtonClick()
+        {
+            var result = SaveBarCodeData();
             CSLibrary.Debug.WriteLine("Save Data : {0}", result.ToString());
         }
 
@@ -1282,6 +1363,7 @@ namespace BLE.Client.ViewModels
 
                     item.code = decodeInfo.pchMessage;
                     item.count = 1;
+                    item.timeOfRead = DateTime.Now;
 
                     barcodeData.Insert(0, item);
                 }
@@ -1297,54 +1379,23 @@ namespace BLE.Client.ViewModels
         {
             InvokeOnMainThread(() =>
             {
-                Page currentPage;
-
-                Trace.Message("Receive Key Event");
-
-                // try to get current page
-                try
+                if (CheckCurrentPage() == 0)
                 {
-                    currentPage = ((TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1]).CurrentPage;
-                }
-                catch (Exception ex)
-                {
-                    return;
-                }
-
-                switch (currentPage.Title)
-                {
-                    case "RFID Inventory":
-                        if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
+                    if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
+                    {
+                        if (e.KeyDown)
                         {
-                            if (e.KeyDown)
-                            {
-                                if (!_KeyDown)
-                                    StartInventory();
-                                _KeyDown = true;
-                            }
-                            else
-                            {
-                                if (_KeyDown == true)
-                                    StopInventory();
-                                _KeyDown = false;
-                            }
+                            if (!_KeyDown)
+                                StartInventory();
+                            _KeyDown = true;
                         }
-                        break;
-
-                    case "Barcode Scan":
-                        /*
-                        if (e.KeyCode == CSLibrary.Notification.Key.BUTTON)
+                        else
                         {
-                            if (e.KeyDown)
-                            {
-                                BarcodeStart();
-                            }
-                            else
-                            {
-                                BarcodeStop();
-                            }
-                        }*/
-                        break;
+                            if (_KeyDown == true)
+                                StopInventory();
+                            _KeyDown = false;
+                        }
+                    }
                 }
             });
         }
@@ -1375,12 +1426,20 @@ namespace BLE.Client.ViewModels
                 data.sequenceNumber = BleMvxApplication._sequenceNumber++;
                 data.rfidReaderName = BleMvxApplication._reader.ReaderName;
 
+                switch (BleMvxApplication._reader.rfid.GetModelName())
+                {
+                    case "CS108":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 13);
+                        break;
 
-                data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync();
+                    case "CS710S":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 16);
+                        break;
+                }
                 if (data.rfidReaderSerialNumber == null)
                     _userDialogs.Alert("No Serial Number");
 
-                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode();
+                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode().Substring(0, 13);
                 data.numberOfTags = (UInt16)_TagInfoList.Count;
 
                 foreach (var tagitem in _TagInfoList)
@@ -1415,14 +1474,6 @@ namespace BLE.Client.ViewModels
                     CSVdata += tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff") + ",";
                     CSVdata += tagitem.timeOfRead.ToString("zzz");
                     CSVdata += System.Environment.NewLine;
-                    
-                    /*
-                                        CSVdata += "\"" + tagitem.PC.ToString("X4") + "\",";
-                                        CSVdata += "\"" + tagitem.EPC.ToString() + "\",";
-                                        CSVdata += tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff") + "\",";
-                                        CSVdata += "\"" + tagitem.timeOfRead.ToString("zzz") + "\"";
-                                        CSVdata += System.Environment.NewLine;
-                    */
                 }
 
                 return CSVdata;
@@ -1444,6 +1495,96 @@ namespace BLE.Client.ViewModels
                     CSVdata += "=\"" + tagitem.PC.ToString("X4") + "\",";
                     CSVdata += "=\"" + tagitem.EPC.ToString() + "\",";
                     CSVdata += tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss") + ",";
+                    CSVdata += tagitem.timeOfRead.ToString("zzz");
+                    CSVdata += System.Environment.NewLine;
+                }
+
+                return CSVdata;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        string GetBarcodeJsonData()
+        {
+            try
+            {
+                RESTfulHeader data = new RESTfulHeader();
+
+                data.sequenceNumber = BleMvxApplication._sequenceNumber++;
+                data.rfidReaderName = BleMvxApplication._reader.ReaderName;
+
+                switch (BleMvxApplication._reader.rfid.GetModelName())
+                {
+                    case "CS108":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 13);
+                        break;
+
+                    case "CS710S":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 16);
+                        break;
+                }
+                if (data.rfidReaderSerialNumber == null)
+                    _userDialogs.Alert("No Serial Number");
+
+                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode().Substring(0, 13);
+                data.numberOfTags = (UInt16)barcodeData.Count;
+
+                foreach (var tagitem in barcodeData)
+                {
+                    RESTfulSDetail item = new RESTfulSDetail();
+                    item.pc = "";
+                    item.epc = tagitem.code.ToString();
+                    item.timeOfRead = tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                    item.timeZone = tagitem.timeOfRead.ToString("zzz");
+                    data.tags.Add(item);
+                }
+
+                string JSONdata = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+                return JSONdata;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        string GetBarcodeCSVData()
+        {
+            try
+            {
+                string CSVdata = "";
+
+                foreach (var tagitem in barcodeData)
+                {
+                    CSVdata += tagitem.code.ToString() + ",";
+                    CSVdata += tagitem.code.ToString();
+                    CSVdata += tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff") + ",";
+                    CSVdata += tagitem.timeOfRead.ToString("zzz");
+                    CSVdata += System.Environment.NewLine;
+                }
+
+                return CSVdata;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        string GetBarcodeExcelCSVData()
+        {
+            try
+            {
+                string CSVdata = "";
+
+                foreach (var tagitem in barcodeData)
+                {
+                    CSVdata += tagitem.code.ToString() + ",";
+                    CSVdata += tagitem.code.ToString();
+                    CSVdata += tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff") + ",";
                     CSVdata += tagitem.timeOfRead.ToString("zzz");
                     CSVdata += System.Environment.NewLine;
                 }
@@ -1483,6 +1624,40 @@ namespace BLE.Client.ViewModels
                     {
                         Text = GetExcelCSVData(),
                         Title = "tags list.csv"
+                    });
+                    break;
+            }
+
+            return r;
+        }
+
+        async System.Threading.Tasks.Task<bool> ShareBarcodeData()
+        {
+            bool r = false;
+
+            switch (BleMvxApplication._config.RFID_ShareFormat)
+            {
+                case 0: // JSON
+                    r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+                    {
+                        Text = GetBarcodeJsonData(),
+                        Title = "CS108 barcode list"
+                    });
+                    break;
+
+                case 1:
+                    r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+                    {
+                        Text = GetBarcodeCSVData(),
+                        Title = "CS108 barcode list.csv"
+                    });
+                    break;
+
+                case 2:
+                    r = await CrossShare.Current.Share(new Plugin.Share.Abstractions.ShareMessage
+                    {
+                        Text = GetBarcodeExcelCSVData(),
+                        Title = "CS108 barcode list.csv"
                     });
                     break;
             }
@@ -1561,6 +1736,65 @@ namespace BLE.Client.ViewModels
 
             return true;
         }
+        async System.Threading.Tasks.Task<bool> SaveBarCodeData()
+        {
+            string fileExtName = "";
+            string Text = "";
+
+            switch (BleMvxApplication._config.RFID_ShareFormat)
+            {
+                case 0: // JSON
+                    fileExtName = "json";
+                    Text = GetBarcodeJsonData();
+                    break;
+
+                case 1:
+                    fileExtName = "csv";
+                    Text = GetBarcodeCSVData();
+                    break;
+
+                case 2:
+                    fileExtName = "csv";
+                    Text = GetBarcodeExcelCSVData();
+                    break;
+
+                default:
+                    fileExtName = "txt";
+                    break;
+            }
+
+            switch (Xamarin.Forms.Device.RuntimePlatform)
+            {
+                case Xamarin.Forms.Device.Android:
+                    {
+                        if (await Permissions.CheckStatusAsync<Permissions.StorageRead>() != PermissionStatus.Granted)
+                        {
+                            await Permissions.RequestAsync<Permissions.StorageRead>();
+                        }
+
+                        var documents = DependencyService.Get<IExternalStorage>().GetPath();
+                        var filename = System.IO.Path.Combine(documents, "BarcodeData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName);
+                        //System.IO.File.WriteAllText(filename, Text);
+                        using (var writer = System.IO.File.CreateText(filename))
+                        {
+                            await writer.WriteLineAsync(Text);
+                        }
+                    }
+                    break;
+
+                default:
+                    {
+                        var documents = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                        var filename = System.IO.Path.Combine(documents, "BarcodeData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName);
+                        System.IO.File.WriteAllText(filename, Text);
+                    }
+                    break;
+            }
+
+            _userDialogs.AlertAsync("File saved, please check file in public folder");
+
+            return true;
+        }
 
         async System.Threading.Tasks.Task<bool> BackupData()
         {
@@ -1571,11 +1805,20 @@ namespace BLE.Client.ViewModels
                 data.sequenceNumber = BleMvxApplication._sequenceNumber ++;
                 data.rfidReaderName = BleMvxApplication._reader.ReaderName;
 
-                data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync();
+                switch (BleMvxApplication._reader.rfid.GetModelName())
+                {
+                    case "CS108":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 13);
+                        break;
+
+                    case "CS710S":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 16);
+                        break;
+                }
                 if (data.rfidReaderSerialNumber == null)
                     _userDialogs.Alert("No Serial Number");
 
-                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode();
+                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode().Substring(0,13);
                 data.numberOfTags = (UInt16)_TagInfoList.Count;
 
                 foreach (var tagitem in _TagInfoList)
@@ -1601,8 +1844,13 @@ namespace BLE.Client.ViewModels
                         fullPath += @"/create-update-delete/update-entity/tagdata";
 
                     var uri = new Uri(fullPath + "?" + JSONdata);
-
-                    HttpClient client = new HttpClient();
+                    var handler = new HttpClientHandler();
+#if NETSTANDARD2_1
+                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
+                    HttpClient client = new HttpClient(handler);
                     client.MaxResponseContentBufferSize = 102400;
 
                     HttpResponseMessage response = null;
@@ -1638,8 +1886,13 @@ namespace BLE.Client.ViewModels
 
                     var uri1 = new Uri(string.Format(fullPath1, string.Empty));
                     var content1 = new StringContent(JSONdata, System.Text.Encoding.UTF8, "application/json");
-
-                    HttpClient client1 = new HttpClient();
+                    var handler = new HttpClientHandler();
+#if NETSTANDARD2_1
+                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
+                    HttpClient client1 = new HttpClient(handler);
                     client1.MaxResponseContentBufferSize = 102400;
 
                     HttpResponseMessage response1 = null;
@@ -1659,20 +1912,169 @@ namespace BLE.Client.ViewModels
                     catch (Exception ex1)
                     {
                         Trace.Message(ex1.Message);
+                        _userDialogs.Alert("Fail to Save to Cloud Server !!!!!" + Environment.NewLine + ex1.Message);
                     }
-
-                    _userDialogs.Alert("Fail to Save to Cloud Server !!!!!");
                 }
 
             }
             catch (Exception ex)
             {
-                Trace.Message("data fail");
-                var a = ex.Message;
+                Trace.Message(ex.Message);
+                _userDialogs.Alert("URL Fail !!!!!" + Environment.NewLine + ex.Message);
             }
 
             return false;
         }
 
+        async System.Threading.Tasks.Task<bool> BackupBarCodeData()
+        {
+            try
+            {
+                RESTfulHeader data = new RESTfulHeader();
+
+                data.sequenceNumber = BleMvxApplication._sequenceNumber++;
+                data.rfidReaderName = BleMvxApplication._reader.ReaderName;
+
+                switch (BleMvxApplication._reader.rfid.GetModelName())
+                {
+                    case "CS108":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 13);
+                        break;
+
+                    case "CS710S":
+                        data.rfidReaderSerialNumber = BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync().Substring(0, 16);
+                        break;
+                }
+                if (data.rfidReaderSerialNumber == null)
+                    _userDialogs.Alert("No Serial Number");
+
+                data.rfidReaderInternalSerialNumber = BleMvxApplication._reader.rfid.GetPCBAssemblyCode().Substring(0, 13);
+                data.numberOfTags = (UInt16)barcodeData.Count;
+
+                foreach (var tagitem in barcodeData)
+                {
+                    RESTfulSDetail item = new RESTfulSDetail();
+                    item.pc = "";
+                    item.epc = tagitem.code.ToString();
+                    item.timeOfRead = tagitem.timeOfRead.ToString("yyyy/MM/dd HH:mm:ss.fff");
+                    item.timeZone = tagitem.timeOfRead.ToString("zzz");
+                    data.tags.Add(item);
+                }
+
+                string JSONdata = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+
+                // Post to server when parameters
+                if (BleMvxApplication._config.RFID_SavetoCloud && BleMvxApplication._config.RFID_CloudProtocol == 1)
+                {
+                    //string rootPath = @"https://www.convergence.com.hk:29090/WebServiceRESTs/1.0/req";
+                    //string rootPath = @"https://192.168.25.21:29090/WebServiceRESTs/1.0/req";
+                    string fullPath = BleMvxApplication._config.RFID_IPAddress;
+
+                    if (fullPath.Length >= 28 && fullPath.Substring(8, 28) == "democloud.convergence.com.hk")
+                        fullPath += @"/create-update-delete/update-entity/tagdata";
+
+                    var uri = new Uri(fullPath + "?" + JSONdata);
+                    var handler = new HttpClientHandler();
+#if NETSTANDARD2_1
+                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+//                    ServicePointManager.ServerCertificateValidationCallback += SelfSignedForLocalhost;
+#endif
+                    HttpClient client = new HttpClient(handler);
+                    client.MaxResponseContentBufferSize = 102400;
+
+                    HttpResponseMessage response = null;
+
+                    try
+                    {
+                        response = await client.PostAsync(uri, new StringContent("", System.Text.Encoding.UTF8, "application/json"));
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var a = response.Content;
+                            var b = await a.ReadAsStringAsync();
+                            _userDialogs.Alert("Success Save to Cloud Server : " + b);
+                            return true;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.Message(ex.Message);
+                    }
+
+                    _userDialogs.Alert("Fail to Save to Cloud Server !!!!!");
+                }
+
+                // Post to server when body
+                if (BleMvxApplication._config.RFID_SavetoCloud && BleMvxApplication._config.RFID_CloudProtocol == 0)
+                {
+                    //string rootPath = @"https://www.convergence.com.hk:29090/WebServiceRESTs/1.0/req";
+                    //string rootPath = @"https://192.168.25.21:29090/WebServiceRESTs/1.0/req";
+                    string fullPath1 = BleMvxApplication._config.RFID_IPAddress;
+
+                    if (fullPath1.Length >= 28 && fullPath1.Substring(8, 28) == "democloud.convergence.com.hk")
+                        fullPath1 += @"/create-update-delete/update-entity/tagdata";
+
+                    var uri1 = new Uri(string.Format(fullPath1, string.Empty));
+                    var handler = new HttpClientHandler();
+#if NETSTANDARD2_1
+                    handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
+                    HttpClient client1 = new HttpClient(handler);
+                    client1.MaxResponseContentBufferSize = 102400;
+
+                    var content1 = new StringContent(JSONdata, System.Text.Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response1 = null;
+
+                    try
+                    {
+                        response1 = await client1.PostAsync(uri1, content1);
+                        //response = await client.PutAsync(uri, content);
+                        if (response1.IsSuccessStatusCode)
+                        {
+                            var a = response1.Content;
+                            var b = await a.ReadAsStringAsync();
+                            _userDialogs.Alert("Success Save to Cloud Server : " + b);
+                            return true;
+                        }
+                    }
+                    catch (Exception ex1)
+                    {
+                        Trace.Message(ex1.Message);
+                        _userDialogs.Alert("Fail to Save to Cloud Server !!!!!" + Environment.NewLine + ex1.Message);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Trace.Message(ex.Message);
+                _userDialogs.Alert("URL Fail !!!!!" + Environment.NewLine + ex.Message);
+            }
+
+            return false;
+        }
+
+#if NETSTANDARD2_0
+        private static bool SelfSignedForLocalhost(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            if (sslPolicyErrors == SslPolicyErrors.None)
+            {
+                return true;
+            }
+
+            // For HTTPS requests to this specific host, we expect this specific certificate.
+            // In practice, you'd want this to be configurable and allow for multiple certificates per host, to enable
+            // seamless certificate rotations.
+            return sender is HttpWebRequest httpWebRequest
+                    && httpWebRequest.RequestUri.Host == "localhost"
+                    && certificate is X509Certificate2 x509Certificate2
+                    && x509Certificate2.Thumbprint == "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                    && sslPolicyErrors == SslPolicyErrors.RemoteCertificateChainErrors;
+        }
+#endif
     }
 }

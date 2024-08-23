@@ -83,7 +83,7 @@ namespace CSLibrary
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Program execption error, please check!!! error message : " + ex.Message);
+                Debug.WriteLine("Program execption error, please check ConnectAsync!!! error message : " + ex.Message);
             }
 
             _readerState = READERSTATE.IDLE;
@@ -167,6 +167,7 @@ namespace CSLibrary
                 Debug.WriteLine("Disconnect error " + ex.Message.ToString());
             }
 
+            _handlerRFIDReader.Disconnect();
             return true;
         }
 
@@ -192,7 +193,7 @@ namespace CSLibrary
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Program execption error, please check!!! error message : " + ex.Message);
+                Debug.WriteLine("Program execption error, please check BLE_Recv!!! error message : " + ex.Message);
             }
         }
 
@@ -235,7 +236,7 @@ namespace CSLibrary
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Program execption error, please check!!! error message : " + ex.Message);
+                Debug.WriteLine("Program execption error, please check ConnectLostAsync!!! error message : " + ex.Message);
             }
             _device = null;
 
@@ -266,12 +267,11 @@ namespace CSLibrary
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Program execption error, please check!!! error message : " + ex.Message);
+                Debug.WriteLine("Program execption error, please check ClearConnection!!! error message : " + ex.Message);
             }
             _device = null;
 
             _readerState = READERSTATE.DISCONNECT;
         }
-
     }
 }

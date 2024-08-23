@@ -85,11 +85,6 @@
       "filename": "CSL logo for RFID C# 80x801.png"
     },
     {
-      "scale": "2x",
-      "size": "83.5x83.5",
-      "idiom": "ipad"
-    },
-    {
       "scale": "1x",
       "size": "76x76",
       "idiom": "ipad",
@@ -118,6 +113,12 @@
       "size": "76x76",
       "idiom": "ipad",
       "filename": "CSL logo for RFID C# 152x152.png"
+    },
+    {
+      "scale": "2x",
+      "size": "83.5x83.5",
+      "idiom": "ipad",
+      "filename": "CSL logo for RFID C# 167x167.png"
     }
   ],
   "properties": {},

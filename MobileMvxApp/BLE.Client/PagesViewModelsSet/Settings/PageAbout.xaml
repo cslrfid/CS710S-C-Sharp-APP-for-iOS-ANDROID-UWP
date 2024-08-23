@@ -8,12 +8,14 @@
 
 	<StackLayout Margin="0,100,0,0">
 		<StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-          <Label x:Name="labelAppVer" Text="Application Version"/>
+            <Label x:Name="labelModel" Text="Model"/>
+            <Label x:Name="labelAppVer" Text="Application Version"/>
           <Label x:Name="labelLibVer" Text="Library Version"/>
           <Label x:Name="labelBtFwVer" Text="Bluetooth Firmware Version"/>
           <Label x:Name="labelRFIDFwVer" Text="RFID Firmware Version"/>
           <Label x:Name="labelSiliconlabFwVer" Text="SiliconLab IC Firmware Version"/>
-          <Label x:Name="labelSerialNumber" Text="Serial Number"/>
+          <Label x:Name="labelSerialNumber" Text="Reader Serial Number"/>
+            <Label x:Name="labelPCBSerialNumber" Text="PCB Serial Number"/>
         </StackLayout>
 
 		<StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" >

@@ -26,12 +26,12 @@ namespace CSLibrary
 {
     public partial class RFIDReader
     {
-        public void StopOperation_CS710S(bool value = true)
+        internal void StopOperation_CS710S(bool value = true)
         {
             RFIDStopOperation();
         }
 
-        public bool SetDuplicateEliminationRollingWindow_CS710S(uint s)
+        internal bool SetDuplicateEliminationRollingWindow_CS710S(uint s)
         {
             if (s > 255)
                 return false;

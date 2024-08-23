@@ -77,8 +77,6 @@ namespace BLE.Client.ViewModels
             OnStartInventoryButtonCommand = new Command(StartInventoryClick);
             OnClearButtonCommand = new Command(ClearClick);
 
-            OnClearBarcodeDataButtonCommand = new Command(ClearBarcodeDataButtonClick);
-
             BleMvxApplication._reader.rfid.SetCountry(BleMvxApplication._config.RFID_Region, (int)BleMvxApplication._config.RFID_FixedChannel);
 
             InventorySetting();
@@ -138,9 +136,6 @@ namespace BLE.Client.ViewModels
                 // RFID event handler
                 BleMvxApplication._reader.rfid.OnAsyncCallback += new EventHandler<CSLibrary.Events.OnAsyncCallbackEventArgs>(TagInventoryEvent);
                 BleMvxApplication._reader.rfid.OnStateChanged += new EventHandler<CSLibrary.Events.OnStateChangedEventArgs>(StateChangedEvent);
-
-                // Barcode event handler
-                BleMvxApplication._reader.barcode.OnCapturedNotify += new EventHandler<CSLibrary.Barcode.BarcodeEventArgs>(Linkage_CaptureCompleted);
 
                 // Key Button event handler
                 BleMvxApplication._reader.notification.OnKeyEvent += new EventHandler<CSLibrary.Notification.HotKeyEventArgs>(HotKeys_OnKeyEvent);
@@ -419,65 +414,88 @@ namespace BLE.Client.ViewModels
         {
             InvokeOnMainThread(() =>
             {
-                bool found = false;
-
-                int cnt;
-
-                lock (TagInfoList)
+                try
                 {
-                    for (cnt = 0; cnt < TagInfoList.Count; cnt++)
+                    bool found = false;
+
+                    int cnt;
+
+                    lock (TagInfoList)
                     {
-                        if (TagInfoList[cnt].EPC == info.epc.ToString())
+                        try
                         {
-/*
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1 && TagInfoList[cnt].Bank1Data != CSLibrary.Tools.Hex.ToString(info.Bank1Data))
-                                continue;
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks == 2 && TagInfoList[cnt].Bank2Data != CSLibrary.Tools.Hex.ToString(info.Bank2Data))
-                                continue;
-*/
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1)
-                                if (TagInfoList[cnt].Bank1Data.Length > 0)
-                                    if (info.Bank1Data.Length > 0)
-                                        if (TagInfoList[cnt].Bank1Data != CSLibrary.Tools.Hex.ToString(info.Bank1Data))
-                                            continue;
+                        for (cnt = 0; cnt < TagInfoList.Count; cnt++)
+                        {
+                            if (TagInfoList[cnt].EPC == info.epc.ToString())
+                            {
+                                /*
+                                                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1 && TagInfoList[cnt].Bank1Data != CSLibrary.Tools.Hex.ToString(info.Bank1Data))
+                                                                continue;
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 2)
-                                if (TagInfoList[cnt].Bank2Data.Length > 0)
-                                    if (info.Bank2Data.Length > 0)
-                                        if (TagInfoList[cnt].Bank2Data != CSLibrary.Tools.Hex.ToString(info.Bank2Data))
-                                            continue;
+                                                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks == 2 && TagInfoList[cnt].Bank2Data != CSLibrary.Tools.Hex.ToString(info.Bank2Data))
+                                                                continue;
+                                */
+                                if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1)
+                                    if (TagInfoList[cnt].Bank1Data.Length > 0)
+                                        if (info.Bank1Data.Length > 0)
+                                            if (TagInfoList[cnt].Bank1Data != CSLibrary.Tools.Hex.ToString(info.Bank1Data))
+                                                continue;
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1 && info.Bank1Data.Length > 0)
-                                TagInfoList[cnt].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                                if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 2)
+                                    if (TagInfoList[cnt].Bank2Data.Length > 0)
+                                        if (info.Bank2Data.Length > 0)
+                                            if (TagInfoList[cnt].Bank2Data != CSLibrary.Tools.Hex.ToString(info.Bank2Data))
+                                                continue;
 
-                            if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 2 && info.Bank2Data.Length > 0)
-                                TagInfoList[cnt].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+                                if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 1 && info.Bank1Data.Length > 0)
+                                    TagInfoList[cnt].Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
 
-                            TagInfoList[cnt].RSSI = info.rssidBm;
-                            found = true;
-                            break;
+                                if (BleMvxApplication._reader.rfid.Options.TagRanging.multibanks >= 2 && info.Bank2Data.Length > 0)
+                                    TagInfoList[cnt].Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+
+                                TagInfoList[cnt].RSSI = info.rssidBm;
+                                found = true;
+                                break;
+                            }
+                        }
+                        }
+                        catch (Exception ex)
+                        {
+                            CSLibrary.Debug.WriteLine("AddOrUpdateTagData xists Item : " + ex.Message);
+                        }
+
+                        if (!found)
+                        {
+                            try
+                            {
+                            TagInfoViewModel item = new TagInfoViewModel();
+
+                            item.EPC = info.epc.ToString();
+                            item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
+                            item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
+                            item.RSSI = info.rssidBm;
+                            item.PC = info.pc.ToUshorts()[0];
+
+                            TagInfoList.Insert(0, item);
+
+                            _newTagFound = true;
+
+                            Trace.Message("EPC Data = {0}", item.EPC);
+
+                            _newTag = true;
+
+                            }
+                            catch (Exception ex)
+                            {
+                                CSLibrary.Debug.WriteLine("AddOrUpdateTagData New Item : " + ex.Message);
+                            }
                         }
                     }
-
-                    if (!found)
-                    {
-                        TagInfoViewModel item = new TagInfoViewModel();
-
-                        item.EPC = info.epc.ToString();
-                        item.Bank1Data = CSLibrary.Tools.Hex.ToString(info.Bank1Data);
-                        item.Bank2Data = CSLibrary.Tools.Hex.ToString(info.Bank2Data);
-                        item.RSSI = info.rssidBm;
-                        item.PC = info.pc.ToUshorts()[0];
-
-                        TagInfoList.Insert(0, item);
-
-                        _newTagFound = true;
-
-                        Trace.Message("EPC Data = {0}", item.EPC);
-
-                        _newTag = true;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    CSLibrary.Debug.WriteLine("AddOrUpdateTagData : " + ex.Message);
                 }
             });
         }
@@ -511,75 +529,6 @@ namespace BLE.Client.ViewModels
 
 			RaisePropertyChanged(() => labelVoltage);
 		}
-
-#region -------------------- Barcode Scan -------------------
-
-		public ICommand OnStartBarcodeScanButtonCommand { protected set; get; }
-        public ICommand OnClearBarcodeDataButtonCommand { protected set; get; }
-
-        private string _startBarcodeScanButtonText = "Start Scan";
-        public string startBarcodeScanButtonText { get { return _startBarcodeScanButtonText; } }
-
-        public class BARCODERECORD
-        {
-            public string code { get; set; }
-            public uint count { get; set; }
-        }
-
-        public ObservableCollection<BARCODERECORD> barcodeData { get; set; } = new ObservableCollection<BARCODERECORD>();
-
-        private void ClearBarcodeDataButtonClick()
-        {
-            barcodeData.Clear();
-        }
-
-        void Linkage_CaptureCompleted(object sender, CSLibrary.Barcode.BarcodeEventArgs e)
-        {
-            InvokeOnMainThread(() =>
-            {
-                switch (e.MessageType)
-                {
-                    case CSLibrary.Barcode.Constants.MessageType.DEC_MSG:
-                        AddOrUpdateBarcodeData((CSLibrary.Barcode.Structures.DecodeMessage)e.Message);
-                        //UpdateUI((DecodeMessage)e.Message, "Barcode Captured...");
-                        break;
-                    case CSLibrary.Barcode.Constants.MessageType.ERR_MSG:
-                        //UpdateUI(null, String.Format("Barcode Returned: {0}", e.ErrorMessage));
-                        break;
-                }
-            });
-        }
-
-        private void AddOrUpdateBarcodeData(CSLibrary.Barcode.Structures.DecodeMessage decodeInfo)
-        {
-            if (decodeInfo != null)
-            {
-                int cnt = 0;
-                bool found = false;
-
-                for (; cnt < barcodeData.Count; cnt++)
-                {
-                    if (barcodeData[cnt].code == decodeInfo.pchMessage)
-                    {
-                        barcodeData[cnt].count++;
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found)
-                {
-                    BARCODERECORD item = new BARCODERECORD();
-
-                    item.code = decodeInfo.pchMessage;
-                    item.count = 1;
-
-                    barcodeData.Add(item);
-                }
-            }
-        }
-
-        #endregion
 
         #region Key_event
 
