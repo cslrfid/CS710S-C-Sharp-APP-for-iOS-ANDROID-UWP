@@ -733,7 +733,7 @@ namespace BLE.Client.ViewModels
                                     break;
 
                                 default:
-                                    _userDialogs.Alert("Last error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4"));
+                                    _userDialogs.Alert("Last error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4") + System.Environment.NewLine + CSLibrary.CS710SErrorCodes.GetErrorDescription((int)BleMvxApplication._reader.rfid.LastMacErrorCode));
                                     break;
                             }
                         }
