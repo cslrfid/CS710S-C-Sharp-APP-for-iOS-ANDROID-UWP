@@ -36,10 +36,10 @@ namespace CSLibrary
                 new ErrorCode(0x000C, "Radio power not enabled"),
                 new ErrorCode(0x000D, "E710 command error"),
                 new ErrorCode(0x000E, "E710 Op timeout"),
-                new ErrorCode(0x000F, "E710 Aggregate error (e.g. battery low, antenna disconnected, metal reflection)"),
+                new ErrorCode(0x000F, "E710 Aggregate error (e.g. battery low, metal reflection)"),
                 new ErrorCode(0x0010, "E710 hardware link error"),
                 new ErrorCode(0x0011, "E710 event fail to send error"),
-                new ErrorCode(0x0012, "E710 antenna error (e.g. antenna disconnected, metal reflection)"),
+                new ErrorCode(0x0012, "E710 antenna error (e.g. metal reflection)"),
                 new ErrorCode(0x0FFF, "Other error")
             };
         }
