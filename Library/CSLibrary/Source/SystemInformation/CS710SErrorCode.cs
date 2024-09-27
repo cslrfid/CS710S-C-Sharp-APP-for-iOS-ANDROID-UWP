@@ -34,20 +34,20 @@ namespace CSLibrary
                 new ErrorCode(0x000A, "PLL not locked"),
                 new ErrorCode(0x000B, "Power control target failed"),
                 new ErrorCode(0x000C, "Radio power not enabled"),
-                new ErrorCode(0x000D, "E710 command error"),
+                new ErrorCode(0x000D, "E710 command error (e.g. battery low)"),
                 new ErrorCode(0x000E, "E710 Op timeout"),
                 new ErrorCode(0x000F, "E710 Aggregate error (e.g. battery low, metal reflection)"),
                 new ErrorCode(0x0010, "E710 hardware link error"),
                 new ErrorCode(0x0011, "E710 event fail to send error"),
                 new ErrorCode(0x0012, "E710 antenna error (e.g. metal reflection)"),
-                new ErrorCode(0x0FFF, "Other error")
+                new ErrorCode(0x00FF, "Other error (e.g. battery low)")
             };
         }
 
         public static string GetErrorDescription(int errorCode)
         {
             var error = ErrorCodes.Find(e => e.Code == errorCode);
-            return error?.Description ?? "unknow error";
+            return error?.Description ?? "Other error";
         }
     }
 }
