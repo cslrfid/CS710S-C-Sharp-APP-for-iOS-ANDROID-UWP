@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>CSLibrary</RootNamespace>
     <AssemblyName>CSLibrary2024.NETSTD2</AssemblyName>
-    <Version>3.0.3</Version>
+    <Version>3.0.5</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,6 +15,7 @@
     <Compile Remove="Source\HAL\Acr.ble\**" />
     <Compile Remove="Source\HAL\btframework\**" />
     <Compile Remove="Source\HAL\Plugin.BLE\**" />
+    <Compile Remove="Source\HAL\TCPIP\**" />
     <Compile Remove="Source\HAL\UWP\**" />
     <Compile Remove="Source\RFIDReader\Antenna\**" />
     <Compile Remove="Source\RFIDReader\API_EM4325\**" />
@@ -22,6 +23,7 @@
     <EmbeddedResource Remove="Source\HAL\Acr.ble\**" />
     <EmbeddedResource Remove="Source\HAL\btframework\**" />
     <EmbeddedResource Remove="Source\HAL\Plugin.BLE\**" />
+    <EmbeddedResource Remove="Source\HAL\TCPIP\**" />
     <EmbeddedResource Remove="Source\HAL\UWP\**" />
     <EmbeddedResource Remove="Source\RFIDReader\Antenna\**" />
     <EmbeddedResource Remove="Source\RFIDReader\API_EM4325\**" />
@@ -29,6 +31,7 @@
     <None Remove="Source\HAL\Acr.ble\**" />
     <None Remove="Source\HAL\btframework\**" />
     <None Remove="Source\HAL\Plugin.BLE\**" />
+    <None Remove="Source\HAL\TCPIP\**" />
     <None Remove="Source\HAL\UWP\**" />
     <None Remove="Source\RFIDReader\Antenna\**" />
     <None Remove="Source\RFIDReader\API_EM4325\**" />

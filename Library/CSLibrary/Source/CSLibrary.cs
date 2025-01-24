@@ -209,6 +209,10 @@ namespace CSLibrary
             RFIDPowerOff();
             RFIDPowerOn();
 
+            // Set Low Power mode
+            rfid.SetDeviceType(_deviceType);
+            rfid.StopOperation();
+
             _handleBluetoothIC.Connect();
             _handleSiliconLabIC.Connect(_deviceType);
             _handleBarCodeReader.CheckHWValid();
@@ -428,7 +432,21 @@ namespace CSLibrary
 			switch (eventCode)
 			{
 				case 0xa000:    // Current battery voltage
-                    _handleNotification.DeviceRecvVoltage((UInt16)((UInt16)recvData[10] << 8 | (UInt16)recvData[11]));
+                    {
+                        UInt16 voltage = (UInt16)((UInt16)recvData[10] << 8 | (UInt16)recvData[11]);
+
+                        // buf fix CS710S report wrong voltage 
+                        if (_deviceType == RFIDDEVICE.MODEL.CS710S)
+                        {
+                            if (_handleSiliconLabIC.GetFirmwareVersion() <= 0x00020104) // <= version 2.1.4
+                                if (voltage >= 4450) // > 4.45v
+                                    voltage -= 430; // - 0.43v
+                                else
+                                    voltage -= 350; // - 0.35v
+                        }
+
+                        _handleNotification.DeviceRecvVoltage(voltage);
+                    }
                     return false;
 					break;
 

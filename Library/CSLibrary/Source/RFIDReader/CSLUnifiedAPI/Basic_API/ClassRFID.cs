@@ -399,6 +399,10 @@ namespace CSLibrary
 		{
 		}
 
+        internal void SetDeviceType(MODEL deviceType)
+        {
+            this._deviceType = deviceType;
+        }
 
         internal void Connect(MODEL deviceType)
 		{

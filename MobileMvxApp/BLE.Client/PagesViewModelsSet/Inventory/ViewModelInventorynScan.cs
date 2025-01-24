@@ -1146,7 +1146,7 @@ namespace BLE.Client.ViewModels
                     switch (BleMvxApplication._config.BatteryLevelIndicatorFormat)
                     {
                         case 0:
-                            _labelVoltage = " //\t\t\t3.98v " + voltage.ToString("0.000") + "v"; //			v
+                            _labelVoltage = voltage.ToString("0.000") + "v"; //			v
                             break;
 
                         default:
