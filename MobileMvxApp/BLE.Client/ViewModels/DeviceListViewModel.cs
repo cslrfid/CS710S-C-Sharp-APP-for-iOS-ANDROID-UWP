@@ -279,11 +279,34 @@ namespace BLE.Client.ViewModels
             }
         }
 
+        public async Task ListConnectedDevicesAsync()
+        {
+            Guid serviceUuid;
+
+            Console.WriteLine("Fetching connected devices...");
+
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
+                serviceUuid = new Guid("00009802-0000-1000-8000-00805f9b34fb");
+            else
+                serviceUuid = new Guid("00005350-0000-1000-8000-00805f9b34fb");
+
+            var connectedDevices = Adapter.GetSystemConnectedOrPairedDevices(new[] { serviceUuid });
+
+            foreach (var device in connectedDevices)
+            {
+                AddOrUpdateDevice(device, MODEL.CS710S);
+                //Console.WriteLine($"Connected device: {device.Name} ({device.Id})");
+            }
+        }
+
         private async void TryStartScanning(bool refresh = false)
         {
             if (IsStateOn && (refresh || !Devices.Any()) && !IsRefreshing)
             {
                 Devices.Clear();
+
+
+
 
                 ScanForDevices();
             }
@@ -298,7 +321,10 @@ namespace BLE.Client.ViewModels
 
                 RaisePropertyChanged(() => IsRefreshing);
                 Adapter.ScanMode = ScanMode.LowLatency;
+
+                await ListConnectedDevicesAsync();
                 await Adapter.StartScanningForDevicesAsync(_cancellationTokenSource.Token);
+
             }
             catch (Exception ex)
             {

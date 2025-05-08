@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>CSLibrary</RootNamespace>
     <AssemblyName>CSLibrary2024.NETSTD2</AssemblyName>
-    <Version>3.0.5</Version>
+    <Version>3.0.7</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

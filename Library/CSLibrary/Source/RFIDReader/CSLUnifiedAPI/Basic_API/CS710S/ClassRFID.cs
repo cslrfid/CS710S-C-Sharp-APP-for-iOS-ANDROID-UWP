@@ -190,6 +190,7 @@ namespace CSLibrary
                             {
                                 case 0x1471:
                                     ReadRegister_packet_proc(recvData, index);
+                                    StopOperation();
                                     break;
 
                                 case 0x10b1: // read tag

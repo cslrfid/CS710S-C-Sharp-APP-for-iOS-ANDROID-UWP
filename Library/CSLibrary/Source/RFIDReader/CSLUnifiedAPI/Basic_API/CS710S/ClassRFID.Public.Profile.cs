@@ -50,7 +50,7 @@ namespace CSLibrary
         };
 
 
-        public uint[] GetActiveLinkProfile_CS710S(RegionCode region)
+        internal uint[] GetActiveLinkProfile_CS710S(RegionCode region)
         {
             switch (region)
             {
@@ -59,7 +59,7 @@ namespace CSLibrary
             }
         }
 
-        public string[] GetActiveLinkProfileName_CS710S(RegionCode region)
+        internal string[] GetActiveLinkProfileName_CS710S(RegionCode region)
         {
             switch (region)
             {
@@ -80,7 +80,7 @@ namespace CSLibrary
         /// parameter does not represent a valid link profile, 
         /// RFID_ERROR_INVALID_PARAMETER is returned. </param>
         /// <returns></returns>
-        public Result SetCurrentLinkProfile_CS710S(uint profile)
+        internal Result SetCurrentLinkProfile_CS710S(uint profile)
         {
             RFIDRegister.AntennaPortConfig.RfMode((UInt16)profile);
             return Result.OK;
@@ -92,7 +92,7 @@ namespace CSLibrary
         ///  radio module is executing a tag-protocol operation. 
         /// </summary>
         /// <returns></returns>
-        public Result GetCurrentLinkProfile_CS710S(ref uint link)
+        internal Result GetCurrentLinkProfile_CS710S(ref uint link)
         {
             return Result.FAILURE;
         }

@@ -13,7 +13,7 @@
 				<Button Text="Multi Bank Inventory" Font="Large" Command="{Binding OnMultiBankInventoryButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
                 <Button Text="Impinj Special Features" Font="Large" Command="{Binding OnImpinjSpecialFeaturesButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
                 <Button Text="Magnus S2 or S3 IC" Font="Large" Command="{Binding OnRFMicroButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
-                <!--<Button Text="Kiloway KX2005X-BL" Font="Large" Command="{Binding OnKilowayKX2005XBLButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />-->
+                <Button Text="Axzon Xerxes" Font="Large" Command="{Binding OnXerxesButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
                 <Button Text="EL-N2ESL CS6861" Font="Large" Command="{Binding OnN2ESLButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
                 <Button Text="Kiloway KX2005X-BL" Font="Large" Command="{Binding OnKilowayKX2005XBLButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
                 <Button Text="Asygn" Font="Large" Command="{Binding OnAsygnButtonCommand}" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" TextColor="Black" />
