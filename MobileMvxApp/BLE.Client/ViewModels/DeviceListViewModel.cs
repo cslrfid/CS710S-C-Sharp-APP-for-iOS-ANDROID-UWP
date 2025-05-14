@@ -152,6 +152,9 @@ namespace BLE.Client.ViewModels
 
         private void OnDeviceDiscovered(object sender, DeviceEventArgs args)
         {
+            //if (args.Device.Name == "CS710SreaderDD0C")
+            //    CSLibrary.Debug.WriteLine("BLE Device name:" + args.Device.Name + Environment.NewLine);
+
             try
             {
                 bool CSLRFIDReaderService = false;
@@ -205,6 +208,14 @@ namespace BLE.Client.ViewModels
 
                                 // CS710S Service ID ios = 0x9802, android = 0x5350
                                 if ((service.Data[0] == 0x98 && service.Data[1] == 0x02) || (service.Data[0] == 0x53 && service.Data[1] == 0x50))
+                                {
+                                    BTServiceType = MODEL.CS710S;
+                                    CSLRFIDReaderService = true;
+                                    break;
+                                }
+                            }else if (service.Data.Length == 4)
+                            {
+                                if (service.Data[0] == 0x18 && service.Data[1] == 0x0d && service.Data[2] == 0x98 && service.Data[3] == 0x02)
                                 {
                                     BTServiceType = MODEL.CS710S;
                                     CSLRFIDReaderService = true;
@@ -290,11 +301,53 @@ namespace BLE.Client.ViewModels
             else
                 serviceUuid = new Guid("00005350-0000-1000-8000-00805f9b34fb");
 
+//            var connectedDevices = await Adapter.DiscoverDeviceAsync(serviceUuid);
+
             var connectedDevices = Adapter.GetSystemConnectedOrPairedDevices(new[] { serviceUuid });
+            //var connectedDevices = Adapter. GetSystemConnectedOrPairedDevices();
 
             foreach (var device in connectedDevices)
             {
-                AddOrUpdateDevice(device, MODEL.CS710S);
+                //if (device.State != DeviceState.Connected)
+                //    break;
+
+                //var services = await device.GetServicesAsync();
+
+                //if (services != null)
+                    AddOrUpdateDevice(device, MODEL.CS710S);
+
+                //var services = await device.GetServicesAsync();
+
+                /*foreach (var service in services)
+                {
+                    // 檢查服務 UUID 是否符合條件
+                    var deviceservice = service.Id.ToString().ToLower();
+
+                    if (deviceservice.Contains("9802") || deviceservice.Contains("5350"))
+                    {
+                        AddOrUpdateDevice(device, MODEL.CS710S);
+                        break;
+                    }
+                }
+
+                /*              
+                                foreach (var service in services)
+                                {
+
+                                    foreach (AdvertisementRecord service in device.AdvertisementRecords)
+                                {
+                                    if (service.Data.Length == 2)
+                                    {
+                                        // CS710S Service ID ios = 0x9802, android = 0x5350
+                                        if ((service.Data[0] == 0x98 && service.Data[1] == 0x02) || (service.Data[0] == 0x53 && service.Data[1] == 0x50))
+                                        {
+                                            AddOrUpdateDevice(device, MODEL.CS710S);
+                                            break;
+                                        }
+                                    }
+                                }
+                */
+
                 //Console.WriteLine($"Connected device: {device.Name} ({device.Id})");
             }
         }
@@ -304,10 +357,6 @@ namespace BLE.Client.ViewModels
             if (IsStateOn && (refresh || !Devices.Any()) && !IsRefreshing)
             {
                 Devices.Clear();
-
-
-
-
                 ScanForDevices();
             }
         }
@@ -322,8 +371,8 @@ namespace BLE.Client.ViewModels
                 RaisePropertyChanged(() => IsRefreshing);
                 Adapter.ScanMode = ScanMode.LowLatency;
 
-                await ListConnectedDevicesAsync();
                 await Adapter.StartScanningForDevicesAsync(_cancellationTokenSource.Token);
+                await ListConnectedDevicesAsync();
 
             }
             catch (Exception ex)
