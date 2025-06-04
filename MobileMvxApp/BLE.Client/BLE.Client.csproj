@@ -7,8 +7,11 @@
 
   <ItemGroup>
     <Compile Remove="PagesViewModelsSet\NewFolder1\**" />
+    <Compile Remove="PagesViewModelsSet\NewFolder2\**" />
     <EmbeddedResource Remove="PagesViewModelsSet\NewFolder1\**" />
+    <EmbeddedResource Remove="PagesViewModelsSet\NewFolder2\**" />
     <None Remove="PagesViewModelsSet\NewFolder1\**" />
+    <None Remove="PagesViewModelsSet\NewFolder2\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +52,9 @@
     <ProjectReference Include="..\..\Library\CSLibrary\CSLibrary2024-NETStandard.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="PagesViewModelsSet\DeviceUnpair\DeviceUnpairPage.xaml.cs">
+      <DependentUpon>DeviceUnpairPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="PagesViewModelsSet\SpecialFuction\ASYGN\PageAsygnInventory.xaml.cs">
       <DependentUpon>PageAsygnInventory.xaml</DependentUpon>
     </Compile>

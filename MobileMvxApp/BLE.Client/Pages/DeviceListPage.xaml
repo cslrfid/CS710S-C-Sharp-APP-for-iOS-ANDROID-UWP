@@ -69,7 +69,7 @@
                 </StackLayout>
 
                 <ListView Grid.Row="1" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"
-                 IsPullToRefreshEnabled="True"
+                 IsPullToRefreshEnabled="false"
                  RefreshCommand="{Binding RefreshCommand}"
                  IsRefreshing="{Binding IsRefreshing, Mode=OneWay}"
                  RowHeight="80"
@@ -81,6 +81,7 @@
                     <Label Text="For CS710S, Only Bluetooth 5.0 Phone" HorizontalOptions="Center"/>
                 </StackLayout>
 
+                <!--
                 <StackLayout Grid.Row="3" Orientation="Horizontal">
                     <Button Text="Clear and Rescan" Command="{Binding StopScanCommand}" HorizontalOptions="EndAndExpand"/>
                     <ActivityIndicator IsRunning="{Binding IsRefreshing}"
@@ -88,7 +89,7 @@
                              WidthRequest="24"
                              VerticalOptions="Center"
                              HorizontalOptions="End"/>
-                </StackLayout>
+                </StackLayout>-->
 
 
             </Grid>

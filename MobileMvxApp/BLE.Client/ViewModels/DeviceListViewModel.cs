@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using BLE.Client.Extensions;
+using CSLibrary;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -14,7 +15,7 @@ using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Extensions;
 using Plugin.Settings.Abstractions;
-
+using Xamarin.Forms;
 using static CSLibrary.RFIDDEVICE;
 
 namespace BLE.Client.ViewModels
@@ -35,7 +36,7 @@ namespace BLE.Client.ViewModels
         private string _version;
         public string version { get; set; }
 
-        public MvxCommand RefreshCommand => new MvxCommand(() => TryStartScanning(true));
+        //public MvxCommand RefreshCommand => new MvxCommand(() => TryStartScanning(true));
         public MvxCommand<DeviceListItemViewModel> DisconnectCommand => new MvxCommand<DeviceListItemViewModel>(DisconnectDevice);
 
         public MvxCommand<DeviceListItemViewModel> ConnectDisposeCommand => new MvxCommand<DeviceListItemViewModel>(ConnectAndDisposeDevice);
@@ -51,7 +52,12 @@ namespace BLE.Client.ViewModels
             {
                 if (value != null)
                 {
-                    HandleSelectedDevice(value);
+                    if (value.IsConnected)
+                    {
+                        _userDialogs.ConfirmAsync($"This device is in OS Bluetooth list, please 'forget' it first and start this App again.");
+                    }
+                    else
+                        HandleSelectedDevice(value);
                 }
 
                 RaisePropertyChanged();
@@ -67,6 +73,7 @@ namespace BLE.Client.ViewModels
                 _cancellationTokenSource.Cancel();
                 CleanupCancellationToken();
                 RaisePropertyChanged(() => IsRefreshing);
+                Task.Delay(100).Wait();
             }
             catch (Exception ex)
             {
@@ -81,16 +88,16 @@ namespace BLE.Client.ViewModels
             _settings = settings;
             _navigation = navigation;
 
-            // quick and dirty :>
-            _bluetoothLe.StateChanged += OnStateChanged;
-            Adapter.DeviceDiscovered += OnDeviceDiscovered;
-            Adapter.ScanTimeoutElapsed += Adapter_ScanTimeoutElapsed;
-            Adapter.DeviceDisconnected += OnDeviceDisconnected;
-            Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
-            //Adapter.DeviceConnected += (sender, e) => Adapter.DisconnectDeviceAsync(e.Device);
-
             _ = BleMvxApplication._reader.DisconnectAsync();
 
+            // quick and dirty :>
+            _bluetoothLe.StateChanged += OnStateChanged;
+            //Adapter.DeviceDiscovered += OnDeviceDiscovered;
+            Adapter.DeviceAdvertised += OnDeviceDiscovered;
+            Adapter.ScanTimeoutElapsed += Adapter_ScanTimeoutElapsed;
+            //            Adapter.DeviceDisconnected += OnDeviceDisconnected;
+            //            Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
+            //Adapter.DeviceConnected += (sender, e) => Adapter.DisconnectDeviceAsync(e.Device);
         }
 
         private void OnDeviceConnectionLost(object sender, DeviceErrorEventArgs e)
@@ -152,9 +159,6 @@ namespace BLE.Client.ViewModels
 
         private void OnDeviceDiscovered(object sender, DeviceEventArgs args)
         {
-            //if (args.Device.Name == "CS710SreaderDD0C")
-            //    CSLibrary.Debug.WriteLine("BLE Device name:" + args.Device.Name + Environment.NewLine);
-
             try
             {
                 bool CSLRFIDReaderService = false;
@@ -260,12 +264,18 @@ namespace BLE.Client.ViewModels
             });
         }
 
+        bool _runningViewAppearing = false;
         public override async void ViewAppearing()
         {
+            if (_runningViewAppearing)
+                return;
+            _runningViewAppearing = true;
+
             try
             {
                 base.ViewAppearing();
                 TryStartScanning();
+                ListConnectedDevicesAsync();
             }
             catch (Exception ex)
             {
@@ -290,65 +300,60 @@ namespace BLE.Client.ViewModels
             }
         }
 
+
         public async Task ListConnectedDevicesAsync()
         {
-            Guid serviceUuid;
+            await Task.Delay(2000); // Give some time for the device disconnect
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
+                await iosListConnectedDevicesAsync();
+            else if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
+                await androidListConnectedDevicesAsync();
+        }
+
+        public async Task iosListConnectedDevicesAsync()
+        {
+            if (Xamarin.Forms.Device.RuntimePlatform != Xamarin.Forms.Device.iOS)
+                return;
 
             Console.WriteLine("Fetching connected devices...");
 
-            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
-                serviceUuid = new Guid("00009802-0000-1000-8000-00805f9b34fb");
-            else
-                serviceUuid = new Guid("00005350-0000-1000-8000-00805f9b34fb");
-
-//            var connectedDevices = await Adapter.DiscoverDeviceAsync(serviceUuid);
-
+            Guid serviceUuid;
+            serviceUuid = new Guid("00009802-0000-1000-8000-00805f9b34fb");
             var connectedDevices = Adapter.GetSystemConnectedOrPairedDevices(new[] { serviceUuid });
-            //var connectedDevices = Adapter. GetSystemConnectedOrPairedDevices();
 
             foreach (var device in connectedDevices)
+                AddOrUpdateDevice(device, MODEL.CS710S);
+        }
+
+        public async Task androidListConnectedDevicesAsync()
+        {
+            if (Xamarin.Forms.Device.RuntimePlatform != Xamarin.Forms.Device.Android)
+                return;
+
+            var connectedDevices = Adapter.GetSystemConnectedOrPairedDevices();
+
+            Guid specualuuid = Guid.Parse("00009802-0000-1000-8000-00805f9b34fb");
+            foreach (var device in connectedDevices)
             {
-                //if (device.State != DeviceState.Connected)
-                //    break;
-
-                //var services = await device.GetServicesAsync();
-
-                //if (services != null)
-                    AddOrUpdateDevice(device, MODEL.CS710S);
-
-                //var services = await device.GetServicesAsync();
-
-                /*foreach (var service in services)
+                try
                 {
-                    // 檢查服務 UUID 是否符合條件
-                    var deviceservice = service.Id.ToString().ToLower();
+                    await Adapter.ConnectToDeviceAsync(device);
 
-                    if (deviceservice.Contains("9802") || deviceservice.Contains("5350"))
+                    var services = await device.GetServicesAsync();
+                    foreach (var service in services)
                     {
-                        AddOrUpdateDevice(device, MODEL.CS710S);
-                        break;
+                        if (service.Id == specualuuid)
+                        {
+                            AddOrUpdateDevice(device, MODEL.CS710S);
+                            break;
+                        }
                     }
+
+                    //await Adapter.DisconnectDeviceAsync(device);
                 }
-
-                /*              
-                                foreach (var service in services)
-                                {
-
-                                    foreach (AdvertisementRecord service in device.AdvertisementRecords)
-                                {
-                                    if (service.Data.Length == 2)
-                                    {
-                                        // CS710S Service ID ios = 0x9802, android = 0x5350
-                                        if ((service.Data[0] == 0x98 && service.Data[1] == 0x02) || (service.Data[0] == 0x53 && service.Data[1] == 0x50))
-                                        {
-                                            AddOrUpdateDevice(device, MODEL.CS710S);
-                                            break;
-                                        }
-                                    }
-                                }
-                */
-
-                //Console.WriteLine($"Connected device: {device.Name} ({device.Id})");
+                catch (Exception ex)
+                {
+                }
             }
         }
 
@@ -372,8 +377,6 @@ namespace BLE.Client.ViewModels
                 Adapter.ScanMode = ScanMode.LowLatency;
 
                 await Adapter.StartScanningForDevicesAsync(_cancellationTokenSource.Token);
-                await ListConnectedDevicesAsync();
-
             }
             catch (Exception ex)
             {
@@ -401,7 +404,9 @@ namespace BLE.Client.ViewModels
         private async void DisconnectDevice(DeviceListItemViewModel device)
         {
             if (BleMvxApplication._reader.Status != CSLibrary.HighLevelInterface.READERSTATE.DISCONNECT)
+            {
                 BleMvxApplication._reader.DisconnectAsync();
+            }
 
             try
             {

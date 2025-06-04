@@ -153,10 +153,10 @@ namespace CSLibrary
 
                 if (_readerState != READERSTATE.DISCONNECT)
                 {
-                    RFIDPowerOff();
                     BARCODEPowerOff();
+                    RFIDPowerOff();
                     while (BLEBusy)
-                        await Task.Delay(100);
+                        await Task.Delay(500);
                     //CSLibraryv4: clear connection without waiting for BLE readiness
                     //WhenBLEFinish(ClearConnection);
                     await ClearConnection();
