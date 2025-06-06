@@ -28,7 +28,7 @@
 
             <StackLayout x:Name="stackLayoutPower"  Orientation="Horizontal">
                 <Label Text="Power (0-300)" WidthRequest="190" VerticalOptions="Center" />
-                <Entry x:Name="entryPower" Unfocused="entryPowerCompleted" HorizontalOptions="FillAndExpand" />
+                <Entry x:Name="entryPower" Unfocused="entryPowerCompleted" HorizontalOptions="FillAndExpand" Keyboard="Numeric"/>
             </StackLayout>
 
             <StackLayout x:Name="stackLayoutInventoryDuration" Orientation="Horizontal">

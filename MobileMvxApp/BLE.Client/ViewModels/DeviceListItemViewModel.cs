@@ -28,14 +28,16 @@ namespace BLE.Client.ViewModels
             } 
         }
         public string Model => BTServiceType.ToString();
-        public bool IsConnected => Device.State == DeviceState.Connected;
+        //public bool IsConnected => Device.State == DeviceState.Connected;
+        public bool IsConnected { get; private set; }
         public int Rssi => Device.Rssi;
         public string Name => Device.Name;
 
-        public DeviceListItemViewModel(IDevice device, MODEL BTServiceType)
+        public DeviceListItemViewModel(IDevice device, MODEL BTServiceType, bool isConnected = false)
         {
             this.Device = device;
             this.BTServiceType = BTServiceType;
+            this.IsConnected = isConnected;
         }
 
         public void Update(IDevice newDevice = null)

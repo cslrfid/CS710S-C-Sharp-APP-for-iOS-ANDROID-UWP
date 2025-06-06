@@ -54,7 +54,11 @@ namespace BLE.Client.ViewModels
                 {
                     if (value.IsConnected)
                     {
-                        _userDialogs.ConfirmAsync($"This device is in OS Bluetooth list, please 'forget' it first and start this App again.");
+                        _userDialogs.ConfirmAsync($"This device is in OS Bluetooth list, please do the following:" + Environment.NewLine +
+                            "1) in OS Bluetooth list, 'forget' it." + Environment.NewLine +
+                            "2) after doing #1 above, make sure reader is not in HID mode. (characterized by fast Bluetooth LED flash). If reader is in HID mode, change to normal mode." + Environment.NewLine + 
+                            Environment.NewLine +
+                            "After #1 & #2 above, restart this App.");
                     }
                     else
                         HandleSelectedDevice(value);
@@ -241,7 +245,7 @@ namespace BLE.Client.ViewModels
             }
         }
 
-        private void AddOrUpdateDevice(IDevice device, MODEL BTServiceType)
+        private void AddOrUpdateDevice(IDevice device, MODEL BTServiceType, bool isConnected = false)
         {
             InvokeOnMainThread(() =>
             {
@@ -254,7 +258,7 @@ namespace BLE.Client.ViewModels
                     }
                     else
                     {
-                        Devices.Add(new DeviceListItemViewModel(device, BTServiceType));
+                        Devices.Add(new DeviceListItemViewModel(device, BTServiceType, isConnected));
                     }
                 }
                 catch (Exception ex)
@@ -322,7 +326,7 @@ namespace BLE.Client.ViewModels
             var connectedDevices = Adapter.GetSystemConnectedOrPairedDevices(new[] { serviceUuid });
 
             foreach (var device in connectedDevices)
-                AddOrUpdateDevice(device, MODEL.CS710S);
+                AddOrUpdateDevice(device, MODEL.CS710S, true);
         }
 
         public async Task androidListConnectedDevicesAsync()
@@ -344,7 +348,7 @@ namespace BLE.Client.ViewModels
                     {
                         if (service.Id == specualuuid)
                         {
-                            AddOrUpdateDevice(device, MODEL.CS710S);
+                            AddOrUpdateDevice(device, MODEL.CS710S, true);
                             break;
                         }
                     }
