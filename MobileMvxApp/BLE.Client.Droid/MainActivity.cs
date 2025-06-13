@@ -17,7 +17,9 @@ namespace BLE.Client.Droid
         ,ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
         LaunchMode = LaunchMode.SingleTask)]
     public class MainActivity 
-		: MvxFormsAppCompatActivity
+        : MvxFormsAppCompatActivity
+
+    //		: MvxFormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
