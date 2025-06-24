@@ -1,15 +1,17 @@
-﻿using System;
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
 using Android.App;
+using Android.Bluetooth;
 using Android.Content.PM;
+using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Android.OS;
-using MvvmCross.Forms.Platforms.Android.Views;
 using MvvmCross;
-using Xamarin.Forms;
+using MvvmCross.Forms.Platforms.Android.Views;
+using System;
 using System.Collections.Generic;
+using Xamarin.Forms;
+using System.Linq;
 
 namespace BLE.Client.Droid
 {
@@ -21,7 +23,7 @@ namespace BLE.Client.Droid
 
     //		: MvxFormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle bundle)
+        protected override async void OnCreate(Bundle bundle)
         {
             ToolbarResource = Resource.Layout.toolbar;
             TabLayoutResource = Resource.Layout.tabs;
@@ -41,7 +43,14 @@ namespace BLE.Client.Droid
                 this.RequestedOrientation = ScreenOrientation.Landscape;
 
             //await Permissions.RequestAsync<BLEPermission>();
-            Xamarin.Essentials.Permissions.RequestAsync<BLEPermission>();
+            //Xamarin.Essentials.Permissions.RequestAsync<BLEPermission>();
+            //CheckConnectedDevice();
+
+            var status = await Xamarin.Essentials.Permissions.RequestAsync<BLEPermission>();
+            //if (status == Xamarin.Essentials.PermissionStatus.Granted)
+            {
+                CheckConnectedDevice();
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
@@ -63,5 +72,60 @@ namespace BLE.Client.Droid
                 (Android.Manifest.Permission.WriteExternalStorage, true)
             }.ToArray();
         }
+
+        void CheckConnectedDevice()
+        {
+            BluetoothAdapter adapter = BluetoothAdapter.DefaultAdapter;
+            if (adapter == null || !adapter.IsEnabled)
+                return;
+
+            foreach (var device in adapter.BondedDevices)
+                if (device.Type == BluetoothDeviceType.Le || device.Type == BluetoothDeviceType.Dual)
+                    device.ConnectGatt(this, false, new ServiceCheckGattCallback(device));
+        }
+
+        class ServiceCheckGattCallback : BluetoothGattCallback
+        {
+            BluetoothDevice _device;
+            public ServiceCheckGattCallback(BluetoothDevice device)
+            {
+                _device = device;
+            }
+
+            public override void OnConnectionStateChange(BluetoothGatt gatt, GattStatus status, ProfileState newState)
+            {
+                base.OnConnectionStateChange(gatt, status, newState);
+                if (newState == ProfileState.Connected)
+                {
+                    gatt.DiscoverServices();
+                }
+                else if (newState == ProfileState.Disconnected)
+                {
+                    gatt.Close();
+                }
+            }
+
+            public override void OnServicesDiscovered(BluetoothGatt gatt, GattStatus status)
+            {
+                base.OnServicesDiscovered(gatt, status);
+                var targetService = gatt.Services.FirstOrDefault(
+                    s => s.Uuid.ToString().ToLower() == "00009802-0000-1000-8000-00805f9b34fb"
+                );
+                if (targetService != null)
+                {
+                    try
+                    {
+                        var m = _device.Class.GetMethod("removeBond");
+                        m.Invoke(_device, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("removeBond failed: " + ex.Message);
+                    }
+                }
+                gatt.Close();
+            }
+        }
+
     }
 }

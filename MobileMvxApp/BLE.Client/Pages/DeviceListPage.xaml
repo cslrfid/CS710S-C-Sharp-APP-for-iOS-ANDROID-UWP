@@ -76,9 +76,10 @@
                  ItemTemplate="{StaticResource DeviceItemTemplate}">
                 </ListView>
 
-                <StackLayout Grid.Row="2">
+                <StackLayout Grid.Row="3">
                     <Label Text="For CS108, Bluetooth 4.0 or 5.0 Phone" HorizontalOptions="Center"/>
                     <Label Text="For CS710S, Only Bluetooth 5.0 Phone" HorizontalOptions="Center"/>
+                    <Button x:Name="buttonWarningMessage" Text="Cannot find your reader?" Clicked="buttonWarningMessageClicked" FontSize="12" CornerRadius="20" HorizontalOptions="Center" BorderWidth ="0" />
                 </StackLayout>
 
                 <!--

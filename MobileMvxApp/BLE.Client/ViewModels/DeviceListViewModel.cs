@@ -279,7 +279,7 @@ namespace BLE.Client.ViewModels
             {
                 base.ViewAppearing();
                 TryStartScanning();
-                ListConnectedDevicesAsync();
+                //ListConnectedDevicesAsync();
             }
             catch (Exception ex)
             {

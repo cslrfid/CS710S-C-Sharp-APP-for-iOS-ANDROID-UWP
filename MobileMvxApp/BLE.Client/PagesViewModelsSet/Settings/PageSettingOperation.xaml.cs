@@ -101,11 +101,14 @@ namespace BLE.Client.Pages
             entryNoEPCMaxQ.Text = BleMvxApplication._config.RFID_DynamicQParms.NoEPCMaxQ.ToString();
 
             foreach (string profilestr in _profileList)
-                if (uint.Parse(profilestr.Substring(0, 3)) == BleMvxApplication._config.RFID_Profile)
+            {
+                int colonIndex = profilestr.IndexOf(":");
+                if (colonIndex > 0 && uint.Parse(profilestr.Substring(0, colonIndex)) == BleMvxApplication._config.RFID_Profile)
                 {
                     buttonProfile.Text = profilestr;
                     break;
                 }
+            }
 
             SetQvalue();
         }
@@ -411,7 +414,9 @@ namespace BLE.Client.Pages
             BleMvxApplication._config.RFID_DynamicQParms.MinQCycles = uint.Parse(entryMinQCycled.Text);
             BleMvxApplication._config.RFID_DynamicQParms.NoEPCMaxQ = uint.Parse(entryNoEPCMaxQ.Text);
 
-            BleMvxApplication._config.RFID_Profile = UInt16.Parse(buttonProfile.Text.Substring(0, 3));
+            int colonIndex = buttonProfile.Text.IndexOf(":");
+            if (colonIndex > 0)
+                BleMvxApplication._config.RFID_Profile = UInt16.Parse(buttonProfile.Text.Substring(0, colonIndex));
 
             BleMvxApplication.SaveConfig();
 

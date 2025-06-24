@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="csl.CS710Sfulldemo.demo" android:installLocation="preferExternal" android:versionName="0.1.15" android:versionCode="129">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="csl.CS710Sfulldemo.demo" android:installLocation="preferExternal" android:versionName="0.1.16" android:versionCode="137">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" />
 	<application android:label="CS710S C# Reader" android:icon="@drawable/icon" android:theme="@style/MyTheme"></application>
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -16,5 +16,4 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-	<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 </manifest>

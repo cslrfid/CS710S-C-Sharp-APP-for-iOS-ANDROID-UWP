@@ -1,9 +1,10 @@
-using System;
-
 using Android.App;
+using Android.Bluetooth;
 using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
+using System;
+using System.Linq;
 
 namespace BLE.Client.Droid
 {
