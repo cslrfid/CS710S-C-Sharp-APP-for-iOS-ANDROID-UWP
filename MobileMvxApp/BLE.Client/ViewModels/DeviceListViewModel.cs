@@ -279,7 +279,7 @@ namespace BLE.Client.ViewModels
             {
                 base.ViewAppearing();
                 TryStartScanning();
-                //ListConnectedDevicesAsync();
+                ListConnectedDevicesAsync();
             }
             catch (Exception ex)
             {
@@ -307,11 +307,11 @@ namespace BLE.Client.ViewModels
 
         public async Task ListConnectedDevicesAsync()
         {
-            await Task.Delay(2000); // Give some time for the device disconnect
+            //await Task.Delay(2000); // Give some time for the device disconnect
             if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
                 await iosListConnectedDevicesAsync();
-            else if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
-                await androidListConnectedDevicesAsync();
+            //else if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
+            //    await androidListConnectedDevicesAsync();
         }
 
         public async Task iosListConnectedDevicesAsync()
