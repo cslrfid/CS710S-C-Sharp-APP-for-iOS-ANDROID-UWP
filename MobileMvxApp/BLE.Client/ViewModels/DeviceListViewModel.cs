@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Acr.UserDialogs;
 using BLE.Client.Extensions;
+using CSLibrary;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
@@ -14,7 +15,7 @@ using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Extensions;
 using Plugin.Settings.Abstractions;
-
+using Xamarin.Forms;
 using static CSLibrary.RFIDDEVICE;
 
 namespace BLE.Client.ViewModels
@@ -35,7 +36,7 @@ namespace BLE.Client.ViewModels
         private string _version;
         public string version { get; set; }
 
-        public MvxCommand RefreshCommand => new MvxCommand(() => TryStartScanning(true));
+        //public MvxCommand RefreshCommand => new MvxCommand(() => TryStartScanning(true));
         public MvxCommand<DeviceListItemViewModel> DisconnectCommand => new MvxCommand<DeviceListItemViewModel>(DisconnectDevice);
 
         public MvxCommand<DeviceListItemViewModel> ConnectDisposeCommand => new MvxCommand<DeviceListItemViewModel>(ConnectAndDisposeDevice);
@@ -51,7 +52,16 @@ namespace BLE.Client.ViewModels
             {
                 if (value != null)
                 {
-                    HandleSelectedDevice(value);
+                    if (value.IsConnected)
+                    {
+                        _userDialogs.ConfirmAsync($"This device is in OS Bluetooth list, please do the following:" + Environment.NewLine +
+                            "1) in OS Bluetooth list, 'forget' it." + Environment.NewLine +
+                            "2) after doing #1 above, make sure reader is not in HID mode. (characterized by fast Bluetooth LED flash). If reader is in HID mode, change to normal mode." + Environment.NewLine + 
+                            Environment.NewLine +
+                            "After #1 & #2 above, restart this App.");
+                    }
+                    else
+                        HandleSelectedDevice(value);
                 }
 
                 RaisePropertyChanged();
@@ -67,6 +77,7 @@ namespace BLE.Client.ViewModels
                 _cancellationTokenSource.Cancel();
                 CleanupCancellationToken();
                 RaisePropertyChanged(() => IsRefreshing);
+                Task.Delay(100).Wait();
             }
             catch (Exception ex)
             {
@@ -81,16 +92,16 @@ namespace BLE.Client.ViewModels
             _settings = settings;
             _navigation = navigation;
 
-            // quick and dirty :>
-            _bluetoothLe.StateChanged += OnStateChanged;
-            Adapter.DeviceDiscovered += OnDeviceDiscovered;
-            Adapter.ScanTimeoutElapsed += Adapter_ScanTimeoutElapsed;
-            Adapter.DeviceDisconnected += OnDeviceDisconnected;
-            Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
-            //Adapter.DeviceConnected += (sender, e) => Adapter.DisconnectDeviceAsync(e.Device);
-
             _ = BleMvxApplication._reader.DisconnectAsync();
 
+            // quick and dirty :>
+            _bluetoothLe.StateChanged += OnStateChanged;
+            //Adapter.DeviceDiscovered += OnDeviceDiscovered;
+            Adapter.DeviceAdvertised += OnDeviceDiscovered;
+            Adapter.ScanTimeoutElapsed += Adapter_ScanTimeoutElapsed;
+            //            Adapter.DeviceDisconnected += OnDeviceDisconnected;
+            //            Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
+            //Adapter.DeviceConnected += (sender, e) => Adapter.DisconnectDeviceAsync(e.Device);
         }
 
         private void OnDeviceConnectionLost(object sender, DeviceErrorEventArgs e)
@@ -210,6 +221,14 @@ namespace BLE.Client.ViewModels
                                     CSLRFIDReaderService = true;
                                     break;
                                 }
+                            }else if (service.Data.Length == 4)
+                            {
+                                if (service.Data[0] == 0x18 && service.Data[1] == 0x0d && service.Data[2] == 0x98 && service.Data[3] == 0x02)
+                                {
+                                    BTServiceType = MODEL.CS710S;
+                                    CSLRFIDReaderService = true;
+                                    break;
+                                }
                             }
                         }
                         break;
@@ -226,7 +245,7 @@ namespace BLE.Client.ViewModels
             }
         }
 
-        private void AddOrUpdateDevice(IDevice device, MODEL BTServiceType)
+        private void AddOrUpdateDevice(IDevice device, MODEL BTServiceType, bool isConnected = false)
         {
             InvokeOnMainThread(() =>
             {
@@ -239,7 +258,7 @@ namespace BLE.Client.ViewModels
                     }
                     else
                     {
-                        Devices.Add(new DeviceListItemViewModel(device, BTServiceType));
+                        Devices.Add(new DeviceListItemViewModel(device, BTServiceType, isConnected));
                     }
                 }
                 catch (Exception ex)
@@ -249,12 +268,18 @@ namespace BLE.Client.ViewModels
             });
         }
 
+        bool _runningViewAppearing = false;
         public override async void ViewAppearing()
         {
+            if (_runningViewAppearing)
+                return;
+            _runningViewAppearing = true;
+
             try
             {
                 base.ViewAppearing();
                 TryStartScanning();
+                ListConnectedDevicesAsync();
             }
             catch (Exception ex)
             {
@@ -279,12 +304,68 @@ namespace BLE.Client.ViewModels
             }
         }
 
+
+        public async Task ListConnectedDevicesAsync()
+        {
+            //await Task.Delay(2000); // Give some time for the device disconnect
+            if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.iOS)
+                await iosListConnectedDevicesAsync();
+            //else if (Xamarin.Forms.Device.RuntimePlatform == Xamarin.Forms.Device.Android)
+            //    await androidListConnectedDevicesAsync();
+        }
+
+        public async Task iosListConnectedDevicesAsync()
+        {
+            if (Xamarin.Forms.Device.RuntimePlatform != Xamarin.Forms.Device.iOS)
+                return;
+
+            Console.WriteLine("Fetching connected devices...");
+
+            Guid serviceUuid;
+            serviceUuid = new Guid("00009802-0000-1000-8000-00805f9b34fb");
+            var connectedDevices = Adapter.GetSystemConnectedOrPairedDevices(new[] { serviceUuid });
+
+            foreach (var device in connectedDevices)
+                AddOrUpdateDevice(device, MODEL.CS710S, true);
+        }
+
+        public async Task androidListConnectedDevicesAsync()
+        {
+            if (Xamarin.Forms.Device.RuntimePlatform != Xamarin.Forms.Device.Android)
+                return;
+
+            var connectedDevices = Adapter.GetSystemConnectedOrPairedDevices();
+
+            Guid specualuuid = Guid.Parse("00009802-0000-1000-8000-00805f9b34fb");
+            foreach (var device in connectedDevices)
+            {
+                try
+                {
+                    await Adapter.ConnectToDeviceAsync(device);
+
+                    var services = await device.GetServicesAsync();
+                    foreach (var service in services)
+                    {
+                        if (service.Id == specualuuid)
+                        {
+                            AddOrUpdateDevice(device, MODEL.CS710S, true);
+                            break;
+                        }
+                    }
+
+                    //await Adapter.DisconnectDeviceAsync(device);
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
         private async void TryStartScanning(bool refresh = false)
         {
             if (IsStateOn && (refresh || !Devices.Any()) && !IsRefreshing)
             {
                 Devices.Clear();
-
                 ScanForDevices();
             }
         }
@@ -298,6 +379,7 @@ namespace BLE.Client.ViewModels
 
                 RaisePropertyChanged(() => IsRefreshing);
                 Adapter.ScanMode = ScanMode.LowLatency;
+
                 await Adapter.StartScanningForDevicesAsync(_cancellationTokenSource.Token);
             }
             catch (Exception ex)
@@ -326,7 +408,9 @@ namespace BLE.Client.ViewModels
         private async void DisconnectDevice(DeviceListItemViewModel device)
         {
             if (BleMvxApplication._reader.Status != CSLibrary.HighLevelInterface.READERSTATE.DISCONNECT)
+            {
                 BleMvxApplication._reader.DisconnectAsync();
+            }
 
             try
             {

@@ -35,7 +35,6 @@ namespace BLE.Client.ViewModels
         public string connectedButtonTextColor { get; set; } = "Black";
         public string labelAppVersion { get; set; }
 
-
         public ViewModelMainMenu(IBluetoothLE bluetoothLe, IAdapter adapter, IUserDialogs userDialogs, ISettings settings) : base(adapter)
         {
             _userDialogs = userDialogs;
@@ -164,9 +163,25 @@ namespace BLE.Client.ViewModels
                 {
                     //_ = BleMvxApplication.LoadConfig(BleMvxApplication._deviceinfo.Id.ToString(), BleMvxApplication._reader.rfid.GetModel(), (int)BleMvxApplication._reader.rfid.GetCountry());
                     //BleMvxApplication._config.readerID = BleMvxApplication._deviceinfo.Id.ToString();
+                    if (BleMvxApplication._reader.rfid.GetModel() == MODEL.CS710S)
+                    {
+                        if (new Version(BleMvxApplication._reader.rfid.GetFirmwareVersionString()) < new Version("2.1.2"))
+                        {
+                            if (BleMvxApplication._config.RFID_Profile == 343)
+                                BleMvxApplication._config.RFID_Profile = 244;
+                        }
 
-                    if (BleMvxApplication._reader.rfid.GetModelName() == "CS710S-1" && BleMvxApplication._config.RFID_Profile == 244)
-                        BleMvxApplication._config.RFID_Profile = 241;
+                        if (new Version(BleMvxApplication._reader.rfid.GetFirmwareVersionString()) >= new Version("2.1.2"))
+                        {
+                            if (BleMvxApplication._reader.rfid.GetModelCountry().Equals("CS710S-1"))
+                            {
+                                if (BleMvxApplication._config.RFID_Profile == 343)
+                                    BleMvxApplication._config.RFID_Profile = 342;
+                                else if (BleMvxApplication._config.RFID_Profile == 244)
+                                    BleMvxApplication._config.RFID_Profile = 241;
+                            }
+                        }
+                    }
                 }
 
                 // System Setting

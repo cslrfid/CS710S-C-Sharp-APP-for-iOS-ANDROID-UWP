@@ -181,9 +181,10 @@ namespace BLE.Client.ViewModels
             BleMvxApplication._reader.rfid.SetTagDelayTime((uint)BleMvxApplication._config.RFID_CompactInventoryDelayTime); // for CS108 only
             BleMvxApplication._reader.rfid.SetIntraPacketDelayTime((uint)BleMvxApplication._config.RFID_IntraPacketDelayTime); // for CS710S only
             BleMvxApplication._reader.rfid.SetDuplicateEliminationRollingWindow(BleMvxApplication._config.RFID_DuplicateEliminationRollingWindow);
+
+            // if use CS710S, only work in 244/343 profile
             if (BleMvxApplication._reader.rfid.GetModelName() == "CS710S")
             {
-                // if use CS710S, only work in 244 profile
                 BleMvxApplication._reader.rfid.SetCurrentLinkProfile(244);
             }
             else

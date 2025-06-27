@@ -315,7 +315,14 @@ namespace BLE.Client.ViewModels
                 var uri1 = new Uri(string.Format(LoginAddress, string.Empty));
                 var content1 = new StringContent(JSONdata, System.Text.Encoding.UTF8, "application/json");
 
-                HttpClient client1 = new HttpClient();
+                var handler = new HttpClientHandler();
+#if NETSTANDARD2_1
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
+
+                HttpClient client1 = new HttpClient(handler);
                 client1.MaxResponseContentBufferSize = 102400;
 
                 HttpResponseMessage response1 = null;
@@ -371,7 +378,14 @@ namespace BLE.Client.ViewModels
                 var uri1 = new Uri(string.Format(LoginAddress, string.Empty));
                 var content1 = new StringContent(JSONdata, System.Text.Encoding.UTF8, "application/json");
 
-                HttpClient client1 = new HttpClient();
+                var handler = new HttpClientHandler();
+#if NETSTANDARD2_1
+                handler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#elif NETSTANDARD2_0
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+#endif
+
+                HttpClient client1 = new HttpClient(handler);
                 client1.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 client1.MaxResponseContentBufferSize = 102400;
 

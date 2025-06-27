@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelXerxesReadTemp"
+                      xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                     xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                      x:Class="BLE.Client.Pages.PageXerxesReadTemp"
+                      Title="Axzon Xerxes Read Temp">
+
+  
+    <ScrollView>
+    
+        <StackLayout Padding="5, 3, 5, 0">
+        
+            <Label Text="Selected EPC" WidthRequest="70" />
+		    <Editor Text="{ Binding entrySelectedEPC, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Access PWD" WidthRequest="70" />
+                <Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <Label Text="Data of 5.3. Measuring Temperature Using SELECT"/>
+            <Entry Text="{ Binding _5_3, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+
+            <Label Text="Data of 5.4. Reading Temperature in MASTER MODE"/>
+            <Entry Text="{ Binding _5_4, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+
+            <Label Text="Data of 5.5. Converting TEMPERATURE CODE into°C"/>
+            <Entry Text="{ Binding _5_5, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+
+            <Label Text="Final Temperature °C"/>
+            <Entry Text="{ Binding _Temp, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+
+            <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+            <StackLayout Orientation="Vertical"  HorizontalOptions="FillAndExpand">
+                <Button Text="Read" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnReadButtonCommand}" />
+            </StackLayout>
+      
+      </StackLayout>
+
+    </StackLayout>
+  </ScrollView>
+</views:MvxContentPage>
+    

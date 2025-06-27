@@ -93,8 +93,8 @@ namespace CSLibrary
 
                     do
                     {
-                        prefixat = _barcodeStr.IndexOf("\u0002\u0000\u0007\u0010\u0017\u0013");
-                        suffixat = _barcodeStr.IndexOf("\u0005\u0001\u0011\u0016\u0003\u0004");
+                        prefixat = _barcodeStr.IndexOf("\u0002\u0000\u0007\u0010\u0017\u0013", StringComparison.Ordinal);
+                        suffixat = _barcodeStr.IndexOf("\u0005\u0001\u0011\u0016\u0003\u0004", StringComparison.Ordinal);
 
                         if (prefixat == -1 && suffixat == -1)
                         {

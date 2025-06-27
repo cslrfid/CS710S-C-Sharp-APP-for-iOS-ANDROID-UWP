@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:MvxContentPage x:TypeArguments="viewModels:ViewModelXerxesAuthentication"
+                      xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                     xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                      x:Class="BLE.Client.Pages.PageXerxesAuthentication"
+                      Title="Xerxes Authentication">
+
+  
+    <ScrollView>
+        <StackLayout>
+
+            <StackLayout Orientation="Vertical" >
+                <Label Text="Selected EPC"/>
+		        <Entry Text="{ Binding entrySelectedEPC, Mode=TwoWay }"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Access PWD" WidthRequest="70" />
+                <Entry Text="{ Binding entrySelectedPWD, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Challenge" WidthRequest="80" />
+                <Entry Text="{ Binding entryChallenge, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Response" WidthRequest="80" />
+                <Label Text="{ Binding labelResponseStatus }" WidthRequest="30" HorizontalOptions="End" VerticalOptions="Center" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="" WidthRequest="80" />
+                <Label x:Name="abc" Text="{ Binding entryResponse }" LineBreakMode="CharacterWrap"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Key 1 (128 bits)" WidthRequest="80" />
+                <Entry Text="{ Binding entrySelectedKey0, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+                <Label Text="{ Binding labelKey0Status }" WidthRequest="20" HorizontalOptions="End" VerticalOptions="Center" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Key 2 (128 bits)" WidthRequest="80" />
+                <Entry Text="{ Binding entrySelectedKey1, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+                <Label Text="{ Binding labelKey1Status }" WidthRequest="20" HorizontalOptions="End" VerticalOptions="Center" />
+            </StackLayout>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Text="Default Key1" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnSetKey1ButtonCommand}" HorizontalOptions="FillAndExpand" Grid.Column="0"/>
+                <Button Text="Default Key2" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnSetKey2ButtonCommand}" HorizontalOptions="FillAndExpand" Grid.Column="1"/>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Text="Write Key1" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnWriteKey0ButtonCommand}" HorizontalOptions="FillAndExpand" Grid.Column="0"/>
+                <Button Text="Write Key2" Font="Large" BackgroundColor="#C3C3C3" Command="{Binding OnWriteKey1ButtonCommand}" HorizontalOptions="FillAndExpand" Grid.Column="1"/>
+            </Grid>
+
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+            <Button Text="Tag Authentication" BackgroundColor="#C3C3C3" Command="{Binding OnAuthenticateTAM1ButtonCommand}" HorizontalOptions="FillAndExpand"/>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Final Result" WidthRequest="80" />
+                <Label x:Name="result1" Text ="{ Binding labelResult1Text, Mode=TwoWay }" LineBreakMode="CharacterWrap"/>
+            </StackLayout>
+
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Encryption" WidthRequest="100" />
+                <Switch x:Name="switchEncryption" IsToggled="{Binding switchEncryptionIsToggled}"/>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Data Validity" WidthRequest="100" />
+                <Switch x:Name="switchDataValidity" IsToggled="{Binding switchDataValidityIsToggled}" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Offset" WidthRequest="100" />
+                <Entry x:Name="entryOffset" Text ="{ Binding entryOffsetText, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <!--<StackLayout Orientation="Horizontal">
+                <Label Text="Protect Mode" WidthRequest="80" />
+                <Entry Text="{ Binding entryProtectMode1Text, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>-->
+            
+            <Button Text="Secure Data Transmission" BackgroundColor="#C3C3C3" Command="{Binding OnAuthenticateTAM2ButtonCommand}" HorizontalOptions="FillAndExpand"/>
+
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Final Result" WidthRequest="80" />
+                <Label x:Name="result2" Text ="{ Binding labelResult2Text, Mode=TwoWay }"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Read Data" WidthRequest="80" />
+                <Label x:Name="result2data" Text ="{ Binding labelResult2DateText, Mode=TwoWay }" LineBreakMode="CharacterWrap"/>
+            </StackLayout>
+
+
+            <!--
+            
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+            
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Protect Mode" WidthRequest="80" />
+                <Entry Text="{ Binding entryProtectMode2Text, Mode=TwoWay }" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <Button Text="Data Integrity" BackgroundColor="#C3C3C3" Command="{Binding OnAuthenticateTAM3ButtonCommand}" HorizontalOptions="FillAndExpand"/>
+            
+                <StackLayout Orientation="Horizontal">                
+                    <Label Text="Final Result" WidthRequest="80" />
+                        <Label x:Name="result3" Text ="{ Binding labelResult3Text, Mode=TwoWay }" LineBreakMode="CharacterWrap"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" IsVisible="False">
+                    <Label Text="Read Data" WidthRequest="80" />
+                    <Label x:Name="result3data" Text ="{ Binding labelResult3DateText, Mode=TwoWay }" LineBreakMode="CharacterWrap"/>
+                </StackLayout>
+
+            -->
+            
+            <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
+            <StackLayout Orientation="Vertical" >
+                <Label Text="JSON Server Address"/>
+                <Entry Text="{ Binding entryJsonServAddress, Mode=TwoWay }"/>
+                <Button Text="Send JSON data to Server" BackgroundColor="#C3C3C3" Command="{Binding OnAuthenticateTAM3ButtonCommand}" HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</views:MvxContentPage>
+    

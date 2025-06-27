@@ -186,9 +186,9 @@ namespace BLE.Client.ViewModels
 
         bool _tagCount = false;
 
-        private string _tagPerSecondText = "0/0/0 internal/new/tags/s     ";
+        private string _tagPerSecondText = "Rate/New: 0/0     ";
         public string tagPerSecondText { get { return _tagPerSecondText; } }
-        private string _numberOfTagsText = "     0 tags";
+        private string _numberOfTagsText = "     Total: 0     ";
         public string numberOfTagsText { get { return _numberOfTagsText; } }
         private string _labelVoltage = "";
         public string labelVoltage { get { return _labelVoltage; } }
@@ -432,11 +432,12 @@ namespace BLE.Client.ViewModels
             TagInfoList.Clear();
             TagInfoListSpeedup.Clear();
             TagInfoListSpeedup1.Clear();
-            _numberOfTagsText = "     " + _TagInfoList.Count.ToString() + " tags";
+            _numberOfTagsText = "     Total: 0";
             RaisePropertyChanged(() => numberOfTagsText);
 
             _tagCount4Display = 0;
-            _tagPerSecondText = "0/" + _newTagPerSecond.ToString() + "/" + _tagCount4Display.ToString() + " internal/new/tags/s     ";
+            _tagPerSecondText = "Rate/New: 0/0";
+            //_tagPerSecondText = "0/" + _newTagPerSecond.ToString() + "/" + _tagCount4Display.ToString() + " internal/new/tags/s     ";
 
             RaisePropertyChanged(() => tagPerSecondText);
         }
@@ -642,12 +643,20 @@ namespace BLE.Client.ViewModels
 
                 _tagCount4BeepSound = 0;
 
-                //_numberOfTagsText = "  " + newTagPerSecond.ToString() + @"\" + _TagInfoList.Count.ToString() + " tags";
-                _numberOfTagsText = "     " + _TagInfoList.Count.ToString() + " tags";
+                _numberOfTagsText = "     Total: " + _TagInfoList.Count.ToString();
                 RaisePropertyChanged(() => numberOfTagsText);
 
-                _tagPerSecondText = _readerInventoryTagRate.ToString() + "/" + _newTagPerSecond.ToString() + "/" + _tagCount4Display.ToString() + " internal/new/tags/s     ";
-                //_tagPerSecondText = _tagCount4Display.ToString() + " tags/s     ";
+                switch (BleMvxApplication._reader.rfid.GetModelName())
+                {
+                    case "CS108":
+                        _tagPerSecondText = "Rate/New: " + _tagCount4Display.ToString() + "/" + _newTagPerSecond.ToString() + "     ";
+                        break;
+
+                    case "CS710S":
+                        _tagPerSecondText = "Rate/New: " + _readerInventoryTagRate.ToString() + "/" + _newTagPerSecond.ToString() + "     ";
+                        break;
+                }
+
                 RaisePropertyChanged(() => tagPerSecondText);
                 _tagCount4Display = 0;
                 _newTagPerSecond = 0;
@@ -733,7 +742,7 @@ namespace BLE.Client.ViewModels
                                     break;
 
                                 default:
-                                    _userDialogs.Alert("Last error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4"));
+                                    _userDialogs.Alert("Last error : 0x" + BleMvxApplication._reader.rfid.LastMacErrorCode.ToString("X4") + System.Environment.NewLine + CSLibrary.CS710SErrorCodes.GetErrorDescription((int)BleMvxApplication._reader.rfid.LastMacErrorCode));
                                     break;
                             }
                         }
@@ -1146,7 +1155,7 @@ namespace BLE.Client.ViewModels
                     switch (BleMvxApplication._config.BatteryLevelIndicatorFormat)
                     {
                         case 0:
-                            _labelVoltage = " //\t\t\t3.98v " + voltage.ToString("0.000") + "v"; //			v
+                            _labelVoltage = voltage.ToString("0.000") + "v"; //			v
                             break;
 
                         default:

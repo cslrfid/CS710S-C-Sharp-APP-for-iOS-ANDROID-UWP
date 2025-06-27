@@ -101,11 +101,14 @@ namespace BLE.Client.Pages
             entryNoEPCMaxQ.Text = BleMvxApplication._config.RFID_DynamicQParms.NoEPCMaxQ.ToString();
 
             foreach (string profilestr in _profileList)
-                if (uint.Parse(profilestr.Substring(0, 3)) == BleMvxApplication._config.RFID_Profile)
+            {
+                int colonIndex = profilestr.IndexOf(":");
+                if (colonIndex > 0 && uint.Parse(profilestr.Substring(0, colonIndex)) == BleMvxApplication._config.RFID_Profile)
                 {
                     buttonProfile.Text = profilestr;
                     break;
                 }
+            }
 
             SetQvalue();
         }
@@ -171,13 +174,13 @@ namespace BLE.Client.Pages
             try
             {
                 value = uint.Parse(entryPower.Text);
-                if (value < 0 || value > 330)
-                    throw new System.ArgumentException("Value not valid", "tagPopulation");
+                if (value < 0 || value > 320)
+                    throw new System.ArgumentException("Power can only be set to 320 or below", "Power");
                 entryPower.Text = value.ToString();
             }
             catch (Exception ex)
             {
-                await DisplayAlert("", "Value not valid!!!", "OK");
+                await DisplayAlert("Power", "Power can only be set to 320 or below", "OK");
                 entryPower.Text = "300";
             }
         }
@@ -411,7 +414,9 @@ namespace BLE.Client.Pages
             BleMvxApplication._config.RFID_DynamicQParms.MinQCycles = uint.Parse(entryMinQCycled.Text);
             BleMvxApplication._config.RFID_DynamicQParms.NoEPCMaxQ = uint.Parse(entryNoEPCMaxQ.Text);
 
-            BleMvxApplication._config.RFID_Profile = UInt16.Parse(buttonProfile.Text.Substring(0, 3));
+            int colonIndex = buttonProfile.Text.IndexOf(":");
+            if (colonIndex > 0)
+                BleMvxApplication._config.RFID_Profile = UInt16.Parse(buttonProfile.Text.Substring(0, colonIndex));
 
             BleMvxApplication.SaveConfig();
 

@@ -153,11 +153,11 @@ namespace BLE.Client
             switch (model)
             {
                 case MODEL.CS710S:
-//                  Set profile to 241 if CS710S-1 in application
-//                    if (country == 1)
-//                        RFID_Profile = 241;
-//                    else
-                        RFID_Profile = 244;
+                    //                  Set profile to 241 if CS710S-1 in application
+                    //                    if (country == 1)
+                    //                        RFID_Profile = 241;
+                    //                    else
+                    RFID_Profile = 343;
                     break;
 
                 default:

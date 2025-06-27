@@ -68,7 +68,16 @@ namespace CSLibrary
                         TagAccess.KILL,
                         null));
                     break;
+
             }
+
+/*
+            // Fix high current bug (CANNOT FIX)
+            if (LastMacErrorCode != 0x0000 && 
+                ((commandCode >= 0x10a1 && commandCode <= 0x10a8) ||
+                (commandCode >= 0x10b1 && commandCode <= 0x10b9)))
+                StopOperation();
+*/
 
             FireStateChangedEvent(RFState.IDLE);
         }
@@ -181,6 +190,7 @@ namespace CSLibrary
                             {
                                 case 0x1471:
                                     ReadRegister_packet_proc(recvData, index);
+                                    StopOperation();
                                     break;
 
                                 case 0x10b1: // read tag

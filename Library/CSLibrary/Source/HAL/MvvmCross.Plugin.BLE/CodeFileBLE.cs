@@ -32,6 +32,7 @@ namespace CSLibrary
     using static RFIDDEVICE;
     using Constants;
     using System.Linq;
+    using System.Threading;
 
     public partial class HighLevelInterface
     {
@@ -153,6 +154,9 @@ namespace CSLibrary
                 if (_readerState != READERSTATE.DISCONNECT)
                 {
                     BARCODEPowerOff();
+                    RFIDPowerOff();
+                    while (BLEBusy)
+                        await Task.Delay(500);
                     //CSLibraryv4: clear connection without waiting for BLE readiness
                     //WhenBLEFinish(ClearConnection);
                     await ClearConnection();

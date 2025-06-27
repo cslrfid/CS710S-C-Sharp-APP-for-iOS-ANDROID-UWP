@@ -5,7 +5,7 @@
                        xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
                        xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
                        x:Class="BLE.Client.Pages.PageMainMenu"
-                       Title="CSL Handhelp RFID Reader">
+                       Title="CSL Handheld RFID Reader">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="FillAndExpand" Spacing="10">

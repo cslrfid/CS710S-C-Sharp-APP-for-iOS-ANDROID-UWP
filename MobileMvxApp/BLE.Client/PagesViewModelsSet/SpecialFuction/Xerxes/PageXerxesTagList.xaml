@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+    <views:MvxContentPage x:TypeArguments="viewModels:ViewModelXerxesTIDList"
+                          xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:views="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+                     xmlns:viewModels="clr-namespace:BLE.Client.ViewModels;assembly=BLE.Client"
+                          x:Class="BLE.Client.Pages.PageXerxesTagList"
+                          Title="Axzon Tag Namename List">
+
+  
+    <StackLayout>
+
+        <ListView x:Name="liewViewTagData" ItemsSource="{Binding TagList}" >
+        <ListView.Header>
+          <StackLayout BackgroundColor="#cccccc">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.0*" />
+              </Grid.ColumnDefinitions>
+              <Label Text="TID-UID" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" FontSize="Small" VerticalOptions="CenterAndExpand" />
+            </Grid>
+          </StackLayout>
+        </ListView.Header>
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Vertical">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="1.0*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding TID}" VerticalTextAlignment="Start" FontSize="Small" />
+                        </Grid>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+    
+  </StackLayout>
+</views:MvxContentPage>
