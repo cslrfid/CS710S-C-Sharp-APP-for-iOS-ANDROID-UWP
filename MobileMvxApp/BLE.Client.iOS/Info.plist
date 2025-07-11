@@ -27,7 +27,7 @@
 	<key>CFBundleName</key>
 	<string>BLE.Client</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.15</string>
+	<string>0.1.16</string>
 	<key>UIMainStoryboardFile</key>
 	<string>LaunchScreen</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -51,6 +51,6 @@
 	<key>XSAppIconAssets</key>
 	<string>Media.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleVersion</key>
-	<string>130</string>
+	<string>140</string>
 </dict>
 </plist>

@@ -287,8 +287,11 @@ namespace BLE.Client.ViewModels
             }
         }
 
+
+        bool FirstEnter = false; // fix ios bug
         public override void ViewAppearing()
         {
+            FirstEnter = true;
             base.ViewAppearing();
             SetEvent(true);
 
@@ -304,6 +307,12 @@ namespace BLE.Client.ViewModels
 
         public override void ViewDisappearing()
         {
+            if (FirstEnter == true)
+            {
+                FirstEnter = false;
+                return;
+            }
+
             _barcodeScanning = false;
             _InventoryScanning = false;
             StopInventory();
