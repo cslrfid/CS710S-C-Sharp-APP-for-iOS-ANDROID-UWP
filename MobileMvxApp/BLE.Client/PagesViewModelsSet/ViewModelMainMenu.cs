@@ -44,14 +44,9 @@ namespace BLE.Client.ViewModels
 
             Adapter.DeviceConnectionLost += OnDeviceConnectionLost;
 
-            OnReadWriteButtonCommand = new Command(OnReadWriteButtonClicked);
             OnInventoryButtonCommand = new Command(OnInventoryButtonClicked);
-			OnRegisterTagButtonCommand = new Command(OnRegisterTagButtonClicked);
-			OnSpecialFuncButtonCommand = new Command(OnSpecialFuncButtonClicked);
 			OnGeigerButtonCommand = new Command(OnGeigerButtonClicked);
 			OnSettingButtonCommand = new Command(OnSettingButtonClicked);
-			OnSecurityButtonCommand = new Command(OnSecurityButtonClicked);
-			OnFilterButtonCommand = new Command(OnFilterButtonClicked);
             OnConnectButtonCommand = new Command(OnConnectButtonClicked);
 
             GetPermission();
@@ -373,51 +368,6 @@ namespace BLE.Client.ViewModels
             }
         }
 
-        public ICommand OnReadWriteButtonCommand { protected set; get; }
-
-        void OnReadWriteButtonClicked()
-        {
-            if (BleMvxApplication._reader.Status == CSLibrary.HighLevelInterface.READERSTATE.DISCONNECT)
-            {
-                ShowConnectionWarringMessage();
-                return;
-            }
-
-            //ShowViewModel<ViewModelReadWrite>(new MvxBundle());
-            var navigation = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
-            navigation.Navigate<ViewModelReadWrite>(new MvxBundle());
-        }
-
-		public ICommand OnRegisterTagButtonCommand { protected set; get; }
-
-		void OnRegisterTagButtonClicked()
-		{
-            if (BleMvxApplication._reader.Status == CSLibrary.HighLevelInterface.READERSTATE.DISCONNECT)
-            {
-                ShowConnectionWarringMessage();
-                return;
-            }
-
-            //ShowViewModel<ViewModelRegisterTag>(new MvxBundle());
-            var navigation = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
-            navigation.Navigate<ViewModelRegisterTag>(new MvxBundle());
-        }
-
-		public ICommand OnSpecialFuncButtonCommand { protected set; get; }
-
-		void OnSpecialFuncButtonClicked()
-		{
-            if (BleMvxApplication._reader.Status == CSLibrary.HighLevelInterface.READERSTATE.DISCONNECT)
-            {
-                ShowConnectionWarringMessage();
-                return;
-            }
-
-            //ShowViewModel<ViewModelSpecialFunctionsMenu>(new MvxBundle());
-            var navigation = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
-            navigation.Navigate<ViewModelSpecialFunctionsMenu>(new MvxBundle());
-        }
-
 		public ICommand OnGeigerButtonCommand { protected set; get; }
 
 		void OnGeigerButtonClicked()
@@ -453,36 +403,6 @@ namespace BLE.Client.ViewModels
                 var navigation = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
                 navigation.Navigate<ViewModelSetting>(new MvxBundle());
             }
-        }
-
-		public ICommand OnSecurityButtonCommand { protected set; get; }
-
-		void OnSecurityButtonClicked()
-		{
-            if (BleMvxApplication._reader.Status == CSLibrary.HighLevelInterface.READERSTATE.DISCONNECT)
-            {
-                ShowConnectionWarringMessage();
-                return;
-            }
-
-            //ShowViewModel<ViewModelSecurity>(new MvxBundle());
-            var navigation = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
-            navigation.Navigate<ViewModelSecurityKill>(new MvxBundle());
-        }
-
-		public ICommand OnFilterButtonCommand { protected set; get; }
-
-		void OnFilterButtonClicked()
-		{
-            if (BleMvxApplication._reader.Status == CSLibrary.HighLevelInterface.READERSTATE.DISCONNECT)
-            {
-                ShowConnectionWarringMessage();
-                return;
-            }
-
-            //ShowViewModel<ViewModelFilter>(new MvxBundle());
-            var navigation = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
-            navigation.Navigate<ViewModelFilter>(new MvxBundle());
         }
 
         public ICommand OnConnectButtonCommand { protected set; get; }

@@ -55,6 +55,11 @@
     <AndroidUseAapt2>true</AndroidUseAapt2>
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidSigningKeyStore>C:\Users\miles\Desktop\code\projects\Convergence\keystores\my-release.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>V9t!rQ2$zF7#nLpX</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>cs710s</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>V9t!rQ2$zF7#nLpX</AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -261,6 +266,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_bgfree.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\security.png" />

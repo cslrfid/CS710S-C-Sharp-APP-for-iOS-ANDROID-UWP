@@ -9,9 +9,9 @@
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="FillAndExpand" Spacing="10">
-            <Image Source="main_logo.png" HeightRequest="38"  />
-            <Label Text="C#"
-                   FontSize="Title" 
+            <Image Source="icon_bgfree.png" HeightRequest="38"  />
+            <Label Text="C# Reader"
+                   FontSize="Small" 
                    TextColor="White" 
                    HorizontalOptions="Center" 
                    VerticalTextAlignment="Center" />
@@ -27,147 +27,60 @@
     </NavigationPage.TitleView>
 
     <RelativeLayout>
+        <!-- Inventory: LEFT, top row -->
         <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
-               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
-               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0, Constant=2}"
-               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}">
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding OnReadWriteButtonCommand}" CommandParameter="1"/>
-            </Frame.GestureRecognizers>
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="7.5*" />
-                    <RowDefinition Height="2.5*" />
-                </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="write.png"></Image>
-                <Label Grid.Row="1" Text="Read/Write" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
-            </Grid>
-        </Frame>
-
-        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
-               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.0, Constant=2}"
                RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0, Constant=2}"
                RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
                RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" >
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding OnInventoryButtonCommand}" CommandParameter="1"/>
             </Frame.GestureRecognizers>
-            <Grid >
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="7.5*" />
                     <RowDefinition Height="2.5*" />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="inventory.png"></Image>
+                <Image Grid.Row="0" Source="inventory.png" />
                 <Label Grid.Row="1" Text="Inventory" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
             </Grid>
         </Frame>
 
-        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
-               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
-               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.21, Constant=2}"
-               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" >
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding OnRegisterTagButtonCommand}" CommandParameter="1"/>
-            </Frame.GestureRecognizers>
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="7.5*" />
-                    <RowDefinition Height="2.5*" />
-                </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="register.png"></Image>
-                <Label Grid.Row="1" Text="Register Tag" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
-            </Grid>
-        </Frame>
-
+        <!-- Geiger: RIGHT, top row -->
         <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
-               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.21, Constant=2}"
-               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}"
-               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" >
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding OnSpecialFuncButtonCommand}" CommandParameter="1"/>
-            </Frame.GestureRecognizers>
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="7.5*" />
-                    <RowDefinition Height="2.5*" />
-                </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="function.png"></Image>
-                <Label Grid.Row="1" Text="Special Func" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
-            </Grid>
-        </Frame>
-
-        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
-               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
-               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.42, Constant=2}"
+               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.0, Constant=2}"
                RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
                RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}">
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding OnGeigerButtonCommand}" CommandParameter="1"/>
             </Frame.GestureRecognizers>
-            <Grid >
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="7.5*" />
                     <RowDefinition Height="2.5*" />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="search.png"></Image>
-                <Label Grid.Row="1" Text="Geiger Search" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+                <Image Grid.Row="0" Source="search.png" />
+                <Label Grid.Row="1" Text="Geiger" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
             </Grid>
         </Frame>
 
+        <!-- Configuration: LEFT, second row (minimal gap) -->
         <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
-			RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
-			RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.42, Constant=2}"
-			RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-			RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}">
+               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.0, Constant=2}"
+               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.21, Constant=2}"
+               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
+               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}">
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding OnSettingButtonCommand}" CommandParameter="1"/>
             </Frame.GestureRecognizers>
-            <Grid >
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="7.5*" />
                     <RowDefinition Height="2.5*" />
                 </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="settings.png"></Image>
-                <Label Grid.Row="1" Text="Settings" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
-            </Grid>
-        </Frame>
-
-        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
-			RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0, Constant=2}"
-			RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.63, Constant=2}"
-			RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-			RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}">
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding OnSecurityButtonCommand}" CommandParameter="1"/>
-            </Frame.GestureRecognizers>
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="7.5*" />
-                    <RowDefinition Height="2.5*" />
-                </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="security.png"></Image>
-                <Label Grid.Row="1" Text="Security" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
-            </Grid>
-        </Frame>
-
-        <Frame Margin="2" BorderColor="{StaticResource GrayTextColor}" Padding="5" CornerRadius="5"
-               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=0.5, Constant=2}"
-               RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.63, Constant=2}"
-               RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.21, Constant=-4}" 
-               RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=0.5, Constant=-4}" >
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding OnFilterButtonCommand}" CommandParameter="1"/>
-            </Frame.GestureRecognizers>
-            <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="7.5*" />
-                    <RowDefinition Height="2.5*" />
-                </Grid.RowDefinitions>
-                <Image Grid.Row="0" Source="filter.png"></Image>
-                <Label Grid.Row="1" Text="RFID Filter" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
+                <Image Grid.Row="0" Source="settings.png" />
+                <Label Grid.Row="1" Text="Configuration" TextColor="{StaticResource GrayTextColor}" FontSize="Large" HorizontalOptions="CenterAndExpand" FontAttributes="Bold" />
             </Grid>
         </Frame>
 
@@ -186,7 +99,6 @@
                    HorizontalOptions="CenterAndExpand" 
                    VerticalOptions="CenterAndExpand" 
                    FontAttributes="Bold" />
-
         </Frame>
 
         <Label Text ="{Binding labelVoltage}"
@@ -195,7 +107,5 @@
                RelativeLayout.YConstraint ="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.96, Constant=2}"
                RelativeLayout.HeightConstraint="{ConstraintExpression Type = RelativeToParent, Property=Height, Factor=0.04, Constant=-4}" 
                RelativeLayout.WidthConstraint="{ConstraintExpression Type = RelativeToParent, Property=Width, Factor=1.0, Constant=-4}" />
-
     </RelativeLayout>
-
 </views:MvxContentPage>
