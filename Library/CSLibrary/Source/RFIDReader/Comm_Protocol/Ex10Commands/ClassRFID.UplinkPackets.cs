@@ -27,6 +27,7 @@ using CSLibrary.Constants;
 using System.Net.Sockets;
 using CSLibrary.Barcode.Constants;
 using System.Linq.Expressions;
+using CSLibrary.Tools;
 
 
 namespace CSLibrary
@@ -144,7 +145,6 @@ namespace CSLibrary
         {
             try
             {
-
                 UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
                 UInt16 rf_phase_begin = Tools.Hex.MSBToUInt16(data, index + 6);
                 UInt16 rf_phase_end = Tools.Hex.MSBToUInt16(data, index + 8);
@@ -163,29 +163,34 @@ namespace CSLibrary
                 index += 15;
                 //while (index < data.Length)
                 {
+                    int xpcLength = 0;
                     CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
                     CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
 
                     info.pc = new S_PC(Tools.Hex.MSBToUInt16(data, index));
                     index += 2;
 
+
                     if (info.pc.XI) // Check XPC W1
                     {
                         info.xpc_w1 = new S_XPC_W1(Tools.Hex.MSBToUInt16(data, index));
                         index += 2;
+                        xpcLength += 2;
 
                         if (info.xpc_w1.XEB) // Check XPC W2
                         {
                             info.xpc_w2 = new S_XPC_W2(Tools.Hex.MSBToUInt16(data, index));
                             index += 2;
+                            xpcLength += 2;
                         }
                     }
 
-                    int epcbytelen = ((info.pc >> 11) << 1);
+                    int packetbytelen = ((info.pc >> 11) << 1);
+                    int epcbytelen = packetbytelen - xpcLength;
                     byte[] epc = new byte[epcbytelen];
                     Array.Copy(data, index, epc, 0, epcbytelen);
                     info.epc = new S_EPC(epc);
-                    index += epcbytelen;
+                    index += packetbytelen;
 
                     info.antennaPort = PortNumber;
                     info.rssidBm = rssidBm100 / 100;
@@ -248,6 +253,7 @@ namespace CSLibrary
                 index += 15;
                 //while (index < data.Length)
                 {
+                    int xpcLength = 0;
                     CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
                     CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
 
@@ -258,19 +264,22 @@ namespace CSLibrary
                     {
                         info.xpc_w1 = new S_XPC_W1(Tools.Hex.MSBToUInt16(data, index));
                         index += 2;
+                        xpcLength += 2;
 
                         if (info.xpc_w1.XEB) // Check XPC W2
                         {
                             info.xpc_w2 = new S_XPC_W2(Tools.Hex.MSBToUInt16(data, index));
                             index += 2;
+                            xpcLength += 2;
                         }
                     }
 
-                    int epcbytelen = ((info.pc >> 11) << 1);
+                    int packetbytelen = ((info.pc >> 11) << 1);
+                    int epcbytelen = packetbytelen - xpcLength;
                     byte[] epc = new byte[epcbytelen];
                     Array.Copy(data, index, epc, 0, epcbytelen);
                     info.epc = new S_EPC(epc);
-                    index += epcbytelen;
+                    index += packetbytelen;
 
                     info.antennaPort = PortNumber;
                     info.rssidBm = rssidBm100 / 100;
@@ -330,6 +339,7 @@ namespace CSLibrary
             }
         }
 
+        
         // 0x3006 packet
         internal void csl_tag_read_compact_packet_proc(byte[] data, int index)
         {
@@ -343,8 +353,76 @@ namespace CSLibrary
                     CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
                     CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
 
-                    //var PC = BitConverter.ToUInt16(data, index);
-                    //info.pc = new S_PC(PC);
+                    EpcParser epcParser = new EpcParser(data, index);
+
+                    if (epcParser.packetByteSize == 0)
+                        return;
+
+                    info.pc = new S_PC(epcParser.pc.Value);
+
+                    if (epcParser.pc.XI) // Check XPC W1
+                    {
+                        info.xpc_w1 = new S_XPC_W1(epcParser.w1.Value);
+
+                        if (epcParser.w1.XEB) // Check XPC W2
+                        {
+                            info.xpc_w2 = new S_XPC_W2(epcParser.w2.Value);
+                        }
+                    }
+
+                    info.epc = new S_EPC(epcParser.EPC);
+                    index += epcParser.packetByteSize;
+
+                    int rssidBm100;
+                    {
+                        byte hiByte = data[index];
+                        rssidBm100 = ((int)(data[index] << 8 | data[index + 1]));
+
+                        if (hiByte > 0x7f)
+                            rssidBm100 -= 0x10000;
+                    }
+                    info.rssidBm = rssidBm100 / 100;
+                    info.rssi = Tools.dBConverion.dBm2dBuV(info.rssidBm);
+
+                    index += 2;
+
+                    info.Bank1Data = new ushort[0];
+                    info.Bank2Data = new ushort[0];
+                    info.Bank3Data = new ushort[0];
+
+                    CSLibrary.Events.OnAsyncCallbackEventArgs callBackData = new Events.OnAsyncCallbackEventArgs(info, type);
+
+                    if (OnAsyncCallback != null)
+                        try
+                        {
+                            OnAsyncCallback(_deviceHandler, callBackData);
+                        }
+                        catch (Exception ex)
+                        {
+                            CSLibrary.Debug.WriteLine("OnAsyncCallback Error : " + ex.Message);
+                        }
+                }
+            }
+            catch (Exception ex)
+            {
+                CSLibrary.Debug.WriteLine("csl_tag_read_compact_packet_proc Error : " + ex.Message);
+            }
+        }
+
+#if nouse
+        internal void csl_tag_read_compact_packet_proc(byte[] data, int index)
+        {
+            try
+            {
+                UInt32 UTCTimeStamp = Tools.Hex.MSBToUInt32(data, index);
+
+                index += 6;
+                while (index < data.Length)
+                {
+                    int xpcLength = 0;
+                    CSLibrary.Constants.CallbackType type = CSLibrary.Constants.CallbackType.TAG_RANGING;
+                    CSLibrary.Structures.TagCallbackInfo info = new CSLibrary.Structures.TagCallbackInfo();
+
                     info.pc = new S_PC((UInt16)(data[index] << 8 | data[index + 1]));
                     index += 2;
 
@@ -352,20 +430,22 @@ namespace CSLibrary
                     {
                         info.xpc_w1 = new S_XPC_W1((UInt16)(data[index] << 8 | data[index + 1]));
                         index += 2;
+                        xpcLength += 2;
 
                         if (info.xpc_w1.XEB) // Check XPC W2
                         {
                             info.xpc_w2 = new S_XPC_W2((UInt16)(data[index] << 8 | data[index + 1]));
                             index += 2;
+                            xpcLength += 2;
                         }
                     }
 
-                    int epcbytelen = ((info.pc >> 11) << 1);
+                    int packetbytelen = ((info.pc >> 11) << 1);
+                    int epcbytelen = packetbytelen - xpcLength;
                     byte[] epc = new byte[epcbytelen];
                     Array.Copy(data, index, epc, 0, epcbytelen);
                     info.epc = new S_EPC(epc);
-                    index += epcbytelen;
-
+                    index += packetbytelen;
 
                     int rssidBm100;
                     {
@@ -418,6 +498,7 @@ namespace CSLibrary
                 CSLibrary.Debug.WriteLine("csl_tag_read_compact_packet_proc Error : " + ex.Message);
             }
         }
+#endif
 
         // 0x3007 packet
         void csl_miscellaneous_event_packet_proc(byte[] data, int index, int len)

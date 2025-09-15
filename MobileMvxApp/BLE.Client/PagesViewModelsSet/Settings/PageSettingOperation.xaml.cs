@@ -78,6 +78,7 @@ namespace BLE.Client.Pages
 
             switchFocus.IsToggled = BleMvxApplication._config.RFID_Focus;
             switchFastId.IsToggled = BleMvxApplication._config.RFID_FastId;
+            switchPowerBoost.IsToggled = BleMvxApplication._config.RFID_PowerBoost;
 
             buttonAlgorithm.Text = BleMvxApplication._config.RFID_Algorithm.ToString();
             entryTagPopulation.Text = BleMvxApplication._config.RFID_TagPopulation.ToString();
@@ -394,6 +395,7 @@ namespace BLE.Client.Pages
             }
             BleMvxApplication._config.RFID_Focus = switchFocus.IsToggled;
             BleMvxApplication._config.RFID_FastId = switchFastId.IsToggled;
+            BleMvxApplication._config.RFID_PowerBoost = switchPowerBoost.IsToggled;
 
             if (buttonAlgorithm.Text == "DYNAMICQ")
             {
@@ -421,6 +423,7 @@ namespace BLE.Client.Pages
             BleMvxApplication.SaveConfig();
 
             BleMvxApplication._reader.rfid.SetCountry(BleMvxApplication._config.RFID_Region, (int)BleMvxApplication._config.RFID_FixedChannel);
+            BleMvxApplication._reader.rfid.SetPowerBoost(BleMvxApplication._config.RFID_PowerBoost);
         }
 
         public async void entryInventoryDurationCompleted(object sender, EventArgs e)

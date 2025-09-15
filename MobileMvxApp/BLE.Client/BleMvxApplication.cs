@@ -98,6 +98,7 @@ namespace BLE.Client
         public int RFID_ShareFormat = 0;  // 0 = JSON, 1 = CSV, 2 = Excel CSV
         public bool RFID_Focus = false;
         public bool RFID_FastId = false;
+        public bool RFID_PowerBoost = false;
 
         public uint RFID_BatteryPollingTime = 300;
 

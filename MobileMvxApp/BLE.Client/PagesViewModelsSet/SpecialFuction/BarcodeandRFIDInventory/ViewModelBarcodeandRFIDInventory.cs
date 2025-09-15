@@ -97,6 +97,9 @@ namespace BLE.Client.ViewModels
         public string _entryPowerText = "100";
         public string entryPowerText { get { return _entryPowerText; } set { _entryPowerText = value; } }
 
+        public string _entryFilenameText = "DataTableFileName";
+        public string entryFilenameText { get { return _entryFilenameText; } set { _entryFilenameText = value; } }
+
         bool _cancelVoltageValue = false;
 
         int _index = 0;
@@ -113,6 +116,7 @@ namespace BLE.Client.ViewModels
             OnSaveDataCommand = new Command(SaveDataButtonClick);
 
             RaisePropertyChanged(() => entryPowerText);
+            RaisePropertyChanged(() => entryFilenameText);
 
             InventorySetting();
         }
@@ -390,9 +394,6 @@ namespace BLE.Client.ViewModels
                 {
                     int i = 0;
 
-                    if (TagInfoList[i].BARCODE == null)
-                        return;
-
                     if (TagInfoList[i].EPC == null)
                         Xamarin.Forms.DependencyService.Get<ISystemSound>().SystemSound(3);
 
@@ -418,6 +419,10 @@ namespace BLE.Client.ViewModels
                 {
                     int i = 0;
 
+                    if (TagInfoList[i].EPC == null)
+                        return;
+
+/*
                     if (TagInfoList[i].BARCODE != null)
                         if (TagInfoList[i].BARCODE != decodeInfo.pchMessage)
                             if (TagInfoList[i].EPC != null)
@@ -425,11 +430,12 @@ namespace BLE.Client.ViewModels
                                 _index++;
                                 TagInfoList.Insert(0, new BarcodeandRFIDTagInfoViewModel(_index));
                             }
+*/
 
                     TagInfoList[i].BARCODE = decodeInfo.pchMessage;
                     TagInfoList[i].timeOfRead = DateTime.Now;
 
-                    Trace.Message("EPC Data = {0}", decodeInfo.pchMessage);
+//                    Trace.Message("Barcode Data = {0}", decodeInfo.pchMessage);
                 }
             });
         }
@@ -501,6 +507,7 @@ namespace BLE.Client.ViewModels
         }
         private void SaveDataButtonClick()
         {
+            RaisePropertyChanged(() => entryFilenameText);
             var result = SaveData();
             CSLibrary.Debug.WriteLine("Save Data : {0}", result.ToString());
         }
@@ -718,7 +725,7 @@ namespace BLE.Client.ViewModels
                             status = await Permissions.RequestAsync<Permissions.StorageWrite>();
                         }
 
-                        filename = "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName;
+                        filename = entryFilenameText + "." + fileExtName;
                         DependencyService.Get<IExternalStorage>().SaveTextFileToDocuments(filename, Text, BleMvxApplication._config.RFID_ShareFormat);
                     }
                     break;
@@ -726,7 +733,7 @@ namespace BLE.Client.ViewModels
                 default:
                     {
                         documents = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                        filename = System.IO.Path.Combine(documents, "InventoryData-" + System.DateTime.Now.ToString("yyyyMMddHHmmss") + "." + fileExtName);
+                        filename = System.IO.Path.Combine(documents, "entryFilenameText" + "." + fileExtName);
                         System.IO.File.WriteAllText(filename, Text);
                     }
                     break;

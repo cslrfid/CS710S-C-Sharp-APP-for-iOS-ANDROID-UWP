@@ -227,6 +227,7 @@ namespace BLE.Client.ViewModels
                     */
                 ClassBattery.SetBatteryMode(ClassBattery.BATTERYMODE.IDLE);
                 BleMvxApplication._reader.battery.SetPollingTime(BleMvxApplication._config.RFID_BatteryPollingTime);
+                BleMvxApplication._reader.rfid.SetPowerBoost(BleMvxApplication._config.RFID_PowerBoost);
             }
         }
 

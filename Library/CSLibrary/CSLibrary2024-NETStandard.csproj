@@ -62,4 +62,8 @@
   <ItemGroup>
     <PackageReference Include="MvvmCross.Plugin.BLE" Version="2.2.0-pre5" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\CS203XL-C-Sharp-APP-for-iOS-ANDROID-UWP\Library\CSLobrary.Tools\CSLibrary.Tools.HPQueue\CSLibrary.Tools.HPQueue.csproj" />
+  </ItemGroup>
 </Project>

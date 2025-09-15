@@ -30,5 +30,47 @@ namespace BLE.Client.Pages
                 entryPower.Text = "100";
             }
         }
+
+        public async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            BLE.Client.ViewModels.ViewModelBarcodeandRFIDInventory.BarcodeandRFIDTagInfoViewModel Items = (BLE.Client.ViewModels.ViewModelBarcodeandRFIDInventory.BarcodeandRFIDTagInfoViewModel)e.SelectedItem;
+
+            string result = await DisplayPromptAsync("Please input barcode", "EPC " + Items.EPC, "OK", "Cancel", "", maxLength: 30, keyboard: Keyboard.Default);
+
+            if (result != null)
+            {
+                Items.BARCODE = result;
+            }
+            /*
+                        var answer = await DisplayAlert("Select Tag", "Selected Tag for Read/Write and Geiger search", "OK", "Cancel");
+
+                        if (answer)
+                        {
+                            //BLE.Client.ViewModels.ViewModelInventorynScan.TagInfo Items = (BLE.Client.ViewModels.ViewModelInventorynScan.TagInfo)e.SelectedItem;
+                            BLE.Client.ViewModels.TagInfoViewModel Items = (BLE.Client.ViewModels.TagInfoViewModel)e.SelectedItem;
+                        }
+            */
+        }
+
+        public async void OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            BLE.Client.ViewModels.ViewModelBarcodeandRFIDInventory.BarcodeandRFIDTagInfoViewModel Item = (BLE.Client.ViewModels.ViewModelBarcodeandRFIDInventory.BarcodeandRFIDTagInfoViewModel)e.Item;
+
+            string result = await DisplayPromptAsync("Please input barcode", "EPC " + Item.EPC, "OK", "Cancel", Item.BARCODE, maxLength: 50, keyboard: Keyboard.Default);
+
+            if (result != null)
+            {
+                Item.BARCODE = result;
+            }
+            /*
+                        var answer = await DisplayAlert("Select Tag", "Selected Tag for Read/Write and Geiger search", "OK", "Cancel");
+
+                        if (answer)
+                        {
+                            //BLE.Client.ViewModels.ViewModelInventorynScan.TagInfo Items = (BLE.Client.ViewModels.ViewModelInventorynScan.TagInfo)e.SelectedItem;
+                            BLE.Client.ViewModels.TagInfoViewModel Items = (BLE.Client.ViewModels.TagInfoViewModel)e.SelectedItem;
+                        }
+            */
+        }
     }
 }
