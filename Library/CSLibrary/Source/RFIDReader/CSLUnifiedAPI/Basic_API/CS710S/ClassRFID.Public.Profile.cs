@@ -34,7 +34,7 @@ namespace CSLibrary
     public partial class RFIDReader
     {
         internal uint[] _profileList_CS710S = { 103, 302, 120, 323, 344, 345, 223, 222, 241, 244, 285 };
-        internal uint[] _profileList_CS710S_212 = { 103, 302, 120, 104, 323, 4323, 203, 202, 226, 344, 345, 4345, 225, 326, 325, 324, 4324, 342, 4342, 343, 4343, 205, 4382 };
+        internal uint[] _profileList_CS710S_212 = { 103, 302, 120, 104, 323, 4323, 203, 202, 226, 344, 345, 4345, 225, 326, 325, 324, 4324, 342, 4342, 343, 4343, 205, 382, 4382 };
 
         internal string[] _profileNameList_CS710S = {
             "103: Miller 1 640kHz Tari 6.25us",

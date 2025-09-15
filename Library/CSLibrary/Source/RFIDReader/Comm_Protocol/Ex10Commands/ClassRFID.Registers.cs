@@ -549,7 +549,7 @@ namespace CSLibrary
 
             internal void TagGroup(uint session, uint select, uint target, int port = 0)
             {
-                if (port == 0xffff)
+                if (port < 0 || port > 15)
                 {
                     List<UInt16> address = new List<UInt16>();
                     List<uint> sendData = new List<uint>();
@@ -594,7 +594,7 @@ namespace CSLibrary
 
             internal void Select(uint select, int port = 0)
             {
-                if (port == 0xffff)
+                if (port < 0 || port > 15)
                 {
                     List<UInt16> address = new List<UInt16>();
                     List<uint> sendData = new List<uint>();
@@ -1446,6 +1446,7 @@ namespace CSLibrary
             internal Regstring EF9C;
             internal RegUInt32 EFAC;
             internal RegUInt32 EFB0;
+            internal Regbyte PowerBoost;
 
             public CSLRFIDREGISTER(RFIDReader _deviceHandler)
             {
@@ -1545,6 +1546,7 @@ namespace CSLibrary
                 EF9C = new Regstring(_deviceHandler, 0xef9c, 16, REGPRIVATE.READONLY);
                 EFAC = new RegUInt32(_deviceHandler, 0xefac, REGPRIVATE.READONLY);
                 EFB0 = new RegUInt32(_deviceHandler, 0xefb0, REGPRIVATE.READONLY);
+                PowerBoost = new Regbyte(_deviceHandler, 0x3950, REGPRIVATE.READWRITE);
             }
         }
 

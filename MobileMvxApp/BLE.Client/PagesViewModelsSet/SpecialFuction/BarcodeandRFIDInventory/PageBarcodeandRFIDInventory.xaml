@@ -8,20 +8,20 @@
                     Title="Barcode and RFID Inventory">
 
     <StackLayout>
-        
-        <ListView x:Name="liewViewTagData" ItemsSource="{Binding TagInfoList}" RowHeight="{Binding ListViewRowHeight}">
+
+        <ListView x:Name="liewViewTagData" ItemsSource="{Binding TagInfoList, Mode=TwoWay}" ItemTapped="OnItemTapped" RowHeight="{Binding ListViewRowHeight}">
       
             <ListView.Header>
                 <StackLayout Padding="10,5,0,5" BackgroundColor="#cccccc">
                     <Grid>
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="0.2*" />
-                          <ColumnDefinition Width="0.3*" />
-                          <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="0.3*" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Text="Index" VerticalTextAlignment="Center" FontSize="Small" />
-                        <Label Grid.Column="1" Text="Barcode" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
-                        <Label Grid.Column="2" Text="EPC" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
+                        <Label Grid.Column="1" Text="EPC" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
+                        <Label Grid.Column="2" Text="Barcode" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" FontSize="Small" />
                     </Grid>
                 </StackLayout>
             </ListView.Header>
@@ -33,12 +33,12 @@
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.2*" />
-                                    <ColumnDefinition Width="0.3*" />
                                     <ColumnDefinition Width="0.5*" />
+                                    <ColumnDefinition Width="0.3*" />
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Text="{Binding INDEX}" VerticalTextAlignment="Center" FontSize="Small" />
-                                <Label Grid.Column="1" Text="{Binding BARCODE}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
-                                <Label Grid.Column="2" Text="{Binding EPC}" VerticalTextAlignment="Center" FontSize="Small" />
+                                <Label Grid.Column="1" Text="{Binding EPC}" VerticalTextAlignment="Center" FontSize="Small" />
+                                <Label Grid.Column="2" Text="{Binding BARCODE}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
                             </Grid>
                         </StackLayout>
                     </ViewCell>
@@ -49,12 +49,14 @@
 
         <StackLayout Orientation="Vertical" >
 
+            <Entry x:Name="entryFilename" Text="{Binding entryFilenameText, Mode=TwoWay}" HorizontalOptions="FillAndExpand"/>
+
             <StackLayout x:Name="stackLayoutPower"  Orientation="Horizontal">
                 <Label Text="Power (0-300)" WidthRequest="100" VerticalOptions="Center" />
                 <Entry x:Name="entryPower" Text="{Binding entryPowerText, Mode=TwoWay}" Unfocused="entryPowerCompleted" HorizontalOptions="FillAndExpand" Keyboard="Numeric"/>
             </StackLayout>
 
-            <Button Text= "{Binding startInventoryButtonText}" Font="Large" Command="{Binding OnStartInventoryButtonCommand}" />
+            <!--"<Button Text= "{Binding startInventoryButtonText}" Font="Large" Command="{Binding OnStartInventoryButtonCommand}" />-->
 
             <StackLayout Orientation="Horizontal">
                 <Button Text="Clear" Font="Large" Command="{Binding OnClearButtonCommand}" HorizontalOptions="StartAndExpand" />

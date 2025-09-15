@@ -47,6 +47,8 @@ namespace CSLibrary
         ICharacteristic _characteristicDeviceInfoRead;
         MODEL _deviceType = MODEL.UNKNOWN;
 
+        CSLibrary.Tools.HPFIFOQueue networkdata = new CSLibrary.Tools.HPFIFOQueue(10240);
+
         /// <summary>
         /// return error code
         /// </summary>
@@ -191,9 +193,31 @@ namespace CSLibrary
                 byte[] data = characteristicUpdatedEventArgs.Characteristic.Value;
                 if (data == null)
                     return;
- 
-                CSLibrary.Debug.WriteBytes("BT data received", data);
-                CharacteristicOnValueUpdated(data);
+
+                networkdata.Append(data, data.Length);
+
+                while (networkdata.ToHeader(0xa7)) // 0xa7 is the packet header mark
+                {
+                    byte[] PeekData = networkdata.Peek(1, 3);
+
+                    if (PeekData == null)
+                        break;
+
+                    if (PeekData[0] != 0xb3) // 0xb3 is the second packet header mark
+                    {
+                        networkdata.Seek(1);
+                        continue; // Skip to next header
+                    }
+
+                    int packetLength = PeekData[1] + 8; // 8 is the header size
+                    if (networkdata.Count < packetLength)
+                        break; // Not enough data for a complete packet
+
+                    byte[] packet = networkdata.Read(packetLength);
+
+                    //CSLibrary.Debug.WriteBytes("BT data received : ", data);
+                    CharacteristicOnValueUpdated(packet);
+                }
             }
             catch (Exception ex)
             {
@@ -201,7 +225,27 @@ namespace CSLibrary
             }
         }
 
-        private void CharacteristicOnWriteUpdated(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
+
+/*
+        private async void BLE_Recv(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
+        {
+            try
+            {
+                byte[] data = characteristicUpdatedEventArgs.Characteristic.Value;
+                if (data == null)
+                    return;
+ 
+                //CSLibrary.Debug.WriteBytes("BT data received", data);
+                CharacteristicOnValueUpdated(data);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Program execption error, please check BLE_Recv!!! error message : " + ex.Message);
+            }
+        }
+*/
+
+private void CharacteristicOnWriteUpdated(object sender, CharacteristicUpdatedEventArgs characteristicUpdatedEventArgs)
         {
             CSLibrary.Debug.WriteBytes("BT: Write data success updated", characteristicUpdatedEventArgs.Characteristic.Value);
         }

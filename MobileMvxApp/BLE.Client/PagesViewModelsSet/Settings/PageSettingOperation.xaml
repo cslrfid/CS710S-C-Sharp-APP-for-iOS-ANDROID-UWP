@@ -77,6 +77,13 @@
                 <Label Text="On" VerticalOptions="Center" />
             </StackLayout>
 
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Power Boost (for CS710S only)" WidthRequest="200" VerticalOptions="Center" />
+                <Label Text="Off" VerticalOptions="Center" />
+                <Switch x:Name="switchPowerBoost"/>
+                <Label Text="On" VerticalOptions="Center" />
+            </StackLayout>
+
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="#1690F4"/>
 
             <StackLayout Orientation="Horizontal">
