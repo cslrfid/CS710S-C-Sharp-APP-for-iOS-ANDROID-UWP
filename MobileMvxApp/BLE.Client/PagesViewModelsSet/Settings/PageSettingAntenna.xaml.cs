@@ -17,14 +17,33 @@ namespace BLE.Client.Pages
         {
             InitializeComponent();
 
-            // the page only support 4 ports
-            if (BleMvxApplication._reader.rfid.GetAntennaPort() != 4)
-                return;
-
             if (Device.RuntimePlatform == Device.iOS)
             {
                 this.Icon = new FileImageSource();
                 this.Icon.File = "icons8-Settings-50-3-30x30.png";
+            }
+
+            // the page only support 4 ports
+            switch (BleMvxApplication._reader.rfid.GetAntennaPort())
+            {
+                case 2:
+                    stacklayoutAntenna4.IsVisible = false;
+                    break;
+
+                case 4:
+                    stacklayoutAntenna4.IsVisible = true;
+                    break;
+
+                default:
+                    return;
+            }
+
+            switch (BleMvxApplication._reader.rfid.GetModel())
+            {
+                case CSLibrary.RFIDDEVICE.MODEL.CS203XL:
+                    labelAntenna1.Text = "Antenna 1 (External)";
+                    labelAntenna2.Text = "Antenna 2 (Internal)";
+                    break;
             }
 
             ANTENNAOPTION[] antennaOptions = new ANTENNAOPTION[BleMvxApplication._reader.rfid.AntennaList.Count];

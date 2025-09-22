@@ -393,34 +393,58 @@ namespace CSLibrary
                     _handler.WriteRegister(address.ToArray(), sendBuffer.ToArray());
             }
 
-            internal void SetDwell(UInt16 ms, byte port = 0)
+            internal void SetDwell(UInt16 ms, int port = 0)
             {
                 if (Private == REGPRIVATE.READONLY)
                     return;
 
-                if (data[port].dwell == ms)
-                    return;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        SetDwell(ms, i);
+                    }
+                }
+                else
+                {
+                    if (data[port].dwell == ms)
+                        return;
 
-                int dataAdd = 1 + (port * 16);
+                    int dataAdd = 1 + (port * 16);
 
-                data[port].dwell = ms;
+                    data[port].dwell = ms;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), ms);
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), ms);
+                }
             }
 
-            internal void SetPower(UInt16 power, byte port = 0)
+            internal void SetPower(UInt16 power, int port = 0)
             {
                 if (Private == REGPRIVATE.READONLY)
                     return;
 
-                if (data[port].power == power)
-                    return;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        SetPower(power, i);
+                    }
+                }
+                else
+                {
+                    if (data[port].power == power)
+                        return;
 
-                int dataAdd = 3 + (port * 16);
+                    int dataAdd = 3 + (port * 16);
 
-                data[port].power = power;
+                    data[port].power = power;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), power);
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), power);
+                }
             }
 
             internal UInt16 GetPower(byte port = 0)
@@ -431,21 +455,33 @@ namespace CSLibrary
                 return (UInt16)data[port].power;
             }
 
-            internal void SetTargetToggle(bool enable, byte port = 0)
+            internal void SetTargetToggle(bool enable, int port = 0)
             {
                 if (Private == REGPRIVATE.READONLY)
                     return;
 
-                if (data[port].toggle == enable)
-                    return;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        SetTargetToggle(enable, i);
+                    }
+                }
+                else
+                {
+                    if (data[port].toggle == enable)
+                        return;
 
-                byte[] sendData = new byte[1];
-                int dataAdd = 13 + (port * 16);
+                    byte[] sendData = new byte[1];
+                    int dataAdd = 13 + (port * 16);
 
-                data[port].toggle = enable;
+                    data[port].toggle = enable;
 
-                sendData[0] = (byte)(enable ? 1 : 0);
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                    sendData[0] = (byte)(enable ? 1 : 0);
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                }
             }
 
             // if == 0 DynamicQ, != 0 FixedQ 
@@ -464,14 +500,26 @@ namespace CSLibrary
                 if (Private == REGPRIVATE.READONLY)
                     return;
 
-                uint sendData = data[port].inventoryRoundControl | (1U << 16);
-                if (data[port].inventoryRoundControl == sendData)
-                    return;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        EnableFixedQ(i);
+                    }
+                }
+                else
+                {
+                    uint sendData = data[port].inventoryRoundControl | (1U << 16);
+                    if (data[port].inventoryRoundControl == sendData)
+                        return;
 
-                int dataAdd = 5 + (port * 16);
-                data[port].inventoryRoundControl = sendData;
+                    int dataAdd = 5 + (port * 16);
+                    data[port].inventoryRoundControl = sendData;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                }
             }
 
             internal void EnableFixedQ(uint InitialQ, uint QueryTarget, int port = 0)
@@ -479,33 +527,57 @@ namespace CSLibrary
                 if (InitialQ > 15 || QueryTarget > 1)
                     return;
 
-                uint sendData = data[port].inventoryRoundControl & 0xff7ffff0;
-                sendData |= InitialQ;
-                sendData |= (1U << 16);
-                sendData |= QueryTarget;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        EnableFixedQ(InitialQ, QueryTarget, i);
+                    }
+                }
+                else
+                {
+                    uint sendData = data[port].inventoryRoundControl & 0xff7ffff0;
+                    sendData |= InitialQ;
+                    sendData |= (1U << 16);
+                    sendData |= QueryTarget;
 
-                if (data[port].inventoryRoundControl == sendData)
-                    return;
+                    if (data[port].inventoryRoundControl == sendData)
+                        return;
 
-                int dataAdd = 5 + (port * 16);
+                    int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl = sendData;
+                    data[port].inventoryRoundControl = sendData;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl);
+                }
             }
 
             internal void EnableDynamicQ(int port = 0)
             {
-                uint sendData = data[port].inventoryRoundControl & ~(1U << 16);
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        EnableDynamicQ(i);
+                    }
+                }
+                else
+                {
+                    uint sendData = data[port].inventoryRoundControl & ~(1U << 16);
 
-                if (data[port].inventoryRoundControl == sendData)
-                    return;
+                    if (data[port].inventoryRoundControl == sendData)
+                        return;
 
-                int dataAdd = 5 + (port * 16);
+                    int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl = sendData;
+                    data[port].inventoryRoundControl = sendData;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                }
             }
 
             /// <summary>
@@ -522,28 +594,39 @@ namespace CSLibrary
             /// <returns></returns>
             internal int EnableDynamicQ(uint MinQ, uint MaxQ, uint InitialQ, uint NumMinQCycles, bool QDecreaseUseQuery, bool QIncreaseUseQuery, uint QueryTarget, int port = 0)
             {
-                CSLibrary.Debug.WriteLine("EnableDynamicQ");
-
                 if (MinQ > 15 || MaxQ > 15 || InitialQ > 15 || NumMinQCycles > 153 || QueryTarget > 1)
                     return -1;
 
-                uint sendData = data[port].inventoryRoundControl & 0xff780000;
-                sendData |= InitialQ << 0;
-                sendData |= MaxQ << 4;
-                sendData |= MinQ << 8;
-                sendData |= NumMinQCycles << 12;
-                sendData |= QIncreaseUseQuery ? (1U << 17) : 0;
-                sendData |= QDecreaseUseQuery ? (1U << 18) : 0;
-                sendData |= QueryTarget;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        EnableDynamicQ(MinQ, MaxQ, InitialQ, NumMinQCycles, QDecreaseUseQuery, QIncreaseUseQuery, QueryTarget, i);
+                    }
+                }
+                else
+                {
+                    uint sendData = data[port].inventoryRoundControl & 0xff780000;
+                    sendData |= InitialQ << 0;
+                    sendData |= MaxQ << 4;
+                    sendData |= MinQ << 8;
+                    sendData |= NumMinQCycles << 12;
+                    sendData |= QIncreaseUseQuery ? (1U << 17) : 0;
+                    sendData |= QDecreaseUseQuery ? (1U << 18) : 0;
+                    sendData |= QueryTarget;
 
-                if (data[port].inventoryRoundControl == sendData)
-                    return 0;
+                    if (data[port].inventoryRoundControl == sendData)
+                        return 0;
 
-                int dataAdd = 5 + (port * 16);
+                    int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl = sendData;
+                    data[port].inventoryRoundControl = sendData;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), sendData);
+                }
+
                 return 0;
             }
 
@@ -551,28 +634,12 @@ namespace CSLibrary
             {
                 if (port < 0 || port > 15)
                 {
-                    List<UInt16> address = new List<UInt16>();
-                    List<uint> sendData = new List<uint>();
-
                     for (int i = 0; i < 16; i++)
                     {
                         if (!data[i].enable)
                             continue;
-
-                        uint newvalue = (data[i].inventoryRoundControl & 0xff07ffff);
-                        newvalue |= (session & 0x03) << 19;
-                        newvalue |= (select & 0x03) << 21;
-                        newvalue |= (target & 0x01) << 23;
-
-                        if (data[i].inventoryRoundControl == newvalue)
-                            continue;
-
-                        data[i].inventoryRoundControl = newvalue;
-                        address.Add((UInt16)(regAdd + 5 + (i * 16)));
-                        sendData.Add(newvalue);
+                        TagGroup(session, select, target, i);
                     }
-
-                    _handler.WriteRegister(address.ToArray(), sendData.ToArray());
                 }
                 else
                 {
@@ -596,26 +663,12 @@ namespace CSLibrary
             {
                 if (port < 0 || port > 15)
                 {
-                    List<UInt16> address = new List<UInt16>();
-                    List<uint> sendData = new List<uint>();
-
                     for (int i = 0; i < 16; i++)
                     {
                         if (!data[i].enable)
                             continue;
-
-                        uint newvalue = data[i].inventoryRoundControl & 0xff9fffff;
-                        newvalue |= (select & 0x03) << 21;
-
-                        if (data[i].inventoryRoundControl == newvalue)
-                            continue;
-
-                        data[i].inventoryRoundControl = newvalue;
-                        address.Add((UInt16)(regAdd + 5 + (i * 16)));
-                        sendData.Add(newvalue);
+                        Select(select, i);
                     }
-
-                    _handler.WriteRegister(address.ToArray(), sendData.ToArray());
                 }
                 else
                 {
@@ -635,20 +688,31 @@ namespace CSLibrary
 
             internal void FastIdEnable(bool enable, int port = 0)
             {
-                UInt32 newValue = data[port].inventoryRoundControl & 0xfdffffff;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        FastIdEnable(enable, i);
+                    }
+                }
+                else
+                {
+                    UInt32 newValue = data[port].inventoryRoundControl & 0xfdffffff;
 
-                if (enable)
-                    newValue |= 1 << 25;
+                    if (enable)
+                        newValue |= 1 << 25;
 
-                if (data[port].inventoryRoundControl == newValue)
-                    return;
+                    if (data[port].inventoryRoundControl == newValue)
+                        return;
 
-                int dataAdd = 5 + (port * 16);
+                    int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl = newValue;
+                    data[port].inventoryRoundControl = newValue;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), newValue);
-                return;
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), newValue);
+                }
             }
 
             internal bool FastId(int port = 0)
@@ -663,43 +727,78 @@ namespace CSLibrary
 
             internal void TagFocusEnable(bool enable, int port = 0)
             {
-                UInt32 newValue = data[port].inventoryRoundControl & 0xfbffffff;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        TagFocusEnable(enable, i);
+                    }
+                }
+                else
+                {
+                    UInt32 newValue = data[port].inventoryRoundControl & 0xfbffffff;
 
-                if (enable)
-                    newValue |= 1 << 26;
+                    if (enable)
+                        newValue |= 1 << 26;
 
-                if (data[port].inventoryRoundControl == newValue)
-                    return;
+                    if (data[port].inventoryRoundControl == newValue)
+                        return;
 
-                int dataAdd = 5 + (port * 16);
+                    int dataAdd = 5 + (port * 16);
 
-                data[port].inventoryRoundControl = newValue;
+                    data[port].inventoryRoundControl = newValue;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), newValue);
-                return;
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), newValue);
+                }
             }
 
             internal void MaxQSinceValidEpc(UInt32 Q, int port = 0)
             {
-                if (data[port].inventoryRoundControl2 == Q)
-                    return;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        MaxQSinceValidEpc(Q, i);
+                    }
+                }
+                else
+                {
+                    if (data[port].inventoryRoundControl2 == Q)
+                        return;
 
-                int dataAdd = 9 + (port * 16);
+                    int dataAdd = 9 + (port * 16);
 
-                data[port].inventoryRoundControl2 = Q;
+                    data[port].inventoryRoundControl2 = Q;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl2);
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].inventoryRoundControl2);
+                }
             }
 
             internal void RfMode(UInt16 mode, int port = 0)
             {
-                if (data[port].rfMode == mode)
-                    return;
+                if (port < 0 || port > 15)
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        if (!data[i].enable)
+                            continue;
+                        RfMode(mode, i);
+                    }
+                }
+                else
+                {
+                    if (data[port].rfMode == mode)
+                        return;
 
-                int dataAdd = 14 + (port * 16);
-                data[port].rfMode = mode;
+                    int dataAdd = 14 + (port * 16);
+                    data[port].rfMode = mode;
 
-                _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].rfMode);
+                    _handler.WriteRegister((UInt16)(regAdd + dataAdd), data[port].rfMode);
+                }
             }
 
             internal void SetInventoryRoundControl(int port, UInt32 value)
@@ -1446,6 +1545,7 @@ namespace CSLibrary
             internal Regstring EF9C;
             internal RegUInt32 EFAC;
             internal RegUInt32 EFB0;
+            internal RegUInt32 EFB4;
             internal Regbyte PowerBoost;
 
             public CSLRFIDREGISTER(RFIDReader _deviceHandler)
@@ -1546,6 +1646,7 @@ namespace CSLibrary
                 EF9C = new Regstring(_deviceHandler, 0xef9c, 16, REGPRIVATE.READONLY);
                 EFAC = new RegUInt32(_deviceHandler, 0xefac, REGPRIVATE.READONLY);
                 EFB0 = new RegUInt32(_deviceHandler, 0xefb0, REGPRIVATE.READONLY);
+                EFB4 = new RegUInt32(_deviceHandler, 0xefb4, REGPRIVATE.READONLY);
                 PowerBoost = new Regbyte(_deviceHandler, 0x3950, REGPRIVATE.READWRITE);
             }
         }
@@ -1593,7 +1694,8 @@ namespace CSLibrary
                                                     { 0xef98, 4 },
                                                     { 0xef9c, 16 },
                                                     { 0xefac, 4 },
-                                                    { 0xefb0, 4 }
+                                                    { 0xefb0, 4 },
+                                                    { 0xefb4, 4 }
     };
 
         public bool RegisterInitialize_CS710S()
@@ -1671,6 +1773,8 @@ namespace CSLibrary
 
         void SaveInitRegisters(int index, byte[]data, int size)
         {
+            //CSLibrary.Debug.WriteBytes("SaveInitRegisters", data);
+
             /*
                         RFIDRegister.VersionString.Set(System.Text.Encoding.Default.GetString(data, index, RFIDRegister.VersionString.maxlen));
                         RFIDRegister.BuildNumber.Set(System.Text.Encoding.Default.GetString(data, index + 32, RFIDRegister.BuildNumber.maxlen));
@@ -1701,8 +1805,9 @@ namespace CSLibrary
             RFIDRegister.EF9C.Set(System.Text.Encoding.Default.GetString(data, index + 77, RFIDRegister.EF9C.maxlen));
             RFIDRegister.EFAC.Set(Tools.Hex.MSBToUInt32(data, index + 93));
             RFIDRegister.EFB0.Set(Tools.Hex.MSBToUInt32(data, index + 97));
+            RFIDRegister.EFB4.Set(Tools.Hex.MSBToUInt32(data, index + 101));
 
-            m_oem_machine = MODEL.CS710S;
+            m_oem_machine = (MODEL)RFIDRegister.EFB4.Get();
             m_oem_country_code = RFIDRegister.EF98.Get();
             m_oem_special_country_version = RFIDRegister.EFAC.Get();
             m_oem_freq_modification_flag = (uint)RFIDRegister.EFB0.Get();

@@ -159,6 +159,9 @@ namespace BLE.Client.ViewModels
         {
             if (e.state == CSLibrary.Constants.RFState.INITIALIZATION_COMPLETE)
             {
+                bool LoadSuccess = BleMvxApplication.LoadConfig(BleMvxApplication._deviceinfo.Id.ToString(), BleMvxApplication._reader.rfid.GetModel());
+                BleMvxApplication._config.readerID = BleMvxApplication._deviceinfo.Id.ToString();
+
                 //Trace.Message("load config");
                 {
                     //_ = BleMvxApplication.LoadConfig(BleMvxApplication._deviceinfo.Id.ToString(), BleMvxApplication._reader.rfid.GetModel(), (int)BleMvxApplication._reader.rfid.GetCountry());

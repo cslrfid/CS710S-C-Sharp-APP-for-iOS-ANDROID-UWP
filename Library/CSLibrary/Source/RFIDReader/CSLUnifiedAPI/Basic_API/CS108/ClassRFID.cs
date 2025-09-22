@@ -599,7 +599,7 @@ namespace CSLibrary
 
             try
             {
-            CSLibrary.Debug.WriteLine("Routine : DeviceRecvData");
+            //CSLibrary.Debug.WriteLine("Routine : DeviceRecvData");
 
             if (!_dataBuffer.DataIn(recvData1, 10, recvData1[2] - 2))
                 CSLibrary.Debug.WriteLine("RFID ring buffer FULL!!!!");

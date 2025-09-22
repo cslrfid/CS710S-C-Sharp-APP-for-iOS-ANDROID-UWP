@@ -10,7 +10,7 @@
         <StackLayout Padding="10, 10, 10, 0">
 
             <StackLayout Orientation="Horizontal" >
-                <Label Text="Antenna 1"  VerticalOptions="Start" MinimumWidthRequest="150" />
+                <Label x:Name="labelAntenna1" Text="Antenna 1"  VerticalOptions="Start" MinimumWidthRequest="150" />
                 <Switch x:Name="switchAntenna1Enable" />
             </StackLayout>
 
@@ -21,13 +21,13 @@
 
             <StackLayout Orientation="Horizontal" >
                 <Label Text="Dwell"  VerticalOptions="Start" MinimumWidthRequest="150" />
-				<Entry x:Name="entryDwell1" MinimumWidthRequest="300" />
+                <Entry x:Name="entryDwell1" MinimumWidthRequest="300" />
             </StackLayout>
-            
+
             <BoxView x:Name="boxview2" HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
 
             <StackLayout Orientation="Horizontal">
-                <Label Text="Antenna 2"  VerticalOptions="Start"  MinimumWidthRequest="150" />
+                <Label x:Name="labelAntenna2" Text="Antenna 2"  VerticalOptions="Start"  MinimumWidthRequest="150" />
                 <Switch x:Name="switchAntenna2Enable" />
             </StackLayout>
 
@@ -43,7 +43,9 @@
 
             <BoxView x:Name="boxview3" HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
 
-            <StackLayout Orientation="Horizontal">
+            <StackLayout x:Name="stacklayoutAntenna4">
+
+                <StackLayout Orientation="Horizontal">
                 <Label Text="Antenna 3"  VerticalOptions="Start" />
                 <Switch x:Name="switchAntenna3Enable" />
             </StackLayout>
@@ -77,7 +79,9 @@
 
             <BoxView HorizontalOptions="FillAndExpand" HeightRequest="5" Color="Black"/>
 
-            <Button Text="SAVE" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnOKClicked" TextColor="Black" />
+        </StackLayout>
+
+        <Button Text="SAVE" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnOKClicked" TextColor="Black" />
 
         </StackLayout>
     </ScrollView>

@@ -503,8 +503,12 @@ namespace BLE.Client.ViewModels
             //bool LoadSuccess = await BleMvxApplication.LoadConfig(_device.Name);
             //BleMvxApplication._config.readerID = _device.Name;
             //bool LoadSuccess = await BleMvxApplication.LoadConfig(_device.Id.ToString(), BleMvxApplication._reader.rfid.GetAntennaPort());
-            bool LoadSuccess = await BleMvxApplication.LoadConfig(_device.Id.ToString(), deviceType);
-            BleMvxApplication._config.readerID = _device.Id.ToString();
+
+            // for testing
+            //bool LoadSuccess = await BleMvxApplication.LoadConfig(_device.Id.ToString(), deviceType);
+            //BleMvxApplication._config.readerID = _device.Id.ToString();
+
+            BleMvxApplication._deviceinfo = _device;
         }
 
         private async void ConnectAndDisposeDevice(DeviceListItemViewModel item)

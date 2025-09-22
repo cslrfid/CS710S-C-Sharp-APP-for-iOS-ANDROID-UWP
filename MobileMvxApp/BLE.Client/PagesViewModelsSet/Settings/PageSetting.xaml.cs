@@ -12,14 +12,15 @@ namespace BLE.Client.Pages
         {
             InitializeComponent();
 
-            switch (BleMvxApplication._reader.rfid.GetModelName())
+            switch (BleMvxApplication._reader.rfid.GetModel())
             {
-                case "CS108":
-                case "CS710S":
+                case CSLibrary.RFIDDEVICE.MODEL.CS108:
+                case CSLibrary.RFIDDEVICE.MODEL.CS710S:
                     this.Children.RemoveAt(2);
                     break;
 
-                default:
+                case CSLibrary.RFIDDEVICE.MODEL.CS463:
+                case CSLibrary.RFIDDEVICE.MODEL.CS203XL:
                     this.Children.RemoveAt(3);
                     break;
             }

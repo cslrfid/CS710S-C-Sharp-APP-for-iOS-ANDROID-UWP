@@ -74,6 +74,8 @@ namespace CSLibrary
 
         internal HighLevelInterface.BTWAITCOMMANDRESPONSETYPE ProcessDataPacket (byte [] data)
         {
+            //CSLibrary.Debug.WriteBytes("Routine : ProcessDataPacket", data);
+
             uint pktType = (uint)(data[8] << 8 | data[9]);
 
             switch (pktType)
