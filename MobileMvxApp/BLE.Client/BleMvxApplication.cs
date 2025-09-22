@@ -131,21 +131,25 @@ namespace BLE.Client
             RFID_Antenna_Dwell = new uint[port];
             for (uint cnt = 0; cnt < port; cnt++)
             {
+                RFID_AntennaEnable[cnt] = false;
                 RFID_Antenna_Power[cnt] = 300;
+                RFID_Antenna_Dwell[cnt] = 2000;
+            }
+            switch (model)
+            {
+                case MODEL.CS203XL:
+                    RFID_AntennaEnable[1] = true;
+                    break;
 
-                if (cnt == 0)
-                {
+                case MODEL.CS108:
+                case MODEL.CS710S:
                     RFID_AntennaEnable[0] = true;
-                    if (port == 1)
-                        RFID_Antenna_Dwell[0] = 0;
-                    else
-                        RFID_Antenna_Dwell[0] = 2000;
-                }
-                else
-                {
-                    RFID_AntennaEnable[cnt] = false;
-                    RFID_Antenna_Dwell[cnt] = 2000;
-                }
+                    RFID_Antenna_Dwell[0] = 0;
+                    break;
+
+                default:
+                    RFID_AntennaEnable[0] = true;
+                    break;
             }
 
             RFID_OperationMode = CSLibrary.Constants.RadioOperationMode.CONTINUOUS;
@@ -154,6 +158,7 @@ namespace BLE.Client
             switch (model)
             {
                 case MODEL.CS710S:
+                case MODEL.CS203XL:
                     //                  Set profile to 241 if CS710S-1 in application
                     //                    if (country == 1)
                     //                        RFID_Profile = 241;
@@ -336,16 +341,15 @@ namespace BLE.Client
             RegisterAppStart<ViewModelMainMenu>();
         }
 
-        //static async public void LoadConfig(string readerID)
-        static public async Task<bool> LoadConfig(string readerID, MODEL model)
+        static public bool LoadConfig(string readerID, MODEL model)
         {
             try
             {
                 IFolder rootFolder = FileSystem.Current.LocalStorage;
-                IFolder sourceFolder = await FileSystem.Current.LocalStorage.CreateFolderAsync("CSLReader", CreationCollisionOption.OpenIfExists);
-                IFile sourceFile = await sourceFolder.CreateFileAsync(readerID + ".cfg", CreationCollisionOption.OpenIfExists);
+                IFolder sourceFolder = FileSystem.Current.LocalStorage.CreateFolderAsync("CSLReader", CreationCollisionOption.OpenIfExists).Result;
+                IFile sourceFile = sourceFolder.CreateFileAsync(readerID + ".cfg", CreationCollisionOption.OpenIfExists).Result;
 
-                var contentJSON = await sourceFile.ReadAllTextAsync();
+                var contentJSON = sourceFile.ReadAllTextAsync().Result;
                 var setting = JsonConvert.DeserializeObject<CONFIG>(contentJSON);
 
                 _RSSIFILTER_Type = CSLibrary.Constants.RSSIFILTERTYPE.DISABLE;
@@ -364,9 +368,44 @@ namespace BLE.Client
             }
             catch (Exception ex)
             {
+                _config = new CONFIG(model);
             }
             return false;
         }
+
+        //static async public void LoadConfig(string readerID)
+        /*
+                static public async Task<bool> LoadConfig(string readerID, MODEL model)
+                {
+                    try
+                    {
+                        IFolder rootFolder = FileSystem.Current.LocalStorage;
+                        IFolder sourceFolder = await FileSystem.Current.LocalStorage.CreateFolderAsync("CSLReader", CreationCollisionOption.OpenIfExists);
+                        IFile sourceFile = await sourceFolder.CreateFileAsync(readerID + ".cfg", CreationCollisionOption.OpenIfExists);
+
+                        var contentJSON = await sourceFile.ReadAllTextAsync();
+                        var setting = JsonConvert.DeserializeObject<CONFIG>(contentJSON);
+
+                        _RSSIFILTER_Type = CSLibrary.Constants.RSSIFILTERTYPE.DISABLE;
+                        _PREFILTER_Enable = false;
+                        _POSTFILTER_MASK_Enable = false;
+
+                        if (setting != null)
+                        {
+                            _config = setting;
+                            return true;
+                        }
+                        else
+                        {
+                            _config = new CONFIG(model);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    return false;
+                }
+        */
 
         static async public void SaveConfig()
         {

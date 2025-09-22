@@ -195,7 +195,6 @@ namespace CSLibrary
             OnReaderStateChanged = null;
         }
 
-
         public Version GetVersion ()
         {
             Version ver = new Version(2, 0, 10, 1);
@@ -254,7 +253,7 @@ namespace CSLibrary
         {
             byte [] data = (byte [])recData.Clone();
 
-            //CSLibrary.Debug.WriteLine("Routine : ProcessAPIPacket");
+            //CSLibrary.Debug.WriteBytes("Routine : ProcessAPIPacket", recData);
 
             switch (data[3])
             {

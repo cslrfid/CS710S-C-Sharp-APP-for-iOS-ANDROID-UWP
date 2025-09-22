@@ -85,13 +85,15 @@ namespace CSLibrary
         // 0x1471
         void ReadRegister_packet_proc(byte[] data, int index)
         {
+            //CSLibrary.Debug.WriteBytes("ReadRegister_packet_proc", data);
+
             // 33:A7 B3 19 C2 82 9E 02 9B 81 00     51 E2 14 71    00   00 10     01 07 D0 0B B8 00 06 30 F7 00 00 00 08 01 05 00
             //    A7 B3 73 C2 00 9E B3 F4 81 00     51 E2 14 71    00   00 6A     31 2E 31 2E 30 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 2F 00 00 00 A2 20 1A 06 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
 
 
             int size = (data[15] << 8) + (data[16]);
 
-            if (size == 101) // OEM packet data len
+            if (size == 105) // OEM packet data len
                 SaveInitRegisters(index, data, size);
             //else
             //    SaveRegister(17, data, size);
@@ -127,7 +129,7 @@ namespace CSLibrary
         {
             CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE result = HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.DATA1;
 
-            CSLibrary.Debug.WriteLine("Routine : DeviceRecvData");
+            //CSLibrary.Debug.WriteBytes("Routine : DeviceRecvData", recvData);
             int index = 10; // header size
 
             do

@@ -28,10 +28,13 @@ namespace CSLibrary
             CS468X = 13,
             CS203X = 14,
             CS468XJ = 15,
-            CS710S = 16,
+            //CS710S = 16,
+            CS710S = 32,
             CS203XL = 33,
             UNKNOWN = 0xff
         }
+
+/*
 
         public class HARDWARECONFIGURATION
         {
@@ -68,5 +71,6 @@ namespace CSLibrary
         {
             return ((info.Find(item => item.model == model)).firstAntenna);
         }
+*/
     }
 }

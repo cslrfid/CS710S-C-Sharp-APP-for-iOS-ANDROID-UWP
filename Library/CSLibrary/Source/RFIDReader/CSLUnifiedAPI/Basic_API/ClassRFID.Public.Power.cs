@@ -164,6 +164,9 @@ namespace CSLibrary
         /// <returns></returns>
         public Result SetPowerSequencing(int numberofPower, uint[] power = null, uint[] dwell = null, bool CloneAntenna0Setting = true)
         {
+            if (GetAntennaPort() != 1)
+                return Result.DEVICE_NOT_SUPPORT;
+
             switch (_deviceType)
             {
                 case MODEL.CS108:
