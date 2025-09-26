@@ -115,6 +115,14 @@ namespace CSLibrary.Tools
             UNKNOWN = 0xff
         }
 
+        public enum INTERFACE
+        {
+            TCP,
+            Bluetooth,
+            Serial,
+            USB
+        }
+
         /// <summary>
         /// Contains comprehensive hardware specification information for a specific CSL RFID reader device.
         /// </summary>
@@ -130,7 +138,7 @@ namespace CSLibrary.Tools
             /// </summary>
             /// <value>A MODEL enumeration value representing the device type.</value>
             public MODEL OemModel;    // code stored in OEM
-            
+
             /// <summary>
             /// Gets or sets the RFID chipset type used in this device.
             /// </summary>
@@ -160,7 +168,9 @@ namespace CSLibrary.Tools
             /// </summary>
             /// <value>An integer representing the preferred antenna index for operations.</value>
             public int DefaultAntenna; // Default Antenna (from 0)
-            
+
+            public INTERFACE[] SupportedInterfaces;
+
             /// <summary>
             /// Gets or sets a value indicating whether this device is a fixed reader or handheld device.
             /// </summary>
