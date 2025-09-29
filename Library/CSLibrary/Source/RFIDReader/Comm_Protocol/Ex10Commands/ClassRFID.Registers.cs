@@ -495,7 +495,7 @@ namespace CSLibrary
                 return (int)(data[port].inventoryRoundControl & (1U << 16));
             }
 
-            internal void EnableFixedQ(int port = 0)
+            internal void EnableFixedQ(int port = -1)
             {
                 if (Private == REGPRIVATE.READONLY)
                     return;
@@ -522,7 +522,7 @@ namespace CSLibrary
                 }
             }
 
-            internal void EnableFixedQ(uint InitialQ, uint QueryTarget, int port = 0)
+            internal void EnableFixedQ(uint InitialQ, uint QueryTarget, int port = -1)
             {
                 if (InitialQ > 15 || QueryTarget > 1)
                     return;
@@ -554,7 +554,7 @@ namespace CSLibrary
                 }
             }
 
-            internal void EnableDynamicQ(int port = 0)
+            internal void EnableDynamicQ(int port = -1)
             {
                 if (port < 0 || port > 15)
                 {
@@ -592,7 +592,7 @@ namespace CSLibrary
             /// <param name="Session"></param>
             /// <param name="QueryTarget"></param>
             /// <returns></returns>
-            internal int EnableDynamicQ(uint MinQ, uint MaxQ, uint InitialQ, uint NumMinQCycles, bool QDecreaseUseQuery, bool QIncreaseUseQuery, uint QueryTarget, int port = 0)
+            internal int EnableDynamicQ(uint MinQ, uint MaxQ, uint InitialQ, uint NumMinQCycles, bool QDecreaseUseQuery, bool QIncreaseUseQuery, uint QueryTarget, int port = -1)
             {
                 if (MinQ > 15 || MaxQ > 15 || InitialQ > 15 || NumMinQCycles > 153 || QueryTarget > 1)
                     return -1;
@@ -630,7 +630,7 @@ namespace CSLibrary
                 return 0;
             }
 
-            internal void TagGroup(uint session, uint select, uint target, int port = 0)
+            internal void TagGroup(uint session, uint select, uint target, int port = -1)
             {
                 if (port < 0 || port > 15)
                 {
@@ -659,7 +659,7 @@ namespace CSLibrary
                 }
             }
 
-            internal void Select(uint select, int port = 0)
+            internal void Select(uint select, int port = -1)
             {
                 if (port < 0 || port > 15)
                 {
@@ -686,7 +686,7 @@ namespace CSLibrary
                 }
             }
 
-            internal void FastIdEnable(bool enable, int port = 0)
+            internal void FastIdEnable(bool enable, int port = -1)
             {
                 if (port < 0 || port > 15)
                 {
@@ -725,7 +725,7 @@ namespace CSLibrary
                 return true;
             }
 
-            internal void TagFocusEnable(bool enable, int port = 0)
+            internal void TagFocusEnable(bool enable, int port = -1)
             {
                 if (port < 0 || port > 15)
                 {
@@ -778,7 +778,7 @@ namespace CSLibrary
                 }
             }
 
-            internal void RfMode(UInt16 mode, int port = 0)
+            internal void RfMode(UInt16 mode, int port = -1)
             {
                 if (port < 0 || port > 15)
                 {

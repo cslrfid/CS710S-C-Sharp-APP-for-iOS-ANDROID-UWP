@@ -34,10 +34,10 @@ namespace CSLibrary
     public partial class RFIDReader
     {
         internal string[] _profileNameList_CS108 = {
-            "  0. Multipath Interference Resistance",
-            "  1. Range/Dense Reader",
-            "  2. Range/Throughput/Dense Reader",
-            "  3. Max Throughput"
+            "  0: Multipath Interference Resistance",
+            "  1: Range/Dense Reader",
+            "  2: Range/Throughput/Dense Reader",
+            "  3: Max Throughput"
         };
 
 

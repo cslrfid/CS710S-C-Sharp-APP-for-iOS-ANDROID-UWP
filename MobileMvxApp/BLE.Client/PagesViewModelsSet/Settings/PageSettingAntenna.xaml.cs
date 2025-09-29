@@ -95,7 +95,7 @@ namespace BLE.Client.Pages
 
             BleMvxApplication.SaveConfig();
 
-            for (uint cnt = 0; cnt < 4; cnt++)
+            for (uint cnt = 0; cnt < BleMvxApplication._reader.rfid.GetAntennaPort(); cnt++)
             {
                 BleMvxApplication._reader.rfid.SetAntennaPortState(cnt, BleMvxApplication._config.RFID_AntennaEnable[cnt] ? CSLibrary.Constants.AntennaPortState.ENABLED : CSLibrary.Constants.AntennaPortState.DISABLED);
                 BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);

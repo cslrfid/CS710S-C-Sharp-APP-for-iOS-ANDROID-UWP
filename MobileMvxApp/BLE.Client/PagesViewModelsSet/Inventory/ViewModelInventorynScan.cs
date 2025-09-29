@@ -354,68 +354,6 @@ namespace BLE.Client.ViewModels
                 }
             }
 
-
-
-
-            /*
-            try
-            {
-                string msg = "";
-
-                msg += "[Total : " + Application.Current.MainPage.Navigation.NavigationStack.Count.ToString() + "]";
-
-                _userDialogs.Alert(msg);
-
-                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
-                {
-                    msg += "[" + i.ToString() + "]" + ((Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage) ? "Y" : "N");
-                }
-
-                _userDialogs.Alert(msg );
-            }
-            catch (Exception ex)
-            {
-                _userDialogs.Alert("Error : " + ex.Message);
-            }
-            */
-
-            /*
-                        try
-                        {
-                            var tabbedPage = (TabbedPage)Application.Current.MainPage.Navigation.NavigationStack[1];
-                            var currentPage = tabbedPage.CurrentPage;
-                            int index = tabbedPage.Children.IndexOf(currentPage);
-
-                            return index;
-                        }
-                        catch (Exception ex)
-                        {
-                            try
-                            {
-                                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
-                                {
-                                    if (Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage tp)
-                                    {
-                                        var currentPage1 = tp.CurrentPage;
-                                        int index = tp.Children.IndexOf(currentPage1);
-
-                                        return index;
-                                    }
-                                }
-                            }
-                            catch (Exception ex1)
-                            {
-                                string msg = "";
-
-                                for (int i = Application.Current.MainPage.Navigation.NavigationStack.Count - 1; i >= 0; i--)
-                                {
-                                    msg += "[" + i.ToString() + "]" + ((Application.Current.MainPage.Navigation.NavigationStack[i] is TabbedPage tabbedPage) ? "Y" : "N");
-
-                                    _userDialogs.Alert(msg + " : " + ex1.Message);
-                                }
-                            }
-                        }
-            */
             return -1;
         }
 
@@ -655,14 +593,15 @@ namespace BLE.Client.ViewModels
                 _numberOfTagsText = "     Total: " + _TagInfoList.Count.ToString();
                 RaisePropertyChanged(() => numberOfTagsText);
 
-                switch (BleMvxApplication._reader.rfid.GetModelName())
+                switch (BleMvxApplication._reader.rfid.GetModel())
                 {
-                    case "CS108":
-                        _tagPerSecondText = "Rate/New: " + _tagCount4Display.ToString() + "/" + _newTagPerSecond.ToString() + "     ";
+                    case CSLibrary.RFIDDEVICE.MODEL.CS710S:
+                    case CSLibrary.RFIDDEVICE.MODEL.CS203XL:
+                        _tagPerSecondText = "Rate/New: " + _readerInventoryTagRate.ToString() + "/" + _newTagPerSecond.ToString() + "     ";
                         break;
 
-                    case "CS710S":
-                        _tagPerSecondText = "Rate/New: " + _readerInventoryTagRate.ToString() + "/" + _newTagPerSecond.ToString() + "     ";
+                    default:
+                        _tagPerSecondText = "Rate/New: " + _tagCount4Display.ToString() + "/" + _newTagPerSecond.ToString() + "     ";
                         break;
                 }
 
