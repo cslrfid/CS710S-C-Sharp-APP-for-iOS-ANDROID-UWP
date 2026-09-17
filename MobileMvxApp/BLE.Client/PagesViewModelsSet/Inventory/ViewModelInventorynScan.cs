@@ -403,9 +403,9 @@ namespace BLE.Client.ViewModels
             }
             else
             {
-                uint port = BleMvxApplication._reader.rfid.GetAntennaPort();
+                int port = BleMvxApplication._reader.rfid.GetAntennaPort();
 
-                for (uint cnt = 0; cnt < port; cnt++)
+                for (int cnt = 0; cnt < port; cnt++)
                 {
                     BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
                 }
@@ -1152,9 +1152,10 @@ namespace BLE.Client.ViewModels
         public class BARCODEInfoViewModel : BindableBase
         {
             private string _code;
-            public string code { get { return this._code; } set { this.SetProperty(ref this._code, value); } }
+            public string code { get { return this._code; } set { if (this.SetProperty(ref this._code, value)) OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(info))); } }
             private uint _count;
-            public uint count { get { return this._count; } set { this.SetProperty(ref this._count, value); } }
+            public uint count { get { return this._count; } set { if (this.SetProperty(ref this._count, value)) OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs(nameof(info))); } }
+            public string info { get { return this._count.ToString() + " (" + code.Length.ToString() + " char)"; } }
             public DateTime timeOfRead;
         }
 

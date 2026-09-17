@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+    <RootNamespace>CSLibrary</RootNamespace>
+    <AssemblyName>CSLibrary2026</AssemblyName>
+    <Version>0.0.1</Version>
+
+    <!-- NuGet Package Properties -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>CSLibrary2026</PackageId>
+    <Title>CSL RFID Reader Library</Title>
+    <Authors>CSL RFID</Authors>
+    <Company>Convergence Systems Limited</Company>
+    <Product>CSLibrary2026</Product>
+    <Description>CSL RFID Reader Library for .NET - Supports Bluetooth LE communication with CSL RFID readers</Description>
+    <Copyright>Copyright © Convergence Systems Limited</Copyright>
+    <PackageProjectUrl>https://github.com/cslrfid/CSLRFIDReader-C-Sharp-MAUIAPP</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cslrfid/CSLibrary</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>RFID;CSL;Bluetooth;BLE;Reader;UHF</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Source\HAL\Acr.ble\**" />
+    <Compile Remove="Source\HAL\btframework\**" />
+    <Compile Remove="Source\HAL\Plugin.BLE\**" />
+    <Compile Remove="Source\HAL\TCPIP\**" />
+    <Compile Remove="Source\HAL\UWP\**" />
+    <Compile Remove="Source\RFIDReader\Antenna\**" />
+    <Compile Remove="Source\RFIDReader\API_EM4325\**" />
+    <Compile Remove="Source\RFIDReader\API_FM13DT160\**" />
+    <EmbeddedResource Remove="Source\HAL\Acr.ble\**" />
+    <EmbeddedResource Remove="Source\HAL\btframework\**" />
+    <EmbeddedResource Remove="Source\HAL\Plugin.BLE\**" />
+    <EmbeddedResource Remove="Source\HAL\TCPIP\**" />
+    <EmbeddedResource Remove="Source\HAL\UWP\**" />
+    <EmbeddedResource Remove="Source\RFIDReader\Antenna\**" />
+    <EmbeddedResource Remove="Source\RFIDReader\API_EM4325\**" />
+    <EmbeddedResource Remove="Source\RFIDReader\API_FM13DT160\**" />
+    <None Remove="Source\HAL\Acr.ble\**" />
+    <None Remove="Source\HAL\btframework\**" />
+    <None Remove="Source\HAL\Plugin.BLE\**" />
+    <None Remove="Source\HAL\TCPIP\**" />
+    <None Remove="Source\HAL\UWP\**" />
+    <None Remove="Source\RFIDReader\Antenna\**" />
+    <None Remove="Source\RFIDReader\API_EM4325\**" />
+    <None Remove="Source\RFIDReader\API_FM13DT160\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="CSLibrary.cs" />
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <Compile Remove="Properties\Resources.Designer.cs" />
+    <Compile Remove="Source\SystemInformation\ClassdBm2dBV.cs" />
+    <Compile Remove="Source\Tools\ClassFIFIQueue.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Properties\Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove=".DS_Store" />
+    <None Remove="CSLibrary-UWP.projitems" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Readme.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+    <Folder Include="Source\RFIDReader\Comm_Protocol\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Plugin.BLE" Version="3.0.0" />
+  </ItemGroup>
+</Project>

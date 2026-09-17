@@ -23,11 +23,12 @@ namespace BLE.Client.Pages
                 if (value < 0 || value > 320)
                     throw new System.ArgumentException("Power can only be set to 320 or below", "Power");
                 entryPower.Text = value.ToString();
+                BleMvxApplication.SaveConfig();
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Power", "Power can only be set to 320 or below", "OK");
-                entryPower.Text = "100";
+                entryPower.Text = BleMvxApplication._config._InventoryBarkcode_Power.ToString();
             }
         }
 

@@ -95,11 +95,11 @@ namespace BLE.Client.Pages
 
             BleMvxApplication.SaveConfig();
 
-            for (uint cnt = 0; cnt < BleMvxApplication._reader.rfid.GetAntennaPort(); cnt++)
+            for (int cnt = 0; cnt < BleMvxApplication._reader.rfid.GetAntennaPort(); cnt++)
             {
-                BleMvxApplication._reader.rfid.SetAntennaPortState(cnt, BleMvxApplication._config.RFID_AntennaEnable[cnt] ? CSLibrary.Constants.AntennaPortState.ENABLED : CSLibrary.Constants.AntennaPortState.DISABLED);
+                BleMvxApplication._reader.rfid.SetAntennaPortState((uint)cnt, BleMvxApplication._config.RFID_AntennaEnable[cnt] ? CSLibrary.Constants.AntennaPortState.ENABLED : CSLibrary.Constants.AntennaPortState.DISABLED);
                 BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
-                BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell[cnt], cnt);
+                BleMvxApplication._reader.rfid.SetInventoryDuration(BleMvxApplication._config.RFID_Antenna_Dwell[cnt], (uint)cnt);
             }
         }
     }

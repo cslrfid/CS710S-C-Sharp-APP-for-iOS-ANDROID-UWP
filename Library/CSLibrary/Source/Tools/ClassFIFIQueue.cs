@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 
 namespace CSLibrary.Tools
 {
-    public class Queue
+    public class Queue_PhaseOut
     {
         private int MAXBUFFERSIZE;
         private byte[] _dataStream;
@@ -35,13 +35,13 @@ namespace CSLibrary.Tools
         private int _dataStreamStartPoint = 0;
         private int _dataStreamSize = 0;
 
-        public Queue(int size = 1024)
+        public Queue_PhaseOut(int size = 1024)
         {
             MAXBUFFERSIZE = size;
             _dataStream = new byte[MAXBUFFERSIZE];
         }
 
-        ~Queue()
+        ~Queue_PhaseOut()
         {
         }
 

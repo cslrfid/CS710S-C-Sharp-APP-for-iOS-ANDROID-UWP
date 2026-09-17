@@ -157,7 +157,7 @@ namespace BLE.Client.ViewModels
             }
             else
             {
-                for (uint cnt = 0; cnt < BleMvxApplication._reader.rfid.GetAntennaPort();  cnt++)
+                for (int cnt = 0; cnt < BleMvxApplication._reader.rfid.GetAntennaPort();  cnt++)
                 {
                     BleMvxApplication._reader.rfid.SetPowerLevel(BleMvxApplication._config.RFID_Antenna_Power[cnt], cnt);
                 }

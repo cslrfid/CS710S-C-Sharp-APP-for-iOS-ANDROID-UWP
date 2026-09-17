@@ -142,7 +142,7 @@
                 <Label Text="ReaderMode /LinkProfile" FontSize="Small" WidthRequest="85" VerticalOptions="Center" />
                 <Button x:Name="buttonProfile" HorizontalOptions="FillAndExpand" BorderWidth ="1" Clicked="buttonProfileClicked" />
             </StackLayout>
-            <Button Text="SAVE" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnOKClicked" TextColor="Black" />
+            <Button Text="SAVE" Font="Large" HorizontalOptions="FillAndExpand" BackgroundColor="#C3C3C3" Clicked="btnOKClicked" TextColor="Black" Margin="0,0,0,40"/>
 
         </StackLayout>
     </ScrollView>

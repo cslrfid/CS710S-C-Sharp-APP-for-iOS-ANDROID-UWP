@@ -108,6 +108,10 @@ namespace BLE.Client
 
         public bool _keepScreenOn = false;
 
+        public int _InventoryBarkcode_Power = 100;
+        //public int _InventoryBarkcode_Power = 100;
+
+
         // LNA setting
         //public int RFID_RxAttenuation = 0;
         //public float RFID_MixerGain = 17.2F;

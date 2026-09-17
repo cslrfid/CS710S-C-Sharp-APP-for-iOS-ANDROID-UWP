@@ -6,22 +6,26 @@
                 x:Class="BLE.Client.Pages.PageAbout"
                 Title="About">
 
-	<StackLayout Margin="0,100,0,0">
-		<StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+    <StackLayout Margin="0,100,0,0">
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
             <Label x:Name="labelModel" Text="Model"/>
             <Label x:Name="labelAppVer" Text="Application Version"/>
-          <Label x:Name="labelLibVer" Text="Library Version"/>
-          <Label x:Name="labelBtFwVer" Text="Bluetooth Firmware Version"/>
-          <Label x:Name="labelRFIDFwVer" Text="RFID Firmware Version"/>
-          <Label x:Name="labelSiliconlabFwVer" Text="SiliconLab IC Firmware Version"/>
-          <Label x:Name="labelSerialNumber" Text="Reader Serial Number"/>
+            <Label x:Name="labelLibVer" Text="Library Version"/>
+            <Label x:Name="labelBtFwVer" Text="Bluetooth Firmware Version"/>
+            <Label x:Name="labelRFIDFwVer" Text="RFID Firmware Version"/>
+            <Label x:Name="labelSiliconlabFwVer" Text="SiliconLab IC Firmware Version"/>
+            <Label x:Name="labelSerialNumber" Text="Reader Serial Number"/>
             <Label x:Name="labelPCBSerialNumber" Text="PCB Serial Number"/>
+            <Label x:Name="labelBarcodeSN" Text="Barcode Serial Number"/>
+            <Label x:Name="labelBarcodeESN" Text="Barcode ESN"/>
+            <Label x:Name="labelBarcodePrefix" Text="Barcode Prefix"/>
+            <Label x:Name="labelBarcodeSuffix" Text="Barcode Suffix"/>
         </StackLayout>
 
-		<StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" >
-			<Button Text="Open Privacy policy" Font="Large" HorizontalOptions="StartAndExpand" Clicked="buttonOpenPrivacypolicyClicked"/>
-		</StackLayout>
+        <StackLayout Orientation="Vertical" VerticalOptions="EndAndExpand" >
+            <Button Text="Open Privacy policy" Font="Large" HorizontalOptions="StartAndExpand" Clicked="buttonOpenPrivacypolicyClicked"/>
+        </StackLayout>
 
-	</StackLayout>
+    </StackLayout>
 
 </views:MvxContentPage>

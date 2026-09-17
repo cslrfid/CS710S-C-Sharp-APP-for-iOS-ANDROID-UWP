@@ -47,7 +47,7 @@ namespace CSLibrary
         ICharacteristic _characteristicDeviceInfoRead;
         MODEL _deviceType = MODEL.UNKNOWN;
 
-        CSLibrary.Tools.HPFIFOQueue networkdata = new CSLibrary.Tools.HPFIFOQueue(10240);
+        CSLibrary.Tools.FIFOQueue networkdata = new CSLibrary.Tools.FIFOQueue(10240);
 
         /// <summary>
         /// return error code
@@ -215,7 +215,7 @@ namespace CSLibrary
 
                     byte[] packet = networkdata.Read(packetLength);
 
-                    //CSLibrary.Debug.WriteBytes("BT data received : ", data);
+                    CSLibrary.Debug.WriteBytes("BT data received : ", data);
                     CharacteristicOnValueUpdated(packet);
                 }
             }

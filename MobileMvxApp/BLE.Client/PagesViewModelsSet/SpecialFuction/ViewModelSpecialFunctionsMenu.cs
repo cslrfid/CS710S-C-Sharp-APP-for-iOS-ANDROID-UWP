@@ -67,8 +67,8 @@ namespace BLE.Client.ViewModels
         public ICommand OnMQTTButtonCommand { protected set; get; }
         public ICommand OnInventorytoWedgeForwarderButtonCommand { protected set; get; }
         public ICommand OnBarcodeandRFIDInventoryButtonCommand { protected set; get; }
+        public ICommand OnBarcodeandRFIDInventorywRemarkButtonCommand { protected set; get; }
 
-        
 
 
         public ViewModelSpecialFunctionsMenu (IAdapter adapter, IUserDialogs userDialogs, IMvxNavigationService navigation) : base(adapter)
@@ -85,6 +85,7 @@ namespace BLE.Client.ViewModels
             OnMQTTButtonCommand = new Command(OnMQTTButtonClicked);
             OnInventorytoWedgeForwarderButtonCommand = new Command(OnInventorytoWedgeForwarderButtonClicked);
             OnBarcodeandRFIDInventoryButtonCommand = new Command(OnBarcodeandRFIDInventoryButtonClicked);
+            OnBarcodeandRFIDInventorywRemarkButtonCommand = new Command(OnBarcodeandRFIDInventorywRemarkButtonClicked);
 
             OnPhaseChannelInventoryButtonCommand = new Command(OnPhaseChannelInventoryButtonClicked);
             OnPeriodicReadButtonCommand = new Command(OnPeriodicReadButtonClicked);
@@ -279,6 +280,11 @@ namespace BLE.Client.ViewModels
         void OnBarcodeandRFIDInventoryButtonClicked()
         {
             _navigation.Navigate<ViewModelBarcodeandRFIDInventory>(new MvxBundle());
+        }
+
+        void OnBarcodeandRFIDInventorywRemarkButtonClicked()
+        {
+            _navigation.Navigate<ViewModelBarcodeandRFIDInventorywRemark>(new MvxBundle());
         }
 
         

@@ -36,6 +36,11 @@ namespace CSLibrary
 
         private HighLevelInterface _deviceHandler;
 
+        public string _SN;
+        public string _ESN;
+        public string _Prefix;
+        public string _Suffix;
+
         STATE _state = STATE.NOTVALID;
         public STATE state { get { return _state; } }
 
@@ -57,6 +62,73 @@ namespace CSLibrary
             OnCapturedNotify = null;
         }
 
+        // Helper: compare tail bytes
+        private static bool ByteArrayEndsWith(byte[] data, byte[] suffix)
+        {
+            if (data == null || suffix == null) return false;
+            if (data.Length < suffix.Length) return false;
+            int offset = data.Length - suffix.Length - 1;
+            for (int i = 0; i < suffix.Length; i++)
+            {
+                if (data[offset + i] != suffix[i]) return false;
+            }
+            return true;
+        }
+
+        // Helper: starting from startIndex, find the first two occurrences of (marker1, marker2).
+        // - prefixHex : hex bytes BETWEEN the two markers.
+        // - suffixHex : hex bytes AFTER the second marker, up to end of array.
+        // If fewer than two marker pairs are found, both returned values are empty strings.
+        private static void ExtractPrefixAndSuffixHex(byte[] data, int startIndex, byte marker1, byte marker2, out string prefixHex, out string suffixHex)
+        {
+            prefixHex = "";
+            suffixHex = "";
+
+            if (data == null || startIndex < 0 || startIndex >= data.Length - 1)
+                return;
+
+            int firstStart = -1;
+            int secondStart = -1;
+            int foundCount = 0;
+
+            for (int i = startIndex; i < data.Length - 1; i++)
+            {
+                if (data[i] == marker1 && data[i + 1] == marker2)
+                {
+                    foundCount++;
+                    if (foundCount == 1)
+                        firstStart = i + 2;
+                    else if (foundCount == 2)
+                    {
+                        secondStart = i + 2;
+                        break;
+                    }
+                }
+            }
+
+            if (firstStart > 0)
+            {
+                if (secondStart < 0)
+                    secondStart = data.Length - 1;
+                var prefixSb = new System.Text.StringBuilder((secondStart - 2 - firstStart) * 2);
+                for (int i = firstStart; i < secondStart - 2; i++)
+                {
+                    prefixSb.Append(" " + data[i].ToString("X2"));
+                }
+                prefixHex = prefixSb.ToString();
+            }
+
+            if (secondStart > 0)
+            {
+                var suffixSb = new System.Text.StringBuilder((data.Length - secondStart) * 2);
+                for (int i = secondStart; i < data.Length - 1; i++)
+                {
+                    suffixSb.Append(" " + data[i].ToString("X2"));
+                }
+                suffixHex = suffixSb.ToString();
+            }
+        }
+        
         /// <summary>
         /// Receive BarCode packet
         /// </summary>
@@ -73,14 +145,47 @@ namespace CSLibrary
                 if (recvData[2] > 7)
                 if (recvData[10] == 0x02 && recvData[11] == 0x00 && recvData[14] == 0x34)
                 {
-                    // Query
-                    if (recvData.Length < 24 || recvData[15] != 0x01 || recvData[16] != 0x06 || recvData[23] != 0x01 || recvData[24] != 0x06)
-                        FactoryReset();
-                    else
-                    {
-                        FactoryReset_Second();
-                        _state = STATE.READY;
-                    }
+                     _state = STATE.READY;
+
+                    switch (recvData[13])
+                        {
+                            case 0x05: // unknow command 30 32 30 30 CC 
+                                if (recvData[2] == 0x0c && recvData[15] == 0x00 && recvData[16] == 0x00 && recvData[17] == 0x00 && recvData[18] == 0x00)
+                                {
+                                    FactoryReset();
+                                }
+                                else
+                                {
+                                    _ESN = System.Text.Encoding.UTF8.GetString(recvData, 15, recvData.Length - 16);
+                                }
+                                break;
+
+                            case 0x0d: // SN 30 33 30 38 45 59 34 35 34 31 32 35 D2
+                                _SN = System.Text.Encoding.UTF8.GetString(recvData, 15, recvData.Length - 16);
+                                break;
+
+                            case 0x11: // Expected tail (from sample): 01 06 02 00 07 10 17 13 01 06 05 01 11 16 03 04 CF
+                                {
+                                    // _Prefix: bytes between the first and second 01 06, as hex string.
+                                    // _Suffix: bytes after the second 01 06, as hex string.
+
+                                    // Query
+                                    // Check the last 17 bytes instead of specific fixed indices.
+                                    byte[] expectedTail = new byte[] { 0x01, 0x06, 0x02, 0x00, 0x07, 0x10, 0x17, 0x13, 0x01, 0x06, 0x05, 0x01, 0x11, 0x16, 0x03, 0x04 };
+
+                                    if (recvData[2] != 0x18 || !ByteArrayEndsWith(recvData, expectedTail))
+                                    {
+                                        ExtractPrefixAndSuffixHex(recvData, 15, 0x01, 0x06, out _Prefix, out _Suffix);
+                                        FactoryReset();
+                                    }
+                                    else
+                                    {
+                                        ExtractPrefixAndSuffixHex(recvData, 15, 0x01, 0x06, out _Prefix, out _Suffix);
+                                    }
+                                }
+                                break;
+                        }
+
                     return true;
                 }
 
@@ -285,11 +390,11 @@ namespace CSLibrary
         /// <returns></returns>
         public bool Start()
         {
+            if (_state == STATE.NOTVALID)
+                return false;
+
             try
             {
-                if (_state == STATE.NOTVALID)
-                    return false;
-
                 _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_ContinueMode, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE);
 
                 _goodRead = false;
@@ -309,6 +414,9 @@ namespace CSLibrary
         /// <returns></returns>
         public bool Stop()
         {
+            if (_state == STATE.NOTVALID)
+                return true;
+
             bool rc = true;
 
             try
@@ -358,6 +466,9 @@ namespace CSLibrary
 
         public bool FastBarcodeMode (bool enable)
         {
+            if (_state == STATE.NOTVALID)
+                return false;
+
             byte[] payload = new byte[1];
 
             if (enable)
@@ -378,7 +489,9 @@ namespace CSLibrary
         readonly byte[] barcodecmd_ScanCycleTime30000 = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x31, 0x33, 0x30, 0x30, 0x30, 0x3d, 0x33, 0x30, 0x30, 0x30, 0x30, 0x3b };
         readonly byte[] barcodecmd_SysModeExit = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x30, 0x30, 0x3b };   // Exit Engineer Mode
         readonly byte[] barcodecmd_QueryESN = new byte[] { 0x7e, 0x00, 0x00, 0x05, 0x33, 0x48, 0x30, 0x32, 0x30, 0xB3 };
+        readonly byte[] barcodecmd_QuerySN = new byte[] { 0x7e, 0x00, 0x00, 0x05, 0x33, 0x48, 0x30, 0x33, 0x30, 0xB2 }; // Query SN
         readonly byte[] barcodecmd_QueryPrefix = new byte[] { 0x7e, 0x00, 0x00, 0x02, 0x33, 0x37, 0xf9 };    // Query Prefix and Suffix
+
 
         readonly byte[] barcodecmd_EnableAllPrefixSuffix    = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x31, 0x31, 0x30, 0x31, 0x30, 0x3b };
         readonly byte[] barcodecmd_SelfPrefixCodeIdAimId    = new byte[] { 0x6e, 0x6c, 0x73, 0x30, 0x33, 0x31, 0x37, 0x30, 0x34, 0x30, 0x3b };
@@ -420,7 +533,11 @@ namespace CSLibrary
 
         readonly byte[] barcodecmd_T14FormatStep01 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x31, 0x30, 0x3B };
         readonly byte[] barcodecmd_T14FormatStep02 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x34, 0x30, 0x35, 0x31, 0x30, 0x30, 0x3B };
+//        readonly byte[] barcodecmd_AZTECFormatStep = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x35, 0x30, 0x33, 0x30, 0x32, 0x30, 0x3B };
         readonly byte[] barcodecmd_T14FormatStep03 = new byte[] { 0x6E, 0x6C, 0x73, 0x30, 0x30, 0x30, 0x36, 0x30, 0x30, 0x30, 0x3B };
+
+//        readonly byte[] barcodecmd_Query = new byte[] { 0x7E, 0x00, 0x00, 0x02, 0x33, 0x33, 0xf9 };
+
 
         internal void CheckHWValid()
         {
@@ -428,13 +545,20 @@ namespace CSLibrary
             //var b = GetLRC(new byte[] { 0x37 });
 
             _state = STATE.NOTVALID;
-            //_deviceHandler.SendAsync(CSLibrary.HighLevelInterface.DEVICEID.Barcode, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_QueryESN, CSLibrary.HighLevelInterface.BTCOMMANDTYPE.Validate, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.DATA1);
+            _deviceHandler.SendAsync(CSLibrary.HighLevelInterface.DEVICEID.Barcode, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_QuerySN, CSLibrary.HighLevelInterface.BTCOMMANDTYPE.Validate, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.DATA1);
+            _deviceHandler.SendAsync(CSLibrary.HighLevelInterface.DEVICEID.Barcode, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_QueryESN, CSLibrary.HighLevelInterface.BTCOMMANDTYPE.Validate, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.DATA1);
+//            _deviceHandler.SendAsync(CSLibrary.HighLevelInterface.DEVICEID.Barcode, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_Query, CSLibrary.HighLevelInterface.BTCOMMANDTYPE.Validate, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.DATA1);
             _deviceHandler.SendAsync(CSLibrary.HighLevelInterface.DEVICEID.Barcode, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_QueryPrefix, CSLibrary.HighLevelInterface.BTCOMMANDTYPE.Validate, HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.DATA1);
         }
 
         // public barcode function
         public void FactoryReset()
         {
+            if (_state == STATE.NOTVALID)
+                return;
+
+
+
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_TiggerModeStep01, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_TiggerModeStep02, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_TiggerModeStep03, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
@@ -452,6 +576,11 @@ namespace CSLibrary
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step10, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step11, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_V4Format2Step12, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+
+            FactoryReset_Second();
+
+            //_deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_Query, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+
 
 #if V3Reader
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_SysModeEnter, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
@@ -472,15 +601,19 @@ namespace CSLibrary
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_SysModeExit, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
 #endif
 
-            CheckHWValid();
+            //CheckHWValid();
 
             //_deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_QueryReadingMode, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
         }
 
         internal void FactoryReset_Second()
         {
+            //if (_state == STATE.NOTVALID)
+            //    return;
+
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_T14FormatStep01, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_T14FormatStep02, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
+//            _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_AZTECFormatStep, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
             _deviceHandler.SendAsync(0, 1, DOWNLINKCMD.BARCODERAWDATA, barcodecmd_T14FormatStep03, CSLibrary.HighLevelInterface.BTWAITCOMMANDRESPONSETYPE.WAIT_BTAPIRESPONSE_DATA1);
         }
 

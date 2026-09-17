@@ -10,6 +10,6 @@ namespace BLE.Client
     {
         string GetPath();
 
-        public void SaveTextFileToDocuments(string fileName, string content, int fileType);
+        void SaveTextFileToDocuments(string fileName, string content, int fileType);
     }
 }

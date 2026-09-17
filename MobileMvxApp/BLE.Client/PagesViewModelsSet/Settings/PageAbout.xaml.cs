@@ -1,13 +1,13 @@
-﻿using System;
+﻿using MvvmCross.Forms.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Essentials;
-using MvvmCross.Forms.Views;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BLE.Client.Pages
 {
@@ -24,7 +24,8 @@ namespace BLE.Client.Pages
             }
 
             labelModel.Text = "Model " + BleMvxApplication._reader.rfid.GetFullModelName();
-            labelAppVer.Text = "Application Version " + DependencyService.Get<IAppVersion>().GetVersion() + "-" + DependencyService.Get<IAppVersion>().GetBuild().ToString();
+            //labelAppVer.Text = "Application Version " + DependencyService.Get<IAppVersion>().GetVersion() + "-" + DependencyService.Get<IAppVersion>().GetBuild().ToString();
+            labelAppVer.Text = "Application Version " + DependencyService.Get<IAppVersion>().GetVersion();
             labelLibVer.Text = "Library Version " + BleMvxApplication._reader.GetVersion().ToString();
             labelBtFwVer.Text = "Bluetooth Firmware Version " + Version2String(BleMvxApplication._reader.bluetoothIC.GetFirmwareVersion());
             labelRFIDFwVer.Text = "RFID Firmware Version " + (BleMvxApplication._reader.rfid.GetFirmwareVersionString());
@@ -34,6 +35,12 @@ namespace BLE.Client.Pages
                 labelSiliconlabFwVer.Text = "SiliconLab IC Firmware Version " + Version2String(BleMvxApplication._reader.siliconlabIC.GetFirmwareVersion());
             labelSerialNumber.Text = "Reader Serial Number " + BleMvxApplication._reader.siliconlabIC.GetSerialNumberSync();
             labelPCBSerialNumber.Text = "PCB Serial Number " + BleMvxApplication._reader.rfid.GetPCBAssemblyCode();
+
+            labelBarcodeSN.Text = "Barcode Serial Number " + BleMvxApplication._reader.barcode._SN;
+            labelBarcodeESN.Text = "Barcode ESN " + BleMvxApplication._reader.barcode._ESN;
+
+            labelBarcodePrefix.Text = "Barcode Prefix" + BleMvxApplication._reader.barcode._Prefix;
+            labelBarcodeSuffix.Text = "Barcode Suffix" + BleMvxApplication._reader.barcode._Suffix;
         }
 
         string Version2String(uint ver)

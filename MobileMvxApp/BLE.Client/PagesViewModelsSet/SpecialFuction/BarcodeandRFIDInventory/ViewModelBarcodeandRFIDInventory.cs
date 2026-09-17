@@ -115,6 +115,8 @@ namespace BLE.Client.ViewModels
             OnShareDataCommand = new Command(ShareDataButtonClick);
             OnSaveDataCommand = new Command(SaveDataButtonClick);
 
+            entryPowerText = BleMvxApplication._config._InventoryBarkcode_Power.ToString();
+
             RaisePropertyChanged(() => entryPowerText);
             RaisePropertyChanged(() => entryFilenameText);
 

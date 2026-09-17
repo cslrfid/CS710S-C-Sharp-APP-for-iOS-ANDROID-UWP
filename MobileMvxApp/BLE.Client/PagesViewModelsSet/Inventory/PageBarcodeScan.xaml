@@ -13,12 +13,12 @@
                     <ViewCell>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.9*" />
-                                <ColumnDefinition Width="0.1*" />
+                                <ColumnDefinition Width="0.8*" />
+                                <ColumnDefinition Width="0.2*" />
                             </Grid.ColumnDefinitions>
 
                             <Label Text="{Binding code}" VerticalTextAlignment="Center"></Label>
-                            <Label Grid.Column="1" Text="{Binding count}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                            <Label Grid.Column="1" Text="{Binding info}" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
